@@ -1,9 +1,0 @@
-{
-  "name": "gst-marketing",
-  "version": "1.0.0",
-  "description": "Site, propostas e dashboard admin da GST Marketing",
-  "private": true,
-  "scripts": {
-    "start": "echo 'Static site hosted on Vercel'"
-  }
-}
