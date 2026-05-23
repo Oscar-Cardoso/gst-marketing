@@ -423,7 +423,7 @@
     </div>
 
     <!-- PLAYBOOKS -->
-    <div id="tab-playboos" class="tab-pane">
+    <div id="tab-playbooks" class="tab-pane">
       <div class="card">
         <h3>Gerenciar Playbooks</h3>
         <div class="upload-area" onclick="document.getElementById('playbookFile').click()">
@@ -462,7 +462,7 @@
 
         <div style="margin-top: 32px;">
           <h4 style="font-weight: 700; margin-bottom: 16px;">Playbooks Cadastrados</h4>
-          <table id="playooksTable">
+          <table id="playbooksTable">
             <thead>
               <tr>
                 <th>Título</th>
@@ -584,9 +584,9 @@ async function carregarDados() {
       .order('uploaded_at', { ascending: false });
     
     if (playbooks) {
-      const playooksTable = document.getElementById('playooksTable');
-      playooksTable.innerHTML = '<thead><tr><th>Título</th><th>Categoria</th><th>Data</th><th>Ação</th></tr></thead>';
-      playooksTable.innerHTML += playbooks.map(p => `
+      const playbooksTable = document.getElementById('playbooksTable');
+      playbooksTable.innerHTML = '<thead><tr><th>Título</th><th>Categoria</th><th>Data</th><th>Ação</th></tr></thead>';
+      playbooksTable.innerHTML += playbooks.map(p => `
         <tr>
           <td>${p.titulo}</td>
           <td>${p.categoria}</td>
@@ -625,6 +625,43 @@ async function atualizarProposta(id, status) {
       console.error('Erro ao atualizar:', error);
     }
   }
+}
+
+async function fazerUploadPlaybook() {
+  const titulo = document.getElementById('playbookTitulo').value;
+  const categoria = document.getElementById('playbookCategoria').value;
+  const descricao = document.getElementById('playbookDescricao').value;
+
+  if (!titulo || !categoria) {
+    alert('Preencha o título e a categoria!');
+    return;
+  }
+
+  try {
+    const supabase = await initSupabase();
+    const { error } = await supabase.from('playbooks').insert([{
+      titulo,
+      categoria,
+      descricao,
+      arquivo_nome: '-',
+      arquivo_url: '-'
+    }]);
+
+    if (error) throw error;
+
+    alert('Playbook cadastrado com sucesso!');
+    document.getElementById('playbookTitulo').value = '';
+    document.getElementById('playbookCategoria').value = '';
+    document.getElementById('playbookDescricao').value = '';
+    carregarDados();
+  } catch (error) {
+    alert('Erro ao cadastrar: ' + error.message);
+  }
+}
+
+function prepararPlaybook() {
+  const file = document.getElementById('playbookFile').files[0];
+  if (file) document.getElementById('playbookTitulo').placeholder = file.name;
 }
 
 async function deletarPlaybook(id) {
