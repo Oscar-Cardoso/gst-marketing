@@ -1,4 +1,11 @@
 {
   "buildCommand": "echo 'Static site'",
-  "outputDirectory": "public"
+  "outputDirectory": "public",
+  "rewrites": [
+    { "source": "/", "destination": "/index.html" },
+    { "source": "/admin", "destination": "/admin.html" },
+    { "source": "/propostas", "destination": "/propostas/index.html" },
+    { "source": "/proposta/:slug", "destination": "/proposta/:slug.html" }
+  ]
 }
+
