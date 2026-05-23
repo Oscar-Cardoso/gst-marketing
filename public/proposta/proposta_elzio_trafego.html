@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Proposta de Tráfego · Supermercados Elzio</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --red: #c8102e; --red-dark: #8a0a1f; --red-light: #fff0f0;
+    --yellow: #f59e0b;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --white: #fff; --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:9px 22px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #1a0a0e 55%, #0d0508 100%);
+    color:#fff; padding:130px 40px 100px; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 78% 22%, rgba(200,16,46,0.12) 0%, transparent 55%),
+                radial-gradient(ellipse at 12% 88%, rgba(0,196,106,0.08) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position:relative; max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 360px; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(200,16,46,0.18); border:1px solid rgba(200,16,46,0.4);
+    color:#f87171; font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 16px; border-radius:30px; margin-bottom:24px;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; color:var(--green); }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .hero h1 { font-size:clamp(34px,4.5vw,58px); font-weight:900; line-height:1.05; margin-bottom:20px; letter-spacing:-1.5px; }
+  .hero h1 em { font-style:normal; color:var(--green); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.62); max-width:540px; margin-bottom:36px; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .hero-tag { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:rgba(255,255,255,0.82); font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px; }
+  .hero-tag.verde { background:rgba(0,196,106,0.15); border-color:rgba(0,196,106,0.4); color:var(--green); font-weight:700; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 32px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.28); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 28px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.7); }
+
+  .hero-card { background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.11); border-radius:20px; padding:30px; backdrop-filter:blur(8px); }
+  .hero-card-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .hero-stat { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hero-stat-num { font-family:'Poppins',sans-serif; font-size:28px; font-weight:800; color:#fff; line-height:1; }
+  .hero-stat-num span { color:var(--green); }
+  .hero-stat-num.red span { color:#f87171; }
+  .hero-stat-label { font-size:12px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-0.5px; color:var(--navy); margin-bottom:14px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:680px; margin-bottom:52px; line-height:1.7; }
+
+  /* DADOS DA PESQUISA */
+  .pesquisa-bg { background:var(--navy); }
+  .pesquisa-bg .section-title { color:#fff; }
+  .pesquisa-bg .section-desc { color:rgba(255,255,255,0.55); }
+  .pesquisa-kpis { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:18px; margin-bottom:40px; }
+  .kpi-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:24px 18px; text-align:center; transition:background 0.2s; }
+  .kpi-card:hover { background:rgba(0,196,106,0.1); }
+  .kpi-num { font-family:'Poppins',sans-serif; font-size:36px; font-weight:900; color:var(--green); line-height:1; margin-bottom:6px; }
+  .kpi-num.red { color:#f87171; }
+  .kpi-num.yellow { color:#fbbf24; }
+  .kpi-label { font-size:12px; color:rgba(255,255,255,0.6); line-height:1.4; }
+
+  .insights-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:18px; }
+  .insight-card { border-radius:14px; padding:22px 20px; border-left:4px solid var(--green); background:rgba(255,255,255,0.05); border-top:1px solid rgba(255,255,255,0.08); border-right:1px solid rgba(255,255,255,0.08); border-bottom:1px solid rgba(255,255,255,0.08); }
+  .insight-card.alerta { border-left-color:#f87171; }
+  .insight-card.amarelo { border-left-color:#fbbf24; }
+  .insight-icon { font-size:24px; margin-bottom:10px; }
+  .insight-card h4 { font-size:14px; font-weight:700; color:#fff; margin-bottom:6px; }
+  .insight-card p { font-size:13px; color:rgba(255,255,255,0.62); line-height:1.65; }
+  .insight-card strong { color:var(--green); }
+  .insight-card.alerta strong { color:#f87171; }
+  .insight-card.amarelo strong { color:#fbbf24; }
+
+  /* O QUE FOI FEITO */
+  .feito-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:700px){.feito-grid{grid-template-columns:1fr;}}
+  .feito-card { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-top:4px solid var(--green); }
+  .feito-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+  .feito-list { list-style:none; }
+  .feito-list li { font-size:13px; color:var(--gray); padding:6px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .feito-list li:last-child { border-bottom:none; }
+  .feito-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* MAÇÃ BAIXA — destaque estratégico */
+  .maca-box {
+    background: linear-gradient(135deg, #0a1a2e 0%, #0d2a1a 100%);
+    border-radius:20px; padding:44px 48px;
+    border:1px solid rgba(0,196,106,0.25);
+    display:grid; grid-template-columns:auto 1fr; gap:48px; align-items:center;
+    max-width:900px; margin:0 auto;
+  }
+  @media(max-width:700px){.maca-box{grid-template-columns:1fr;padding:32px 24px;text-align:center;}}
+  .maca-emoji { font-size:96px; line-height:1; }
+  .maca-box h3 { font-family:'Poppins',sans-serif; font-size:26px; font-weight:800; color:#fff; margin-bottom:12px; line-height:1.2; }
+  .maca-box p { font-size:14px; color:rgba(255,255,255,0.65); line-height:1.75; }
+  .maca-box strong { color:var(--green); }
+
+  /* ESCOPO DO TRÁFEGO */
+  .scope-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .scope-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:28px; transition:box-shadow 0.2s, transform 0.2s; }
+  .scope-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .scope-card-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .scope-icon { width:48px; height:48px; border-radius:12px; background:var(--green-light); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+  .scope-card h3 { font-size:15px; font-weight:700; color:var(--navy); }
+  .scope-list { list-style:none; }
+  .scope-list li { font-size:13px; color:var(--gray); padding:5px 0; border-bottom:1px solid #f1f5f9; display:flex; gap:8px; }
+  .scope-list li:last-child { border-bottom:none; }
+  .scope-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* PROPOSTA */
+  .proposta-bg { background:linear-gradient(160deg, #0a1a2e 0%, #0d2a1a 100%); }
+  .proposta-bg .section-title { color:#fff; }
+  .proposta-bg .section-desc { color:rgba(255,255,255,0.5); }
+  .proposta-box { background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.22); border-radius:24px; padding:52px 48px; max-width:860px; margin:0 auto; position:relative; overflow:hidden; }
+  @media(max-width:660px){.proposta-box{padding:32px 22px;}}
+  .proposta-box::before { content:''; position:absolute; top:-100px; right:-100px; width:320px; height:320px; background:radial-gradient(circle, rgba(0,196,106,0.10) 0%, transparent 70%); }
+  .proposta-header { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:40px; position:relative; }
+  .proposta-destinatario h3 { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .proposta-destinatario p { font-size:22px; font-weight:700; color:#fff; }
+  .proposta-destinatario small { font-size:13px; color:rgba(255,255,255,0.32); display:block; margin-top:4px; }
+  .proposta-preco-wrap { text-align:right; }
+  .proposta-preco-label { font-size:11px; color:rgba(255,255,255,0.38); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .proposta-preco { font-family:'Poppins',sans-serif; font-size:52px; font-weight:800; color:var(--green); line-height:1; }
+  .proposta-preco small { font-size:18px; font-weight:400; color:rgba(255,255,255,0.42); }
+  .proposta-desconto { display:inline-flex; align-items:center; gap:6px; background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.3); color:var(--green); font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px; margin-top:8px; }
+  .prop-divider { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:36px 0; }
+  .proposta-cols { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  @media(max-width:600px){.proposta-cols{grid-template-columns:1fr;}}
+  .prop-col-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
+  .prop-itens { list-style:none; }
+  .prop-itens li { font-size:13px; color:rgba(255,255,255,0.78); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; gap:10px; align-items:flex-start; }
+  .prop-itens li:last-child { border-bottom:none; }
+  .prop-itens li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+  .proposta-nota { margin-top:36px; background:rgba(0,196,106,0.09); border:1px solid rgba(0,196,106,0.2); border-radius:12px; padding:20px 24px; }
+  .proposta-nota p { font-size:13px; color:rgba(255,255,255,0.68); line-height:1.7; }
+  .proposta-nota strong { color:var(--green); }
+  .proposta-cta { margin-top:40px; text-align:center; }
+
+  /* PRÓXIMOS PASSOS */
+  .passos-bg { background:var(--gray-light); }
+  .passos-track { display:grid; grid-template-columns:repeat(4,1fr); gap:0; }
+  @media(max-width:700px){.passos-track{grid-template-columns:repeat(2,1fr);}}
+  .passo { background:#fff; border:1px solid #e2e8f0; padding:26px 20px; position:relative; transition:background 0.2s; }
+  .passo:first-child { border-radius:12px 0 0 12px; }
+  .passo:last-child { border-radius:0 12px 12px 0; }
+  .passo:hover { background:var(--green-light); }
+  .passo-num { font-family:'Poppins',sans-serif; font-size:40px; font-weight:900; color:var(--green); opacity:0.18; line-height:1; margin-bottom:8px; }
+  .passo h4 { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .passo p { font-size:12px; color:var(--gray); line-height:1.6; }
+  .passo-arrow { position:absolute; right:-14px; top:50%; transform:translateY(-50%); font-size:22px; color:var(--green); z-index:2; font-weight:700; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); padding:40px; text-align:center; }
+  .footer p { font-size:14px; color:rgba(255,255,255,0.36); }
+  .footer strong { color:rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#pesquisa">Dados da Pesquisa</a>
+    <a href="#feito">O Que Já Fizemos</a>
+    <a href="#escopo">Escopo</a>
+    <a href="#proposta">Proposta</a>
+  </div>
+  <a href="#proposta" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Proposta de Tráfego Pago · Supermercados Elzio</div>
+      <h1>O tráfego<br>já funcionou.<br><em>Vamos escalar.</em></h1>
+      <p class="hero-sub">Em 30 dias de campanha, clientes vieram através do link. Ticket médio subiu. A pesquisa com 248 clientes confirmou: Facebook e Instagram são os canais que mais trazem pessoas à loja — e ainda tem muita maçã baixa para colher.</p>
+      <div class="hero-tags">
+        <span class="hero-tag verde">✦ Resultado já comprovado</span>
+        <span class="hero-tag">248 clientes pesquisados</span>
+        <span class="hero-tag">62,5% chegam pelas redes</span>
+        <span class="hero-tag">Açougue como âncora</span>
+        <span class="hero-tag">Base de remarketing ativa</span>
+        <span class="hero-tag">R$2.000/mês</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#proposta" class="btn-primary">Ver a Proposta</a>
+        <a href="#pesquisa" class="btn-ghost">Ver os Dados</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">📊 O Que a Pesquisa Mostrou</div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>248</span> clientes</div>
+        <div class="hero-stat-label">responderam a pesquisa — padrões estruturais confirmados</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>62,5%</span></div>
+        <div class="hero-stat-label">ficam sabendo das ofertas pelo Facebook e Instagram</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>58,5%</span></div>
+        <div class="hero-stat-label">preferem o açougue — 4,4x mais que qualquer outro setor</div>
+      </div>
+      <div class="hero-stat" style="border:none;margin:0;padding:0;">
+        <div class="hero-stat-num red"><span>82,7%</span></div>
+        <div class="hero-stat-label">querem receber ofertas no WhatsApp — base a capturar</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DADOS DA PESQUISA -->
+<section class="pesquisa-bg" id="pesquisa">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">248 Clientes Ouvidos</div>
+    <h2 class="section-title">O Que os Clientes do Elzio<br>Disseram na Pesquisa</h2>
+    <p class="section-desc">Dados reais, colhidos diretamente com os clientes das duas lojas. É com esses números que a estratégia de tráfego é construída.</p>
+
+    <div class="pesquisa-kpis">
+      <div class="kpi-card">
+        <div class="kpi-num">248</div>
+        <div class="kpi-label">Respostas coletadas em 14 dias</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">62,5%</div>
+        <div class="kpi-label">Descobrem ofertas pelo Facebook e Instagram</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">58,5%</div>
+        <div class="kpi-label">Açougue como setor favorito</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">46%</div>
+        <div class="kpi-label">Compram no Elzio pela qualidade dos produtos</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num yellow">82,7%</div>
+        <div class="kpi-label">Querem receber ofertas no WhatsApp</div>
+      </div>
+      <div class="kpi-card">
+        <div class="kpi-num">23%</div>
+        <div class="kpi-label">Já recebem pelo WhatsApp — canal em crescimento</div>
+      </div>
+    </div>
+
+    <div class="insights-grid">
+      <div class="insight-card">
+        <div class="insight-icon">🥩</div>
+        <h4>Açougue é a âncora da loja</h4>
+        <p><strong>58,5% dos clientes</strong> apontam o açougue como setor favorito. O motivo dominante é qualidade — 78 respostas. O tráfego pago com criativo de açougue tem o maior potencial de conversão da loja.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">📱</div>
+        <h4>Facebook (37,9%) + Instagram (24,6%)</h4>
+        <p>Juntos somam <strong>62,5% da descoberta de ofertas</strong>. Facebook lidera com perfil de cliente local fiel (35+). Instagram cresce com o público mais jovem. Os dois precisam de campanha ativa e simultânea.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🥬</div>
+        <h4>Hortifruti virou novo destaque</h4>
+        <p>Hortifruti subiu para <strong>3º lugar empatado com Padaria (12,1%)</strong>, e o motivo dominante já é qualidade. É o próximo setor com maior potencial para campanha de tráfego — e puxa o cliente à loja 2x por semana.</p>
+      </div>
+      <div class="insight-card alerta">
+        <div class="insight-icon">📲</div>
+        <h4>WhatsApp: canal em crescimento acelerado</h4>
+        <p><strong>82,7% dos clientes querem receber ofertas no WhatsApp</strong> — e o canal já subiu de 20,7% para 23% como canal de descoberta. A campanha de tráfego vai direcionar ativamente para captação de novos contatos na comunidade.</p>
+      </div>
+      <div class="insight-card amarelo">
+        <div class="insight-icon">🍺</div>
+        <h4>Bebidas: setor menos lembrado (4%)</h4>
+        <p>Com <strong>alta margem e baixo recall</strong>, bebidas é candidata a campanha de descoberta com combos sazonais: cerveja + carne, vinho + queijo, refrigerante em datas-chave. Oportunidade clara de tráfego de nicho.</p>
+      </div>
+      <div class="insight-card">
+        <div class="insight-icon">🔁</div>
+        <h4>Base de remarketing ativa</h4>
+        <p>30 dias de campanha geraram uma <strong>gama de rastreio</strong> — pessoas que interagiram, comentaram e chegaram até a loja. Usar essa base em remarketing é mais barato e mais eficiente que buscar público novo o tempo todo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE JÁ FOI FEITO -->
+<section id="feito" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Histórico da Parceria</div>
+    <h2 class="section-title">O Que Já Foi Feito —<br>e o Que Mostrou Resultado</h2>
+    <p class="section-desc">Em 30 dias de trabalho conjunto, o tráfego foi o que mais surtiu efeito. Clientes chegaram pelo link. Ticket médio subiu na semana do Dia das Mães. A base está construída para escalar.</p>
+    <div class="feito-grid">
+      <div class="feito-card">
+        <h3>✅ O Que Foi Executado</h3>
+        <ul class="feito-list">
+          <li>Assumimos 100% das campanhas de tráfego pago</li>
+          <li>3 campanhas rodadas com tabloides e jornais digitais</li>
+          <li>Vídeos de destaque integrados nas campanhas</li>
+          <li>Pesquisa de comportamento com 248 clientes</li>
+          <li>Relatório completo de canais e preferências</li>
+          <li>Configuração de públicos e segmentação por região</li>
+        </ul>
+      </div>
+      <div class="feito-card">
+        <h3>📈 O Que Mostrou Resultado</h3>
+        <ul class="feito-list">
+          <li>Clientes chegaram à loja pelo link das campanhas</li>
+          <li>Ticket médio subiu na semana do Dia das Mães</li>
+          <li>Cupons com aumento considerável (27 abr a 9 mai)</li>
+          <li>WhatsApp subiu de 20,7% para 23% como canal de descoberta</li>
+          <li>Base de rastreio ativa para uso em remarketing</li>
+          <li>Indicação de amigos triplicou (0,7% → 2%)</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- A maçã baixa -->
+    <div style="margin-top:48px;">
+      <div class="section-label">A Oportunidade</div>
+      <h3 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:32px;max-width:600px;">A árvore está cheia. A gente nem terminou de pegar as maçãs de baixo.</h3>
+      <div class="maca-box">
+        <div class="maca-emoji">🍎</div>
+        <div>
+          <h3>A base de rastreio está construída.<br>Agora é hora de explorar.</h3>
+          <p>30 dias de campanha geraram dados de quem interagiu, comentou e clicou. <strong>Usar essa base em remarketing</strong> significa aparecer de novo para quem já conhece o Elzio — com custo menor que buscar público novo e taxa de conversão muito mais alta. A inteligência da campanha está acumulada. O próximo ciclo colhe o que o primeiro plantou.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESCOPO DO TRÁFEGO -->
+<section id="escopo">
+  <div class="container">
+    <div class="section-label">O Que Está Incluído</div>
+    <h2 class="section-title">Escopo do Plano<br>de Tráfego Pago</h2>
+    <p class="section-desc">Foco total na gestão e inteligência das campanhas — com acompanhamento próximo da operação para extrair o máximo de cada real investido.</p>
+    <div class="scope-grid">
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">🎯</div>
+          <h3>Gestão de Campanhas Meta</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Criação e gestão de campanhas no Facebook e Instagram</li>
+          <li>Segmentação por região e perfil de cliente</li>
+          <li>Facebook para 35+ (perfil de fidelidade local)</li>
+          <li>Instagram para 25–44 (engajamento e alcance)</li>
+          <li>Otimização contínua por performance</li>
+          <li>Relatório de resultado quinzenal</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">🔁</div>
+          <h3>Remarketing & Inteligência de Público</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Uso da base de rastreio dos 30 dias anteriores</li>
+          <li>Públicos de remarketing: quem interagiu e clicou</li>
+          <li>Lookalike baseado nos melhores engajamentos</li>
+          <li>Rotação de criativos por setor (açougue, hortifruti, padaria)</li>
+          <li>Testes A/B de criativos e públicos</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">📅</div>
+          <h3>Distribuição por Calendário</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Verba concentrada em datas e ações prioritárias</li>
+          <li>Campanha de açougue semanal (setor âncora)</li>
+          <li>Campanhas de hortifruti (frequência 2x/semana)</li>
+          <li>Ações sazonais: datas nacionais e calendário comercial</li>
+          <li>Combos de bebidas em datas estratégicas</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">💬</div>
+          <h3>Captação de WhatsApp via Tráfego</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Campanha direcionada para captação de leads de WhatsApp</li>
+          <li>CTA nas campanhas: "receba ofertas antes de todo mundo"</li>
+          <li>Direcionamento para comunidade das 2 lojas</li>
+          <li>Objetivo: crescer a base ativa da comunidade</li>
+          <li>Formulário com telefone obrigatório ativado</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">🔍</div>
+          <h3>Acompanhamento Próximo</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Reunião quinzenal online de acompanhamento</li>
+          <li>Leitura da bússola: resultado oferta a oferta</li>
+          <li>Alinhamento de frentes na loja (açougue, QR code, pontos de fila)</li>
+          <li>Sugestão de roteiros de vídeo para a equipe interna</li>
+          <li>Ajuste de rota conforme performance das campanhas</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">📊</div>
+          <h3>Relatório & Leitura de Resultado</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Relatório quinzenal de performance das campanhas</li>
+          <li>Indicadores: alcance, cliques, custo por resultado</li>
+          <li>Cruzamento com movimento na loja (cupons e faturamento)</li>
+          <li>Recomendações de ajuste para o próximo ciclo</li>
+          <li>Histórico acumulado mês a mês</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSTA -->
+<section class="proposta-bg" id="proposta" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Investimento</div>
+    <h2 class="section-title">Proposta Comercial<br>Plano de Tráfego</h2>
+    <p class="section-desc">Focado no que já mostrou resultado — sem o pacote completo, sem o custo da gestão de conteúdo. Só tráfego, inteligência e acompanhamento.</p>
+    <div class="proposta-box">
+      <div class="proposta-header">
+        <div class="proposta-destinatario">
+          <h3>Proposta preparada para</h3>
+          <p>Gustavo & Guilherme · Supermercados Elzio</p>
+          <small>Plano de Tráfego Pago · Loja 1 + Loja 2</small>
+        </div>
+        <div class="proposta-preco-wrap">
+          <div class="proposta-preco-label">Investimento mensal</div>
+          <div class="proposta-preco">R$2.000<small>/mês</small></div>
+          <div class="proposta-desconto">✦ 50% abaixo do plano completo</div>
+        </div>
+      </div>
+      <hr class="prop-divider">
+      <div class="proposta-cols">
+        <div>
+          <div class="prop-col-title">✦ Gestão de Tráfego</div>
+          <ul class="prop-itens">
+            <li>Campanhas no Facebook e Instagram (2 lojas)</li>
+            <li>Segmentação por região e perfil de cliente</li>
+            <li>Remarketing com base dos 30 dias anteriores</li>
+            <li>Lookalike e públicos personalizados</li>
+            <li>Distribuição de verba por calendário comercial</li>
+            <li>Testes A/B de criativos e públicos</li>
+          </ul>
+        </div>
+        <div>
+          <div class="prop-col-title">✦ Acompanhamento & Resultado</div>
+          <ul class="prop-itens">
+            <li>Reunião quinzenal online de alinhamento</li>
+            <li>Relatório quinzenal de performance</li>
+            <li>Leitura da bússola oferta a oferta</li>
+            <li>Captação de WhatsApp via tráfego</li>
+            <li>Roteiros de vídeo para equipe interna</li>
+            <li>Sugestão de criativos por setor prioritário</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proposta-nota">
+        <p>⚡ <strong>Verba de anúncios não incluída</strong> — recomendamos mínimo de <strong>R$1.500/mês</strong> investidos diretamente no Meta (Facebook e Instagram), distribuídos conforme o calendário. O valor vai direto para os anúncios, sem margem da agência. A criação dos criativos fica com a equipe do Elzio — a GST entra com roteiro, estratégia e gestão das campanhas.</p>
+      </div>
+      <div class="proposta-cta">
+        <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 52px;">✅ Fechar o Plano de Tráfego</a>
+        <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS PASSOS -->
+<section class="passos-bg" id="passos">
+  <div class="container">
+    <div class="section-label">Como Começa</div>
+    <h2 class="section-title">Do Fechamento<br>às Primeiras Campanhas</h2>
+    <p class="section-desc">Com o plano aprovado, o início é imediato — a base de rastreio já está ativa.</p>
+    <div class="passos-track">
+      <div class="passo">
+        <div class="passo-num">1</div>
+        <h4>Aprovação</h4>
+        <p>Gustavo confirma e o plano entra em vigor imediatamente.</p>
+        <div class="passo-arrow">›</div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">2</div>
+        <h4>Ativação da Base</h4>
+        <p>Públicos de remarketing ativados com base nos 30 dias de rastreio já acumulados.</p>
+        <div class="passo-arrow">›</div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">3</div>
+        <h4>Campanhas no Ar</h4>
+        <p>Açougue e hortifruti como primeiros setores — os de maior retorno confirmado pela pesquisa.</p>
+        <div class="passo-arrow">›</div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">4</div>
+        <h4>Primeira Leitura</h4>
+        <p>Quinze dias: reunião de resultado, ajuste de rota e planejamento das próximas campanhas.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="proposta-bg" style="padding:72px 40px;">
+  <div class="container" style="text-align:center;max-width:620px;">
+    <div class="section-label" style="color:var(--green);">Próximo Passo</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:16px;">O tráfego já funcionou.<br>Agora é escalar.</h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.52);margin-bottom:36px;line-height:1.75;">A base está construída, a pesquisa foi feita, o rastreio está ativo. O Elzio tem tudo para o próximo ciclo de campanhas gerar resultado ainda maior — com metade do investimento do plano completo.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:40px;">
+      <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 44px;">✅ Fechar — R$2.000/mês</a>
+      <a href="#pesquisa" class="btn-ghost" style="font-size:14px;padding:16px 28px;">Ver os Dados da Pesquisa</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">📊</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Baseado em Dados Reais</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">248 clientes pesquisados — estratégia construída com dado, não com achismo</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🔁</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Base Ativa de Rastreio</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">30 dias de campanha geraram inteligência de público pronta para usar</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🎯</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Resultado Já Comprovado</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Clientes chegaram pelo link. Ticket subiu. O próximo ciclo colhe o que o primeiro plantou.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Plano de Tráfego Pago · Supermercados Elzio · Gustavo & Guilherme</p>
+  <p style="margin-top:8px;">Gestão de Campanhas Meta · Remarketing · Inteligência de Público</p>
+</footer>
+
+</body>
+</html>

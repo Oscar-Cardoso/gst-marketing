@@ -1,0 +1,1024 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Proposta Absoluto Supermercado</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --yellow: #f5b400; --red: #e53935; --orange: #f97316;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --white: #fff; --text: #1e293b;
+    --purple: #7c3aed;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.5px; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:9px 22px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #0f2318 60%, #071a10 100%);
+    color:#fff; padding:130px 40px 100px; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 75% 25%, rgba(0,196,106,0.13) 0%, transparent 55%),
+                radial-gradient(ellipse at 15% 85%, rgba(0,196,106,0.06) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position:relative; max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 360px; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.35);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 16px; border-radius:30px; margin-bottom:24px;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .hero h1 { font-size:clamp(34px,4.5vw,60px); font-weight:800; line-height:1.05; margin-bottom:20px; letter-spacing:-1.5px; }
+  .hero h1 em { font-style:normal; color:var(--green); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.62); max-width:540px; margin-bottom:36px; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .hero-tag { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:rgba(255,255,255,0.82); font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 32px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.28); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 28px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.7); }
+
+  .hero-card { background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.11); border-radius:20px; padding:30px; backdrop-filter:blur(8px); }
+  .hero-card-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .hero-stat { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hero-stat-num { font-family:'Poppins',sans-serif; font-size:30px; font-weight:800; color:#fff; line-height:1; }
+  .hero-stat-num span { color:var(--green); }
+  .hero-stat-label { font-size:12px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-1px; color:var(--navy); margin-bottom:14px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:680px; margin-bottom:52px; line-height:1.7; }
+
+  /* LOJAS */
+  .lojas-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-bottom:48px; }
+  @media(max-width:640px){.lojas-grid{grid-template-columns:1fr;}}
+  .loja-card { border-radius:18px; padding:32px 28px; border:1px solid #e2e8f0; background:#fff; position:relative; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .loja-card:hover { box-shadow:0 10px 32px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .loja-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+  .loja-card.matriz::before { background:var(--green); }
+  .loja-card.filial::before { background:#0ea5e9; }
+  .loja-top { display:flex; align-items:center; justify-content:space-between; margin-bottom:20px; }
+  .loja-badge { font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:4px 12px; border-radius:20px; }
+  .loja-badge.matriz { background:var(--green-light); color:var(--green-dark); }
+  .loja-badge.filial { background:#eff6ff; color:#1e40af; }
+  .loja-anos { font-size:12px; color:var(--gray); }
+  .loja-nome { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:var(--navy); margin-bottom:4px; }
+  .loja-cidade { font-size:13px; color:var(--gray); margin-bottom:20px; }
+  .loja-stats { display:grid; grid-template-columns:1fr 1fr 1fr; gap:12px; }
+  .loja-stat { text-align:center; background:var(--gray-light); border-radius:10px; padding:12px 8px; }
+  .loja-stat-num { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:var(--navy); line-height:1; }
+  .loja-stat-label { font-size:10px; color:var(--gray); margin-top:3px; }
+  .loja-insight { margin-top:16px; font-size:12px; color:var(--gray); background:var(--green-light); border-radius:8px; padding:8px 12px; line-height:1.55; border-left:3px solid var(--green); }
+
+  /* FORÇAS */
+  .forcas-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:18px; margin-bottom:52px; }
+  .forca-card { background:#fff; border-radius:14px; padding:22px 18px; border:1px solid #e2e8f0; border-bottom:3px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .forca-card:hover { box-shadow:0 6px 24px rgba(0,0,0,0.08); transform:translateY(-3px); }
+  .forca-icon { font-size:28px; margin-bottom:10px; }
+  .forca-card h4 { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .forca-card p { font-size:12px; color:var(--gray); line-height:1.6; }
+
+  /* GARGALOS */
+  .gargalos-bg { background:#fff8f8; }
+  .gargalos-list { display:flex; flex-direction:column; gap:14px; }
+  .gargalo-item { display:flex; align-items:flex-start; gap:16px; background:#fff; border:1px solid #fecaca; border-left:5px solid var(--red); border-radius:12px; padding:20px 24px; }
+  .gargalo-icon { font-size:26px; flex-shrink:0; margin-top:2px; }
+  .gargalo-content h4 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:5px; }
+  .gargalo-content p { font-size:13px; color:var(--gray); line-height:1.65; }
+  .gargalo-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; background:#fee2e2; color:#b91c1c; padding:2px 9px; border-radius:20px; margin-bottom:6px; }
+
+  /* OPORTUNIDADES */
+  .oport-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .oport-card { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-top:4px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .oport-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .oport-icon { font-size:30px; margin-bottom:12px; }
+  .oport-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .oport-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+  .oport-gain { margin-top:12px; display:inline-block; font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 12px; border-radius:20px; }
+
+  /* CANAIS */
+  .canais-bg { background:var(--navy); }
+  .canais-bg .section-title { color:#fff; }
+  .canais-bg .section-desc { color:rgba(255,255,255,0.52); }
+  .canais-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:18px; }
+  .canal-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:26px 20px; text-align:center; transition:background 0.2s; }
+  .canal-card:hover { background:rgba(0,196,106,0.08); }
+  .canal-icon { font-size:34px; margin-bottom:12px; }
+  .canal-card h4 { font-size:15px; font-weight:700; color:#fff; margin-bottom:6px; }
+  .canal-status { font-size:11px; font-weight:700; padding:3px 10px; border-radius:20px; display:inline-block; margin-bottom:10px; }
+  .canal-status.amarelo { background:rgba(245,180,0,0.2); color:#fbbf24; }
+  .canal-status.vermelho { background:rgba(229,57,53,0.2); color:#f87171; }
+  .canal-status.verde { background:rgba(0,196,106,0.2); color:var(--green); }
+  .canal-card p { font-size:12px; color:rgba(255,255,255,0.52); line-height:1.6; }
+
+  /* SERVIÇOS */
+  .servicos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+  .servico-card { background:#fff; border-radius:18px; padding:34px 28px; border:1px solid #e2e8f0; position:relative; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .servico-card:hover { box-shadow:0 12px 40px rgba(0,0,0,0.10); transform:translateY(-4px); }
+  .servico-num { font-family:'Poppins',sans-serif; font-size:80px; font-weight:900; color:var(--green); opacity:0.07; position:absolute; right:14px; top:2px; line-height:1; }
+  .servico-icon { font-size:34px; margin-bottom:14px; }
+  .servico-card h3 { font-size:18px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .servico-card p { font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:16px; }
+  .servico-list { list-style:none; }
+  .servico-list li { font-size:13px; color:var(--text); padding:5px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .servico-list li:last-child { border-bottom:none; }
+  .servico-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* PILARES */
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.pillars-grid{grid-template-columns:1fr;}}
+  .pillar-card { border-radius:18px; padding:36px 28px; color:#fff; position:relative; overflow:hidden; text-align:center; }
+  .pillar-card.p1 { background:linear-gradient(135deg, #00c46a, #007a44); }
+  .pillar-card.p2 { background:linear-gradient(135deg, #0ea5e9, #0369a1); }
+  .pillar-card.p3 { background:linear-gradient(135deg, #f59e0b, #b45309); }
+  .pillar-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; opacity:0.12; position:absolute; right:14px; top:4px; line-height:1; }
+  .pillar-card h3 { font-size:22px; font-weight:800; margin-bottom:10px; }
+  .pillar-card p { font-size:14px; opacity:0.88; line-height:1.65; }
+
+  /* ── PROPOSTA TABS ── */
+  .proposta-bg { background:linear-gradient(160deg, #0a1a2e 0%, #0d2a1a 100%); }
+  .proposta-bg .section-title { color:#fff; }
+  .proposta-bg .section-desc { color:rgba(255,255,255,0.5); }
+
+  .planos-toggle {
+    display:flex; gap:6px; background:rgba(255,255,255,0.08);
+    border-radius:14px; padding:6px; max-width:520px; margin-bottom:48px;
+  }
+  .plano-btn {
+    flex:1; padding:12px 20px; border-radius:10px; border:none; cursor:pointer;
+    font-family:'Poppins',sans-serif; font-size:14px; font-weight:600;
+    background:transparent; color:rgba(255,255,255,0.5); transition:all 0.25s;
+  }
+  .plano-btn.active { background:rgba(255,255,255,0.12); color:#fff; box-shadow:0 2px 12px rgba(0,0,0,0.3); }
+  .plano-btn.active.completo { background:var(--green); color:#fff; }
+  .plano-btn.active.essencial { background:rgba(255,255,255,0.12); color:#fff; }
+  .plano-pane { display:none; }
+  .plano-pane.active { display:block; }
+
+  .proposta-box {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.22);
+    border-radius:24px; padding:52px 48px; max-width:900px; margin:0 auto;
+    position:relative; overflow:hidden;
+  }
+  .proposta-box.essencial { border-color:rgba(255,255,255,0.15); }
+  @media(max-width:660px){.proposta-box{padding:32px 22px;}}
+  .proposta-box::before {
+    content:''; position:absolute; top:-100px; right:-100px;
+    width:340px; height:340px;
+    background:radial-gradient(circle, rgba(0,196,106,0.10) 0%, transparent 70%);
+  }
+  .proposta-header { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:40px; position:relative; }
+  .proposta-destinatario h3 { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .proposta-destinatario p { font-size:22px; font-weight:700; color:#fff; }
+  .proposta-destinatario small { font-size:13px; color:rgba(255,255,255,0.32); display:block; margin-top:4px; }
+  .proposta-preco-wrap { text-align:right; }
+  .proposta-preco-label { font-size:11px; color:rgba(255,255,255,0.38); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .proposta-preco { font-family:'Poppins',sans-serif; font-size:52px; font-weight:800; color:var(--green); line-height:1; }
+  .proposta-preco.blue { color:#60a5fa; }
+  .proposta-preco small { font-size:18px; font-weight:400; color:rgba(255,255,255,0.42); }
+  .prop-divider { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:36px 0; }
+  .proposta-cols { display:grid; grid-template-columns:1fr 1fr; gap:36px; position:relative; }
+  @media(max-width:600px){.proposta-cols{grid-template-columns:1fr;}}
+  .prop-col-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
+  .prop-col-title.blue { color:#60a5fa; }
+  .prop-itens { list-style:none; }
+  .prop-itens li { font-size:13px; color:rgba(255,255,255,0.78); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; gap:10px; align-items:flex-start; }
+  .prop-itens li:last-child { border-bottom:none; }
+  .prop-itens li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+  .prop-itens.blue li::before { color:#60a5fa; }
+  .prop-itens li.nao { color:rgba(255,255,255,0.32); }
+  .prop-itens li.nao::before { content:'✗'; color:rgba(255,255,255,0.2); }
+  .proposta-nota { margin-top:36px; background:rgba(0,196,106,0.09); border:1px solid rgba(0,196,106,0.2); border-radius:12px; padding:20px 24px; }
+  .proposta-nota.blue { background:rgba(96,165,250,0.08); border-color:rgba(96,165,250,0.2); }
+  .proposta-nota p { font-size:13px; color:rgba(255,255,255,0.68); line-height:1.7; }
+  .proposta-nota strong { color:var(--green); }
+  .proposta-nota.blue strong { color:#60a5fa; }
+  .proposta-cta { margin-top:40px; text-align:center; }
+
+  /* BADGE DE RECOMENDAÇÃO */
+  .recomendado-badge {
+    display:inline-flex; align-items:center; gap:6px;
+    background:rgba(0,196,106,0.2); border:1px solid rgba(0,196,106,0.4);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase;
+    padding:5px 14px; border-radius:20px; margin-bottom:20px;
+  }
+
+  /* RESULTADOS */
+  .resultados-bg { background:var(--navy); }
+  .resultados-bg .section-title { color:#fff; }
+  .resultados-bg .section-desc { color:rgba(255,255,255,0.52); }
+  .res-timeline { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  @media(max-width:800px){.res-timeline{grid-template-columns:repeat(2,1fr);}}
+  .res-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:28px 20px; transition:background 0.2s; }
+  .res-card:hover { background:rgba(0,196,106,0.08); }
+  .res-period { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); margin-bottom:14px; }
+  .res-card ul { list-style:none; }
+  .res-card ul li { font-size:13px; color:rgba(255,255,255,0.75); padding:5px 0; }
+  .res-card ul li::before { content:'▸ '; color:var(--green); }
+
+  /* IMPACTO */
+  .impacto-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.impacto-grid{grid-template-columns:1fr;}}
+  .impacto-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; }
+  .impacto-card.c1 { background:linear-gradient(135deg, #00c46a, #00874a); }
+  .impacto-card.c2 { background:linear-gradient(135deg, #0ea5e9, #0077b6); }
+  .impacto-card.c3 { background:linear-gradient(135deg, #f59e0b, #b45309); }
+  .impacto-num { font-family:'Poppins',sans-serif; font-size:48px; font-weight:900; line-height:1; margin-bottom:8px; }
+  .impacto-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+  .impacto-card p { font-size:13px; opacity:0.78; line-height:1.6; }
+
+  /* ENTREGÁVEIS */
+  .entregaveis-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px; }
+  .entregavel-block { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-left:4px solid var(--green); }
+  .entregavel-block h3 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+  .entregavel-block ul { list-style:none; }
+  .entregavel-block ul li { font-size:13px; color:var(--gray); padding:6px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .entregavel-block ul li:last-child { border-bottom:none; }
+  .entregavel-block ul li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* COMPARATIVO */
+  .compare-table { width:100%; border-collapse:collapse; max-width:860px; }
+  .compare-table th { font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:14px 18px; text-align:left; border-bottom:2px solid #e2e8f0; }
+  .compare-table th:nth-child(2) { color:var(--gray); }
+  .compare-table th:nth-child(3) { color:var(--green); background:var(--green-light); border-radius:8px 8px 0 0; }
+  .compare-table td { font-size:13px; padding:13px 18px; border-bottom:1px solid #f1f5f9; color:var(--text); }
+  .compare-table td:nth-child(3) { background:var(--green-light); font-weight:600; color:var(--green-dark); }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .compare-table .check { color:var(--green); font-weight:700; }
+  .compare-table .cross { color:#cbd5e1; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); padding:40px; text-align:center; }
+  .footer p { font-size:14px; color:rgba(255,255,255,0.36); }
+  .footer strong { color:rgba(255,255,255,0.62); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#gargalos">Gargalos</a>
+    <a href="#solucao">Solução</a>
+    <a href="#proposta">Proposta</a>
+    <a href="#resultados">Resultados</a>
+  </div>
+  <a href="#proposta" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Diagnóstico & Proposta · Absoluto Supermercado</div>
+      <h1>Você já tem<br>tudo. Falta<br><em>transformar em sistema.</em></h1>
+      <p class="hero-sub">O Absoluto já tem estrutura, investimento, presença local e calendário comercial. O problema não é o que falta — é o que está sendo desperdiçado por falta de integração e direção estratégica.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">2 lojas · Matriz + Filial</span>
+        <span class="hero-tag">R$4M/mês consolidado</span>
+        <span class="hero-tag">18–19 anos de mercado</span>
+        <span class="hero-tag">R$5k/mês em tráfego pago</span>
+        <span class="hero-tag">Instagram com 7k seguidores locais</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#proposta" class="btn-primary">Ver as Propostas</a>
+        <a href="#gargalos" class="btn-ghost">Ver o Diagnóstico</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">📊 Radar do Negócio · Hoje</div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">R$<span>4M</span>/mês</div>
+        <div class="hero-stat-label">Faturamento consolidado das 2 lojas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>43k</span> cupons</div>
+        <div class="hero-stat-label">Matriz ~23k + Filial ~20k / mês</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">R$<span>9,5k</span>/mês</div>
+        <div class="hero-stat-label">Investimento atual em marketing (agência + tráfego + rádio)</div>
+      </div>
+      <div class="hero-stat" style="border:none;margin:0;padding:0;">
+        <div class="hero-stat-num"><span>400</span> contatos</div>
+        <div class="hero-stat-label">WhatsApp — para uma operação de R$4M. Subaproveitado.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RAIO-X DAS LOJAS -->
+<section id="diagnostico" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Visão por Loja</div>
+    <h2 class="section-title">Raio-X das 2 Lojas</h2>
+    <p class="section-desc">Rede com dois pontos fortes, história de 18–19 anos e segunda geração no comando. A base é sólida — o que falta é destravar a eficiência.</p>
+    <div class="lojas-grid">
+      <div class="loja-card matriz">
+        <div class="loja-top">
+          <div class="loja-badge matriz">Matriz · 18–19 anos</div>
+          <div class="loja-anos">Segunda geração</div>
+        </div>
+        <div class="loja-nome">Absoluto Matriz</div>
+        <div class="loja-cidade">Cidade com ~7.000 habitantes</div>
+        <div class="loja-stats">
+          <div class="loja-stat">
+            <div class="loja-stat-num">R$1,9M</div>
+            <div class="loja-stat-label">Faturamento/mês</div>
+          </div>
+          <div class="loja-stat">
+            <div class="loja-stat-num">23k</div>
+            <div class="loja-stat-label">Cupons/mês</div>
+          </div>
+          <div class="loja-stat">
+            <div class="loja-stat-num">R$92</div>
+            <div class="loja-stat-label">Ticket médio</div>
+          </div>
+        </div>
+        <div class="loja-insight">✦ Diferenciais únicos: restaurante interno, padaria, pizza, produtos a granel/potinhos e estrutura bonita — ativos pouco comunicados.</div>
+      </div>
+      <div class="loja-card filial">
+        <div class="loja-top">
+          <div class="loja-badge filial">Filial · Expansão</div>
+          <div class="loja-anos">8 km da matriz</div>
+        </div>
+        <div class="loja-nome">Absoluto Filial</div>
+        <div class="loja-cidade">Cidade com ~4.000 habitantes</div>
+        <div class="loja-stats">
+          <div class="loja-stat">
+            <div class="loja-stat-num">R$2,1M</div>
+            <div class="loja-stat-label">Faturamento/mês</div>
+          </div>
+          <div class="loja-stat">
+            <div class="loja-stat-num">~20k</div>
+            <div class="loja-stat-label">Cupons/mês</div>
+          </div>
+          <div class="loja-stat">
+            <div class="loja-stat-num">Única</div>
+            <div class="loja-stat-label">Do porte deles</div>
+          </div>
+        </div>
+        <div class="loja-insight">✦ Praticamente monopolista no município — dominância local que precisa ser comunicada com mais força e recorrência.</div>
+      </div>
+    </div>
+
+    <!-- Pontos fortes -->
+    <div class="section-label" style="margin-top:16px;">Pontos Fortes Identificados</div>
+    <h3 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:32px;">O Absoluto já tem argumento de venda.<br>Falta transformar em comunicação recorrente.</h3>
+    <div class="forcas-grid">
+      <div class="forca-card">
+        <div class="forca-icon">🍕</div>
+        <h4>Restaurante + Pizza</h4>
+        <p>Restaurante dentro do supermercado e festival da pizza são diferenciais raros no interior — e não são divulgados.</p>
+      </div>
+      <div class="forca-card">
+        <div class="forca-icon">🥐</div>
+        <h4>Padaria de Qualidade</h4>
+        <p>Reconhecida pelo cliente local. Ativo de percepção de qualidade que fortalece toda a marca do Absoluto.</p>
+      </div>
+      <div class="forca-card">
+        <div class="forca-icon">🫙</div>
+        <h4>Granel & Potinhos</h4>
+        <p>Diferencial que existe, que é elogiado — e que a própria Júlia admite: não é divulgado. Oportunidade imediata.</p>
+      </div>
+      <div class="forca-card">
+        <div class="forca-icon">🏛️</div>
+        <h4>18–19 Anos de História</h4>
+        <p>Tradição, reconhecimento e confiança construídos pela primeira e segunda geração. Isso vale muito no interior.</p>
+      </div>
+      <div class="forca-card">
+        <div class="forca-icon">👥</div>
+        <h4>Equipe que Aparece</h4>
+        <p>Time disposto a gravar e aparecer nos conteúdos. Facilita humanização, bastidores e construção de marca local.</p>
+      </div>
+      <div class="forca-card">
+        <div class="forca-icon">📅</div>
+        <h4>Calendário Comercial Ativo</h4>
+        <p>Já existe rotina de segunda a sábado com festivais, Dia D e sazonais. Base sólida para trabalhar com inteligência.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARGALOS -->
+<section class="gargalos-bg" id="gargalos">
+  <div class="container">
+    <div class="section-label" style="color:var(--red);">O Que Está Travando</div>
+    <h2 class="section-title">5 Gargalos Críticos<br>Identificados</h2>
+    <p class="section-desc">O Absoluto não sofre por falta de investimento. Sofre por <strong>baixa extração de resultado</strong> sobre o que já está sendo pago. São R$9,5k/mês sem um sistema integrado.</p>
+    <div class="gargalos-list">
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">🧩</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Crítico · Estratégia</div>
+          <h4>Marketing fragmentado em múltiplos fornecedores sem integração</h4>
+          <p>Agência de ofertas, tráfego pago separado, terceirizada de redes, colaboradora interna e produtor visual novo — todos produzindo sem uma estratégia centralizada. Um não sabe o que o outro está fazendo. O tráfego impulsiona sem plano comercial. O conteúdo não conversa com a meta da loja.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">💬</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Crítico · Canal</div>
+          <h4>WhatsApp com apenas 400 contatos para uma rede de R$4M/mês</h4>
+          <p>O canal mais poderoso do varejo alimentar está quase inativo. Há um grupo com 400 pessoas e uso restrito a gás, água e encomendas. O histórico de abandono foi por trauma operacional do modelo antigo — não porque o canal não funciona. O modelo certo é automação + comunidade, não disparo manual.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">💸</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Crítico · Verba</div>
+          <h4>R$5.000/mês em tráfego sem inteligência de alocação por calendário</h4>
+          <p>Existe investimento, mas o dinheiro é distribuído por rotina — não por estratégia de mês, setor prioritário e calendário comercial. Impulsionar toda semana do mesmo jeito não extrai o máximo de nenhuma ação. O calendário já existe, falta a verba se mover junto com ele.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">🌟</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Alto · Autoridade</div>
+          <h4>Concorrente com mais avaliações no Google — mesmo com nota pior</h4>
+          <p>Um concorrente similar aparece com mais avaliações no Google Meu Negócio, mesmo tendo avaliação média inferior. O Absoluto perde autoridade digital em uma das buscas mais importantes do varejo local por não trabalhar ativamente a captação de avaliações. Isso é uma "maçã baixa" — fácil de corrigir, impacto enorme.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">🏷️</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Alto · Marca</div>
+          <h4>Diferenciais reais da loja não viram narrativa de marca</h4>
+          <p>Restaurante, granel/potinhos, pizza, padaria, história de 18 anos — tudo isso existe e é admirado, mas quase nada é comunicado. O Instagram faz oferta, mostra produto, mas não explora bastidores, autoridade local, equipe, setores ou construção de marca. A percepção de valor da loja está abaixo do real.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CANAIS -->
+<section class="canais-bg">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Canal por Canal</div>
+    <h2 class="section-title">A Situação Digital do Absoluto</h2>
+    <p class="section-desc">Presença existe em todos os canais. O que falta é domínio estratégico — transformar cada canal em ativo máximo.</p>
+    <div class="canais-grid">
+      <div class="canal-card">
+        <div class="canal-icon">📸</div>
+        <h4>Instagram</h4>
+        <div class="canal-status amarelo">Em desenvolvimento</div>
+        <p>7k seguidores — forte para o tamanho da cidade. Mas ainda em zona intermediária: já não é amador, ainda não é máquina estratégica. Vende oferta, mostra produto, mas não constrói marca.</p>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">💬</div>
+        <h4>WhatsApp</h4>
+        <div class="canal-status vermelho">Subutilizado</div>
+        <p>400 contatos num grupo. Canal restrito a pedidos de gás e água. Trauma do modelo antigo de disparos manuais. Potencial enorme com automação e comunidade estruturada.</p>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">🗺️</div>
+        <h4>Google</h4>
+        <div class="canal-status amarelo">Passivo</div>
+        <p>Existe, aparece na busca, tem fotos e 360°. Mas não é trabalhado ativamente. Perde para concorrente com mais avaliações — mesmo com nota pior. Autoridade local desperdiçada.</p>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">📻</div>
+        <h4>Rádio & Carro de Som</h4>
+        <div class="canal-status verde">Faz sentido manter</div>
+        <p>Para o contexto da cidade e zona rural, faz sentido. Cria lembrança. O problema não é usar rádio — é não integrá-lo com digital para criar um ecossistema coerente.</p>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">🎯</div>
+        <h4>Tráfego Pago</h4>
+        <div class="canal-status amarelo">Investido, mas sem estratégia</div>
+        <p>R$5k/mês — valor saudável para o porte. O problema é a distribuição por rotina e não por calendário. Impulsionar toda semana do mesmo jeito não extrai o máximo de nenhuma ação.</p>
+      </div>
+      <div class="canal-card">
+        <div class="canal-icon">📊</div>
+        <h4>Leitura de Resultado</h4>
+        <div class="canal-status vermelho">Ausente</div>
+        <p>Não existe leitura consolidada de performance. Ninguém faz a pergunta certa: qual campanha gerou faturamento? Qual conteúdo gerou percepção? Marketing sem leitura não evolui.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPORTUNIDADES -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">De Onde Vem o Crescimento</div>
+    <h2 class="section-title">5 Oportunidades Imediatas</h2>
+    <p class="section-desc">Sem precisar aumentar um centavo de investimento — só reorganizando e executando com estratégia o que já existe.</p>
+    <div class="oport-grid">
+      <div class="oport-card">
+        <div class="oport-icon">💬</div>
+        <h3>Construir Comunidade no WhatsApp</h3>
+        <p>Migrar do grupo de 400 para uma comunidade segmentada. Captar via QR code na loja, bio do Instagram e anúncios. Benefício exclusivo para quem entra. Meta: 2.000+ em 90 dias.</p>
+        <span class="oport-gain">Canal de maior conversão</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">⭐</div>
+        <h3>Campanha de Avaliações no Google</h3>
+        <p>Ação simples com QR code no caixa, WhatsApp e Instagram pedindo avaliação. Superar o concorrente em número de avaliações é questão de semanas — e impacto no ranqueamento local é enorme.</p>
+        <span class="oport-gain">Maçã baixa · Impacto imediato</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">🏷️</div>
+        <h3>Comunicar os Diferenciais Reais</h3>
+        <p>Restaurante, pizza, granel, padaria, história de 18 anos, equipe — tudo isso precisa entrar na pauta de conteúdo mensal. O Absoluto tem argumento. Falta transformar em narrativa recorrente.</p>
+        <span class="oport-gain">Percepção de marca</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">📅</div>
+        <h3>Alocação Inteligente de Verba</h3>
+        <p>Parar de impulsionar por rotina. Distribuir os R$5k de tráfego conforme o calendário comercial do mês — mais verba no Dia D, no festival do mês, no setor prioritário da semana.</p>
+        <span class="oport-gain">Mesmo investimento, mais resultado</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">📡</div>
+        <h3>Integrar Rádio com Digital</h3>
+        <p>Rádio cria lembrança → Instagram reforça visual → WhatsApp captura recorrência → Google reforça autoridade. Hoje são peças soltas. O ecossistema integrado multiplica o resultado de cada canal.</p>
+        <span class="oport-gain">Sinergia sem custo extra</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE FAZEMOS -->
+<section id="solucao">
+  <div class="container">
+    <div class="section-label">Nossa Solução</div>
+    <h2 class="section-title">O Que a GST Marketing<br>Faz pelo Absoluto</h2>
+    <p class="section-desc">Uma agência nichada em supermercado pergunta faturamento, cupons e ticket médio. Uma agência genérica não. Essa é a diferença.</p>
+    <div class="servicos-grid">
+      <div class="servico-card">
+        <div class="servico-num">1</div>
+        <div class="servico-icon">🧭</div>
+        <h3>Orquestração Estratégica</h3>
+        <p>Centralizar a direção de todos os braços de marketing — calendário, pauta, campanhas por setor, ativação por objetivo e conexão entre loja e faturamento.</p>
+        <ul class="servico-list">
+          <li>Planejamento mensal de marketing</li>
+          <li>Calendário comercial com hierarquia de campanhas</li>
+          <li>Reunião mensal de alinhamento + DRE</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">2</div>
+        <div class="servico-icon">💬</div>
+        <h3>WhatsApp: Comunidade Ativa</h3>
+        <p>Transformar o grupo de 400 em uma comunidade de 2.000+ com automação, captação ativa e ofertas exclusivas — sem o trauma do modelo manual antigo.</p>
+        <ul class="servico-list">
+          <li>Migração para comunidade por loja</li>
+          <li>Captação via QR code, loja física e Instagram</li>
+          <li>Automação de boas-vindas e recorrência</li>
+          <li>Ofertas exclusivas para membros</li>
+          <li>Plataforma indicada a R$200/mês</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">3</div>
+        <div class="servico-icon">🎯</div>
+        <h3>Tráfego com Inteligência de Calendário</h3>
+        <p>Parar de impulsionar por rotina. Distribuir a verba conforme o calendário comercial — mais onde importa, no momento certo.</p>
+        <ul class="servico-list">
+          <li>Planejamento de verba por semana e setor</li>
+          <li>Campanhas alinhadas ao calendário de ofertas</li>
+          <li>Mais verba no Dia D, festivais e sazonais</li>
+          <li>Relatório mensal de performance</li>
+          <li>Criativos otimizados continuamente</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">4</div>
+        <div class="servico-icon">📸</div>
+        <h3>Instagram como Máquina Estratégica</h3>
+        <p>Elevar o Instagram do nível intermediário para canal de construção de marca — com conteúdo institucional, bastidores, equipe e diferenciais reais.</p>
+        <ul class="servico-list">
+          <li>Pauta mensal com hierarquia de conteúdo</li>
+          <li>Conteúdo de bastidores e equipe</li>
+          <li>Comunicação de restaurante, pizza, granel</li>
+          <li>Stories de expectativa e antecipação</li>
+          <li>Roteiro para colaboradora interna</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">5</div>
+        <div class="servico-icon">⭐</div>
+        <h3>Autoridade Local: Google + Avaliações</h3>
+        <p>Superar o concorrente em avaliações e trabalhar o Google Meu Negócio como ativo de autoridade — não só como presença passiva.</p>
+        <ul class="servico-list">
+          <li>Campanha de captação de avaliações</li>
+          <li>QR code no caixa e ações no WhatsApp</li>
+          <li>Perfis do Google organizados (2 lojas)</li>
+          <li>Fotos, horários e informações atualizadas</li>
+          <li>Monitoramento de reputação local</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">6</div>
+        <div class="servico-icon">📊</div>
+        <h3>Leitura de Resultado Mensal</h3>
+        <p>Transformar o marketing em leitura de negócio. DRE de Marketing, indicadores claros e conexão real entre ação de mídia e resultado na loja.</p>
+        <ul class="servico-list">
+          <li>DRE de Marketing mensal</li>
+          <li>Indicadores por campanha e setor</li>
+          <li>Análise de faturamento vs. investimento</li>
+          <li>Diagnóstico contínuo de performance</li>
+          <li>Benchmark com mercado supermercadista</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Nossa Abordagem</div>
+    <h2 class="section-title">3 Pilares para o Absoluto<br>Destravar o Crescimento</h2>
+    <p class="section-desc">Não começamos do zero. Aproveitamos o que já funciona e damos a direção que falta.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">1</div>
+        <h3>Oferta</h3>
+        <p>Calendário comercial com hierarquia, verba alocada por semana e setor, festivais bem comunicados e Dia D como momento de pico.</p>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">2</div>
+        <h3>Qualidade</h3>
+        <p>Comunicar restaurante, pizza, padaria, granel, equipe e história de 18 anos. Transformar o que já existe em percepção de marca local.</p>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">3</div>
+        <h3>Experiência</h3>
+        <p>Comunidade WhatsApp ativa, Google com autoridade e ecossistema integrado onde rádio, Instagram e WhatsApp conversam entre si.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSTA COM TABS -->
+<section class="proposta-bg" id="proposta" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Investimento</div>
+    <h2 class="section-title">Escolha o Plano Ideal</h2>
+    <p class="section-desc">Duas opções pensadas para a realidade do Absoluto — com ou sem produção de artes incluída.</p>
+
+    <div class="planos-toggle">
+      <button class="plano-btn completo active" onclick="trocarPlano('completo')">✦ Plano Completo <span style="font-size:11px;opacity:0.7;">— com artes</span></button>
+      <button class="plano-btn essencial" onclick="trocarPlano('essencial')">◇ Plano Essencial <span style="font-size:11px;opacity:0.7;">— sem artes</span></button>
+    </div>
+
+    <!-- PLANO COMPLETO -->
+    <div class="plano-pane active" id="pane-completo">
+      <div class="proposta-box">
+        <div style="position:relative;">
+          <div class="recomendado-badge">⭐ Plano Recomendado</div>
+        </div>
+        <div class="proposta-header">
+          <div class="proposta-destinatario">
+            <h3>Proposta preparada para</h3>
+            <p>Júlia · Absoluto Supermercado</p>
+            <small>2 lojas · Matriz + Filial · R$4M/mês</small>
+          </div>
+          <div class="proposta-preco-wrap">
+            <div class="proposta-preco-label">Investimento mensal</div>
+            <div class="proposta-preco">R$4.000<small>/mês</small></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Gestão + Produção de Artes + Tráfego incluso</div>
+          </div>
+        </div>
+        <hr class="prop-divider">
+        <div class="proposta-cols">
+          <div>
+            <div class="prop-col-title">✦ Gestão & Estratégia</div>
+            <ul class="prop-itens">
+              <li>Planejamento mensal de marketing</li>
+              <li>Calendário comercial com hierarquia de verba</li>
+              <li>Reunião mensal de alinhamento + DRE</li>
+              <li>Plano de ação fechado todo mês</li>
+              <li>Diagnóstico contínuo de performance</li>
+              <li>Acompanhamento semanal via WhatsApp</li>
+            </ul>
+          </div>
+          <div>
+            <div class="prop-col-title">✦ Produção de Artes Incluída</div>
+            <ul class="prop-itens">
+              <li>Artes de oferta semanais (2 lojas)</li>
+              <li>Peças de festivais e sazonais</li>
+              <li>Stories de expectativa e antecipação</li>
+              <li>Posts institucionais e de marca</li>
+              <li>Criativos de tráfego pago otimizados</li>
+              <li>Material para Google Meu Negócio</li>
+            </ul>
+          </div>
+        </div>
+        <hr class="prop-divider">
+        <div class="proposta-cols">
+          <div>
+            <div class="prop-col-title">✦ Canais & Ativação</div>
+            <ul class="prop-itens">
+              <li>Gestão do Instagram (2 lojas)</li>
+              <li>Pauta de conteúdo mensal completa</li>
+              <li>Roteiro para colaboradora interna</li>
+              <li>WhatsApp: comunidade + automação</li>
+              <li>Google Meu Negócio (2 lojas)</li>
+              <li>Campanha de avaliações</li>
+            </ul>
+          </div>
+          <div>
+            <div class="prop-col-title">✦ Tráfego & Resultado</div>
+            <ul class="prop-itens">
+              <li>Gestão de tráfego pago Meta/Google</li>
+              <li>Distribuição de verba por calendário</li>
+              <li>Relatório mensal de performance</li>
+              <li>DRE de Marketing mensal</li>
+            </ul>
+          </div>
+        </div>
+        <div class="proposta-nota">
+          <p>⚡ <strong>Verba de tráfego pago não incluída</strong> — você mantém os R$5k já investidos hoje, mas passam a ser distribuídos com inteligência de calendário. A gestão e criação dos anúncios estão incluídas no plano. O investimento em mídia vai direto para Meta/Google.</p>
+        </div>
+        <div class="proposta-cta">
+          <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 52px;">✅ Quero o Plano Completo</a>
+          <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLANO ESSENCIAL -->
+    <div class="plano-pane" id="pane-essencial">
+      <div class="proposta-box essencial">
+        <div class="proposta-header">
+          <div class="proposta-destinatario">
+            <h3>Proposta preparada para</h3>
+            <p>Júlia · Absoluto Supermercado</p>
+            <small>2 lojas · Matriz + Filial · R$4M/mês</small>
+          </div>
+          <div class="proposta-preco-wrap">
+            <div class="proposta-preco-label">Investimento mensal</div>
+            <div class="proposta-preco blue">R$3.000<small>/mês</small></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Gestão + Estratégia + Tráfego incluso</div>
+          </div>
+        </div>
+        <hr class="prop-divider">
+        <div class="proposta-cols">
+          <div>
+            <div class="prop-col-title blue">◇ Gestão & Estratégia</div>
+            <ul class="prop-itens blue">
+              <li>Planejamento mensal de marketing</li>
+              <li>Calendário comercial com hierarquia de verba</li>
+              <li>Reunião mensal de alinhamento + DRE</li>
+              <li>Plano de ação fechado todo mês</li>
+              <li>Diagnóstico contínuo de performance</li>
+              <li>Acompanhamento semanal via WhatsApp</li>
+            </ul>
+          </div>
+          <div>
+            <div class="prop-col-title blue">◇ Canais & Ativação</div>
+            <ul class="prop-itens blue">
+              <li>Pauta de conteúdo mensal (roteiro)</li>
+              <li>Roteiro e orientação para colaboradora</li>
+              <li>WhatsApp: comunidade + automação</li>
+              <li>Google Meu Negócio (2 lojas)</li>
+              <li>Campanha de avaliações</li>
+              <li>Gestão de tráfego pago Meta/Google</li>
+            </ul>
+          </div>
+        </div>
+        <hr class="prop-divider">
+        <div class="proposta-cols">
+          <div>
+            <div class="prop-col-title blue">◇ Incluso</div>
+            <ul class="prop-itens blue">
+              <li>Distribuição inteligente de verba</li>
+              <li>Relatório mensal de performance</li>
+              <li>DRE de Marketing mensal</li>
+              <li>Benchmark de mercado mensal</li>
+            </ul>
+          </div>
+          <div>
+            <div class="prop-col-title" style="color:#f87171;">✗ Não incluso neste plano</div>
+            <ul class="prop-itens">
+              <li class="nao">Produção de artes de oferta</li>
+              <li class="nao">Peças de festivais e sazonais</li>
+              <li class="nao">Criativos de tráfego (usa sua agência atual)</li>
+              <li class="nao">Posts institucionais e de marca</li>
+            </ul>
+          </div>
+        </div>
+        <div class="proposta-nota blue">
+          <p>💡 <strong>Neste plano</strong>, sua agência atual continua produzindo as artes — mas agora seguindo a pauta estratégica e o calendário que a GST define. Você tem a inteligência estratégica sem trocar o que já funciona na produção. <strong>Ideal para quem quer começar com menos impacto no investimento.</strong></p>
+        </div>
+        <div class="proposta-cta">
+          <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 52px;background:#3b82f6;">◇ Quero o Plano Essencial</a>
+          <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- COMPARATIVO -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Comparativo</div>
+    <h2 class="section-title">O Que Cada Plano Inclui</h2>
+    <p class="section-desc">Veja lado a lado o que muda entre os dois planos.</p>
+    <div style="overflow-x:auto;">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="width:45%;">O que está incluso</th>
+            <th style="width:22%;text-align:center;">Plano Essencial</th>
+            <th style="width:33%;text-align:center;">✦ Plano Completo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Planejamento mensal de marketing</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>Reunião mensal + DRE de Marketing</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>Calendário comercial com hierarquia de verba</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>Gestão de tráfego pago Meta/Google</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>WhatsApp: comunidade + automação</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>Google Meu Negócio + campanha de avaliações</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>Pauta de conteúdo + roteiro para colaboradora</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td>Relatório e DRE mensais</td><td style="text-align:center;" class="check">✓</td><td style="text-align:center;">✓</td></tr>
+          <tr><td><strong>Produção de artes de oferta semanais</strong></td><td style="text-align:center;" class="cross">✗</td><td style="text-align:center;font-weight:700;">✓</td></tr>
+          <tr><td><strong>Peças de festivais e sazonais</strong></td><td style="text-align:center;" class="cross">✗</td><td style="text-align:center;font-weight:700;">✓</td></tr>
+          <tr><td><strong>Criativos de tráfego pago incluídos</strong></td><td style="text-align:center;" class="cross">✗</td><td style="text-align:center;font-weight:700;">✓</td></tr>
+          <tr><td><strong>Posts institucionais e de marca</strong></td><td style="text-align:center;" class="cross">✗</td><td style="text-align:center;font-weight:700;">✓</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados-bg" id="resultados">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">O Que Esperar</div>
+    <h2 class="section-title">Resultados por Etapa</h2>
+    <p class="section-desc">Cada fase tem entregáveis concretos. Progresso visível desde o primeiro mês.</p>
+    <div class="res-timeline">
+      <div class="res-card">
+        <div class="res-period">30 dias</div>
+        <ul>
+          <li>Diagnóstico completo das 2 lojas</li>
+          <li>Calendário comercial estruturado</li>
+          <li>Comunidade WhatsApp iniciada</li>
+          <li>Google organizado (2 lojas)</li>
+          <li>Campanha de avaliações ativa</li>
+          <li>Primeira leitura de resultado</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">90 dias</div>
+        <ul>
+          <li>WhatsApp acima de 1.500 contatos</li>
+          <li>Google com mais avaliações que concorrente</li>
+          <li>Verba distribuída por calendário</li>
+          <li>Conteúdo institucional rodando</li>
+          <li>DRE de Marketing no ritmo</li>
+          <li>Leitura de faturamento vs. campanha</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">6 meses</div>
+        <ul>
+          <li>+5% a +10% cupons na rede</li>
+          <li>WhatsApp acima de 3.000</li>
+          <li>Marca local bem posicionada</li>
+          <li>Diferenciais comunicados com força</li>
+          <li>ROI de marketing mensurável</li>
+          <li>Ecossistema de canais integrado</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">12 meses</div>
+        <ul>
+          <li>Estagnação revertida em crescimento</li>
+          <li>+R$200k a +R$400k/mês na rede</li>
+          <li>Absoluto referência digital na região</li>
+          <li>Marketing integrado à operação</li>
+          <li>Ativo próprio construído (WA + base)</li>
+          <li>Crescimento com margem positiva</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO -->
+<section>
+  <div class="container">
+    <div class="section-label">Impacto Real</div>
+    <h2 class="section-title">O Que Representa na Prática</h2>
+    <p class="section-desc">Para uma rede que já fatura R$4M/mês e investe R$9,5k em marketing, a reorganização estratégica gera um salto desproporcional.</p>
+    <div class="impacto-grid">
+      <div class="impacto-card c1">
+        <div class="impacto-num">+R$200k</div>
+        <h4>Por Mês com +5% Cupons</h4>
+        <p>Crescimento conservador — mais clientes sem aumentar custo fixo</p>
+      </div>
+      <div class="impacto-card c2">
+        <div class="impacto-num">0 extra</div>
+        <h4>Sem Aumentar Investimento</h4>
+        <p>Mesmo orçamento atual, redistribuído com inteligência de calendário</p>
+      </div>
+      <div class="impacto-card c3">
+        <div class="impacto-num">2.000+</div>
+        <h4>Contatos WhatsApp em 90 Dias</h4>
+        <p>De 400 para um canal real de comunicação direta e recorrente</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="proposta-bg" style="padding:80px 40px;">
+  <div class="container" style="text-align:center;max-width:660px;">
+    <div class="section-label" style="color:var(--green);">Próximo Passo</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:18px;">O Absoluto já tem tudo.<br>Falta colocar em sistema.</h2>
+    <p style="font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:40px;line-height:1.75;">Estrutura, investimento, presença e calendário já existem. O que a GST entrega é a integração, a direção e a leitura de resultado que transforma isso em crescimento real.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:48px;">
+      <a href="#proposta" class="btn-primary" style="font-size:15px;padding:16px 36px;">✦ Ver os Planos</a>
+      <a href="https://wa.me/5511983912170" class="btn-ghost" style="font-size:14px;padding:15px 28px;">Falar com Oscar</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🏪</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Especialistas em Supermercado</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Entendemos cupons, ticket médio, margem e calendário comercial</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🎯</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Agência Proativa</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Você não precisa cobrar nada — a gente pensa, planeja e executa</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">📈</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Resultado Mensurável</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">DRE de Marketing e indicadores claros todo mês, sem achismo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Diagnóstico & Proposta para Absoluto Supermercado · Júlia</p>
+  <p style="margin-top:8px;">Marketing Especializado em Supermercados · Gestão Estratégica Integrada</p>
+</footer>
+
+<script>
+  function trocarPlano(plano) {
+    document.querySelectorAll('.plano-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.plano-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('pane-' + plano).classList.add('active');
+    document.querySelector('.plano-btn.' + plano).classList.add('active');
+  }
+</script>
+
+</body>
+</html>

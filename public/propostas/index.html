@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Central de Propostas</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: var(--gray-light); color: var(--text); min-height: 100vh; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* HEADER */
+  .header {
+    background: linear-gradient(135deg, var(--navy) 0%, #0a1f14 100%);
+    padding: 48px 40px 56px; position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(0,196,106,0.12) 0%, transparent 60%);
+  }
+  .header-inner { max-width: 1100px; margin: 0 auto; position: relative; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 24px; }
+  .header-logo { font-family: 'Poppins',sans-serif; font-size: 24px; font-weight: 800; color: #fff; }
+  .header-logo span { color: var(--green); }
+  .header-title { }
+  .header-title h1 { font-size: clamp(22px,3vw,36px); font-weight: 800; color: #fff; line-height: 1.1; letter-spacing: -0.5px; }
+  .header-title p { font-size: 14px; color: rgba(255,255,255,0.52); margin-top: 6px; }
+  .header-stats { display: flex; gap: 32px; flex-wrap: wrap; }
+  .header-stat { text-align: center; }
+  .header-stat-num { font-family: 'Poppins',sans-serif; font-size: 28px; font-weight: 800; color: var(--green); line-height: 1; }
+  .header-stat-label { font-size: 11px; color: rgba(255,255,255,0.45); margin-top: 3px; }
+
+  /* FILTROS */
+  .filtros { max-width: 1100px; margin: 0 auto; padding: 32px 40px 0; display: flex; gap: 10px; flex-wrap: wrap; }
+  .filtro-btn {
+    padding: 7px 16px; border-radius: 20px; border: 1.5px solid #e2e8f0;
+    background: #fff; font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 600;
+    color: var(--gray); cursor: pointer; transition: all 0.2s;
+  }
+  .filtro-btn:hover { border-color: var(--green); color: var(--green); }
+  .filtro-btn.active { background: var(--green); border-color: var(--green); color: #fff; }
+
+  /* BUSCA */
+  .busca-wrap { max-width: 1100px; margin: 0 auto; padding: 20px 40px 0; }
+  .busca {
+    width: 100%; max-width: 420px;
+    padding: 10px 16px 10px 40px; border-radius: 10px;
+    border: 1.5px solid #e2e8f0; background: #fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2364748b' stroke-width='2'%3E%3Ccircle cx='11' cy='11' r='8'/%3E%3Cpath d='m21 21-4.35-4.35'/%3E%3C/svg%3E") no-repeat 12px center;
+    font-family: 'Inter',sans-serif; font-size: 14px; color: var(--text);
+    outline: none; transition: border-color 0.2s;
+  }
+  .busca:focus { border-color: var(--green); }
+
+  /* GRID */
+  .grid { max-width: 1100px; margin: 0 auto; padding: 28px 40px 60px; display: grid; grid-template-columns: repeat(auto-fill, minmax(320px,1fr)); gap: 22px; }
+
+  /* CARD */
+  .card {
+    background: #fff; border-radius: 18px; border: 1px solid #e2e8f0;
+    overflow: hidden; transition: box-shadow 0.2s, transform 0.2s;
+    display: flex; flex-direction: column;
+  }
+  .card:hover { box-shadow: 0 12px 36px rgba(0,0,0,0.10); transform: translateY(-4px); }
+  .card-top { height: 6px; }
+  .card-body { padding: 26px 24px; flex: 1; }
+  .card-header { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; margin-bottom: 14px; }
+  .card-icon { font-size: 32px; flex-shrink: 0; }
+  .card-badges { display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end; }
+  .badge { font-size: 10px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+  .badge-tipo { background: var(--green-light); color: var(--green-dark); }
+  .badge-status-aberto { background: #fffbeb; color: #92400e; }
+  .badge-status-enviado { background: #eff6ff; color: #1e40af; }
+  .badge-status-fechado { background: var(--green-light); color: var(--green-dark); }
+  .card h3 { font-size: 17px; font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .card-sub { font-size: 13px; color: var(--gray); margin-bottom: 16px; }
+  .card-valor { font-family: 'Poppins',sans-serif; font-size: 26px; font-weight: 800; color: var(--navy); line-height: 1; margin-bottom: 4px; }
+  .card-valor-label { font-size: 11px; color: var(--gray); margin-bottom: 16px; }
+  .card-info { display: flex; flex-direction: column; gap: 6px; margin-bottom: 20px; }
+  .card-info-item { font-size: 12px; color: var(--gray); display: flex; gap: 6px; }
+  .card-info-item::before { content: '·'; color: var(--green); font-weight: 700; }
+  .card-footer { padding: 16px 24px; border-top: 1px solid #f1f5f9; display: flex; gap: 10px; }
+  .btn-ver {
+    flex: 1; background: var(--green); color: #fff;
+    font-family: 'Poppins',sans-serif; font-size: 13px; font-weight: 700;
+    padding: 10px 16px; border-radius: 8px; text-decoration: none;
+    text-align: center; transition: background 0.2s;
+  }
+  .btn-ver:hover { background: var(--green-dark); }
+  .btn-copiar {
+    background: var(--gray-light); color: var(--gray);
+    font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 600;
+    padding: 10px 14px; border-radius: 8px; border: none; cursor: pointer;
+    transition: background 0.2s; white-space: nowrap;
+  }
+  .btn-copiar:hover { background: #e2e8f0; color: var(--text); }
+  .btn-copiar.copiado { background: var(--green-light); color: var(--green-dark); }
+
+  /* CARD ESPECIAL — proposta gst premium */
+  .card-premium .card-top { background: linear-gradient(90deg, var(--green), #1a73e8); }
+  .card-premium .card-valor { color: var(--green); }
+
+  /* VAZIO */
+  .vazio { display: none; text-align: center; padding: 60px 20px; color: var(--gray); grid-column: 1/-1; }
+  .vazio p { font-size: 16px; margin-top: 12px; }
+
+  /* FOOTER */
+  .footer { text-align: center; padding: 28px; font-size: 13px; color: var(--gray); border-top: 1px solid #e2e8f0; background: #fff; }
+  .footer strong { color: var(--green); }
+
+  @media(max-width:640px){
+    .filtros, .busca-wrap, .grid { padding-left: 20px; padding-right: 20px; }
+    .header { padding: 36px 20px 44px; }
+    .header-stats { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-inner">
+    <div>
+      <div class="header-logo">GST <span>Marketing</span></div>
+      <div class="header-title" style="margin-top:16px;">
+        <h1>Central de Propostas</h1>
+        <p>Acesso interno · Propostas comerciais ativas</p>
+      </div>
+    </div>
+    <div class="header-stats">
+      <div class="header-stat">
+        <div class="header-stat-num" id="total-propostas">7</div>
+        <div class="header-stat-label">Propostas</div>
+      </div>
+      <div class="header-stat">
+        <div class="header-stat-num">37</div>
+        <div class="header-stat-label">Clientes ativos</div>
+      </div>
+      <div class="header-stat">
+        <div class="header-stat-num">R$17k</div>
+        <div class="header-stat-label">MRR potencial</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- BUSCA + FILTROS -->
+<div class="busca-wrap">
+  <input type="text" class="busca" id="busca" placeholder="Buscar por cliente ou segmento..." oninput="filtrar()">
+</div>
+<div class="filtros">
+  <button class="filtro-btn active" onclick="setFiltro('todos', this)">Todos</button>
+  <button class="filtro-btn" onclick="setFiltro('supermercado', this)">Supermercado</button>
+  <button class="filtro-btn" onclick="setFiltro('bebidas', this)">Bebidas</button>
+  <button class="filtro-btn" onclick="setFiltro('trafego', this)">Só Tráfego</button>
+  <button class="filtro-btn" onclick="setFiltro('premium', this)">Programa Premium</button>
+</div>
+
+<!-- GRID DE PROPOSTAS -->
+<div class="grid" id="grid">
+
+  <!-- SM COMPRE MAIS -->
+  <div class="card" data-tags="supermercado sao paulo zona norte felipe bento">
+    <div class="card-top" style="background:var(--green);"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon">🛒</div>
+        <div class="card-badges">
+          <span class="badge badge-tipo">Supermercado</span>
+          <span class="badge badge-status-enviado">Enviada</span>
+        </div>
+      </div>
+      <h3>SM Compre Mais</h3>
+      <div class="card-sub">Felipe Bento · Zona Norte — SP</div>
+      <div class="card-valor">R$4.000<span style="font-size:14px;font-weight:400;color:var(--gray)">/mês</span></div>
+      <div class="card-valor-label">Gestão completa · 4 lojas</div>
+      <div class="card-info">
+        <div class="card-info-item">4 lojas · Zona Norte de São Paulo</div>
+        <div class="card-info-item">R$4,1M/mês · 92.300 cupons</div>
+        <div class="card-info-item">Tráfego + Redes + WhatsApp + DRE</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="proposta/sm-compre-mais" class="btn-ver">Ver Proposta</a>
+      <button class="btn-copiar" onclick="copiarLink('proposta/sm-compre-mais', this)">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- ABSOLUTO SUPERMERCADO -->
+  <div class="card" data-tags="supermercado absoluto julia interior dois planos">
+    <div class="card-top" style="background:#0ea5e9;"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon">🏪</div>
+        <div class="card-badges">
+          <span class="badge badge-tipo">Supermercado</span>
+          <span class="badge badge-status-aberto">Em aberto</span>
+        </div>
+      </div>
+      <h3>Absoluto Supermercado</h3>
+      <div class="card-sub">Júlia · Interior — 2 lojas</div>
+      <div class="card-valor">R$3.000 <span style="font-size:13px;font-weight:400;color:var(--gray)">ou R$4.000</span></div>
+      <div class="card-valor-label">Plano Essencial ou Plano Completo</div>
+      <div class="card-info">
+        <div class="card-info-item">2 lojas · R$4M/mês consolidado</div>
+        <div class="card-info-item">Dois planos: com e sem produção de artes</div>
+        <div class="card-info-item">WhatsApp + Google + Tráfego + DRE</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="proposta/absoluto" class="btn-ver">Ver Proposta</a>
+      <button class="btn-copiar" onclick="copiarLink('proposta/absoluto', this)">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- SUPERMERCADOS ELZIO -->
+  <div class="card" data-tags="supermercado elzio gustavo guilherme trafego">
+    <div class="card-top" style="background:var(--green);"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon">🎯</div>
+        <div class="card-badges">
+          <span class="badge badge-tipo">Tráfego</span>
+          <span class="badge badge-status-aberto">Em negociação</span>
+        </div>
+      </div>
+      <h3>Supermercados Elzio</h3>
+      <div class="card-sub">Gustavo & Guilherme · 2 lojas</div>
+      <div class="card-valor">R$2.000<span style="font-size:14px;font-weight:400;color:var(--gray)">/mês</span></div>
+      <div class="card-valor-label">Plano de Tráfego Pago · 50% do plano completo</div>
+      <div class="card-info">
+        <div class="card-info-item">2 lojas · Pesquisa com 248 clientes</div>
+        <div class="card-info-item">Base de rastreio ativa de 30 dias</div>
+        <div class="card-info-item">Remarketing + Facebook + Instagram</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="proposta/elzio-trafego" class="btn-ver">Ver Proposta</a>
+      <button class="btn-copiar" onclick="copiarLink('proposta/elzio-trafego', this)">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- SUPER MILLENNIUM -->
+  <div class="card" data-tags="supermercado millennium joao atacarejo reinauguracao aniversario">
+    <div class="card-top" style="background:var(--green);"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon">🚀</div>
+        <div class="card-badges">
+          <span class="badge badge-tipo">Supermercado</span>
+          <span class="badge badge-status-enviado">Enviada</span>
+        </div>
+      </div>
+      <h3>Super Millennium Atacarejo</h3>
+      <div class="card-sub">João · Calendário até Dez/2026</div>
+      <div class="card-valor">R$3.000<span style="font-size:14px;font-weight:400;color:var(--gray)">/mês</span></div>
+      <div class="card-valor-label">Gestão completa + 2 grandes eventos</div>
+      <div class="card-info">
+        <div class="card-info-item">R$1,8M/mês · ~28k cupons · Ticket R$65</div>
+        <div class="card-info-item">Aniversário da loja + Mega Reinauguração</div>
+        <div class="card-info-item">Presença do Oscar na reinauguração</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="proposta/super-millennium" class="btn-ver">Ver Proposta</a>
+      <button class="btn-copiar" onclick="copiarLink('proposta/super-millennium', this)">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- RODRIGO BEBIDAS -->
+  <div class="card" data-tags="bebidas distribuidora rodrigo jardim inga df estruturacao">
+    <div class="card-top" style="background:#f97316;"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon">🍺</div>
+        <div class="card-badges">
+          <span class="badge" style="background:#fff3eb;color:#c2500f;">Bebidas</span>
+          <span class="badge badge-status-aberto">Em aberto</span>
+        </div>
+      </div>
+      <h3>Distribuidora de Bebidas</h3>
+      <div class="card-sub">Rodrigo Alves · Jardim Ingá — DF</div>
+      <div class="card-valor">R$1.500<span style="font-size:14px;font-weight:400;color:var(--gray)">/mês</span></div>
+      <div class="card-valor-label">Estruturação digital + Tráfego local</div>
+      <div class="card-info">
+        <div class="card-info-item">10 dias de operação · Marco zero digital</div>
+        <div class="card-info-item">Instagram + Facebook + WhatsApp + Meta Ads</div>
+        <div class="card-info-item">Segmentação por raio · Jardim Ingá</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="proposta/rodrigo-bebidas" class="btn-ver">Ver Proposta</a>
+      <button class="btn-copiar" onclick="copiarLink('proposta/rodrigo-bebidas', this)">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- GST PREMIUM -->
+  <div class="card card-premium" data-tags="premium programa garantia supermercado institucional">
+    <div class="card-top"></div>
+    <div class="card-body">
+      <div class="card-header">
+        <div class="card-icon">⭐</div>
+        <div class="card-badges">
+          <span class="badge" style="background:#f5f3ff;color:#5b21b6;">Programa Premium</span>
+          <span class="badge" style="background:#f0fdf4;color:#15803d;">Ativo</span>
+        </div>
+      </div>
+      <h3>Programa Premium GST</h3>
+      <div class="card-sub">Proposta institucional · Todos os clientes</div>
+      <div class="card-valor" style="color:var(--green);">R$4.000<span style="font-size:14px;font-weight:400;color:var(--gray)">/mês</span></div>
+      <div class="card-valor-label">Metodologia DECIS · Garantia de +10% em cupons</div>
+      <div class="card-info">
+        <div class="card-info-item">+10% em cupons em 90 dias — garantido</div>
+        <div class="card-info-item">DRE de Marketing (ADRI) + Pesquisa de rastreio</div>
+        <div class="card-info-item">Reinauguração + Saída do impresso em 3 meses</div>
+      </div>
+    </div>
+    <div class="card-footer">
+      <a href="proposta/gst-premium" class="btn-ver">Ver Proposta</a>
+      <button class="btn-copiar" onclick="copiarLink('proposta/gst-premium', this)">🔗 Copiar link</button>
+    </div>
+  </div>
+
+  <!-- VAZIO -->
+  <div class="vazio" id="vazio">
+    <div style="font-size:48px;">🔍</div>
+    <p>Nenhuma proposta encontrada para essa busca.</p>
+  </div>
+
+</div>
+
+<!-- FOOTER -->
+<div class="footer">
+  <strong>GST Marketing</strong> · Central de Propostas · Acesso interno · gstmarketing.com.br/propostas
+</div>
+
+<script>
+  let filtroAtivo = 'todos';
+
+  const tagsMapa = {
+    'supermercado': ['supermercado', 'atacarejo'],
+    'bebidas': ['bebidas', 'distribuidora'],
+    'trafego': ['trafego'],
+    'premium': ['premium', 'programa'],
+  };
+
+  function setFiltro(tipo, btn) {
+    filtroAtivo = tipo;
+    document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    filtrar();
+  }
+
+  function filtrar() {
+    const busca = document.getElementById('busca').value.toLowerCase();
+    const cards = document.querySelectorAll('.card:not(.vazio)');
+    let visiveis = 0;
+
+    cards.forEach(card => {
+      const tags = card.dataset.tags || '';
+      const texto = (card.innerText + ' ' + tags).toLowerCase();
+
+      const passaBusca = busca === '' || texto.includes(busca);
+
+      let passaFiltro = true;
+      if (filtroAtivo !== 'todos') {
+        const keywords = tagsMapa[filtroAtivo] || [];
+        passaFiltro = keywords.some(k => tags.includes(k));
+      }
+
+      if (passaBusca && passaFiltro) {
+        card.style.display = '';
+        visiveis++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
+
+    document.getElementById('vazio').style.display = visiveis === 0 ? 'block' : 'none';
+    document.getElementById('total-propostas').textContent = visiveis;
+  }
+
+  function copiarLink(path, btn) {
+    const base = window.location.origin;
+    const url = `${base}/${path}`;
+    navigator.clipboard.writeText(url).then(() => {
+      const original = btn.innerHTML;
+      btn.innerHTML = '✅ Copiado!';
+      btn.classList.add('copiado');
+      setTimeout(() => {
+        btn.innerHTML = original;
+        btn.classList.remove('copiado');
+      }, 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

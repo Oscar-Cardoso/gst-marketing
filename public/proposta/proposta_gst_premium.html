@@ -1,0 +1,806 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Programa Premium para Supermercados</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --yellow: #f5b400; --red: #e53935;
+    --gray: #64748b; --gray-light: #f1f5f9;
+    --white: #fff; --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.96); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:18px; font-weight:800; color:#fff; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.65); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:9px 20px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:700px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, var(--navy2) 50%, #0a2540 100%);
+    color:#fff; padding:120px 40px 100px;
+    text-align:center; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 70% 30%, rgba(0,196,106,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 20% 80%, rgba(26,115,232,0.08) 0%, transparent 50%);
+  }
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.4);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 18px; border-radius:30px; margin-bottom:28px; position:relative;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+  .hero h1 { font-size:clamp(32px,5vw,64px); font-weight:900; line-height:1.08; margin-bottom:14px; position:relative; letter-spacing:-1.5px; }
+  .hero h1 span { color:var(--green); }
+  .hero-subtitle { font-size:clamp(15px,2vw,20px); color:rgba(255,255,255,0.72); margin-bottom:36px; max-width:680px; margin-left:auto; margin-right:auto; position:relative; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; justify-content:center; gap:10px; position:relative; margin-bottom:44px; }
+  .hero-tag { background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.18); color:rgba(255,255,255,0.88); font-size:12px; font-weight:500; padding:7px 16px; border-radius:30px; }
+  .hero-tag.destaque { background:rgba(0,196,106,0.2); border-color:rgba(0,196,106,0.5); color:var(--green); font-weight:700; }
+  .hero-cta { display:flex; flex-wrap:wrap; justify-content:center; gap:16px; position:relative; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 34px; border-radius:8px; text-decoration:none; transition:background 0.2s, transform 0.15s; display:inline-block; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.35); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 30px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; display:inline-block; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.75); }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; color:var(--navy); margin-bottom:14px; letter-spacing:-0.5px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:700px; margin-bottom:52px; line-height:1.7; }
+
+  /* DIAGNÓSTICO */
+  .diag { background:var(--gray-light); }
+  .diag-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(300px,1fr)); gap:22px; }
+  .diag-card { background:#fff; border-radius:16px; padding:30px; border-top:4px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .diag-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .diag-icon { font-size:34px; margin-bottom:14px; }
+  .diag-card h3 { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .diag-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+
+  /* GARANTIA */
+  .garantia-section { background:linear-gradient(135deg, #061510 0%, #0a1a2e 100%); }
+  .garantia-section .section-title { color:#fff; }
+  .garantia-section .section-desc { color:rgba(255,255,255,0.52); }
+  .garantia-box {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.3);
+    border-radius:24px; padding:52px 48px; position:relative; overflow:hidden; max-width:900px; margin:0 auto;
+  }
+  @media(max-width:660px){.garantia-box{padding:32px 22px;}}
+  .garantia-box::before {
+    content:''; position:absolute; top:-80px; right:-80px;
+    width:300px; height:300px;
+    background:radial-gradient(circle, rgba(0,196,106,0.15) 0%, transparent 70%);
+  }
+  .garantia-grid { display:grid; grid-template-columns:auto 1fr; gap:52px; align-items:center; position:relative; }
+  @media(max-width:700px){.garantia-grid{grid-template-columns:1fr;text-align:center;}}
+  .garantia-num { font-family:'Poppins',sans-serif; font-size:100px; font-weight:900; color:var(--green); line-height:1; }
+  .garantia-num small { font-size:40px; }
+  .garantia-sub { font-size:12px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(255,255,255,0.4); margin-top:4px; }
+  .garantia-titulo { font-family:'Poppins',sans-serif; font-size:28px; font-weight:800; color:#fff; margin-bottom:14px; line-height:1.2; }
+  .garantia-desc { font-size:14px; color:rgba(255,255,255,0.62); line-height:1.75; margin-bottom:24px; }
+  .garantia-items { display:flex; flex-direction:column; gap:12px; }
+  .garantia-item { display:flex; align-items:flex-start; gap:12px; }
+  .garantia-check { width:20px; height:20px; border-radius:50%; background:var(--green); display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; font-size:11px; color:#fff; font-weight:700; }
+  .garantia-item p { font-size:13px; color:rgba(255,255,255,0.78); line-height:1.6; }
+
+  /* ADRI */
+  .adri-section { background:var(--gray-light); }
+  .adri-grid { display:grid; grid-template-columns:1fr 1fr; gap:36px; align-items:start; }
+  @media(max-width:700px){.adri-grid{grid-template-columns:1fr;}}
+  .adri-explain { }
+  .adri-explain h3 { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:var(--navy); margin-bottom:14px; }
+  .adri-explain p { font-size:14px; color:var(--gray); line-height:1.75; margin-bottom:16px; }
+  .adri-letras { display:flex; flex-direction:column; gap:12px; }
+  .adri-letra { display:flex; align-items:flex-start; gap:16px; background:#fff; border-radius:12px; padding:18px 20px; border-left:4px solid var(--green); }
+  .adri-letra-inicial { font-family:'Poppins',sans-serif; font-size:32px; font-weight:900; color:var(--green); line-height:1; flex-shrink:0; width:36px; }
+  .adri-letra-content h4 { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:4px; }
+  .adri-letra-content p { font-size:13px; color:var(--gray); line-height:1.6; }
+  .pesquisa-card { background:#fff; border-radius:16px; padding:32px; border:1px solid #e2e8f0; }
+  .pesquisa-card h3 { font-family:'Poppins',sans-serif; font-size:18px; font-weight:700; color:var(--navy); margin-bottom:10px; }
+  .pesquisa-card p { font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:20px; }
+  .pesquisa-itens { list-style:none; display:flex; flex-direction:column; gap:10px; }
+  .pesquisa-itens li { font-size:13px; color:var(--text); display:flex; gap:10px; align-items:flex-start; padding:8px 0; border-bottom:1px dashed #e2e8f0; }
+  .pesquisa-itens li:last-child { border-bottom:none; }
+  .pesquisa-itens li::before { content:'→'; color:var(--green); font-weight:700; flex-shrink:0; }
+  .pesquisa-badge { display:inline-block; background:var(--green-light); color:var(--green-dark); font-size:11px; font-weight:700; padding:4px 12px; border-radius:20px; margin-top:16px; }
+
+  /* PILARES */
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.pillars-grid{grid-template-columns:1fr;}}
+  .pillar-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; position:relative; overflow:hidden; }
+  .pillar-card.p1 { background:linear-gradient(135deg, #00c46a, #009f56); }
+  .pillar-card.p2 { background:linear-gradient(135deg, #1a73e8, #1557b0); }
+  .pillar-card.p3 { background:linear-gradient(135deg, #f59e0b, #d97706); }
+  .pillar-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; opacity:0.12; position:absolute; right:14px; top:4px; line-height:1; }
+  .pillar-card h3 { font-size:22px; font-weight:800; margin-bottom:10px; }
+  .pillar-card p { font-size:14px; opacity:0.9; line-height:1.65; }
+
+  /* AÇÕES ESPECIAIS */
+  .acoes-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:22px; }
+  .acao-card { border-radius:16px; padding:30px 26px; position:relative; overflow:hidden; border:1px solid #e2e8f0; background:#fff; transition:box-shadow 0.2s, transform 0.2s; }
+  .acao-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .acao-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+  .acao-card.verde::before { background:var(--green); }
+  .acao-card.amarelo::before { background:var(--yellow); }
+  .acao-card.azul::before { background:#1a73e8; }
+  .acao-card.roxo::before { background:#7c3aed; }
+  .acao-num { font-family:'Poppins',sans-serif; font-size:64px; font-weight:900; opacity:0.06; position:absolute; right:12px; top:0; line-height:1; color:var(--navy); }
+  .acao-icon { font-size:32px; margin-bottom:12px; }
+  .acao-card h3 { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .acao-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+  .acao-tag { display:inline-block; font-size:11px; font-weight:700; padding:3px 12px; border-radius:20px; margin-top:12px; }
+  .acao-tag.verde { background:var(--green-light); color:var(--green-dark); }
+  .acao-tag.amarelo { background:#fffbeb; color:#92400e; }
+  .acao-tag.azul { background:#eff6ff; color:#1e40af; }
+  .acao-tag.roxo { background:#f5f3ff; color:#5b21b6; }
+
+  /* DECIS */
+  .decis { background:var(--navy); }
+  .decis .section-title { color:#fff; }
+  .decis .section-desc { color:rgba(255,255,255,0.6); }
+  .decis-track { display:flex; gap:0; overflow-x:auto; padding-bottom:8px; }
+  .decis-step { flex:1; min-width:170px; background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); padding:26px 20px; position:relative; transition:background 0.2s; }
+  .decis-step:first-child { border-radius:12px 0 0 12px; }
+  .decis-step:last-child { border-radius:0 12px 12px 0; }
+  .decis-step:hover { background:rgba(0,196,106,0.1); }
+  .decis-step::after { content:'›'; position:absolute; right:-14px; top:50%; transform:translateY(-50%); font-size:28px; color:var(--green); z-index:2; }
+  .decis-step:last-child::after { display:none; }
+  .decis-letter { font-family:'Poppins',sans-serif; font-size:36px; font-weight:900; color:var(--green); line-height:1; margin-bottom:8px; }
+  .decis-step h4 { font-size:13px; font-weight:700; color:#fff; margin-bottom:8px; text-transform:uppercase; letter-spacing:1px; }
+  .decis-step p { font-size:12px; color:rgba(255,255,255,0.55); line-height:1.5; }
+
+  /* ESCOPO */
+  .scope-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(280px,1fr)); gap:22px; }
+  .scope-card { background:#fff; border:1px solid #e2e8f0; border-radius:16px; padding:28px; transition:box-shadow 0.2s, transform 0.2s; }
+  .scope-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .scope-card-header { display:flex; align-items:center; gap:14px; margin-bottom:16px; }
+  .scope-icon { width:48px; height:48px; border-radius:12px; background:var(--green-light); display:flex; align-items:center; justify-content:center; font-size:22px; flex-shrink:0; }
+  .scope-card h3 { font-size:15px; font-weight:700; color:var(--navy); }
+  .scope-list { list-style:none; }
+  .scope-list li { font-size:13px; color:var(--gray); padding:5px 0; border-bottom:1px solid #f1f5f9; display:flex; gap:8px; }
+  .scope-list li:last-child { border-bottom:none; }
+  .scope-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* RESULTADOS */
+  .resultados { background:var(--navy); }
+  .resultados .section-title { color:#fff; }
+  .resultados .section-desc { color:rgba(255,255,255,0.6); }
+  .res-timeline { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  @media(max-width:800px){.res-timeline{grid-template-columns:repeat(2,1fr);}}
+  .res-card { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); border-radius:14px; padding:26px 20px; transition:background 0.2s; }
+  .res-card:hover { background:rgba(0,196,106,0.08); }
+  .res-period { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); margin-bottom:14px; }
+  .res-card ul { list-style:none; }
+  .res-card ul li { font-size:13px; color:rgba(255,255,255,0.8); padding:5px 0; }
+  .res-card ul li::before { content:'▸ '; color:var(--green); }
+
+  /* IMPACTO */
+  .impacto-wrap { display:flex; flex-direction:column; align-items:center; gap:32px; }
+  .impacto-stat { background:linear-gradient(135deg, var(--navy), var(--navy3)); color:#fff; border-radius:20px; padding:40px 56px; text-align:center; max-width:540px; width:100%; border:2px solid rgba(0,196,106,0.3); }
+  .impacto-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; color:var(--green); line-height:1; }
+  .impacto-stat h4 { font-size:18px; font-weight:600; margin-top:8px; opacity:0.9; }
+  .impacto-stat p { font-size:14px; opacity:0.6; margin-top:6px; }
+  .impacto-row { display:flex; gap:22px; flex-wrap:wrap; justify-content:center; }
+  .impacto-mini { background:var(--green-light); border:1px solid rgba(0,196,106,0.3); border-radius:14px; padding:22px 28px; text-align:center; min-width:160px; }
+  .impacto-mini .num { font-family:'Poppins',sans-serif; font-size:34px; font-weight:900; color:var(--green); }
+  .impacto-mini p { font-size:13px; color:var(--gray); margin-top:4px; }
+
+  /* ENTREGÁVEIS */
+  .entregaveis-grid { display:grid; grid-template-columns:1fr 1fr; gap:26px; }
+  @media(max-width:700px){.entregaveis-grid{grid-template-columns:1fr;}}
+  .entregavel-block { background:#fff; border-radius:16px; padding:30px; border:1px solid #e2e8f0; border-left:4px solid var(--green); }
+  .entregavel-block h3 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:16px; }
+  .entregavel-block ul { list-style:none; }
+  .entregavel-block ul li { font-size:13px; color:var(--gray); padding:6px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .entregavel-block ul li:last-child { border-bottom:none; }
+  .entregavel-block ul li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+
+  /* INVESTIMENTO */
+  .invest { background:var(--navy); }
+  .invest-wrap { display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center; }
+  @media(max-width:700px){.invest-wrap{grid-template-columns:1fr;}}
+  .invest-price { background:rgba(0,196,106,0.1); border:2px solid var(--green); border-radius:20px; padding:44px 36px; text-align:center; }
+  .invest-label { font-size:12px; font-weight:700; letter-spacing:2px; color:var(--green); text-transform:uppercase; margin-bottom:10px; }
+  .invest-total { font-family:'Poppins',sans-serif; font-size:56px; font-weight:900; color:#fff; line-height:1; }
+  .invest-parcelas { font-size:16px; color:rgba(255,255,255,0.65); margin-top:10px; }
+  .invest-info { font-size:12px; color:rgba(255,255,255,0.4); margin-top:8px; }
+  .invest-includes h4 { font-size:17px; font-weight:700; color:#fff; margin-bottom:18px; }
+  .invest-includes ul { list-style:none; display:flex; flex-direction:column; gap:11px; }
+  .invest-includes ul li { font-size:14px; color:rgba(255,255,255,0.8); display:flex; align-items:flex-start; gap:10px; }
+  .invest-includes ul li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); color:rgba(255,255,255,0.45); text-align:center; padding:40px; font-size:13px; border-top:1px solid rgba(255,255,255,0.07); }
+  .footer strong { color:var(--green); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#garantia">Garantia</a>
+    <a href="#adri">DRE de Marketing</a>
+    <a href="#acoes">Ações</a>
+    <a href="#escopo">Escopo</a>
+    <a href="#investimento">Investimento</a>
+  </div>
+  <a href="#investimento" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-badge">Programa Premium · GST Marketing</div>
+  <h1>Marketing que<br><span>Vende de Verdade</span></h1>
+  <p class="hero-subtitle">Diagnóstico personalizado, estratégia integrada e resultado garantido para supermercados que querem crescimento real — com caixa e com responsabilidade de quem assina embaixo.</p>
+  <div class="hero-tags">
+    <span class="hero-tag destaque">✦ +10% em Cupons em 90 Dias</span>
+    <span class="hero-tag">Diagnóstico Personalizado</span>
+    <span class="hero-tag">DRE de Marketing — ADRI</span>
+    <span class="hero-tag">Pesquisa de Rastreio com Clientes</span>
+    <span class="hero-tag">Tráfego Pago por Calendário</span>
+    <span class="hero-tag">Reinauguração & Aniversário</span>
+    <span class="hero-tag">Saída do Impresso em 3 Meses</span>
+  </div>
+  <div class="hero-cta">
+    <a href="#investimento" class="btn-primary">Quero Começar</a>
+    <a href="#garantia" class="btn-ghost">Ver a Garantia</a>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO -->
+<section class="diag" id="diagnostico">
+  <div class="container">
+    <div class="section-label">O Problema Real</div>
+    <h2 class="section-title">Por que o supermercado trava<br>mesmo investindo em marketing?</h2>
+    <p class="section-desc">Não é falta de dinheiro. É falta de integração, direção e resultado mensurável. Os mesmos problemas aparecem em todas as lojas — e quase sempre são estratégicos, não operacionais.</p>
+    <div class="diag-grid">
+      <div class="diag-card">
+        <div class="diag-icon">🗞️</div>
+        <h3>Dependência do Impresso</h3>
+        <p>Milhares de reais todo mês em panfleto e jornal sem saber o retorno real. O cliente já descobre as ofertas pelo Instagram e carro de som — o impresso virou custo sem ROI claro.</p>
+      </div>
+      <div class="diag-card">
+        <div class="diag-icon">🧩</div>
+        <h3>Marketing Sem Direção Única</h3>
+        <p>Agência de arte, tráfego separado, social media terceirizada — cada um faz a sua parte sem saber o que o outro está fazendo. Falta orquestração central e estratégia que integre tudo.</p>
+      </div>
+      <div class="diag-card">
+        <div class="diag-icon">💬</div>
+        <h3>WhatsApp Subutilizado</h3>
+        <p>Canal mais poderoso do varejo alimentar com base mínima de contatos. Quem já usou largou por trauma operacional — não porque o canal não funciona. O modelo certo é automação + comunidade.</p>
+      </div>
+      <div class="diag-card">
+        <div class="diag-icon">📊</div>
+        <h3>Sem Leitura de Resultado</h3>
+        <p>Ninguém pergunta faturamento, cupons e ticket médio antes de executar marketing. Agência genérica executa o que você pede. Agência nichada mensura, ajusta e responde pelo resultado.</p>
+      </div>
+      <div class="diag-card">
+        <div class="diag-icon">📅</div>
+        <h3>Calendário Sem Inteligência de Verba</h3>
+        <p>O calendário de ofertas existe, mas o tráfego é impulsionado por rotina — não por calendário comercial. A verba não se move com a estratégia do mês, do setor e da data.</p>
+      </div>
+      <div class="diag-card">
+        <div class="diag-icon">🏷️</div>
+        <h3>Diferenciais Não Comunicados</h3>
+        <p>Açougue, hortifruti, padaria, restaurante, granel — ativos que já existem e geram percepção de valor, mas aparecem pouco ou nada nos canais digitais. A percepção da loja fica abaixo do real.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="garantia-section" id="garantia">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Nossa Responsabilidade</div>
+    <h2 class="section-title" style="color:#fff;">A Garantia que Nenhuma<br>Agência Genérica Dá</h2>
+    <p class="section-desc">Agência que só executa o que você pede não assume responsabilidade pelo resultado. Nós assumimos. Por isso, fazemos diferente desde o início.</p>
+    <div class="garantia-box">
+      <div class="garantia-grid">
+        <div style="text-align:center;">
+          <div class="garantia-num">+10<small>%</small></div>
+          <div class="garantia-sub">Garantido em 90 Dias</div>
+        </div>
+        <div>
+          <div class="garantia-titulo">+10% em número de cupons.<br>Essa é nossa responsabilidade.</div>
+          <div class="garantia-desc">Mais cupons significa mais clientes passando pela loja — e com o ticket médio crescendo junto, o impacto no faturamento é proporcional ao tamanho da sua operação. Trabalhamos para que isso aconteça o quanto antes.</div>
+          <div class="garantia-items">
+            <div class="garantia-item">
+              <div class="garantia-check">✓</div>
+              <p>Diagnóstico completo antes de qualquer execução — entendemos o negócio antes de agir</p>
+            </div>
+            <div class="garantia-item">
+              <div class="garantia-check">✓</div>
+              <p>DRE de Marketing mensal (ADRI) — cada real investido tem retorno medido e apresentado</p>
+            </div>
+            <div class="garantia-item">
+              <div class="garantia-check">✓</div>
+              <p>Plano de ação fechado todo mês — você sabe exatamente o que será feito e por quê</p>
+            </div>
+            <div class="garantia-item">
+              <div class="garantia-check">✓</div>
+              <p>Crescimento mensurável em cupons em 90 dias — não em likes, alcance ou métricas de vaidade</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ADRI + PESQUISA DE RASTREIO -->
+<section class="adri-section" id="adri" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Inteligência de Marketing</div>
+    <h2 class="section-title">DRE de Marketing e Pesquisa de Rastreio:<br>Marketing que se Prova</h2>
+    <p class="section-desc">Duas ferramentas que a maioria das agências não usa — e que fazem toda a diferença na hora de mostrar resultado real para o dono da loja.</p>
+    <div class="adri-grid">
+      <!-- ADRI -->
+      <div>
+        <div class="adri-explain">
+          <h3>DRE de Marketing — ADRI</h3>
+          <p>O DRE de Marketing (ADRI) é o demonstrativo de resultado do marketing da sua loja. Assim como o financeiro tem um DRE, o marketing precisa de um relatório que conecte cada ação ao resultado em caixa — não em métricas de vaidade.</p>
+          <p>Todo mês você recebe um DRE de Marketing completo mostrando onde o dinheiro foi, o que gerou resultado, o que precisa ser ajustado e para onde a verba vai no próximo mês.</p>
+        </div>
+        <div class="adri-letras" style="margin-top:24px;">
+          <div class="adri-letra">
+            <div class="adri-letra-inicial">A</div>
+            <div class="adri-letra-content">
+              <h4>Ações Realizadas</h4>
+              <p>Tudo que foi executado no mês: campanhas, posts, tráfego, WhatsApp, eventos.</p>
+            </div>
+          </div>
+          <div class="adri-letra">
+            <div class="adri-letra-inicial">D</div>
+            <div class="adri-letra-content">
+              <h4>Desempenho por Canal</h4>
+              <p>Qual canal gerou mais resultado: Instagram, WhatsApp, tráfego pago, Google.</p>
+            </div>
+          </div>
+          <div class="adri-letra">
+            <div class="adri-letra-inicial">R</div>
+            <div class="adri-letra-content">
+              <h4>Resultado no Caixa</h4>
+              <p>Cupons, ticket médio e faturamento — conectados às ações de marketing do mês.</p>
+            </div>
+          </div>
+          <div class="adri-letra">
+            <div class="adri-letra-inicial">I</div>
+            <div class="adri-letra-content">
+              <h4>Investimento x Retorno</h4>
+              <p>ROI claro: quanto foi investido, quanto voltou e o que muda no próximo ciclo.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PESQUISA DE RASTREIO -->
+      <div>
+        <div class="pesquisa-card">
+          <h3>📋 Pesquisa de Rastreio com Clientes</h3>
+          <p>Uma das primeiras ações que fazemos é uma pesquisa direta com os clientes da loja para entender por onde eles estão recebendo as comunicações do supermercado. Isso define onde a verba deve ir — com dado real, não achismo.</p>
+          <ul class="pesquisa-itens">
+            <li>Por qual canal você fica sabendo das ofertas da loja?</li>
+            <li>Com que frequência você recebe comunicações do supermercado?</li>
+            <li>Você é membro do grupo ou comunidade de WhatsApp da loja?</li>
+            <li>Você segue o Instagram da loja? Vê as ofertas por lá?</li>
+            <li>Como você ficou sabendo da última promoção que te fez vir à loja?</li>
+            <li>Você usaria um app do supermercado se tivesse vantagens exclusivas?</li>
+          </ul>
+          <span class="pesquisa-badge">✦ Dados reais para decisão real de verba</span>
+        </div>
+
+        <div style="margin-top:22px; background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0;">
+          <h3 style="font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--navy);margin-bottom:10px;">🎯 Por que isso importa?</h3>
+          <p style="font-size:13px;color:var(--gray);line-height:1.75;">Sem saber de onde o cliente está chegando, qualquer decisão de verba é chute. A pesquisa de rastreio mapeia a realidade do canal de comunicação da sua loja — e define a estratégia de distribuição de investimento com base em evidência, não em opinião.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section>
+  <div class="container">
+    <div class="section-label">Nossa Abordagem</div>
+    <h2 class="section-title">3 Pilares que Sustentam<br>o Crescimento</h2>
+    <p class="section-desc">Todo supermercado competitivo comunica bem nessas três dimensões. Construímos cada uma com você, do diagnóstico à execução.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">1</div>
+        <h3>Oferta</h3>
+        <p>Calendário comercial estratégico, verba distribuída por setor e data, encarte digital e ativação nos canais certos — com margem positiva.</p>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">2</div>
+        <h3>Qualidade</h3>
+        <p>Comunicação de valor dos setores frescos, treinamento da equipe para filmar e aparecer, e percepção de qualidade elevada em todos os canais.</p>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">3</div>
+        <h3>Experiência</h3>
+        <p>WhatsApp com comunidade ativa, Google com autoridade local, jornada do cliente mapeada e ações de engajamento que criam vínculo com o bairro.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- AÇÕES ESPECIAIS -->
+<section style="background:var(--gray-light);" id="acoes">
+  <div class="container">
+    <div class="section-label">Ações Incluídas no Programa</div>
+    <h2 class="section-title">Ações que Geram<br>Resultado Imediato</h2>
+    <p class="section-desc">Além da gestão mensal, o programa inclui ações estratégicas que geram fluxo, reconhecimento e crescimento acelerado.</p>
+    <div class="acoes-grid">
+      <div class="acao-card verde">
+        <div class="acao-num">1</div>
+        <div class="acao-icon">🎉</div>
+        <h3>Campanha de Reinauguração ou Aniversário</h3>
+        <p>Estrutura completa de campanha para reinauguração de loja ou aniversário da rede — com antecipação, expectativa, artes, tráfego pago geolocalizado, WhatsApp e cobertura pós-evento. Um dos maiores picos de faturamento que uma loja pode ter.</p>
+        <span class="acao-tag verde">Incluída no programa</span>
+      </div>
+      <div class="acao-card azul">
+        <div class="acao-num">2</div>
+        <div class="acao-icon">📉</div>
+        <h3>Plano de Saída do Impresso em 3 Meses</h3>
+        <p>Diagnóstico de quanto está sendo investido em panfleto e jornal, redistribuição gradual para digital e WhatsApp, e estrutura para migrar o cliente offline para os canais próprios da loja. Sem corte abrupto — com estratégia.</p>
+        <span class="acao-tag azul">Até 3 meses</span>
+      </div>
+      <div class="acao-card amarelo">
+        <div class="acao-num">3</div>
+        <div class="acao-icon">🏗️</div>
+        <h3>Construção de Comunidade no WhatsApp</h3>
+        <p>Estrutura de comunidade segmentada por loja, captação ativa via QR code e Instagram, automação de boas-vindas e ofertas exclusivas. Meta de 2.000+ contatos em 90 dias — canal próprio que ninguém tira de você.</p>
+        <span class="acao-tag amarelo">90 dias de resultado</span>
+      </div>
+      <div class="acao-card roxo">
+        <div class="acao-num">4</div>
+        <div class="acao-icon">⭐</div>
+        <h3>Campanha de Avaliações no Google</h3>
+        <p>Ação estruturada para captação de avaliações: QR code no caixa, comunicação no WhatsApp e Instagram. Superar concorrentes em volume de avaliações é questão de semanas — e o impacto no ranqueamento local é imediato.</p>
+        <span class="acao-tag roxo">Impacto imediato</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DECIS -->
+<section class="decis" id="metodologia">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Como Trabalhamos</div>
+    <h2 class="section-title">Metodologia DECIS</h2>
+    <p class="section-desc">Nosso processo exclusivo para supermercados — do diagnóstico ao sucesso, cada etapa conectada à seguinte.</p>
+    <div class="decis-track">
+      <div class="decis-step">
+        <div class="decis-letter">D</div>
+        <h4>Diagnóstico</h4>
+        <p>Leitura completa do negócio: faturamento, cupons, ticket médio, canais e investimento atual antes de qualquer ação.</p>
+      </div>
+      <div class="decis-step">
+        <div class="decis-letter">E</div>
+        <h4>Estratégia</h4>
+        <p>Plano personalizado com calendário, distribuição de verba, ações prioritárias e metas claras por loja.</p>
+      </div>
+      <div class="decis-step">
+        <div class="decis-letter">C</div>
+        <h4>Criação</h4>
+        <p>Produção de artes, roteiros de vídeo, campanhas de tráfego, conteúdo de Instagram e material de WhatsApp.</p>
+      </div>
+      <div class="decis-step">
+        <div class="decis-letter">I</div>
+        <h4>Implementação</h4>
+        <p>Execução integrada de tudo: mídia, conteúdo, WhatsApp, Google e ações especiais no calendário.</p>
+      </div>
+      <div class="decis-step">
+        <div class="decis-letter">S</div>
+        <h4>Sucesso</h4>
+        <p>DRE de Marketing mensal, leitura de resultado, ajuste de rota e planejamento do próximo ciclo com base em dados reais.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ESCOPO -->
+<section id="escopo">
+  <div class="container">
+    <div class="section-label">O Que Está Incluído</div>
+    <h2 class="section-title">Escopo Completo<br>do Programa</h2>
+    <p class="section-desc">Tudo documentado, tudo entregue, tudo acompanhado. Você não precisa cobrar nada — a gente pensa, planeja e executa.</p>
+    <div class="scope-grid">
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">🧭</div>
+          <h3>Gestão & Estratégia</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Diagnóstico estratégico personalizado</li>
+          <li>Planejamento mensal de marketing</li>
+          <li>Calendário comercial anual</li>
+          <li>Reunião mensal de alinhamento</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">📊</div>
+          <h3>DRE de Marketing — ADRI</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Relatório mensal de ações x resultado</li>
+          <li>Desempenho por canal (Instagram, WA, Google)</li>
+          <li>Faturamento x investimento em marketing</li>
+          <li>Indicadores: cupons, ticket médio, ROI</li>
+          <li>Ajuste de verba baseado em dados reais</li>
+          <li>Benchmark de performance mês a mês</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">📋</div>
+          <h3>Pesquisa de Rastreio</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Pesquisa direta com clientes da loja</li>
+          <li>Mapeamento de canais de comunicação</li>
+          <li>Dados para decisão de verba por canal</li>
+          <li>Frequência e percepção das comunicações</li>
+          <li>Relatório com insights e recomendações</li>
+          <li>Reaplicação semestral para acompanhar evolução</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">🎨</div>
+          <h3>Produção & Conteúdo</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Artes de oferta semanais (encarte digital)</li>
+          <li>Posts e reels planejados para Instagram</li>
+          <li>Roteiro de vídeos mensais</li>
+          <li>Stories de expectativa e antecipação</li>
+          <li>Peças de campanhas especiais</li>
+          <li>Treinamento da equipe para filmar</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">🎯</div>
+          <h3>Tráfego Pago & Canais</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Gestão de tráfego pago Meta / Google</li>
+          <li>Distribuição de verba por calendário</li>
+          <li>Criativos otimizados semanalmente</li>
+          <li>Google Meu Negócio organizado</li>
+          <li>Campanha de avaliações no Google</li>
+          <li>Relatório de performance mensal</li>
+        </ul>
+      </div>
+      <div class="scope-card">
+        <div class="scope-card-header">
+          <div class="scope-icon">💬</div>
+          <h3>WhatsApp & Comunidade</h3>
+        </div>
+        <ul class="scope-list">
+          <li>Estrutura de comunidade por loja</li>
+          <li>Captação ativa de contatos</li>
+          <li>Automação de boas-vindas e ofertas</li>
+          <li>Atualização semanal de ofertas</li>
+          <li>Indicação de plataforma a R$200/mês</li>
+          <li>Gestão sem risco de bloqueio</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados" id="resultados">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">O Que Esperar</div>
+    <h2 class="section-title">Resultados por Etapa</h2>
+    <p class="section-desc">Cada fase tem entregáveis concretos. Progresso visível desde o primeiro mês.</p>
+    <div class="res-timeline">
+      <div class="res-card">
+        <div class="res-period">30 dias</div>
+        <ul>
+          <li>Diagnóstico personalizado completo</li>
+          <li>Pesquisa de rastreio aplicada</li>
+          <li>DRE de Marketing do mês 1 entregue</li>
+          <li>Instagram com rotina ativa</li>
+          <li>WhatsApp estruturado</li>
+          <li>Google organizado</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">90 dias</div>
+        <ul>
+          <li>Tráfego pago por calendário</li>
+          <li>Comunidade WA com 2.000+</li>
+          <li>Campanha de reinauguração executada</li>
+          <li>Google com mais avaliações</li>
+          <li>Saída do impresso iniciada</li>
+          <li>3 DREs de Marketing entregues</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">6 meses</div>
+        <ul>
+          <li>+5% a +10% novos cupons</li>
+          <li>Ticket médio em crescimento</li>
+          <li>WhatsApp acima de 5.000</li>
+          <li>Saída do impresso concluída</li>
+          <li>ROI de marketing mensurável</li>
+          <li>Equipe treinada e autônoma</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">12 meses</div>
+        <ul>
+          <li>+10% em cupons — meta cumprida</li>
+          <li>Marketing integrado à operação</li>
+          <li>Ativo próprio construído (WA + base)</li>
+          <li>Loja referência digital na praça</li>
+          <li>Dependência zero do impresso</li>
+          <li>Crescimento com margem positiva</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO FINANCEIRO -->
+<section>
+  <div class="container">
+    <div class="section-label">Impacto Real</div>
+    <h2 class="section-title">O Que Significa na Prática</h2>
+    <p class="section-desc">Mais cupons na porta, mais ticket médio por compra, mais frequência de visita — o crescimento acontece em camadas, e cada uma tem resultado mensurável.</p>
+    <div class="impacto-wrap">
+      <div class="impacto-stat">
+        <div class="impacto-num">+10%</div>
+        <h4>em Cupons — Garantido em 90 Dias</h4>
+        <p>Mais clientes entrando pela porta com o mesmo custo fixo da operação</p>
+      </div>
+      <div class="impacto-row">
+        <div class="impacto-mini">
+          <div class="num">+10%</div>
+          <p>em Cupons em 90 Dias</p>
+        </div>
+        <div class="impacto-mini">
+          <div class="num">DRE</div>
+          <p>de Marketing — Todo Mês</p>
+        </div>
+        <div class="impacto-mini">
+          <div class="num">3 meses</div>
+          <p>Saída do Impresso</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEIS -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Resumo</div>
+    <h2 class="section-title">Tudo Que Você Recebe</h2>
+    <p class="section-desc">Documentado, entregue e acompanhado todo mês. Sem precisar cobrar nada.</p>
+    <div class="entregaveis-grid">
+      <div class="entregavel-block">
+        <h3>🧭 Gestão & Inteligência</h3>
+        <ul>
+          <li>Diagnóstico estratégico personalizado</li>
+          <li>DRE de Marketing mensal — ADRI</li>
+          <li>Pesquisa de rastreio com clientes</li>
+          <li>Calendário comercial anual</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Reunião mensal de alinhamento</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>🎨 Produção & Marketing Digital</h3>
+        <ul>
+          <li>Artes de oferta semanais</li>
+          <li>Posts e reels para Instagram</li>
+          <li>Tráfego pago com inteligência de calendário</li>
+          <li>Roteiro de vídeos mensais</li>
+          <li>Stories de expectativa e antecipação</li>
+          <li>Criativos otimizados semanalmente</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>💬 WhatsApp & Google</h3>
+        <ul>
+          <li>Comunidade WhatsApp estruturada</li>
+          <li>Captação ativa de contatos</li>
+          <li>Automação de ofertas e boas-vindas</li>
+          <li>Google Meu Negócio organizado</li>
+          <li>Campanha de avaliações</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>🎉 Ações Especiais</h3>
+        <ul>
+          <li>Campanha de reinauguração ou aniversário</li>
+          <li>Plano de saída do impresso em 3 meses</li>
+          <li>Festivais e campanhas sazonais</li>
+          <li>Treinamento da equipe de loja</li>
+          <li>Checklist semanal de redes sociais</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- INVESTIMENTO -->
+<section class="invest" id="investimento">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Investimento</div>
+    <h2 class="section-title" style="color:#fff;">Pronto para Crescer<br>com Resultado Garantido?</h2>
+    <div class="invest-wrap">
+      <div class="invest-price">
+        <div class="invest-label">Investimento Mensal</div>
+        <div class="invest-total">R$4.000</div>
+        <div class="invest-parcelas">por mês</div>
+        <div class="invest-info">+ verba de tráfego pago (direto Meta/Google)</div>
+        <div style="margin-top:28px;">
+          <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:15px;padding:16px 32px;width:100%;display:block;">✅ Quero Começar</a>
+        </div>
+      </div>
+      <div class="invest-includes">
+        <h4>O que está incluído:</h4>
+        <ul>
+          <li>Diagnóstico estratégico personalizado</li>
+          <li>DRE de Marketing mensal — ADRI</li>
+          <li>Pesquisa de rastreio com clientes</li>
+          <li>Gestão completa de Instagram e WhatsApp</li>
+          <li>Produção de artes e criativos</li>
+          <li>Gestão de tráfego pago por calendário</li>
+          <li>Campanha de reinauguração ou aniversário</li>
+          <li>Plano de saída do impresso (3 meses)</li>
+          <li>Google Meu Negócio + campanha de avaliações</li>
+          <li>Comunidade WhatsApp estruturada</li>
+          <li>Reunião mensal + plano de ação fechado</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Programa Premium para Supermercados</p>
+  <p style="margin-top:8px;">Marketing que Vende de Verdade · Metodologia DECIS · Resultado Garantido</p>
+</footer>
+
+</body>
+</html>

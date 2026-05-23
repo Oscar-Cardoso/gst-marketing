@@ -1,0 +1,942 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Proposta SM Compre Mais</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --yellow: #f5b400; --red: #e53935;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --white: #fff; --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; letter-spacing:-0.5px; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-size:13px; font-weight:700; padding:9px 22px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, var(--navy) 0%, #0a1628 60%, #061020 100%);
+    color:#fff; padding:130px 40px 100px; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 80% 20%, rgba(0,196,106,0.14) 0%, transparent 55%),
+                radial-gradient(ellipse at 10% 90%, rgba(0,196,106,0.06) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position:relative; max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 360px; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.35);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 16px; border-radius:30px; margin-bottom:24px;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .hero h1 { font-size:clamp(34px,4.5vw,60px); font-weight:800; line-height:1.05; margin-bottom:20px; letter-spacing:-1.5px; }
+  .hero h1 em { font-style:normal; color:var(--green); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.62); max-width:540px; margin-bottom:36px; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .hero-tag { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:rgba(255,255,255,0.82); font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 32px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.28); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 28px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.7); }
+
+  .hero-card { background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.11); border-radius:20px; padding:30px; backdrop-filter:blur(8px); }
+  .hero-card-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .hero-stat { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hero-stat-num { font-family:'Poppins',sans-serif; font-size:30px; font-weight:800; color:#fff; line-height:1; }
+  .hero-stat-num span { color:var(--green); }
+  .hero-stat-label { font-size:12px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-1px; color:var(--navy); margin-bottom:14px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:680px; margin-bottom:52px; line-height:1.7; }
+
+  /* LOJAS */
+  .lojas-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; margin-bottom:48px; }
+  @media(max-width:800px){.lojas-grid{grid-template-columns:repeat(2,1fr);}}
+  .loja-card { border-radius:16px; padding:26px 20px; border:1px solid #e2e8f0; background:#fff; position:relative; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .loja-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .loja-card::before { content:''; position:absolute; top:0; left:0; right:0; height:4px; }
+  .loja-card.verde::before { background:var(--green); }
+  .loja-card.amarelo::before { background:var(--yellow); }
+  .loja-card.vermelho::before { background:var(--red); }
+  .loja-card.azul::before { background:#1a73e8; }
+  .loja-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; padding:3px 10px; border-radius:20px; margin-bottom:12px; }
+  .loja-badge.verde { background:var(--green-light); color:var(--green-dark); }
+  .loja-badge.amarelo { background:#fffbeb; color:#92400e; }
+  .loja-badge.vermelho { background:#fff0f0; color:#b91c1c; }
+  .loja-badge.azul { background:#eff6ff; color:#1e40af; }
+  .loja-nome { font-family:'Poppins',sans-serif; font-size:15px; font-weight:700; color:var(--navy); margin-bottom:3px; }
+  .loja-bairro { font-size:12px; color:var(--gray); margin-bottom:12px; }
+  .loja-fat { font-family:'Poppins',sans-serif; font-size:26px; font-weight:800; color:var(--text); line-height:1; margin-bottom:2px; }
+  .loja-fat-label { font-size:11px; color:var(--gray); margin-bottom:10px; }
+  .loja-cupons { font-size:13px; font-weight:600; color:var(--text); }
+  .loja-cupons span { color:var(--gray); font-weight:400; }
+  .loja-insight { margin-top:10px; font-size:11px; color:var(--gray); background:var(--gray-light); border-radius:8px; padding:6px 10px; line-height:1.5; }
+
+  /* GARGALOS */
+  .gargalos-bg { background:#fff8f8; }
+  .gargalos-list { display:flex; flex-direction:column; gap:14px; }
+  .gargalo-item { display:flex; align-items:flex-start; gap:16px; background:#fff; border:1px solid #fecaca; border-left:5px solid var(--red); border-radius:12px; padding:20px 24px; }
+  .gargalo-icon { font-size:26px; flex-shrink:0; margin-top:2px; }
+  .gargalo-content h4 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:5px; }
+  .gargalo-content p { font-size:13px; color:var(--gray); line-height:1.65; }
+  .gargalo-tag { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1px; text-transform:uppercase; background:#fee2e2; color:#b91c1c; padding:2px 9px; border-radius:20px; margin-bottom:6px; }
+
+  /* VERBA */
+  .verba-bg { background:var(--navy); }
+  .verba-bg .section-title { color:#fff; }
+  .verba-bg .section-desc { color:rgba(255,255,255,0.52); }
+  .verba-compare { display:grid; grid-template-columns:1fr auto 1fr; gap:24px; align-items:center; max-width:880px; }
+  @media(max-width:640px){.verba-compare{grid-template-columns:1fr;}}
+  .verba-box { border-radius:16px; padding:32px 28px; }
+  .verba-box.atual { background:rgba(229,57,53,0.10); border:1px solid rgba(229,57,53,0.28); }
+  .verba-box.ideal { background:rgba(0,196,106,0.10); border:1px solid rgba(0,196,106,0.28); }
+  .verba-box-label { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:18px; }
+  .verba-box.atual .verba-box-label { color:#f87171; }
+  .verba-box.ideal .verba-box-label { color:var(--green); }
+  .verba-linha { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:8px; }
+  .verba-linha-label { font-size:13px; color:rgba(255,255,255,0.68); }
+  .verba-linha-val { font-family:'Poppins',sans-serif; font-size:16px; font-weight:700; color:#fff; white-space:nowrap; }
+  .verba-bar-wrap { height:8px; background:rgba(255,255,255,0.07); border-radius:8px; overflow:hidden; margin-bottom:16px; }
+  .verba-bar { height:100%; border-radius:8px; }
+  .verba-bar.off { background:#f87171; }
+  .verba-bar.on { background:var(--green); }
+  .verba-arrow { font-size:36px; color:rgba(255,255,255,0.2); text-align:center; }
+  .verba-nota { font-size:12px; color:rgba(255,255,255,0.32); margin-top:4px; }
+
+  /* DIGITAL */
+  .digital-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(240px,1fr)); gap:20px; }
+  .digital-card { background:#fff; border-radius:14px; padding:26px 22px; border:1px solid #e2e8f0; text-align:center; transition:box-shadow 0.2s, transform 0.2s; }
+  .digital-card:hover { box-shadow:0 8px 24px rgba(0,0,0,0.08); transform:translateY(-3px); }
+  .digital-icon { font-size:36px; margin-bottom:12px; }
+  .digital-card h4 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .digital-num { font-family:'Poppins',sans-serif; font-size:28px; font-weight:800; margin:8px 0 4px; }
+  .digital-num.red { color:var(--red); }
+  .digital-num.yellow { color:#d97706; }
+  .digital-num.green { color:var(--green); }
+  .digital-card p { font-size:12px; color:var(--gray); line-height:1.6; }
+  .digital-pill { display:inline-block; font-size:11px; font-weight:700; margin-top:10px; padding:3px 12px; border-radius:20px; }
+  .digital-pill.red { background:#fee2e2; color:#b91c1c; }
+  .digital-pill.yellow { background:#fffbeb; color:#92400e; }
+  .digital-pill.green { background:var(--green-light); color:var(--green-dark); }
+
+  /* OPORTUNIDADES */
+  .oport-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(290px,1fr)); gap:22px; }
+  .oport-card { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-top:4px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .oport-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .oport-icon { font-size:30px; margin-bottom:12px; }
+  .oport-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .oport-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+  .oport-gain { margin-top:12px; display:inline-block; font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 12px; border-radius:20px; }
+
+  /* SERVIÇOS */
+  .servicos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:24px; }
+  .servico-card { background:#fff; border-radius:18px; padding:34px 28px; border:1px solid #e2e8f0; position:relative; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .servico-card:hover { box-shadow:0 12px 40px rgba(0,0,0,0.10); transform:translateY(-4px); }
+  .servico-num { font-family:'Poppins',sans-serif; font-size:80px; font-weight:900; color:var(--green); opacity:0.07; position:absolute; right:14px; top:2px; line-height:1; }
+  .servico-icon { font-size:34px; margin-bottom:14px; }
+  .servico-card h3 { font-size:18px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .servico-card p { font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:16px; }
+  .servico-list { list-style:none; }
+  .servico-list li { font-size:13px; color:var(--text); padding:5px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .servico-list li:last-child { border-bottom:none; }
+  .servico-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* PILARES */
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.pillars-grid{grid-template-columns:1fr;}}
+  .pillar-card { border-radius:18px; padding:36px 28px; color:#fff; position:relative; overflow:hidden; text-align:center; }
+  .pillar-card.p1 { background:linear-gradient(135deg, #00c46a, #007a44); }
+  .pillar-card.p2 { background:linear-gradient(135deg, #0ea5e9, #0369a1); }
+  .pillar-card.p3 { background:linear-gradient(135deg, #f59e0b, #b45309); }
+  .pillar-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; opacity:0.12; position:absolute; right:14px; top:4px; line-height:1; }
+  .pillar-card h3 { font-size:22px; font-weight:800; margin-bottom:10px; }
+  .pillar-card p { font-size:14px; opacity:0.88; line-height:1.65; }
+
+  /* PROPOSTA */
+  .proposta-bg { background:linear-gradient(160deg, #0a1a2e 0%, #0d2a1a 100%); }
+  .proposta-bg .section-title { color:#fff; }
+  .proposta-bg .section-desc { color:rgba(255,255,255,0.5); }
+  .proposta-box { background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.22); border-radius:24px; padding:52px 48px; max-width:880px; margin:0 auto; position:relative; overflow:hidden; }
+  @media(max-width:660px){.proposta-box{padding:32px 22px;}}
+  .proposta-box::before { content:''; position:absolute; top:-100px; right:-100px; width:340px; height:340px; background:radial-gradient(circle, rgba(0,196,106,0.10) 0%, transparent 70%); }
+  .proposta-header { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:40px; position:relative; }
+  .proposta-destinatario h3 { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .proposta-destinatario p { font-size:22px; font-weight:700; color:#fff; }
+  .proposta-destinatario small { font-size:13px; color:rgba(255,255,255,0.32); display:block; margin-top:4px; }
+  .proposta-preco-wrap { text-align:right; }
+  .proposta-preco-label { font-size:11px; color:rgba(255,255,255,0.38); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .proposta-preco { font-family:'Poppins',sans-serif; font-size:56px; font-weight:800; color:var(--green); line-height:1; }
+  .proposta-preco small { font-size:18px; font-weight:400; color:rgba(255,255,255,0.42); }
+  .prop-divider { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:36px 0; }
+  .proposta-cols { display:grid; grid-template-columns:1fr 1fr; gap:36px; position:relative; }
+  @media(max-width:600px){.proposta-cols{grid-template-columns:1fr;}}
+  .prop-col-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
+  .prop-itens { list-style:none; }
+  .prop-itens li { font-size:13px; color:rgba(255,255,255,0.78); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; gap:10px; align-items:flex-start; }
+  .prop-itens li:last-child { border-bottom:none; }
+  .prop-itens li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+  .proposta-nota { margin-top:36px; background:rgba(0,196,106,0.09); border:1px solid rgba(0,196,106,0.2); border-radius:12px; padding:20px 24px; }
+  .proposta-nota p { font-size:13px; color:rgba(255,255,255,0.68); line-height:1.7; }
+  .proposta-nota strong { color:var(--green); }
+  .proposta-cta { margin-top:40px; text-align:center; }
+
+  /* RESULTADOS */
+  .resultados-bg { background:var(--navy); }
+  .resultados-bg .section-title { color:#fff; }
+  .resultados-bg .section-desc { color:rgba(255,255,255,0.52); }
+  .res-timeline { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  @media(max-width:800px){.res-timeline{grid-template-columns:repeat(2,1fr);}}
+  .res-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:28px 20px; transition:background 0.2s; }
+  .res-card:hover { background:rgba(0,196,106,0.08); }
+  .res-period { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); margin-bottom:14px; }
+  .res-card ul { list-style:none; }
+  .res-card ul li { font-size:13px; color:rgba(255,255,255,0.75); padding:5px 0; }
+  .res-card ul li::before { content:'▸ '; color:var(--green); }
+
+  /* IMPACTO */
+  .impacto-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.impacto-grid{grid-template-columns:1fr;}}
+  .impacto-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; }
+  .impacto-card.c1 { background:linear-gradient(135deg, #00c46a, #00874a); }
+  .impacto-card.c2 { background:linear-gradient(135deg, #0ea5e9, #0077b6); }
+  .impacto-card.c3 { background:linear-gradient(135deg, #f59e0b, #b45309); }
+  .impacto-num { font-family:'Poppins',sans-serif; font-size:48px; font-weight:900; line-height:1; margin-bottom:8px; }
+  .impacto-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+  .impacto-card p { font-size:13px; opacity:0.78; line-height:1.6; }
+
+  /* ENTREGÁVEIS */
+  .entregaveis-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(300px,1fr)); gap:22px; }
+  .entregavel-block { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-left:4px solid var(--green); }
+  .entregavel-block h3 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+  .entregavel-block ul { list-style:none; }
+  .entregavel-block ul li { font-size:13px; color:var(--gray); padding:6px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .entregavel-block ul li:last-child { border-bottom:none; }
+  .entregavel-block ul li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); padding:40px; text-align:center; }
+  .footer p { font-size:14px; color:rgba(255,255,255,0.36); }
+  .footer strong { color:rgba(255,255,255,0.62); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#gargalos">Gargalos</a>
+    <a href="#solucao">Solução</a>
+    <a href="#proposta">Proposta</a>
+    <a href="#resultados">Resultados</a>
+  </div>
+  <a href="#proposta" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Diagnóstico & Proposta Personalizada · SM Compre Mais</div>
+      <h1>Você tem <em>R$4M/mês.</em><br>O marketing não<br>está à altura.</h1>
+      <p class="hero-sub">A Rede SM Compre Mais tem estrutura, faturamento e calendário comercial. O que falta é integração, direção e controle estratégico — e é exatamente isso que a GST Marketing entrega.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">4 Lojas · Zona Norte SP</span>
+        <span class="hero-tag">R$4,1M/mês</span>
+        <span class="hero-tag">92.300 cupons/mês</span>
+        <span class="hero-tag">Açougue = 32% do mix</span>
+        <span class="hero-tag">15k–20k clientes inativos no app</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#proposta" class="btn-primary">Ver a Proposta — R$4.000/mês</a>
+        <a href="#gargalos" class="btn-ghost">Ver o Diagnóstico</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">📊 Radar da Rede · Hoje</div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">R$<span>4,1M</span></div>
+        <div class="hero-stat-label">Faturamento consolidado / mês</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>92.300</span> cupons</div>
+        <div class="hero-stat-label">Transações mensais nas 4 lojas</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">R$<span>15k</span> offline</div>
+        <div class="hero-stat-label">Jornal impresso — vs R$1k no digital. Invertido.</div>
+      </div>
+      <div class="hero-stat" style="border:none;margin:0;padding:0;">
+        <div class="hero-stat-num"><span>15–20k</span> clientes</div>
+        <div class="hero-stat-label">No app cadastrados — e não recebem nada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RAIO-X DAS LOJAS -->
+<section id="diagnostico" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Visão por Loja</div>
+    <h2 class="section-title">Raio-X das 4 Lojas</h2>
+    <p class="section-desc">Cada loja está em um momento diferente e precisa de abordagem específica. Aqui está o que os dados mostram.</p>
+    <div class="lojas-grid">
+      <div class="loja-card verde">
+        <div class="loja-badge verde">🟢 Âncora da rede</div>
+        <div class="loja-nome">Loja 1</div>
+        <div class="loja-bairro">Jardim Damasceno</div>
+        <div class="loja-fat">R$1,8M</div>
+        <div class="loja-fat-label">faturamento / mês</div>
+        <div class="loja-cupons">24.200 cupons <span>/ mês</span></div>
+        <div class="loja-insight">Boa performance. Espaço para crescer em ticket médio.</div>
+      </div>
+      <div class="loja-card verde">
+        <div class="loja-badge verde">🟢 Maior fluxo da rede</div>
+        <div class="loja-nome">Loja 2</div>
+        <div class="loja-bairro">Jardim Vista Alegre</div>
+        <div class="loja-fat">R$1,3M</div>
+        <div class="loja-fat-label">faturamento / mês</div>
+        <div class="loja-cupons">37.100 cupons <span>/ mês</span></div>
+        <div class="loja-insight">37k cupons mas R$1,3M — ticket médio baixo. Oportunidade enorme de crescimento por venda.</div>
+      </div>
+      <div class="loja-card vermelho">
+        <div class="loja-badge vermelho">🔴 Gargalo operacional</div>
+        <div class="loja-nome">Loja 3</div>
+        <div class="loja-bairro">Parque Pedroso</div>
+        <div class="loja-fat">R$500k</div>
+        <div class="loja-fat-label">faturamento / mês</div>
+        <div class="loja-cupons">14.000 cupons <span>/ mês</span></div>
+        <div class="loja-insight">Troca de gerente impactou resultado. Problema operacional — marketing vem depois.</div>
+      </div>
+      <div class="loja-card azul">
+        <div class="loja-badge azul">🔵 Crescimento acelerado</div>
+        <div class="loja-nome">Loja 4</div>
+        <div class="loja-bairro">Vila Palmeiras</div>
+        <div class="loja-fat">Crescente</div>
+        <div class="loja-fat-label">já superou a loja 3 em cupons</div>
+        <div class="loja-cupons">17.000 cupons <span>/ mês</span></div>
+        <div class="loja-insight">4 meses de vida, ritmo forte. Prioridade de tráfego pago geolocalizado.</div>
+      </div>
+    </div>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;max-width:860px;">
+      <div style="background:#fff;border-radius:14px;padding:26px;border:1px solid #e2e8f0;border-left:5px solid var(--yellow);">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#92400e;margin-bottom:10px;">Loja 2 — Alerta de Ticket</div>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;"><strong style="color:var(--text);">37k cupons e R$1,3M de faturamento</strong> — o maior fluxo da rede com o segundo menor faturamento. O ticket médio está baixo. Trabalhar o sortimento e a comunicação por setor pode crescer este número sem precisar de um cliente a mais.</p>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:26px;border:1px solid #e2e8f0;border-left:5px solid #1a73e8;">
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#1e40af;margin-bottom:10px;">Loja 4 — Prioridade de Mídia</div>
+        <p style="font-size:13px;color:var(--gray);line-height:1.7;">Nova, em Vila Palmeiras, crescendo rápido e já superando a loja 3. Com <strong style="color:var(--text);">campanha de tráfego pago geolocalizada</strong> e conteúdo direcionado ao bairro, a meta de R$800k em 12 meses é altamente viável.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARGALOS -->
+<section class="gargalos-bg" id="gargalos">
+  <div class="container">
+    <div class="section-label" style="color:var(--red);">O Que Está Travando</div>
+    <h2 class="section-title">6 Gargalos Críticos<br>Identificados</h2>
+    <p class="section-desc">A rede tem estrutura, faturamento e calendário. Não cresce mais porque o marketing está desestruturado — não por falta de investimento.</p>
+    <div class="gargalos-list">
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">💸</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Crítico · Financeiro</div>
+          <h4>R$15.000/mês no impresso — R$1.000 no digital</h4>
+          <p>O maior erro estratégico da rede hoje. Quinze mil reais vão para jornal impresso todo mês sem mensuração de retorno. O tráfego pago — que permite segmentar por bairro, medir resultado e escalar — recebe apenas R$1.000. <strong>O investimento precisa ser invertido.</strong></p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">📲</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Crítico · Base de Clientes</div>
+          <h4>15.000–20.000 clientes no app completamente inativos</h4>
+          <p>A rede já tem um CRM pronto — e não usa. São clientes com histórico de compra, que podem ser impactados com custo praticamente zero. Manter essa base dormindo enquanto se gasta R$15k no impresso é o maior desperdício de oportunidade da operação.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">📸</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Crítico · Digital</div>
+          <h4>Instagram com 60k seguidores fora da área de atuação</h4>
+          <p>O perfil cresceu, mas com público geograficamente errado — fora dos bairros das 4 lojas. O resultado é alcance ruim, entrega baixa e algoritmo confuso. Sessenta mil seguidores que não compram no SM Compre Mais não fazem caixa.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">💬</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Alto · WhatsApp</div>
+          <h4>WhatsApp caiu de 8.000 para 2.000–3.000 contatos ativos</h4>
+          <p>O canal mais direto com o cliente foi abandonado. As comunidades existem mas operam sem consistência. Recuperar essa base e estruturar por loja é um dos canais de maior conversão no varejo alimentar — e está parado.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">🏢</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Alto · Estratégia</div>
+          <h4>Agência atual reativa: você cobra tudo, ela só executa o que é pedido</h4>
+          <p>"Preciso cobrar tudo, lembrar, falta proatividade." Agência que não pensa, não planeja, não sugere — apenas executa demanda. Marketing sem dono estratégico não cresce. Você não contratou uma agência para ser o próprio gerente de marketing delas.</p>
+        </div>
+      </div>
+
+      <div class="gargalo-item">
+        <div class="gargalo-icon">🗺️</div>
+        <div class="gargalo-content">
+          <div class="gargalo-tag">Médio · Google</div>
+          <h4>Google Meu Negócio desorganizado: duplicidades, horários errados</h4>
+          <p>Primeira impressão de quem pesquisa o SM Compre Mais no Google. Perfis duplicados, horários incorretos e presença desorganizada nas 4 lojas. Canal gratuito e de altíssimo impacto local sendo desperdiçado.</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- VERBA: ANTES / DEPOIS -->
+<section class="verba-bg">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">O Investimento Está Invertido</div>
+    <h2 class="section-title">Redistribuir a Verba<br>É o Primeiro Passo</h2>
+    <p class="section-desc">Não é necessário gastar mais. É necessário gastar melhor. Parte dos R$15k do impresso redistribuída para digital já muda o jogo.</p>
+    <div class="verba-compare">
+      <div class="verba-box atual">
+        <div class="verba-box-label">🚨 Cenário Atual</div>
+        <div class="verba-linha">
+          <span class="verba-linha-label">Jornal impresso</span>
+          <span class="verba-linha-val">R$15.000</span>
+        </div>
+        <div class="verba-bar-wrap"><div class="verba-bar off" style="width:94%;"></div></div>
+        <div class="verba-linha" style="margin-top:14px;">
+          <span class="verba-linha-label">Tráfego pago digital</span>
+          <span class="verba-linha-val">R$1.000</span>
+        </div>
+        <div class="verba-bar-wrap"><div class="verba-bar on" style="width:6%;"></div></div>
+        <div class="verba-nota" style="margin-top:14px;">Sem ROI mensurável · Sem segmentação · Sem remarketing</div>
+      </div>
+      <div class="verba-arrow">→</div>
+      <div class="verba-box ideal">
+        <div class="verba-box-label">✅ Com a GST Marketing</div>
+        <div class="verba-linha">
+          <span class="verba-linha-label">Jornal (reduzido)</span>
+          <span class="verba-linha-val">R$5.000</span>
+        </div>
+        <div class="verba-bar-wrap"><div class="verba-bar off" style="width:31%;opacity:0.5;"></div></div>
+        <div class="verba-linha" style="margin-top:14px;">
+          <span class="verba-linha-label">Tráfego pago (por loja)</span>
+          <span class="verba-linha-val">R$6.000+</span>
+        </div>
+        <div class="verba-bar-wrap"><div class="verba-bar on" style="width:80%;"></div></div>
+        <div class="verba-linha" style="margin-top:14px;">
+          <span class="verba-linha-label">Base clientes (app + WA)</span>
+          <span class="verba-linha-val">R$4.000</span>
+        </div>
+        <div class="verba-bar-wrap"><div class="verba-bar on" style="width:55%;opacity:0.7;"></div></div>
+        <div class="verba-nota" style="margin-top:14px;">ROI mensurável · Por bairro · Base ativada · Remarketing</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO DIGITAL -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Canal por Canal</div>
+    <h2 class="section-title">A Situação Digital da Rede</h2>
+    <p class="section-desc">Estrutura existe. Uso estratégico não. O mesmo padrão se repete em todos os canais.</p>
+    <div class="digital-grid">
+      <div class="digital-card">
+        <div class="digital-icon">📸</div>
+        <h4>Instagram</h4>
+        <div class="digital-num yellow">60k</div>
+        <p>seguidores — maioria fora da área das lojas. Alcance baixo, entrega ruim, algoritmo confuso.</p>
+        <span class="digital-pill yellow">Audiência errada</span>
+      </div>
+      <div class="digital-card">
+        <div class="digital-icon">💬</div>
+        <h4>WhatsApp</h4>
+        <div class="digital-num red">2–3k</div>
+        <p>contatos ativos hoje — caiu de 8.000. Canal abandonado após mudança de estratégia.</p>
+        <span class="digital-pill red">Canal parado</span>
+      </div>
+      <div class="digital-card">
+        <div class="digital-icon">📱</div>
+        <h4>App (CRM)</h4>
+        <div class="digital-num red">15–20k</div>
+        <p>clientes cadastrados que nunca recebem comunicação ativa. CRM pronto e sem uso.</p>
+        <span class="digital-pill red">Não utilizado</span>
+      </div>
+      <div class="digital-card">
+        <div class="digital-icon">🗺️</div>
+        <h4>Google</h4>
+        <div class="digital-num yellow">Caótico</div>
+        <p>Duplicidade de perfis, horários errados nas 4 lojas. Primeira impressão prejudicada.</p>
+        <span class="digital-pill yellow">Desorganizado</span>
+      </div>
+      <div class="digital-card">
+        <div class="digital-icon">🎯</div>
+        <h4>Tráfego Pago</h4>
+        <div class="digital-num red">R$1k</div>
+        <p>investimento mensal para uma rede de R$4,1M. Completamente fora de proporção.</p>
+        <span class="digital-pill red">Irrisório</span>
+      </div>
+      <div class="digital-card">
+        <div class="digital-icon">🗞️</div>
+        <h4>Jornal Impresso</h4>
+        <div class="digital-num red">R$15k</div>
+        <p>gasto mensal sem mensuração de retorno e sem segmentação por bairro ou perfil.</p>
+        <span class="digital-pill red">Sem ROI</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPORTUNIDADES -->
+<section id="solucao">
+  <div class="container">
+    <div class="section-label">De Onde Vem o Crescimento</div>
+    <h2 class="section-title">6 Oportunidades Imediatas</h2>
+    <p class="section-desc">A rede não precisa começar do zero. Precisa de reorganização e execução com estratégia — o material já está lá.</p>
+    <div class="oport-grid">
+      <div class="oport-card">
+        <div class="oport-icon">🔄</div>
+        <h3>Redistribuir a Verba</h3>
+        <p>Migrar parte dos R$15k do impresso para tráfego pago segmentado por bairro de cada loja — com ROI mensurável e escala possível.</p>
+        <span class="oport-gain">Impacto imediato · Sem custo extra</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">📲</div>
+        <h3>Ativar os 15–20k do App</h3>
+        <p>Um CRM pronto, gratuito e sem uso. Com régua de comunicação e campanhas por segmento, essa base vira o maior canal de recorrência da rede.</p>
+        <span class="oport-gain">Custo quase zero</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">💬</div>
+        <h3>Reconstruir o WhatsApp</h3>
+        <p>Estruturar comunidades por loja, atualizar ofertas semanais e recuperar o canal mais direto com o cliente — de 2k para 8k+ de volta.</p>
+        <span class="oport-gain">Maior taxa de conversão</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">📱</div>
+        <h3>Corrigir o Instagram</h3>
+        <p>Reeducar o algoritmo com tráfego geolocalizado, conteúdo planejado e segmentação correta para a Zona Norte. Transformar 60k em audiência real.</p>
+        <span class="oport-gain">Alcance real nas 4 lojas</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">🥦</div>
+        <h3>Explodir o Hortifruti</h3>
+        <p>Feirão premiado, carro de som, sorteio e campanha digital. O setor que traz o cliente 2x na semana — e na mesma visita ele passa pelo açougue, padaria e mercearia.</p>
+        <span class="oport-gain">Fluxo recorrente</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">📅</div>
+        <h3>Integrar Calendário + Mídia</h3>
+        <p>Feirão, Quinta do Açougue, Detona Preço e Dia D já existem. Falta antecipação, expectativa e distribuição nos canais digitais antes de cada ação.</p>
+        <span class="oport-gain">Calendário já existe</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- O QUE FAZEMOS -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Nossa Atuação</div>
+    <h2 class="section-title">O Que a GST Marketing<br>Faz pelo SM Compre Mais</h2>
+    <p class="section-desc">Não somos uma agência que reage ao que você pede. Planejamos, antecipamos e executamos — você não precisa cobrar nada de nós.</p>
+    <div class="servicos-grid">
+      <div class="servico-card">
+        <div class="servico-num">1</div>
+        <div class="servico-icon">📅</div>
+        <h3>Calendário Comercial Estratégico</h3>
+        <p>Aproveitamos o ritmo que você já tem e adicionamos antecipação, expectativa e integração real com mídia digital.</p>
+        <ul class="servico-list">
+          <li>Planejamento mensal com datas nacionais</li>
+          <li>Stories de expectativa antes de cada ação</li>
+          <li>Festival de Hortifruti (feirão premiado)</li>
+          <li>Campanhas sazonais e festivais temáticos</li>
+          <li>Encarte digital semanal para todas as lojas</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">2</div>
+        <div class="servico-icon">🎯</div>
+        <h3>Tráfego Pago por Loja e Bairro</h3>
+        <p>Cada loja tem sua campanha geolocalizada — Jardim Damasceno, Vista Alegre, Parque Pedroso e Vila Palmeiras cada uma com sua estratégia.</p>
+        <ul class="servico-list">
+          <li>Campanhas individuais por loja</li>
+          <li>Segmentação por bairro e raio</li>
+          <li>Campanha prioritária para Loja 4</li>
+          <li>Criativos otimizados semanalmente</li>
+          <li>Relatório de performance mensal</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">3</div>
+        <div class="servico-icon">📸</div>
+        <h3>Instagram com Correção de Segmentação</h3>
+        <p>Reeducar o algoritmo, corrigir a audiência dos 60k seguidores e construir base que realmente compra nas lojas.</p>
+        <ul class="servico-list">
+          <li>Conteúdo mensal planejado</li>
+          <li>Tráfego geolocalizado para correção da base</li>
+          <li>Vídeos institucionais do açougue</li>
+          <li>Trends e reels adaptados para supermercado</li>
+          <li>Roteiro e orientação para equipe de loja</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">4</div>
+        <div class="servico-icon">📲</div>
+        <h3>Ativação da Base: App + WhatsApp</h3>
+        <p>15–20k clientes no app sem comunicação e WhatsApp caído de 8k para 2k. Vamos recuperar e estruturar os dois canais.</p>
+        <ul class="servico-list">
+          <li>Régua de ativação do CRM (app)</li>
+          <li>Comunidades WhatsApp por loja</li>
+          <li>Atualização semanal de ofertas</li>
+          <li>Plataforma a R$200/mês (vs R$700 atual)</li>
+          <li>Gestão sem risco de bloqueio</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">5</div>
+        <div class="servico-icon">🥩</div>
+        <h3>Comunicar os Pontos Fortes</h3>
+        <p>32% do faturamento vem do açougue — e quase ninguém vê isso nas redes. Vamos comunicar o diferencial real da rede com força.</p>
+        <ul class="servico-list">
+          <li>Vídeo institucional do açougue (4 lojas)</li>
+          <li>Conteúdo da padaria e hortifruti</li>
+          <li>Festival de Hortifruti com ação de fluxo</li>
+          <li>Diferenciação visual por setor</li>
+          <li>Treinamento da equipe para filmar</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">6</div>
+        <div class="servico-icon">📊</div>
+        <h3>Gestão Estratégica Proativa</h3>
+        <p>Você para de cobrar agência. A GST pensa, planeja, executa e presta conta todo mês — sem precisar lembrar nada.</p>
+        <ul class="servico-list">
+          <li>Reunião mensal de alinhamento</li>
+          <li>DRE de Marketing do período</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Google Meu Negócio organizado (4 lojas)</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section>
+  <div class="container">
+    <div class="section-label">Nossa Abordagem</div>
+    <h2 class="section-title">3 Pilares de Crescimento<br>para o SM Compre Mais</h2>
+    <p class="section-desc">Todo crescimento real de supermercado passa por esses três pilares. Construímos cada um junto com a operação da rede.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">1</div>
+        <h3>Oferta</h3>
+        <p>Calendário comercial planejado, encarte estratégico, expectativa antes das promoções e campanhas de açougue e hortifruti que geram fluxo real nas 4 lojas.</p>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">2</div>
+        <h3>Qualidade</h3>
+        <p>Comunicar o açougue (32% do mix), a padaria e o hortifruti com vídeos reais, com a equipe da loja, mostrando o diferencial que já existe.</p>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">3</div>
+        <h3>Experiência</h3>
+        <p>Base de 15–20k clientes ativada, WhatsApp por loja, tráfego geolocalizado por bairro e ações de engajamento que criam vínculo com a comunidade.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSTA -->
+<section class="proposta-bg" id="proposta" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Investimento</div>
+    <h2 class="section-title">Proposta Comercial</h2>
+    <p class="section-desc">Gestão estratégica completa para as 4 lojas do SM Compre Mais — em um único programa mensal.</p>
+    <div class="proposta-box">
+      <div class="proposta-header">
+        <div class="proposta-destinatario">
+          <h3>Proposta preparada para</h3>
+          <p>Felipe Bento · SM Compre Mais</p>
+          <small>4 lojas · Zona Norte · São Paulo · R$4,1M/mês</small>
+        </div>
+        <div class="proposta-preco-wrap">
+          <div class="proposta-preco-label">Investimento mensal</div>
+          <div class="proposta-preco">R$4.000<small>/mês</small></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Gestão + Produção + Tráfego incluso</div>
+        </div>
+      </div>
+      <hr class="prop-divider">
+      <div class="proposta-cols">
+        <div>
+          <div class="prop-col-title">✦ Gestão & Estratégia</div>
+          <ul class="prop-itens">
+            <li>Planejamento mensal de marketing</li>
+            <li>Reunião mensal de alinhamento + DRE</li>
+            <li>Diagnóstico contínuo por loja</li>
+            <li>Calendário comercial anual da rede</li>
+            <li>Plano de ação fechado todo mês</li>
+            <li>Acompanhamento semanal via WhatsApp</li>
+          </ul>
+        </div>
+        <div>
+          <div class="prop-col-title">✦ Produção & Canais</div>
+          <ul class="prop-itens">
+            <li>Gestão do Instagram SM Compre Mais</li>
+            <li>Artes de oferta semanais (encarte digital)</li>
+            <li>Roteiro e orientação para vídeos das lojas</li>
+            <li>Tráfego pago Meta (por loja e bairro)</li>
+            <li>Stories de expectativa e antecipação</li>
+            <li>Google Meu Negócio organizado (4 lojas)</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="prop-divider">
+      <div class="proposta-cols">
+        <div>
+          <div class="prop-col-title">✦ Base de Clientes & WhatsApp</div>
+          <ul class="prop-itens">
+            <li>Ativação do app CRM (15–20k clientes)</li>
+            <li>Comunidades WhatsApp por loja</li>
+            <li>Atualização semanal de ofertas</li>
+            <li>Plataforma indicada a R$200/mês (vs R$700)</li>
+          </ul>
+        </div>
+        <div>
+          <div class="prop-col-title">✦ Ações & Treinamento</div>
+          <ul class="prop-itens">
+            <li>Festival de Hortifruti (feirão premiado)</li>
+            <li>Campanha de açougue com vídeo</li>
+            <li>Treinamento da equipe de loja</li>
+            <li>Checklist semanal de redes sociais</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proposta-nota">
+        <p>⚡ <strong>Verba de tráfego pago não incluída</strong> — recomendamos mínimo de <strong>R$1.500/mês por loja</strong> (ou distribuição global entre as 4). A gestão, estratégia e criação dos anúncios estão nos R$4.000. O valor dos anúncios vai direto para o Meta/Google — sem margem para nós.</p>
+      </div>
+      <div class="proposta-cta">
+        <a href="https://wa.me/55" class="btn-primary" style="font-size:16px;padding:18px 52px;">✅ Fechar Parceria — R$4.000/mês</a>
+        <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados-bg" id="resultados">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">O Que Esperar</div>
+    <h2 class="section-title">Resultados por Etapa</h2>
+    <p class="section-desc">Cada fase tem entregáveis concretos. Progresso visível desde o primeiro mês.</p>
+    <div class="res-timeline">
+      <div class="res-card">
+        <div class="res-period">30 dias</div>
+        <ul>
+          <li>Diagnóstico completo por loja</li>
+          <li>Instagram com rotina ativa</li>
+          <li>Primeiro encarte digital</li>
+          <li>WhatsApp estruturado</li>
+          <li>Google organizado (4 lojas)</li>
+          <li>Vídeo açougue em produção</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">90 dias</div>
+        <ul>
+          <li>Tráfego pago rodando por loja</li>
+          <li>Base do app em ativação</li>
+          <li>Feirão de Hortifruti executado</li>
+          <li>Loja 4 com campanha própria</li>
+          <li>WhatsApp acima de 4k contatos</li>
+          <li>DRE de Marketing no ritmo</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">6 meses</div>
+        <ul>
+          <li>+5% a +10% cupons na rede</li>
+          <li>Instagram com audiência local</li>
+          <li>WhatsApp acima de 6k</li>
+          <li>App com base ativada</li>
+          <li>ROI mensurável</li>
+          <li>Equipe treinada e autônoma</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">12 meses</div>
+        <ul>
+          <li>+R$400k a +R$800k/mês</li>
+          <li>Loja 4 em R$800k (meta)</li>
+          <li>SM Compre Mais referência digital</li>
+          <li>Marketing integrado à operação</li>
+          <li>15–20k clientes ativos</li>
+          <li>Crescimento com margem</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO FINANCEIRO -->
+<section>
+  <div class="container">
+    <div class="section-label">Impacto Real</div>
+    <h2 class="section-title">O Que Representa na Prática</h2>
+    <p class="section-desc">Para uma rede de R$4,1M/mês, pequenas melhorias geram impacto enorme — e R$4k de investimento se paga com folga.</p>
+    <div class="impacto-grid">
+      <div class="impacto-card c1">
+        <div class="impacto-num">+R$400k</div>
+        <h4>Por Mês com +10% Cupons</h4>
+        <p>Mais clientes atravessando a porta com o mesmo custo fixo — mídia certa, base ativa</p>
+      </div>
+      <div class="impacto-card c2">
+        <div class="impacto-num">100x</div>
+        <h4>ROI Potencial do Investimento</h4>
+        <p>R$4.000/mês de gestão para uma rede de R$4,1M — a alavancagem é enorme</p>
+      </div>
+      <div class="impacto-card c3">
+        <div class="impacto-num">R$800k</div>
+        <h4>Meta da Loja 4 em 12 Meses</h4>
+        <p>Com tráfego geolocalizado em Vila Palmeiras e calendário bem executado</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEIS -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Resumo</div>
+    <h2 class="section-title">Tudo Que Você Recebe</h2>
+    <p class="section-desc">Documentado, entregue e acompanhado todo mês. Sem precisar cobrar nada.</p>
+    <div class="entregaveis-grid">
+      <div class="entregavel-block">
+        <h3>🎨 Produção Visual & Conteúdo</h3>
+        <ul>
+          <li>Artes de oferta semanais (todas as lojas)</li>
+          <li>Posts e reels planejados para o Instagram</li>
+          <li>Roteiro de vídeos mensais</li>
+          <li>Stories de expectativa e antecipação</li>
+          <li>Peças de festivais e ações especiais</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>🎯 Tráfego Pago & Performance</h3>
+        <ul>
+          <li>Campanhas Meta por loja e bairro</li>
+          <li>Criativos otimizados semanalmente</li>
+          <li>Relatório mensal de performance</li>
+          <li>Gestão de distribuição de verba</li>
+          <li>Campanha prioritária Loja 4</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>📲 Base de Clientes & WhatsApp</h3>
+        <ul>
+          <li>Ativação do CRM do app (15–20k clientes)</li>
+          <li>Comunidades por loja estruturadas</li>
+          <li>Atualização semanal de ofertas</li>
+          <li>Plataforma indicada a R$200/mês</li>
+          <li>Gestão sem risco de bloqueio</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>📊 Gestão & Estratégia</h3>
+        <ul>
+          <li>Reunião mensal de alinhamento</li>
+          <li>DRE de Marketing do período</li>
+          <li>Calendário comercial anual</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Google Meu Negócio (4 lojas)</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="proposta-bg" style="padding:80px 40px;">
+  <div class="container" style="text-align:center;max-width:660px;">
+    <div class="section-label" style="color:var(--green);">Próximo Passo</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:18px;">Pronto para Parar de<br>Deixar Dinheiro na Mesa?</h2>
+    <p style="font-size:16px;color:rgba(255,255,255,0.5);margin-bottom:40px;line-height:1.75;">Você já tem estrutura, faturamento e calendário. O que falta é o marketing à altura do negócio — com planejamento, execução e prestação de contas todo mês.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:16px;margin-bottom:48px;">
+      <a href="https://wa.me/55" class="btn-primary" style="font-size:16px;padding:18px 44px;">✅ Fechar Parceria — R$4.000/mês</a>
+      <a href="#gargalos" class="btn-ghost" style="font-size:14px;padding:16px 28px;">Rever o Diagnóstico</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🥩</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Especialistas em Supermercado</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Entendemos açougue, hortifruti, margem e calendário comercial</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">📍</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Campanha por Bairro</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Cada loja impacta quem mora perto — não quem está longe</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">📈</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Resultado Mensurável</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">DRE de Marketing e indicadores claros todo mês, sem achismo</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Diagnóstico & Proposta para SM Compre Mais · Felipe Bento</p>
+  <p style="margin-top:8px;">Marketing Especializado em Supermercados · Zona Norte · São Paulo</p>
+</footer>
+
+</body>
+</html>

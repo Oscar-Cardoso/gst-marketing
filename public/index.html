@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Especialistas em Marketing para Supermercados</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --green: #00c46a;
+  --green-dark: #009f56;
+  --green-glow: rgba(0,196,106,0.25);
+  --navy: #0a1628;
+  --navy2: #0f1f38;
+  --navy3: #162540;
+  --text: #e8f0fe;
+  --text-muted: rgba(232,240,254,0.52);
+  --text-dim: rgba(232,240,254,0.28);
+  --border: rgba(255,255,255,0.08);
+  --card-bg: rgba(255,255,255,0.04);
+  --white: #ffffff;
+}
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Inter', sans-serif;
+  background: var(--navy);
+  color: var(--text);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+h1,h2,h3,h4,h5 { font-family: 'Poppins', sans-serif; }
+
+/* ── NOISE OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  opacity: 0.4;
+}
+
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 60px; height: 70px;
+  background: rgba(10,22,40,0.85);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+}
+.nav-logo {
+  font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800;
+  color: var(--white); letter-spacing: -0.5px;
+  display: flex; align-items: center; gap: 10px; text-decoration: none;
+}
+.nav-logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); animation: pulse 2s infinite; }
+@keyframes pulse { 0%,100%{box-shadow:0 0 0 0 var(--green-glow)} 50%{box-shadow:0 0 0 8px transparent} }
+.nav-links { display: flex; gap: 36px; }
+.nav-links a { font-size: 14px; font-weight: 500; color: var(--text-muted); text-decoration: none; transition: color 0.2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-btn {
+  background: var(--green); color: var(--navy); font-family: 'Poppins', sans-serif;
+  font-size: 13px; font-weight: 700; padding: 10px 24px; border-radius: 8px;
+  text-decoration: none; transition: all 0.2s; letter-spacing: 0.3px;
+}
+.nav-btn:hover { background: var(--green-dark); color: #fff; transform: translateY(-1px); }
+@media(max-width:768px){.nav-links{display:none;} .nav{padding:0 24px;}}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: flex; align-items: center;
+  padding: 120px 60px 80px;
+  position: relative; overflow: hidden;
+}
+.hero-bg {
+  position: absolute; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 900px 700px at 70% 40%, rgba(0,196,106,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 500px at 10% 80%, rgba(26,115,232,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, var(--navy) 0%, #060e1a 100%);
+}
+.hero-grid-lines {
+  position: absolute; inset: 0; z-index: 0; opacity: 0.04;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.3) 1px, transparent 1px);
+  background-size: 80px 80px;
+}
+.hero-inner {
+  position: relative; z-index: 1; max-width: 1200px; margin: 0 auto; width: 100%;
+  display: grid; grid-template-columns: 1fr 440px; gap: 80px; align-items: center;
+}
+@media(max-width:960px){.hero-inner{grid-template-columns:1fr;} .hero{padding:120px 24px 80px;}}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 11px; font-weight: 600; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 28px;
+}
+.hero-eyebrow-line { width: 32px; height: 1px; background: var(--green); }
+.hero h1 {
+  font-size: clamp(42px, 5.5vw, 76px); font-weight: 800;
+  line-height: 1.0; letter-spacing: -2px; margin-bottom: 28px;
+  color: var(--white);
+}
+.hero h1 .accent {
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--green);
+  display: block;
+}
+.hero-sub {
+  font-size: 18px; color: var(--text-muted); line-height: 1.75;
+  max-width: 520px; margin-bottom: 48px;
+}
+.hero-sub strong { color: var(--text); font-weight: 600; }
+.hero-btns { display: flex; gap: 16px; flex-wrap: wrap; }
+.btn-lg {
+  font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 700;
+  padding: 16px 36px; border-radius: 10px; text-decoration: none;
+  display: inline-block; transition: all 0.2s;
+}
+.btn-green { background: var(--green); color: var(--navy); }
+.btn-green:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,196,106,0.3); }
+.btn-outline { border: 1.5px solid var(--border); color: var(--text); background: transparent; }
+.btn-outline:hover { border-color: rgba(255,255,255,0.3); color: var(--white); transform: translateY(-2px); }
+.hero-stats { display: flex; gap: 32px; margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); flex-wrap: wrap; }
+.hero-stat-num { font-family: 'Poppins', sans-serif; font-size: 34px; font-weight: 800; color: var(--white); line-height: 1; }
+.hero-stat-num span { color: var(--green); }
+.hero-stat-label { font-size: 12px; color: var(--text-dim); margin-top: 4px; }
+
+/* Hero form card */
+.hero-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 24px; padding: 40px 36px;
+  backdrop-filter: blur(16px);
+  position: relative; overflow: hidden;
+}
+.hero-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent);
+}
+.hero-card-tag {
+  font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 20px;
+}
+.hero-card h3 { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.hero-card-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 28px; line-height: 1.6; }
+
+/* ── FORM ── */
+.form-group { margin-bottom: 16px; }
+.form-label { font-size: 12px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.8px; display: block; margin-bottom: 8px; }
+.form-input, .form-select, .form-textarea {
+  width: 100%; background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
+  border-radius: 10px; padding: 13px 16px;
+  font-family: 'Inter', sans-serif; font-size: 14px; color: var(--white);
+  outline: none; transition: border-color 0.2s, background 0.2s;
+  -webkit-appearance: none;
+}
+.form-input::placeholder, .form-textarea::placeholder { color: var(--text-dim); }
+.form-input:focus, .form-select:focus, .form-textarea:focus {
+  border-color: var(--green); background: rgba(0,196,106,0.05);
+}
+.form-select option { background: var(--navy2); color: var(--white); }
+.form-textarea { min-height: 90px; resize: vertical; }
+.form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media(max-width:480px){.form-row{grid-template-columns:1fr;}}
+.form-submit {
+  width: 100%; background: var(--green); color: var(--navy);
+  font-family: 'Poppins', sans-serif; font-size: 15px; font-weight: 800;
+  padding: 16px; border-radius: 10px; border: none; cursor: pointer;
+  transition: all 0.2s; margin-top: 8px; letter-spacing: 0.3px;
+}
+.form-submit:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,196,106,0.3); }
+.form-note { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 12px; }
+
+/* ── SECTIONS ── */
+section { padding: 100px 60px; position: relative; z-index: 1; }
+@media(max-width:768px){section{padding:72px 24px;}}
+.container { max-width: 1200px; margin: 0 auto; }
+.eyebrow {
+  font-size: 11px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+  color: var(--green); margin-bottom: 16px; display: flex; align-items: center; gap: 10px;
+}
+.eyebrow::before { content: ''; width: 24px; height: 1px; background: var(--green); }
+.section-title {
+  font-size: clamp(30px, 4vw, 52px); font-weight: 800;
+  line-height: 1.1; letter-spacing: -1px; color: var(--white);
+  margin-bottom: 20px;
+}
+.section-desc { font-size: 17px; color: var(--text-muted); max-width: 600px; line-height: 1.7; margin-bottom: 64px; }
+
+/* ── COMO FUNCIONA ── */
+.steps-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 2px; }
+@media(max-width:800px){.steps-grid{grid-template-columns:repeat(2,1fr);}}
+.step {
+  background: var(--card-bg); border: 1px solid var(--border);
+  padding: 36px 28px; position: relative; overflow: hidden;
+  transition: background 0.25s;
+}
+.step:first-child { border-radius: 16px 0 0 16px; }
+.step:last-child { border-radius: 0 16px 16px 0; }
+@media(max-width:800px){
+  .step:first-child{border-radius:16px 0 0 0;}
+  .step:nth-child(2){border-radius:0 16px 0 0;}
+  .step:nth-child(3){border-radius:0 0 0 16px;}
+  .step:last-child{border-radius:0 0 16px 0;}
+}
+.step:hover { background: rgba(0,196,106,0.06); }
+.step-num {
+  font-family: 'Poppins', sans-serif; font-size: 72px; font-weight: 900;
+  color: var(--white); opacity: 0.04; position: absolute; right: 12px; top: 0; line-height: 1;
+}
+.step-icon { font-size: 32px; margin-bottom: 16px; }
+.step h4 { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.step p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+.step-line {
+  position: absolute; right: -1px; top: 50%; transform: translateY(-50%);
+  width: 2px; height: 32px; background: var(--green); opacity: 0.4;
+}
+.step:last-child .step-line { display: none; }
+
+/* ── PARA QUEM ── */
+.paraquem { background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+.paraquem-grid { display: grid; grid-template-columns: repeat(auto-fit,minmax(260px,1fr)); gap: 20px; }
+.paraquem-card {
+  border-radius: 16px; padding: 30px 26px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  transition: all 0.25s;
+}
+.paraquem-card:hover { border-color: rgba(0,196,106,0.3); background: rgba(0,196,106,0.05); transform: translateY(-3px); }
+.paraquem-card-icon { font-size: 36px; margin-bottom: 14px; }
+.paraquem-card h4 { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.paraquem-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
+.paraquem-check { display: flex; flex-direction: column; gap: 8px; margin-top: 14px; }
+.paraquem-check-item { font-size: 12px; color: var(--text-muted); display: flex; gap: 8px; align-items: flex-start; }
+.paraquem-check-item::before { content: '✓'; color: var(--green); font-weight: 700; flex-shrink: 0; }
+
+/* ── SERVIÇOS ── */
+.servicos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+@media(max-width:900px){.servicos-grid{grid-template-columns:repeat(2,1fr);}}
+@media(max-width:600px){.servicos-grid{grid-template-columns:1fr;}}
+.servico-card {
+  border-radius: 18px; padding: 32px 28px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  position: relative; overflow: hidden; transition: all 0.25s;
+}
+.servico-card:hover { border-color: rgba(0,196,106,0.25); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.3); }
+.servico-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, var(--green), transparent);
+  transform: scaleX(0); transform-origin: left; transition: transform 0.3s;
+}
+.servico-card:hover::after { transform: scaleX(1); }
+.servico-num {
+  font-family: 'Poppins', sans-serif; font-size: 72px; font-weight: 900;
+  color: var(--white); opacity: 0.04; position: absolute; right: 12px; top: 0; line-height: 1;
+}
+.servico-icon { font-size: 32px; margin-bottom: 16px; }
+.servico-card h3 { font-size: 17px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.servico-card p { font-size: 13px; color: var(--text-muted); line-height: 1.7; margin-bottom: 16px; }
+.servico-itens { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.servico-itens li { font-size: 12px; color: var(--text-muted); display: flex; gap: 8px; }
+.servico-itens li::before { content: '—'; color: var(--green); flex-shrink: 0; }
+
+/* ── GARANTIA ── */
+.garantia {
+  background: linear-gradient(135deg, rgba(0,196,106,0.08) 0%, rgba(0,196,106,0.03) 100%);
+  border: 1px solid rgba(0,196,106,0.2); border-radius: 28px;
+  padding: 64px; display: grid; grid-template-columns: auto 1fr; gap: 60px; align-items: center;
+  max-width: 900px; margin: 0 auto;
+}
+@media(max-width:700px){.garantia{grid-template-columns:1fr;padding:40px 28px;text-align:center;}}
+.garantia-big { font-family: 'Poppins', sans-serif; font-size: 100px; font-weight: 900; color: var(--green); line-height: 1; }
+.garantia-big small { font-size: 40px; }
+.garantia-period { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,196,106,0.7); margin-top: 6px; }
+.garantia h3 { font-size: 28px; font-weight: 800; color: var(--white); margin-bottom: 14px; line-height: 1.2; }
+.garantia p { font-size: 15px; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; }
+.garantia-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+.garantia-list li { font-size: 14px; color: var(--text); display: flex; gap: 12px; align-items: flex-start; }
+.garantia-list li::before { content: '✓'; background: var(--green); color: var(--navy); font-size: 11px; font-weight: 900; width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+
+/* ── CTA SEÇÃO ── */
+.cta-section {
+  text-align: center; padding: 100px 60px;
+  background: linear-gradient(180deg, transparent 0%, rgba(0,196,106,0.04) 100%);
+}
+.cta-section h2 { font-size: clamp(32px,5vw,60px); font-weight: 800; color: var(--white); letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
+.cta-section h2 em { font-style: normal; color: var(--green); }
+.cta-section p { font-size: 18px; color: var(--text-muted); margin-bottom: 40px; max-width: 560px; margin-left: auto; margin-right: auto; }
+
+/* ── FORM SEÇÃO PRINCIPAL ── */
+.form-section { background: rgba(255,255,255,0.02); border-top: 1px solid var(--border); }
+.form-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+@media(max-width:900px){.form-layout{grid-template-columns:1fr;gap:48px;}}
+.form-left h2 { font-size: clamp(28px,3.5vw,46px); font-weight: 800; color: var(--white); margin-bottom: 16px; line-height: 1.15; letter-spacing: -1px; }
+.form-left p { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 40px; }
+.form-beneficios { display: flex; flex-direction: column; gap: 16px; }
+.form-beneficio { display: flex; gap: 16px; align-items: flex-start; }
+.form-beneficio-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,196,106,0.12); border: 1px solid rgba(0,196,106,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.form-beneficio-text h5 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
+.form-beneficio-text p { font-size: 13px; color: var(--text-muted); margin-bottom: 0; line-height: 1.55; }
+.form-box {
+  background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 24px; padding: 44px 40px; position: relative; overflow: hidden;
+}
+@media(max-width:480px){.form-box{padding:32px 24px;}}
+.form-box::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+  background: linear-gradient(90deg, var(--green), #1a73e8);
+}
+.form-box-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
+.form-box-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
+
+/* ── SUCCESS STATE ── */
+.form-success {
+  display: none; text-align: center; padding: 40px 20px;
+}
+.form-success-icon { font-size: 56px; margin-bottom: 16px; }
+.form-success h4 { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
+.form-success p { font-size: 14px; color: var(--text-muted); line-height: 1.65; }
+
+/* ── FOOTER ── */
+.footer {
+  background: rgba(0,0,0,0.3); border-top: 1px solid var(--border);
+  padding: 60px; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 48px;
+}
+@media(max-width:700px){.footer{grid-template-columns:1fr;padding:40px 24px;gap:36px;}}
+.footer-logo { font-family: 'Poppins', sans-serif; font-size: 20px; font-weight: 800; color: var(--white); margin-bottom: 12px; }
+.footer-logo span { color: var(--green); }
+.footer-desc { font-size: 13px; color: var(--text-dim); line-height: 1.7; }
+.footer-col h5 { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--text-muted); margin-bottom: 16px; }
+.footer-col a { display: block; font-size: 13px; color: var(--text-dim); text-decoration: none; padding: 4px 0; transition: color 0.2s; }
+.footer-col a:hover { color: var(--green); }
+.footer-bottom { padding: 24px 60px; border-top: 1px solid var(--border); display: flex; justify-content: space-between; align-items: center; font-size: 12px; color: var(--text-dim); }
+@media(max-width:700px){.footer-bottom{padding:20px 24px;flex-direction:column;gap:8px;text-align:center;}}
+.footer-bottom strong { color: var(--green); }
+
+/* ── SCROLL REVEAL ── */
+.reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
+.reveal.visible { opacity: 1; transform: translateY(0); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <a href="#" class="nav-logo">
+    <div class="nav-logo-dot"></div>
+    GST Marketing
+  </a>
+  <div class="nav-links">
+    <a href="#como-funciona">Como Funciona</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#garantia">Garantia</a>
+    <a href="#agendar">Agendar</a>
+  </div>
+  <a href="#agendar" class="nav-btn">Agendar Diagnóstico</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="inicio">
+  <div class="hero-bg"></div>
+  <div class="hero-grid-lines"></div>
+  <div class="hero-inner">
+    <div class="reveal">
+      <div class="hero-eyebrow">
+        <div class="hero-eyebrow-line"></div>
+        Especialistas em Supermercados
+      </div>
+      <h1>
+        Marketing que
+        <span class="accent">vende de</span>
+        verdade.
+      </h1>
+      <p class="hero-sub">
+        Sua concorrência não tem preços melhores.
+        <strong>Ela só aparece mais.</strong>
+        A GST Marketing conecta estratégia, tráfego pago e resultado mensurável para supermercados que querem crescer com caixa.
+      </p>
+      <div class="hero-btns">
+        <a href="#agendar" class="btn-lg btn-green">Quero um Diagnóstico Gratuito</a>
+        <a href="#servicos" class="btn-lg btn-outline">Ver os Serviços</a>
+      </div>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-num"><span>37</span></div>
+          <div class="hero-stat-label">Clientes ativos</div>
+        </div>
+        <div>
+          <div class="hero-stat-num">R$<span>4M</span>+</div>
+          <div class="hero-stat-label">Faturamento gerenciado / mês</div>
+        </div>
+        <div>
+          <div class="hero-stat-num"><span>+10%</span></div>
+          <div class="hero-stat-label">Crescimento em cupons garantido</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MINI FORM NO HERO -->
+    <div class="hero-card reveal" style="transition-delay:0.15s;">
+      <div class="hero-card-tag">Diagnóstico Gratuito</div>
+      <h3>Descubra o que está travando o crescimento da sua loja</h3>
+      <p class="hero-card-sub">Preencha abaixo e nossa equipe entra em contato em até 24h para agendar sua reunião estratégica.</p>
+      <form id="hero-form" onsubmit="submitForm(event, 'hero-form', 'hero-success')">
+        <div class="form-group">
+          <label class="form-label">Seu nome</label>
+          <input class="form-input" type="text" placeholder="Ex: João Silva" required>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">WhatsApp</label>
+            <input class="form-input" type="tel" placeholder="(11) 99999-9999" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Faturamento/mês</label>
+            <select class="form-select" required>
+              <option value="" disabled selected>Selecione</option>
+              <option>Até R$100k</option>
+              <option>R$100k – R$300k</option>
+              <option>R$300k – R$800k</option>
+              <option>R$800k – R$2M</option>
+              <option>Acima de R$2M</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Nome do supermercado</label>
+          <input class="form-input" type="text" placeholder="Nome da loja" required>
+        </div>
+        <button class="form-submit" type="submit">Quero meu Diagnóstico Gratuito →</button>
+        <p class="form-note">🔒 Seus dados estão seguros. Sem spam.</p>
+      </form>
+      <div class="form-success" id="hero-success">
+        <div class="form-success-icon">✅</div>
+        <h4>Recebemos sua solicitação!</h4>
+        <p>Oscar vai entrar em contato pelo WhatsApp em até 24h para agendar seu diagnóstico gratuito.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMO FUNCIONA -->
+<section id="como-funciona">
+  <div class="container">
+    <div class="eyebrow reveal">Como funciona</div>
+    <h2 class="section-title reveal">Do diagnóstico<br>ao crescimento.</h2>
+    <p class="section-desc reveal">Quatro etapas. Resultado desde o primeiro mês.</p>
+    <div class="steps-grid reveal">
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-icon">🔍</div>
+        <h4>Diagnóstico</h4>
+        <p>Lemos seu negócio antes de tocar em qualquer campanha. Faturamento, cupons, ticket médio, canais e investimento atual.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-icon">🧭</div>
+        <h4>Estratégia</h4>
+        <p>Calendário comercial, distribuição de verba, prioridade de setores e plano de ação fechado para o mês.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-icon">🚀</div>
+        <h4>Execução</h4>
+        <p>Tráfego pago, conteúdo, WhatsApp, Google e campanhas sazonais — tudo integrado e rodando junto.</p>
+        <div class="step-line"></div>
+      </div>
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-icon">📊</div>
+        <h4>Resultado</h4>
+        <p>DRE de Marketing mensal conectando cada campanha ao faturamento. Você sabe exatamente o retorno.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PARA QUEM -->
+<section class="paraquem" id="paraquem">
+  <div class="container">
+    <div class="eyebrow reveal">Para quem é</div>
+    <h2 class="section-title reveal">Trabalhamos com<br>supermercados que querem crescer.</h2>
+    <p class="section-desc reveal">Não somos agência genérica. Somos especialistas em um segmento só — e isso muda tudo.</p>
+    <div class="paraquem-grid">
+      <div class="paraquem-card reveal">
+        <div class="paraquem-card-icon">🏪</div>
+        <h4>Supermercados de Bairro</h4>
+        <p>Loja com operação consolidada que quer aparecer mais no digital e atrair clientes da região com consistência.</p>
+        <div class="paraquem-check">
+          <div class="paraquem-check-item">Tráfego geolocalizado por bairro</div>
+          <div class="paraquem-check-item">Conteúdo de açougue, padaria e hortifruti</div>
+          <div class="paraquem-check-item">Calendário comercial integrado</div>
+        </div>
+      </div>
+      <div class="paraquem-card reveal" style="transition-delay:0.1s">
+        <div class="paraquem-card-icon">🏬</div>
+        <h4>Redes com 2 a 5 Lojas</h4>
+        <p>Operação multi-loja que precisa de marketing centralizado, mas com estratégia específica para cada unidade.</p>
+        <div class="paraquem-check">
+          <div class="paraquem-check-item">Campanha individual por loja</div>
+          <div class="paraquem-check-item">DRE de Marketing por unidade</div>
+          <div class="paraquem-check-item">Calendário único com ações locais</div>
+        </div>
+      </div>
+      <div class="paraquem-card reveal" style="transition-delay:0.2s">
+        <div class="paraquem-card-icon">🔄</div>
+        <h4>Lojas em Transição ou Reinauguração</h4>
+        <p>Supermercado em reforma, expansão ou troca de posicionamento que precisa de uma campanha de impacto.</p>
+        <div class="paraquem-check">
+          <div class="paraquem-check-item">Campanha de expectativa e antecipação</div>
+          <div class="paraquem-check-item">Estrutura completa de reinauguração</div>
+          <div class="paraquem-check-item">Presença do Oscar no dia do evento</div>
+        </div>
+      </div>
+      <div class="paraquem-card reveal" style="transition-delay:0.3s">
+        <div class="paraquem-card-icon">📈</div>
+        <h4>Quem Já Investe em Marketing</h4>
+        <p>Loja que já gasta com agência, tráfego ou panfleto — mas não sabe exatamente o que está gerando retorno.</p>
+        <div class="paraquem-check">
+          <div class="paraquem-check-item">Auditoria do investimento atual</div>
+          <div class="paraquem-check-item">Redistribuição inteligente de verba</div>
+          <div class="paraquem-check-item">Pesquisa de rastreio com clientes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="container">
+    <div class="eyebrow reveal">O que entregamos</div>
+    <h2 class="section-title reveal">Serviços que<br>movem o ponteiro.</h2>
+    <p class="section-desc reveal">Não executamos tarefas isoladas. Construímos um sistema de marketing integrado com a operação da sua loja.</p>
+    <div class="servicos-grid">
+      <div class="servico-card reveal">
+        <div class="servico-num">1</div>
+        <div class="servico-icon">🎯</div>
+        <h3>Tráfego Pago</h3>
+        <p>Campanhas no Meta e Google segmentadas por bairro, setor e calendário — com verba distribuída por inteligência comercial.</p>
+        <ul class="servico-itens">
+          <li>Facebook e Instagram Ads</li>
+          <li>Segmentação geolocalizada</li>
+          <li>Remarketing e lookalike</li>
+          <li>Criativos por setor prioritário</li>
+        </ul>
+      </div>
+      <div class="servico-card reveal" style="transition-delay:0.08s">
+        <div class="servico-num">2</div>
+        <div class="servico-icon">📸</div>
+        <h3>Gestão de Redes Sociais</h3>
+        <p>Calendário de conteúdo planejado, artes de oferta, vídeos com roteiro e presença consistente no Instagram e Facebook.</p>
+        <ul class="servico-itens">
+          <li>Planejamento mensal de conteúdo</li>
+          <li>Artes de oferta semanais</li>
+          <li>Roteiro de vídeos institucionais</li>
+          <li>Stories de expectativa</li>
+        </ul>
+      </div>
+      <div class="servico-card reveal" style="transition-delay:0.16s">
+        <div class="servico-num">3</div>
+        <div class="servico-icon">💬</div>
+        <h3>WhatsApp & Comunidade</h3>
+        <p>Construção de comunidade ativa por loja, captação de contatos e automação de ofertas com o modelo certo — sem trauma operacional.</p>
+        <ul class="servico-itens">
+          <li>Comunidade por loja estruturada</li>
+          <li>Captação ativa de contatos</li>
+          <li>Ofertas exclusivas para membros</li>
+          <li>Plataforma a R$200/mês</li>
+        </ul>
+      </div>
+      <div class="servico-card reveal" style="transition-delay:0.24s">
+        <div class="servico-num">4</div>
+        <div class="servico-icon">📊</div>
+        <h3>DRE de Marketing</h3>
+        <p>O ADRI — demonstrativo de resultado do marketing. Todo mês você sabe o que foi investido, o que gerou resultado e o que muda.</p>
+        <ul class="servico-itens">
+          <li>Resultado por campanha e setor</li>
+          <li>Faturamento × investimento</li>
+          <li>Cupons, ticket médio, ROI</li>
+          <li>Benchmark mês a mês</li>
+        </ul>
+      </div>
+      <div class="servico-card reveal" style="transition-delay:0.32s">
+        <div class="servico-num">5</div>
+        <div class="servico-icon">🎉</div>
+        <h3>Eventos & Reinauguração</h3>
+        <p>Estrutura completa de aniversário, reinauguração e festivais — do planejamento à presença física no dia do evento.</p>
+        <ul class="servico-itens">
+          <li>Campanha de antecipação</li>
+          <li>Tráfego concentrado no evento</li>
+          <li>Presença do Oscar na loja</li>
+          <li>DRE pós-evento</li>
+        </ul>
+      </div>
+      <div class="servico-card reveal" style="transition-delay:0.40s">
+        <div class="servico-num">6</div>
+        <div class="servico-icon">🔬</div>
+        <h3>Pesquisa & Diagnóstico</h3>
+        <p>Pesquisa direta com clientes para mapear canais de comunicação, comportamento de compra e potencial de crescimento.</p>
+        <ul class="servico-itens">
+          <li>Pesquisa de rastreio de canais</li>
+          <li>Análise de comportamento de compra</li>
+          <li>Diagnóstico de marketing atual</li>
+          <li>Relatório com recomendações</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section id="garantia">
+  <div class="container">
+    <div class="eyebrow reveal" style="justify-content:center;text-align:center;">Nossa responsabilidade</div>
+    <h2 class="section-title reveal" style="text-align:center;">A garantia que nenhuma<br>agência genérica dá.</h2>
+    <p class="section-desc reveal" style="text-align:center;margin:0 auto 64px;">Agência que só executa o que você pede não assume resultado. Nós assumimos.</p>
+    <div class="garantia reveal">
+      <div>
+        <div class="garantia-big">+10<small>%</small></div>
+        <div class="garantia-period">em cupons · 90 dias</div>
+      </div>
+      <div>
+        <h3>+10% em número de cupons.<br>Essa é nossa responsabilidade.</h3>
+        <p>Mais cupons significa mais clientes passando pela porta. Com o ticket médio crescendo junto, o impacto no faturamento é proporcional ao tamanho da sua operação — e trabalhamos para que isso aconteça o quanto antes.</p>
+        <ul class="garantia-list">
+          <li>Diagnóstico completo antes de qualquer execução</li>
+          <li>DRE de Marketing todo mês — cada real investido medido</li>
+          <li>Plano de ação fechado e acompanhamento semanal</li>
+          <li>Crescimento mensurável em cupons, não em likes</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <div class="container">
+    <h2 class="reveal">Seu concorrente não tem<br>preços melhores.<br><em>Ele só aparece mais.</em></h2>
+    <p class="reveal">Comece com um diagnóstico gratuito. Em 30 minutos você sabe exatamente o que está travando o crescimento da sua loja.</p>
+    <a href="#agendar" class="btn-lg btn-green reveal">Agendar Diagnóstico Gratuito</a>
+  </div>
+</section>
+
+<!-- FORMULÁRIO PRINCIPAL -->
+<section class="form-section" id="agendar">
+  <div class="container">
+    <div class="form-layout">
+      <div class="form-left reveal">
+        <div class="eyebrow">Agendar reunião</div>
+        <h2>Diagnóstico gratuito para sua loja.</h2>
+        <p>Em 30 minutos de reunião online, a gente lê o seu negócio e aponta os caminhos mais rápidos para crescimento — sem compromisso.</p>
+        <div class="form-beneficios">
+          <div class="form-beneficio">
+            <div class="form-beneficio-icon">🔍</div>
+            <div class="form-beneficio-text">
+              <h5>Diagnóstico Personalizado</h5>
+              <p>Lemos faturamento, cupons, ticket médio e canais antes da reunião.</p>
+            </div>
+          </div>
+          <div class="form-beneficio">
+            <div class="form-beneficio-icon">📋</div>
+            <div class="form-beneficio-text">
+              <h5>Plano de Ação na Reunião</h5>
+              <p>Você sai com os próximos passos claros — mesmo sem fechar contrato.</p>
+            </div>
+          </div>
+          <div class="form-beneficio">
+            <div class="form-beneficio-icon">⏱️</div>
+            <div class="form-beneficio-text">
+              <h5>30 Minutos. Sem Enrolação.</h5>
+              <p>Reunião objetiva, focada em resultado. Seu tempo é respeitado.</p>
+            </div>
+          </div>
+          <div class="form-beneficio">
+            <div class="form-beneficio-icon">💰</div>
+            <div class="form-beneficio-text">
+              <h5>100% Gratuito</h5>
+              <p>Sem custo. Sem compromisso. A decisão é sempre sua.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="reveal" style="transition-delay:0.1s;">
+        <div class="form-box">
+          <div class="form-box-title">Agendar meu Diagnóstico</div>
+          <div class="form-box-sub">Preencha o formulário e nossa equipe entra em contato em até 24h.</div>
+          <form id="main-form" onsubmit="submitForm(event, 'main-form', 'main-success')">
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Nome completo</label>
+                <input class="form-input" type="text" placeholder="Seu nome" required>
+              </div>
+              <div class="form-group">
+                <label class="form-label">WhatsApp</label>
+                <input class="form-input" type="tel" placeholder="(11) 99999-9999" required>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Nome do supermercado / rede</label>
+              <input class="form-input" type="text" placeholder="Ex: Supermercado Bom Preço" required>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label class="form-label">Cidade / Estado</label>
+                <input class="form-input" type="text" placeholder="Ex: São Paulo — SP">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Nº de lojas</label>
+                <select class="form-select">
+                  <option value="" disabled selected>Selecione</option>
+                  <option>1 loja</option>
+                  <option>2 a 3 lojas</option>
+                  <option>4 a 5 lojas</option>
+                  <option>6 lojas ou mais</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Faturamento mensal aproximado</label>
+              <select class="form-select" required>
+                <option value="" disabled selected>Selecione uma faixa</option>
+                <option>Até R$100k</option>
+                <option>R$100k – R$300k</option>
+                <option>R$300k – R$800k</option>
+                <option>R$800k – R$2M</option>
+                <option>Acima de R$2M</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Maior desafio no marketing hoje</label>
+              <textarea class="form-textarea" placeholder="Ex: não sei o retorno do que estou investindo, quero mais clientes na loja..."></textarea>
+            </div>
+            <button class="form-submit" type="submit">Quero meu Diagnóstico Gratuito →</button>
+            <p class="form-note">🔒 Seus dados são confidenciais. Retornamos pelo WhatsApp em até 24h.</p>
+          </form>
+          <div class="form-success" id="main-success">
+            <div class="form-success-icon">🎉</div>
+            <h4>Solicitação recebida com sucesso!</h4>
+            <p>Oscar vai entrar em contato pelo WhatsApp em até 24h para agendar seu diagnóstico gratuito. Fique de olho nas mensagens!</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer">
+    <div>
+      <div class="footer-logo">GST <span>Marketing</span></div>
+      <p class="footer-desc">Especialistas em marketing para supermercados. Estratégia, tráfego pago e resultado mensurável para lojas que querem crescer.</p>
+    </div>
+    <div class="footer-col">
+      <h5>Serviços</h5>
+      <a href="#servicos">Tráfego Pago</a>
+      <a href="#servicos">Gestão de Redes</a>
+      <a href="#servicos">WhatsApp & Comunidade</a>
+      <a href="#servicos">DRE de Marketing</a>
+      <a href="#servicos">Eventos & Reinauguração</a>
+    </div>
+    <div class="footer-col">
+      <h5>Contato</h5>
+      <a href="https://wa.me/5511983912170">WhatsApp: (11) 98391-2170</a>
+      <a href="#agendar">Agendar Diagnóstico</a>
+      <a href="propostas/">Central de Propostas</a>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 <strong>GST Marketing</strong> · agenciagst.com.br</span>
+    <span>Marketing que vende de verdade.</span>
+  </div>
+</footer>
+
+<script>
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) { e.target.classList.add('visible'); }
+  });
+}, { threshold: 0.12 });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+// Form submit
+function submitForm(e, formId, successId) {
+  e.preventDefault();
+  const form = document.getElementById(formId);
+  const success = document.getElementById(successId);
+  const btn = form.querySelector('.form-submit');
+
+  btn.textContent = 'Enviando...';
+  btn.disabled = true;
+
+  // Monta mensagem para WhatsApp
+  const nome = form.querySelector('input[type="text"]')?.value || '';
+  const tel = form.querySelector('input[type="tel"]')?.value || '';
+  const loja = form.querySelectorAll('input[type="text"]')[1]?.value || nome;
+  const fat = form.querySelector('select')?.value || '';
+
+  const msg = encodeURIComponent(
+    `Olá Oscar! Acabei de preencher o formulário no site da GST Marketing.\n\n` +
+    `Nome: ${nome}\nWhatsApp: ${tel}\nLoja: ${loja}\nFaturamento: ${fat}\n\n` +
+    `Gostaria de agendar o diagnóstico gratuito!`
+  );
+
+  setTimeout(() => {
+    form.style.display = 'none';
+    success.style.display = 'block';
+    // Abre WhatsApp
+    window.open(`https://wa.me/5511983912170?text=${msg}`, '_blank');
+  }, 800);
+}
+
+// Smooth scroll para âncoras
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) {
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  });
+});
+</script>
+</body>
+</html>

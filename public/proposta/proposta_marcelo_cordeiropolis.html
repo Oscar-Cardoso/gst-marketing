@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Proposta · Supermercado Cordeirópolis</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --yellow: #f5b400; --red: #e53935;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --white: #fff; --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:9px 22px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #0a1f14 55%, #061510 100%);
+    color:#fff; padding:130px 40px 100px; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 75% 25%, rgba(0,196,106,0.13) 0%, transparent 55%),
+                radial-gradient(ellipse at 15% 85%, rgba(0,196,106,0.06) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position:relative; max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 360px; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.35);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 16px; border-radius:30px; margin-bottom:24px;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .hero h1 { font-size:clamp(34px,4.5vw,58px); font-weight:900; line-height:1.05; margin-bottom:20px; letter-spacing:-1.5px; }
+  .hero h1 em { font-style:normal; color:var(--green); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.62); max-width:540px; margin-bottom:36px; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .hero-tag { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:rgba(255,255,255,0.82); font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px; }
+  .hero-tag.verde { background:rgba(0,196,106,0.18); border-color:rgba(0,196,106,0.4); color:var(--green); font-weight:700; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 32px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.28); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 28px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.7); }
+
+  .hero-card { background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.11); border-radius:20px; padding:30px; backdrop-filter:blur(8px); }
+  .hero-card-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .hero-stat { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hero-stat-num { font-family:'Poppins',sans-serif; font-size:28px; font-weight:800; color:#fff; line-height:1; }
+  .hero-stat-num span { color:var(--green); }
+  .hero-stat-num.red span { color:#f87171; }
+  .hero-stat-num.yellow span { color:#fbbf24; }
+  .hero-stat-label { font-size:12px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-0.5px; color:var(--navy); margin-bottom:14px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:680px; margin-bottom:52px; line-height:1.7; }
+
+  /* CENÁRIO */
+  .cenario-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .cenario-card { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-top:4px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .cenario-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .cenario-card.alerta { border-top-color:var(--red); }
+  .cenario-card.amarelo { border-top-color:var(--yellow); }
+  .cenario-icon { font-size:30px; margin-bottom:12px; }
+  .cenario-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .cenario-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+
+  /* EXCLUSIVIDADE */
+  .exclusividade-box {
+    background: linear-gradient(135deg, #0d1b2a, #162032);
+    border-radius:20px; padding:44px 48px;
+    border:1px solid rgba(0,196,106,0.25);
+    display:grid; grid-template-columns:auto 1fr; gap:48px; align-items:center;
+    max-width:880px; margin:0 auto;
+  }
+  @media(max-width:700px){.exclusividade-box{grid-template-columns:1fr;padding:32px 24px;text-align:center;}}
+  .exclusividade-icon { font-size:72px; line-height:1; }
+  .exclusividade-box h3 { font-family:'Poppins',sans-serif; font-size:24px; font-weight:800; color:#fff; margin-bottom:12px; line-height:1.2; }
+  .exclusividade-box p { font-size:14px; color:rgba(255,255,255,0.65); line-height:1.75; }
+  .exclusividade-box strong { color:var(--green); }
+
+  /* PILARES */
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.pillars-grid{grid-template-columns:1fr;}}
+  .pillar-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; position:relative; overflow:hidden; }
+  .pillar-card.p1 { background:linear-gradient(135deg, #00c46a, #009f56); }
+  .pillar-card.p2 { background:linear-gradient(135deg, #0ea5e9, #0369a1); }
+  .pillar-card.p3 { background:linear-gradient(135deg, #f59e0b, #d97706); }
+  .pillar-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; opacity:0.12; position:absolute; right:14px; top:4px; line-height:1; }
+  .pillar-card h3 { font-size:20px; font-weight:800; margin-bottom:10px; }
+  .pillar-card p { font-size:13px; opacity:0.9; line-height:1.65; }
+
+  /* PROPOSTA TABS */
+  .proposta-bg { background:linear-gradient(160deg, #0a1a2e 0%, #0d2a1a 100%); }
+  .proposta-bg .section-title { color:#fff; }
+  .proposta-bg .section-desc { color:rgba(255,255,255,0.5); }
+  .planos-toggle { display:flex; gap:6px; background:rgba(255,255,255,0.08); border-radius:14px; padding:6px; max-width:520px; margin-bottom:48px; }
+  .plano-btn { flex:1; padding:12px 20px; border-radius:10px; border:none; cursor:pointer; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; background:transparent; color:rgba(255,255,255,0.5); transition:all 0.25s; }
+  .plano-btn.active.trafego { background:var(--green); color:#fff; }
+  .plano-btn.active.completo { background:#1a73e8; color:#fff; }
+  .plano-pane { display:none; }
+  .plano-pane.active { display:block; }
+
+  .proposta-box { background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.22); border-radius:24px; padding:52px 48px; max-width:880px; margin:0 auto; position:relative; overflow:hidden; }
+  .proposta-box.azul { border-color:rgba(26,115,232,0.3); }
+  @media(max-width:660px){.proposta-box{padding:32px 22px;}}
+  .proposta-box::before { content:''; position:absolute; top:-100px; right:-100px; width:320px; height:320px; background:radial-gradient(circle, rgba(0,196,106,0.10) 0%, transparent 70%); }
+  .proposta-box.azul::before { background:radial-gradient(circle, rgba(26,115,232,0.10) 0%, transparent 70%); }
+  .proposta-header { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:40px; position:relative; }
+  .proposta-destinatario h3 { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .proposta-destinatario p { font-size:22px; font-weight:700; color:#fff; }
+  .proposta-destinatario small { font-size:13px; color:rgba(255,255,255,0.32); display:block; margin-top:4px; }
+  .proposta-preco-wrap { text-align:right; }
+  .proposta-preco-label { font-size:11px; color:rgba(255,255,255,0.38); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .proposta-preco { font-family:'Poppins',sans-serif; font-size:52px; font-weight:800; line-height:1; }
+  .proposta-preco.verde { color:var(--green); }
+  .proposta-preco.azul { color:#60a5fa; }
+  .proposta-preco small { font-size:18px; font-weight:400; color:rgba(255,255,255,0.42); }
+  .recomendado-badge { display:inline-flex; align-items:center; gap:6px; background:rgba(26,115,232,0.2); border:1px solid rgba(26,115,232,0.4); color:#60a5fa; font-size:11px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:5px 14px; border-radius:20px; margin-bottom:20px; }
+  .prop-divider { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:36px 0; }
+  .proposta-cols { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  @media(max-width:600px){.proposta-cols{grid-template-columns:1fr;}}
+  .prop-col-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; margin-bottom:16px; }
+  .prop-col-title.verde { color:var(--green); }
+  .prop-col-title.azul { color:#60a5fa; }
+  .prop-col-title.cinza { color:rgba(255,255,255,0.35); }
+  .prop-itens { list-style:none; }
+  .prop-itens li { font-size:13px; color:rgba(255,255,255,0.78); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; gap:10px; align-items:flex-start; }
+  .prop-itens li:last-child { border-bottom:none; }
+  .prop-itens li::before { content:'✦'; font-size:11px; flex-shrink:0; margin-top:3px; }
+  .prop-itens.verde li::before { color:var(--green); }
+  .prop-itens.azul li::before { color:#60a5fa; }
+  .prop-itens li.nao { color:rgba(255,255,255,0.28); }
+  .prop-itens li.nao::before { content:'✗'; color:rgba(255,255,255,0.18); }
+  .proposta-nota { margin-top:36px; border-radius:12px; padding:20px 24px; }
+  .proposta-nota.verde { background:rgba(0,196,106,0.09); border:1px solid rgba(0,196,106,0.2); }
+  .proposta-nota.azul { background:rgba(26,115,232,0.09); border:1px solid rgba(26,115,232,0.2); }
+  .proposta-nota p { font-size:13px; color:rgba(255,255,255,0.68); line-height:1.7; }
+  .proposta-nota strong { color:var(--green); }
+  .proposta-nota.azul strong { color:#60a5fa; }
+  .proposta-cta { margin-top:40px; text-align:center; }
+  .btn-azul { background:#1a73e8; color:#fff; font-family:'Poppins',sans-serif; font-size:16px; font-weight:700; padding:18px 52px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-azul:hover { background:#1557b0; transform:translateY(-2px); }
+
+  /* COMPARATIVO */
+  .compare-wrap { overflow-x:auto; }
+  .compare-table { width:100%; border-collapse:collapse; min-width:560px; }
+  .compare-table th { font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:14px 18px; text-align:left; border-bottom:2px solid #e2e8f0; }
+  .compare-table th:nth-child(2) { color:var(--gray); text-align:center; }
+  .compare-table th:nth-child(3) { color:#1a73e8; background:#eff6ff; border-radius:8px 8px 0 0; text-align:center; }
+  .compare-table td { font-size:13px; padding:12px 18px; border-bottom:1px solid #f1f5f9; }
+  .compare-table td:nth-child(2) { text-align:center; }
+  .compare-table td:nth-child(3) { background:#f8faff; font-weight:600; color:#1e40af; text-align:center; }
+  .compare-table tr:last-child td { border-bottom:none; }
+  .check-verde { color:var(--green); font-size:16px; }
+  .check-azul { color:#1a73e8; font-size:16px; }
+  .cross { color:#cbd5e1; font-size:16px; }
+
+  /* RESULTADOS */
+  .resultados-bg { background:var(--navy); }
+  .resultados-bg .section-title { color:#fff; }
+  .resultados-bg .section-desc { color:rgba(255,255,255,0.55); }
+  .res-timeline { display:grid; grid-template-columns:repeat(4,1fr); gap:18px; }
+  @media(max-width:800px){.res-timeline{grid-template-columns:repeat(2,1fr);}}
+  .res-card { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); border-radius:14px; padding:26px 20px; transition:background 0.2s; }
+  .res-card:hover { background:rgba(0,196,106,0.08); }
+  .res-period { font-size:11px; font-weight:700; text-transform:uppercase; letter-spacing:1.5px; color:var(--green); margin-bottom:14px; }
+  .res-card ul { list-style:none; }
+  .res-card ul li { font-size:13px; color:rgba(255,255,255,0.78); padding:5px 0; }
+  .res-card ul li::before { content:'▸ '; color:var(--green); }
+
+  /* GARANTIA */
+  .garantia-box {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.25);
+    border-radius:24px; padding:52px 48px; max-width:860px; margin:0 auto;
+    display:grid; grid-template-columns:auto 1fr; gap:52px; align-items:center; position:relative; overflow:hidden;
+  }
+  @media(max-width:700px){.garantia-box{grid-template-columns:1fr;padding:32px 24px;text-align:center;}}
+  .garantia-box::before { content:''; position:absolute; top:-80px; right:-80px; width:300px; height:300px; background:radial-gradient(circle, rgba(0,196,106,0.12) 0%, transparent 70%); }
+  .garantia-num { font-family:'Poppins',sans-serif; font-size:96px; font-weight:900; color:var(--green); line-height:1; position:relative; }
+  .garantia-num small { font-size:40px; }
+  .garantia-period { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:rgba(0,196,106,0.6); margin-top:4px; }
+  .garantia-titulo { font-family:'Poppins',sans-serif; font-size:26px; font-weight:800; color:#fff; margin-bottom:12px; line-height:1.2; position:relative; }
+  .garantia-desc { font-size:14px; color:rgba(255,255,255,0.62); line-height:1.75; margin-bottom:20px; position:relative; }
+  .garantia-list { list-style:none; display:flex; flex-direction:column; gap:10px; position:relative; }
+  .garantia-list li { font-size:13px; color:rgba(255,255,255,0.8); display:flex; gap:10px; }
+  .garantia-list li::before { content:'✓'; background:var(--green); color:var(--navy); font-size:10px; font-weight:900; width:18px; height:18px; border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; margin-top:2px; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); padding:40px; text-align:center; }
+  .footer p { font-size:14px; color:rgba(255,255,255,0.36); }
+  .footer strong { color:rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#cenario">Cenário</a>
+    <a href="#proposta">Proposta</a>
+    <a href="#garantia">Garantia</a>
+    <a href="#resultados">Resultados</a>
+  </div>
+  <a href="#proposta" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Proposta Personalizada · Cordeirópolis — SP</div>
+      <h1>56 anos de história.<br><em>Hora de aparecer</em><br>mais que a rede nova.</h1>
+      <p class="hero-sub">O Supermercado chegou antes, conhece a cidade e tem o cliente fiel. A GST entra com tráfego pago estratégico, roteiro para a equipe interna e resultado mensurável — para reconquistar cada cupom que a concorrência tirou.</p>
+      <div class="hero-tags">
+        <span class="hero-tag verde">✦ Exclusividade em Cordeirópolis</span>
+        <span class="hero-tag">56 anos de tradição</span>
+        <span class="hero-tag">Tráfego Pago Estratégico</span>
+        <span class="hero-tag">Roteiro para Equipe Interna</span>
+        <span class="hero-tag">DRE de Marketing Mensal</span>
+        <span class="hero-tag">Contrato Mínimo 6 Meses</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#proposta" class="btn-primary">Ver os Planos</a>
+        <a href="#garantia" class="btn-ghost">Ver a Garantia</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">📊 Raio-X · Cenário Atual</div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>56</span> anos</div>
+        <div class="hero-stat-label">De tradição em Cordeirópolis — referência da cidade</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num red"><span>-1.000</span> cupons</div>
+        <div class="hero-stat-label">Queda no último mês após entrada da rede concorrente</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num yellow"><span>R$1.000</span>/mês</div>
+        <div class="hero-stat-label">Verba atual de anúncios — mantida e bem distribuída</div>
+      </div>
+      <div class="hero-stat" style="border:none;margin:0;padding:0;">
+        <div class="hero-stat-num"><span>✅</span> Exclusivo</div>
+        <div class="hero-stat-label">GST não atende concorrente direto em Cordeirópolis</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CENÁRIO -->
+<section id="cenario" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">O Que Identificamos</div>
+    <h2 class="section-title">O Momento da Loja<br>e as Oportunidades</h2>
+    <p class="section-desc">Em 39 minutos de conversa, ficou claro o que está acontecendo — e o que pode ser feito de imediato para reverter a queda.</p>
+    <div class="cenario-grid">
+      <div class="cenario-card alerta">
+        <div class="cenario-icon">🏬</div>
+        <h3>Concorrente Novo desde Nov/2024</h3>
+        <p>Rede grande, loja moderna, inaugurada com apoio institucional. Chegou com força e tirou faturamento. Mas a tradição de 56 anos e o vínculo com o cliente local são ativos que nenhuma rede nova tem.</p>
+      </div>
+      <div class="cenario-card alerta">
+        <div class="cenario-icon">📉</div>
+        <h3>Queda de ~1.000 Cupons no Mês</h3>
+        <p>O número de cupons caiu — e isso é a bússola mais importante. Recuperar esses cupons é o objetivo central do trabalho da GST nos primeiros 90 dias.</p>
+      </div>
+      <div class="cenario-card">
+        <div class="cenario-icon">📱</div>
+        <h3>Instagram Cresceu 500 Seguidores</h3>
+        <p>Desde agosto, o Instagram ganhou ~500 novos seguidores. O canal está crescendo. Mas os seguidores ainda não estão virando clientes na loja — esse é o gap que o tráfego pago resolve.</p>
+      </div>
+      <div class="cenario-card">
+        <div class="cenario-icon">👩‍💼</div>
+        <h3>Equipe Interna que Produz Conteúdo</h3>
+        <p>A colaboradora interna já grava, posta e tem cinco vídeos com bom resultado. O que falta é roteiro e direcionamento estratégico — o que a GST entrega toda semana.</p>
+      </div>
+      <div class="cenario-card amarelo">
+        <div class="cenario-icon">📘</div>
+        <h3>Facebook com Histórico de Conta Hackeada</h3>
+        <p>A página tem histórico antigo e foi comprometida por invasão externa. Um dos primeiros passos é estruturar o gerenciador de anúncios corretamente para que as campanhas rodem com segurança.</p>
+      </div>
+      <div class="cenario-card">
+        <div class="cenario-icon">📅</div>
+        <h3>Copa do Mundo — Oportunidade Imediata</h3>
+        <p>O calendário comercial tem datas estratégicas chegando — Copa do Mundo é uma das maiores oportunidades de faturamento no varejo alimentar. Precisamos começar a preparar agora.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- EXCLUSIVIDADE -->
+<section style="background:#fff;">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">O Compromisso</div>
+    <h2 class="section-title" style="margin-bottom:16px;">Você ficou claro.<br>A gente também.</h2>
+    <p class="section-desc" style="margin:0 auto 48px;">Marcelo foi direto: não quer a GST atendendo concorrente na mesma praça. E Oscar foi igualmente claro.</p>
+    <div class="exclusividade-box">
+      <div class="exclusividade-icon">🔒</div>
+      <div style="text-align:left;">
+        <h3>Exclusividade total em Cordeirópolis.<br>A praça é de vocês.</h3>
+        <p>Não temos cliente em Cordeirópolis — e não vamos ter enquanto vocês estiverem na nossa base. <strong>Essa é a política da GST</strong>: não trabalhamos para dois lados na mesma praça. Quando assinamos, a cidade é exclusiva. Sem exceção, sem "raio de 1km", sem zona cinzenta.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Como Trabalhamos</div>
+    <h2 class="section-title">3 Frentes de Atuação</h2>
+    <p class="section-desc">Seja no plano de tráfego ou no plano completo, o trabalho da GST está estruturado em três frentes que se reforçam.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">1</div>
+        <h3>Alcance</h3>
+        <p>Tráfego pago distribuído por calendário comercial — cada real investido no momento certo, para o público certo da cidade.</p>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">2</div>
+        <h3>Conteúdo</h3>
+        <p>Roteiro semanal para a equipe interna, direcionamento de vídeos por setor e comunicação que converte seguidores em clientes.</p>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">3</div>
+        <h3>Resultado</h3>
+        <p>DRE de Marketing mensal conectando cada campanha ao faturamento — para você saber o retorno de cada real investido.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSTA COM TABS -->
+<section class="proposta-bg" id="proposta" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Escolha o Plano</div>
+    <h2 class="section-title">Dois formatos.<br>Você decide por onde começar.</h2>
+    <p class="section-desc">Começar pelo tráfego — que é a dor mais imediata — ou já partir para o plano completo da agência. Ambos incluem exclusividade total em Cordeirópolis.</p>
+
+    <div class="planos-toggle">
+      <button class="plano-btn trafego active" onclick="trocarPlano('trafego')">🎯 Só Tráfego <span style="font-size:11px;opacity:0.7;">— R$1.500/mês</span></button>
+      <button class="plano-btn completo" onclick="trocarPlano('completo')">⭐ Plano Completo <span style="font-size:11px;opacity:0.7;">— R$2.500/mês</span></button>
+    </div>
+
+    <!-- PLANO TRÁFEGO -->
+    <div class="plano-pane active" id="pane-trafego">
+      <div class="proposta-box">
+        <div class="proposta-header">
+          <div class="proposta-destinatario">
+            <h3>Proposta preparada para</h3>
+            <p>Marcelo Della Coletta</p>
+            <small>Supermercado · Cordeirópolis — SP · 56 anos</small>
+          </div>
+          <div class="proposta-preco-wrap">
+            <div class="proposta-preco-label">Investimento mensal</div>
+            <div class="proposta-preco verde">R$1.500<small>/mês</small></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Plano de Tráfego Pago · 6 meses mínimo</div>
+          </div>
+        </div>
+        <hr class="prop-divider">
+        <div class="proposta-cols">
+          <div>
+            <div class="prop-col-title verde">✦ Gestão de Tráfego Pago</div>
+            <ul class="prop-itens verde">
+              <li>Criação e gestão de campanhas Meta (Facebook + Instagram)</li>
+              <li>Segmentação para Cordeirópolis e região</li>
+              <li>Distribuição de verba por calendário comercial</li>
+              <li>Campanhas de oferta, alcance e reconhecimento</li>
+              <li>Criativos e direcionamento para cada campanha</li>
+              <li>Otimização contínua por performance</li>
+            </ul>
+          </div>
+          <div>
+            <div class="prop-col-title verde">✦ Direcionamento & Resultado</div>
+            <ul class="prop-itens verde">
+              <li>Roteiro semanal para a colaboradora interna</li>
+              <li>Indicação de vídeos por setor prioritário</li>
+              <li>Reestruturação do Gerenciador de Anúncios</li>
+              <li>Grupo de WhatsApp diário com a equipe</li>
+              <li>Reunião mensal online de acompanhamento</li>
+              <li>DRE de Marketing mensal (ADRI)</li>
+            </ul>
+          </div>
+        </div>
+        <div class="proposta-nota verde">
+          <p>⚡ <strong>Verba de anúncios não incluída</strong> — você mantém os R$1.000/mês que já investe hoje. A GST distribui esse valor com inteligência de calendário. O dinheiro vai direto para o Meta, sem margem da agência. Pode ser escalado conforme o resultado.</p>
+        </div>
+        <div class="proposta-cta">
+          <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 52px;">✅ Fechar o Plano de Tráfego</a>
+          <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- PLANO COMPLETO -->
+    <div class="plano-pane" id="pane-completo">
+      <div class="proposta-box azul">
+        <div class="recomendado-badge">⭐ Plano Recomendado</div>
+        <div class="proposta-header">
+          <div class="proposta-destinatario">
+            <h3>Proposta preparada para</h3>
+            <p>Marcelo Della Coletta</p>
+            <small>Supermercado · Cordeirópolis — SP · 56 anos</small>
+          </div>
+          <div class="proposta-preco-wrap">
+            <div class="proposta-preco-label">Investimento mensal</div>
+            <div class="proposta-preco azul">R$2.500<small>/mês</small></div>
+            <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Plano Completo da Agência · 6 meses mínimo</div>
+          </div>
+        </div>
+        <hr class="prop-divider">
+        <div class="proposta-cols">
+          <div>
+            <div class="prop-col-title azul">✦ Tudo do Plano de Tráfego</div>
+            <ul class="prop-itens azul">
+              <li>Gestão completa de campanhas Meta</li>
+              <li>Segmentação para Cordeirópolis</li>
+              <li>Distribuição de verba por calendário</li>
+              <li>Roteiro semanal para equipe interna</li>
+              <li>DRE de Marketing mensal (ADRI)</li>
+              <li>Grupo de WhatsApp com acompanhamento diário</li>
+            </ul>
+          </div>
+          <div>
+            <div class="prop-col-title azul">✦ Exclusivo do Plano Completo</div>
+            <ul class="prop-itens azul">
+              <li>Planejamento mensal de marketing</li>
+              <li>Calendário comercial integrado (Copa, datas nacionais)</li>
+              <li>Reunião mensal estratégica de alinhamento</li>
+              <li>Pesquisa de rastreio com clientes da loja</li>
+              <li>Reestruturação completa do Facebook</li>
+              <li>Google Meu Negócio + campanha de avaliações</li>
+            </ul>
+          </div>
+        </div>
+        <div class="proposta-nota azul">
+          <p>💡 <strong>Por que o Plano Completo?</strong> Além do tráfego, você tem planejamento estratégico, pesquisa com seus clientes para entender por qual canal chegam as ofertas, reestruturação do Facebook hackeado e Google Meu Negócio organizado — tudo o que faz a operação de marketing funcionar de forma integrada e não só impulsionada.</p>
+        </div>
+        <div class="proposta-cta">
+          <a href="https://wa.me/5511983912170" class="btn-azul">⭐ Fechar o Plano Completo</a>
+          <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- COMPARATIVO -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Comparativo</div>
+    <h2 class="section-title">O Que Cada Plano Inclui</h2>
+    <p class="section-desc">Veja lado a lado o que muda entre os dois formatos.</p>
+    <div class="compare-wrap">
+      <table class="compare-table">
+        <thead>
+          <tr>
+            <th style="width:50%;">O que está incluído</th>
+            <th style="width:25%;">🎯 Só Tráfego<br><span style="font-weight:400;font-size:11px;">R$1.500/mês</span></th>
+            <th style="width:25%;">⭐ Plano Completo<br><span style="font-weight:400;font-size:11px;">R$2.500/mês</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td>Gestão de campanhas Meta (Facebook + Instagram)</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>Segmentação para Cordeirópolis e região</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>Distribuição de verba por calendário comercial</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>Roteiro semanal para a colaboradora interna</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>Grupo de WhatsApp com acompanhamento diário</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>DRE de Marketing mensal (ADRI)</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>Reunião mensal online de acompanhamento</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td>Reestruturação do Gerenciador de Anúncios</td><td><span class="check-verde">✓</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td><strong>Planejamento mensal de marketing</strong></td><td><span class="cross">✗</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td><strong>Calendário comercial integrado (Copa, datas nacionais)</strong></td><td><span class="cross">✗</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td><strong>Pesquisa de rastreio com clientes da loja</strong></td><td><span class="cross">✗</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td><strong>Reestruturação completa do Facebook</strong></td><td><span class="cross">✗</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td><strong>Google Meu Negócio + campanha de avaliações</strong></td><td><span class="cross">✗</span></td><td><span class="check-azul">✓</span></td></tr>
+          <tr><td><strong>Reunião mensal estratégica de alinhamento</strong></td><td><span class="cross">✗</span></td><td><span class="check-azul">✓</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<!-- GARANTIA -->
+<section class="proposta-bg" id="garantia" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Nossa Responsabilidade</div>
+    <h2 class="section-title" style="margin-bottom:16px;">A garantia que<br>nenhuma agência dá.</h2>
+    <p class="section-desc" style="margin-bottom:48px;">Agência que só executa o que você pede não assume resultado. Nós assumimos.</p>
+    <div class="garantia-box">
+      <div style="text-align:center;">
+        <div class="garantia-num">+10<small>%</small></div>
+        <div class="garantia-period">em cupons · 90 dias</div>
+      </div>
+      <div>
+        <div class="garantia-titulo">+10% em número de cupons. Essa é nossa responsabilidade.</div>
+        <div class="garantia-desc">Você perdeu ~1.000 cupons com a entrada da rede nova. Trabalhamos para recuperar isso e ir além — com tráfego certo, roteiro para a equipe e calendário integrado ao resultado.</div>
+        <ul class="garantia-list">
+          <li>Diagnóstico antes de qualquer execução</li>
+          <li>DRE de Marketing conectando campanha a faturamento</li>
+          <li>Plano de ação fechado e acompanhamento semanal</li>
+          <li>Resultado em cupons — não em likes e alcance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="resultados-bg" id="resultados">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">O Que Esperar</div>
+    <h2 class="section-title">Resultados por Etapa</h2>
+    <p class="section-desc">Progresso visível desde a primeira semana. Cada etapa tem entregáveis concretos.</p>
+    <div class="res-timeline">
+      <div class="res-card">
+        <div class="res-period">Semana 1</div>
+        <ul>
+          <li>Acesso ao Meta e Instagram</li>
+          <li>Reestruturação do Gerenciador</li>
+          <li>Primeiro roteiro para a equipe</li>
+          <li>Calendário da Copa alinhado</li>
+          <li>Grupo de WhatsApp ativo</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">30 dias</div>
+        <ul>
+          <li>Campanhas no ar com segmentação certa</li>
+          <li>Verba distribuída por calendário</li>
+          <li>Primeiro DRE de Marketing entregue</li>
+          <li>Google Meu Negócio organizado</li>
+          <li>Pesquisa de rastreio iniciada</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">90 dias</div>
+        <ul>
+          <li>+10% em cupons — meta da garantia</li>
+          <li>Campanha Copa estruturada</li>
+          <li>Rotina de conteúdo consolidada</li>
+          <li>Resultado mensurável por campanha</li>
+          <li>3 DREs entregues e analisados</li>
+        </ul>
+      </div>
+      <div class="res-card">
+        <div class="res-period">6 meses</div>
+        <ul>
+          <li>Cupons acima do pré-concorrente</li>
+          <li>Referência digital da cidade</li>
+          <li>Equipe interna autônoma no conteúdo</li>
+          <li>Marketing integrado à operação</li>
+          <li>Base de clientes mapeada e ativada</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="proposta-bg" style="padding:72px 40px;">
+  <div class="container" style="text-align:center;max-width:640px;">
+    <div class="section-label" style="color:var(--green);">Próximo Passo</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:16px;">56 anos de história<br>merecem aparecer mais.</h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.52);margin-bottom:36px;line-height:1.75;">A rede nova tem loja bonita. Vocês têm algo que nenhuma rede constrói em meses: vínculo real com a cidade. A GST entra para garantir que esse vínculo apareça para todos os clientes — toda semana.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:40px;">
+      <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:15px;padding:16px 36px;">🎯 Fechar Plano de Tráfego — R$1.500</a>
+      <a href="https://wa.me/5511983912170" class="btn-azul" style="font-size:15px;padding:16px 36px;">⭐ Fechar Plano Completo — R$2.500</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🔒</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Exclusividade Total</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Nenhum concorrente em Cordeirópolis na nossa base enquanto vocês estiverem</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">📊</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Resultado Mensurável</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">DRE de Marketing todo mês — cada real investido tem retorno medido</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🎯</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Especialistas em Super</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Perguntamos cupons, ticket médio e faturamento. Agência genérica não faz isso.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Proposta para Marcelo Della Coletta · Cordeirópolis — SP</p>
+  <p style="margin-top:8px;">Especialistas em Marketing para Supermercados · Contrato Mínimo 6 Meses · agenciagst.com.br</p>
+</footer>
+
+<script>
+  function trocarPlano(plano) {
+    document.querySelectorAll('.plano-pane').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.plano-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById('pane-' + plano).classList.add('active');
+    document.querySelector('.plano-btn.' + plano).classList.add('active');
+  }
+</script>
+</body>
+</html>
