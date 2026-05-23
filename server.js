@@ -110,6 +110,10 @@ app.post('/api/leads', async (req, res) => {
     }
 
     saveLead({ nome, whatsapp, loja, faturamento, desafio, status: 'Novo' });
+    
+    // Log para rastreamento
+    console.log(`📊 Lead capturado: ${nome} (${loja}) - ${whatsapp}`);
+    
     res.json({ success: true, message: 'Lead captado com sucesso!' });
   } catch (error) {
     res.status(500).json({ error: error.message });
