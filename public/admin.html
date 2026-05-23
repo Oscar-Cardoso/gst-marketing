@@ -529,17 +529,17 @@ async function initSupabase() {
   return createClient(SUPABASE_URL, SUPABASE_KEY);
 }
 
-async function fazerLogin() {
+function fazerLogin() {
   const senha = document.getElementById('senhaInput').value;
-  
-  // Validação simples de senha
   if (senha === 'T@ubate6') {
-    document.getElementById('loginScreen').classList.remove('show');
-    document.getElementById('adminPanel').style.display = 'block';
+    const login = document.getElementById('loginScreen');
+    const panel = document.getElementById('adminPanel');
+    login.style.display = 'none';
+    panel.style.display = 'block';
     localStorage.setItem('admin_logged_in', 'true');
     carregarDados();
   } else {
-    alert('Senha incorreta!');
+    alert('Senha incorreta! Use: T@ubate6');
   }
 }
 
@@ -760,7 +760,7 @@ async function deletarPlaybook(id) {
 // Verificar se já está logado
 window.addEventListener('load', () => {
   if (localStorage.getItem('admin_logged_in') === 'true') {
-    document.getElementById('loginScreen').classList.remove('show');
+    document.getElementById('loginScreen').style.display = 'none';
     document.getElementById('adminPanel').style.display = 'block';
     carregarDados();
   }
