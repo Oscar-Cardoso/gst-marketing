@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Proposta Supermercado Milene · João</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '816387441305466');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=816387441305466&ev=PageView&noscript=1" /></noscript>
+<!-- End Meta Pixel Code -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --yellow: #f5b400; --red: #e53935;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --white: #fff; --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:9px 22px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #0a1f14 55%, #061510 100%);
+    color:#fff; padding:130px 40px 100px; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 78% 22%, rgba(0,196,106,0.13) 0%, transparent 55%),
+                radial-gradient(ellipse at 12% 88%, rgba(0,196,106,0.06) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position:relative; max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 360px; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.35);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 16px; border-radius:30px; margin-bottom:24px;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .hero h1 { font-size:clamp(34px,4.5vw,58px); font-weight:900; line-height:1.05; margin-bottom:20px; letter-spacing:-1.5px; }
+  .hero h1 em { font-style:normal; color:var(--green); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.62); max-width:540px; margin-bottom:36px; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .hero-tag { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:rgba(255,255,255,0.82); font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 32px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.28); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 28px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.7); }
+
+  .hero-card { background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.11); border-radius:20px; padding:30px; backdrop-filter:blur(8px); }
+  .hero-card-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .hero-stat { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hero-stat-num { font-family:'Poppins',sans-serif; font-size:28px; font-weight:800; color:#fff; line-height:1; }
+  .hero-stat-num span { color:var(--green); }
+  .hero-stat-label { font-size:12px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-0.5px; color:var(--navy); margin-bottom:14px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:680px; margin-bottom:52px; line-height:1.7; }
+
+  /* NÚMEROS DA LOJA */
+  .numeros-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-bottom:48px; }
+  @media(max-width:800px){.numeros-grid{grid-template-columns:repeat(2,1fr);}}
+  .numero-card { background:#fff; border-radius:16px; padding:28px 20px; border:1px solid #e2e8f0; text-align:center; border-bottom:3px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .numero-card:hover { box-shadow:0 8px 24px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .numero-val { font-family:'Poppins',sans-serif; font-size:32px; font-weight:900; color:var(--navy); line-height:1; margin-bottom:6px; }
+  .numero-val span { color:var(--green); }
+  .numero-label { font-size:12px; color:var(--gray); font-weight:500; }
+  .numero-sub { font-size:11px; color:rgba(100,116,139,0.6); margin-top:3px; }
+
+  /* OPORTUNIDADES */
+  .oport-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .oport-card { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-top:4px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .oport-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .oport-card.amarelo { border-top-color:var(--yellow); }
+  .oport-card.azul { border-top-color:#1a73e8; }
+  .oport-icon { font-size:30px; margin-bottom:12px; }
+  .oport-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .oport-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+  .oport-gain { margin-top:12px; display:inline-block; font-size:12px; font-weight:700; background:var(--green-light); color:var(--green-dark); padding:4px 12px; border-radius:20px; }
+  .oport-gain.amarelo { background:#fffbeb; color:#92400e; }
+  .oport-gain.azul { background:#eff6ff; color:#1e40af; }
+
+  /* EVENTOS — linha do tempo */
+  .eventos-bg { background:var(--navy); }
+  .eventos-bg .section-title { color:#fff; }
+  .eventos-bg .section-desc { color:rgba(255,255,255,0.55); }
+  .eventos-track { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:700px){.eventos-track{grid-template-columns:1fr;}}
+  .evento-card { border-radius:16px; padding:32px 28px; position:relative; overflow:hidden; }
+  .evento-card.aniversario { background:rgba(245,180,0,0.12); border:1px solid rgba(245,180,0,0.3); }
+  .evento-card.reinauguracao { background:rgba(0,196,106,0.12); border:1px solid rgba(0,196,106,0.3); }
+  .evento-badge { display:inline-block; font-size:10px; font-weight:700; letter-spacing:1.5px; text-transform:uppercase; padding:4px 12px; border-radius:20px; margin-bottom:14px; }
+  .evento-badge.amarelo { background:rgba(245,180,0,0.2); color:#fbbf24; }
+  .evento-badge.verde { background:rgba(0,196,106,0.2); color:var(--green); }
+  .evento-card h3 { font-family:'Poppins',sans-serif; font-size:22px; font-weight:800; color:#fff; margin-bottom:10px; }
+  .evento-card p { font-size:13px; color:rgba(255,255,255,0.65); line-height:1.7; margin-bottom:16px; }
+  .evento-itens { list-style:none; }
+  .evento-itens li { font-size:13px; color:rgba(255,255,255,0.82); padding:5px 0; border-bottom:1px solid rgba(255,255,255,0.07); display:flex; gap:8px; }
+  .evento-itens li:last-child { border-bottom:none; }
+  .evento-itens li::before { content:'✦'; color:var(--green); font-size:10px; flex-shrink:0; margin-top:4px; }
+  .evento-card.aniversario .evento-itens li::before { color:#fbbf24; }
+
+  /* PILARES */
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.pillars-grid{grid-template-columns:1fr;}}
+  .pillar-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; position:relative; overflow:hidden; }
+  .pillar-card.p1 { background:linear-gradient(135deg, #00c46a, #009f56); }
+  .pillar-card.p2 { background:linear-gradient(135deg, #0ea5e9, #0369a1); }
+  .pillar-card.p3 { background:linear-gradient(135deg, #f59e0b, #d97706); }
+  .pillar-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; opacity:0.12; position:absolute; right:14px; top:4px; line-height:1; }
+  .pillar-card h3 { font-size:20px; font-weight:800; margin-bottom:10px; }
+  .pillar-card p { font-size:13px; opacity:0.9; line-height:1.65; }
+
+  /* SERVIÇOS */
+  .servicos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+  .servico-card { background:#fff; border-radius:18px; padding:32px 28px; border:1px solid #e2e8f0; position:relative; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .servico-card:hover { box-shadow:0 12px 40px rgba(0,0,0,0.10); transform:translateY(-4px); }
+  .servico-num { font-family:'Poppins',sans-serif; font-size:80px; font-weight:900; color:var(--green); opacity:0.07; position:absolute; right:14px; top:2px; line-height:1; }
+  .servico-icon { font-size:34px; margin-bottom:14px; }
+  .servico-card h3 { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .servico-card p { font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:14px; }
+  .servico-list { list-style:none; }
+  .servico-list li { font-size:13px; color:var(--text); padding:5px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .servico-list li:last-child { border-bottom:none; }
+  .servico-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* PROPOSTA */
+  .proposta-bg { background:linear-gradient(160deg, #0a1a2e 0%, #0d2a1a 100%); }
+  .proposta-bg .section-title { color:#fff; }
+  .proposta-bg .section-desc { color:rgba(255,255,255,0.5); }
+  .proposta-box { background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.22); border-radius:24px; padding:52px 48px; max-width:880px; margin:0 auto; position:relative; overflow:hidden; }
+  @media(max-width:660px){.proposta-box{padding:32px 22px;}}
+  .proposta-box::before { content:''; position:absolute; top:-100px; right:-100px; width:320px; height:320px; background:radial-gradient(circle, rgba(0,196,106,0.10) 0%, transparent 70%); }
+  .proposta-header { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:40px; position:relative; }
+  .proposta-destinatario h3 { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .proposta-destinatario p { font-size:22px; font-weight:700; color:#fff; }
+  .proposta-destinatario small { font-size:13px; color:rgba(255,255,255,0.32); display:block; margin-top:4px; }
+  .proposta-preco-wrap { text-align:right; }
+  .proposta-preco-label { font-size:11px; color:rgba(255,255,255,0.38); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .proposta-preco { font-family:'Poppins',sans-serif; font-size:52px; font-weight:800; color:var(--green); line-height:1; }
+  .proposta-preco small { font-size:18px; font-weight:400; color:rgba(255,255,255,0.42); }
+  .prop-divider { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:36px 0; }
+  .proposta-cols { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  @media(max-width:600px){.proposta-cols{grid-template-columns:1fr;}}
+  .prop-col-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
+  .prop-itens { list-style:none; }
+  .prop-itens li { font-size:13px; color:rgba(255,255,255,0.78); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; gap:10px; align-items:flex-start; }
+  .prop-itens li:last-child { border-bottom:none; }
+  .prop-itens li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+  .proposta-nota { margin-top:36px; background:rgba(0,196,106,0.09); border:1px solid rgba(0,196,106,0.2); border-radius:12px; padding:20px 24px; }
+  .proposta-nota p { font-size:13px; color:rgba(255,255,255,0.68); line-height:1.7; }
+  .proposta-nota strong { color:var(--green); }
+  .proposta-cta { margin-top:40px; text-align:center; }
+
+  /* TIMELINE ATÉ DEZEMBRO */
+  .timeline-bg { background:var(--gray-light); }
+  .timeline-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; }
+  @media(max-width:800px){.timeline-grid{grid-template-columns:repeat(2,1fr);}}
+  .tl-card { background:#fff; border-radius:14px; padding:22px 18px; border:1px solid #e2e8f0; transition:box-shadow 0.2s, transform 0.2s; position:relative; }
+  .tl-card:hover { box-shadow:0 6px 20px rgba(0,0,0,0.08); transform:translateY(-2px); }
+  .tl-card::before { content:''; position:absolute; top:0; left:0; right:0; height:3px; border-radius:14px 14px 0 0; background:var(--green); }
+  .tl-card.destaque::before { background:var(--yellow); }
+  .tl-card.mega::before { background:var(--green); height:5px; }
+  .tl-mes { font-family:'Poppins',sans-serif; font-size:13px; font-weight:800; color:var(--navy); margin-bottom:8px; }
+  .tl-card ul { list-style:none; }
+  .tl-card ul li { font-size:12px; color:var(--gray); padding:3px 0; display:flex; gap:6px; }
+  .tl-card ul li::before { content:'▸'; color:var(--green); flex-shrink:0; }
+  .tl-card.destaque ul li::before { color:var(--yellow); }
+  .tl-badge { display:inline-block; font-size:10px; font-weight:700; padding:2px 10px; border-radius:20px; margin-bottom:8px; }
+  .tl-badge.verde { background:var(--green-light); color:var(--green-dark); }
+  .tl-badge.amarelo { background:#fffbeb; color:#92400e; }
+  .tl-badge.azul { background:#eff6ff; color:#1e40af; }
+
+  /* IMPACTO */
+  .impacto-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.impacto-grid{grid-template-columns:1fr;}}
+  .impacto-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; }
+  .impacto-card.c1 { background:linear-gradient(135deg, #00c46a, #009f56); }
+  .impacto-card.c2 { background:linear-gradient(135deg, #0ea5e9, #0077b6); }
+  .impacto-card.c3 { background:linear-gradient(135deg, #f59e0b, #b45309); }
+  .impacto-num { font-family:'Poppins',sans-serif; font-size:46px; font-weight:900; line-height:1; margin-bottom:8px; }
+  .impacto-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+  .impacto-card p { font-size:13px; opacity:0.8; line-height:1.6; }
+
+  /* ENTREGÁVEIS */
+  .entregaveis-grid { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:700px){.entregaveis-grid{grid-template-columns:1fr;}}
+  .entregavel-block { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-left:4px solid var(--green); }
+  .entregavel-block h3 { font-size:15px; font-weight:700; color:var(--navy); margin-bottom:14px; }
+  .entregavel-block ul { list-style:none; }
+  .entregavel-block ul li { font-size:13px; color:var(--gray); padding:6px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .entregavel-block ul li:last-child { border-bottom:none; }
+  .entregavel-block ul li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); padding:40px; text-align:center; }
+  .footer p { font-size:14px; color:rgba(255,255,255,0.36); }
+  .footer strong { color:rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#eventos">Eventos</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#proposta">Proposta</a>
+    <a href="#calendario">Calendário</a>
+  </div>
+  <a href="#proposta" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Proposta Personalizada · Supermercado Milene</div>
+      <h1>Tradição que<br><em>cresce com estratégia.</em></h1>
+      <p class="hero-sub">O Milene já tem faturamento, fluxo, calendário e tradição na cidade. O próximo passo é um marketing integrado que conecta tudo isso — e prepara a loja para os dois momentos mais importantes do ano: o Aniversário e a Reinauguração.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">R$1,8M/mês · Faturamento</span>
+        <span class="hero-tag">~28k Cupons/mês</span>
+        <span class="hero-tag">Calendário até Dezembro</span>
+        <span class="hero-tag">Aniversário da Loja</span>
+        <span class="hero-tag">Mega Reinauguração</span>
+        <span class="hero-tag">DRE de Marketing Mensal</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#proposta" class="btn-primary">Ver a Proposta — R$3.000/mês</a>
+        <a href="#eventos" class="btn-ghost">Ver os Grandes Eventos</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">📊 Raio-X do Milene · Hoje</div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">R$<span>1,8M</span></div>
+        <div class="hero-stat-label">Faturamento médio mensal (1º trimestre 2026)</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>27–28k</span></div>
+        <div class="hero-stat-label">Cupons por mês — bom fluxo de clientes</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num">R$<span>65</span></div>
+        <div class="hero-stat-label">Ticket médio — espaço para crescer com mix certo</div>
+      </div>
+      <div class="hero-stat" style="border:none;margin:0;padding:0;">
+        <div class="hero-stat-num"><span>2</span> eventos</div>
+        <div class="hero-stat-label">Aniversário + Mega Reinauguração — os maiores picos do ano</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DIAGNÓSTICO — NÚMEROS -->
+<section id="diagnostico" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Os Números da Loja</div>
+    <h2 class="section-title">Uma operação sólida<br>com potencial de escala</h2>
+    <p class="section-desc">O Milene não está recomeçando — está em um ponto de crescimento. Os números mostram uma base saudável e um caminho claro para ir além.</p>
+    <div class="numeros-grid">
+      <div class="numero-card">
+        <div class="numero-val">R$<span>1,8M</span></div>
+        <div class="numero-label">Faturamento / Mês</div>
+        <div class="numero-sub">Média do 1º trimestre 2026</div>
+      </div>
+      <div class="numero-card">
+        <div class="numero-val"><span>27–28k</span></div>
+        <div class="numero-label">Cupons / Mês</div>
+        <div class="numero-sub">Fluxo consistente de clientes</div>
+      </div>
+      <div class="numero-card">
+        <div class="numero-val">R$<span>65</span></div>
+        <div class="numero-label">Ticket Médio</div>
+        <div class="numero-sub">Com espaço para crescer</div>
+      </div>
+      <div class="numero-card">
+        <div class="numero-val"><span>+150m²</span></div>
+        <div class="numero-label">Expansão Planejada</div>
+        <div class="numero-sub">Reforma em andamento nas duas frentes</div>
+      </div>
+    </div>
+
+    <!-- Oportunidades -->
+    <div class="section-label" style="margin-top:8px;">O Que Pode Ser Destravado</div>
+    <h3 style="font-family:'Poppins',sans-serif;font-size:22px;font-weight:700;color:var(--navy);margin-bottom:32px;">Oportunidades identificadas na reunião</h3>
+    <div class="oport-grid">
+      <div class="oport-card">
+        <div class="oport-icon">📅</div>
+        <h3>Calendário Integrado até Dezembro</h3>
+        <p>João tem disciplina comercial — feriados abertos, promoções de padaria antecipadas, carro de som planejado. A GST estrutura e integra esse calendário com mídia digital para cada ação ter mais alcance.</p>
+        <span class="oport-gain">Planejamento até Dez/2026</span>
+      </div>
+      <div class="oport-card amarelo">
+        <div class="oport-icon">📈</div>
+        <h3>Ticket Médio de R$65 — Espaço para Crescer</h3>
+        <p>Com o mix certo comunicado nos canais certos, o ticket médio cresce sem precisar aumentar o fluxo de clientes. Açougue, padaria e hortifruti bem comunicados puxam mais itens por compra.</p>
+        <span class="oport-gain amarelo">Mais receita sem mais clientes</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">🎥</div>
+        <h3>João na Frente das Câmeras</h3>
+        <p>O dono que aparece representando a marca conecta o cliente de um jeito que nenhum influenciador contratado consegue. A GST entra com roteiro e estratégia — João com presença e tradição local.</p>
+        <span class="oport-gain">Maior engajamento e autoridade</span>
+      </div>
+      <div class="oport-card azul">
+        <div class="oport-icon">💰</div>
+        <h3>Trade Marketing — Verba dos Fornecedores</h3>
+        <p>Existe potencial grande de acionar verbas de trade junto aos fornecedores. A GST trabalha ao lado para estruturar esse processo e trazer investimento adicional sem custo para a loja.</p>
+        <span class="oport-gain azul">Verba extra sem custo adicional</span>
+      </div>
+      <div class="oport-card">
+        <div class="oport-icon">🔧</div>
+        <h3>Reforma como Alavanca de Marketing</h3>
+        <p>A expansão de 150m² planejada nas duas frentes da loja é um ativo de comunicação. Antecipar a narrativa de mudança cria expectativa no cliente e potencializa o impacto dos dois eventos do ano.</p>
+        <span class="oport-gain">Antecipação gera tráfego</span>
+      </div>
+      <div class="oport-card amarelo">
+        <div class="oport-icon">📊</div>
+        <h3>DRE de Marketing — Conectar Ação com Caixa</h3>
+        <p>Hoje as ações de marketing acontecem mas sem leitura clara de retorno. O DRE de Marketing mensal conecta cada campanha ao resultado no faturamento — para decidir verba com dado, não com achismo.</p>
+        <span class="oport-gain amarelo">Decisão baseada em dados</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GRANDES EVENTOS DO ANO -->
+<section class="eventos-bg" id="eventos">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Os Dois Momentos do Ano</div>
+    <h2 class="section-title">Aniversário da Loja<br>+ Mega Reinauguração</h2>
+    <p class="section-desc">Dois eventos, duas oportunidades de pico de faturamento, dois momentos que a cidade vai lembrar. A GST estrutura cada um do início ao fim.</p>
+    <div class="eventos-track">
+      <div class="evento-card aniversario">
+        <div class="evento-badge amarelo">Evento 1 · Agosto–Outubro</div>
+        <h3>🎂 Aniversário da Loja</h3>
+        <p>O Milene tem história e tradição na cidade — o aniversário é o momento de celebrar isso com o cliente e usar a expansão como presente. A loja deu um presente a vocês.</p>
+        <ul class="evento-itens">
+          <li>Comunicação de antecipação (2–3 semanas antes)</li>
+          <li>Tráfego pago com verba concentrada no evento</li>
+          <li>Ação especial de aniversário (mecânica de sorteio ou desconto)</li>
+          <li>Vídeo institucional do João representando a marca</li>
+          <li>Cobertura in-store e nas redes durante o evento</li>
+          <li>Carro de som + digital integrados</li>
+        </ul>
+      </div>
+      <div class="evento-card reinauguracao">
+        <div class="evento-badge verde">Evento 2 · Fim do Ano</div>
+        <h3>🚀 Mega Reinauguração</h3>
+        <p>Com a reforma das duas frentes concluída — área de refeição, brinquedoteca, nova sala de processamento e possível farmácia — a reinauguração apresenta uma loja completamente nova.</p>
+        <ul class="evento-itens">
+          <li>Campanha de expectativa (antes da obra fechar)</li>
+          <li>Conteúdo dos bastidores da reforma</li>
+          <li>Lançamento com força máxima: tráfego, carro de som, influenciador</li>
+          <li>Comunicação do novo espaço: mesas, brinquedoteca, farmácia</li>
+          <li>Ação de impacto no dia da reabertura</li>
+          <li>Cobertura completa nas redes e DRE do evento</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Lógica dos dois eventos -->
+    <div style="max-width:860px;margin:32px auto 0;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.12);border-radius:16px;padding:28px 32px;">
+      <p style="font-size:14px;color:rgba(255,255,255,0.7);line-height:1.75;"><strong style="color:var(--green);">Por que dois eventos separados?</strong> O Aniversário celebra a história e apresenta as melhorias. A Reinauguração entrega o impacto completo da nova loja. Eventos separados geram dois picos de faturamento, dois momentos de mídia e dois ciclos de captação de clientes — com a Reinauguração ficando com o maior impacto e a maior concentração de verba.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section>
+  <div class="container">
+    <div class="section-label">Abordagem</div>
+    <h2 class="section-title">3 Pilares do Trabalho<br>com o Milene</h2>
+    <p class="section-desc">Construímos os três pilares de forma integrada — para que cada ação reforce a outra e o crescimento seja consistente.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">1</div>
+        <h3>Oferta</h3>
+        <p>Calendário comercial integrado até dezembro, verba alocada por evento e setor, encarte digital e ativação nos canais certos — açougue, padaria e hortifruti comunicados com força.</p>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">2</div>
+        <h3>Marca</h3>
+        <p>João na frente das câmeras com roteiro GST, conteúdo de bastidores, história dos 60 anos da família no comércio e posicionamento do Milene como referência da cidade.</p>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">3</div>
+        <h3>Resultado</h3>
+        <p>DRE de Marketing mensal conectando cada campanha ao faturamento, bússola semanal para ajuste de rota e trade marketing para buscar verba dos fornecedores.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section style="background:var(--gray-light);" id="servicos">
+  <div class="container">
+    <div class="section-label">O Que Fazemos</div>
+    <h2 class="section-title">Escopo Completo<br>da Parceria</h2>
+    <p class="section-desc">Tudo planejado, executado e acompanhado — do calendário mensal aos dois grandes eventos do ano.</p>
+    <div class="servicos-grid">
+      <div class="servico-card">
+        <div class="servico-num">1</div>
+        <div class="servico-icon">🧭</div>
+        <h3>Gestão Estratégica Mensal</h3>
+        <p>Planejamento, calendário e reunião de alinhamento todo mês — com plano de ação fechado e acompanhamento semanal.</p>
+        <ul class="servico-list">
+          <li>Planejamento mensal de marketing</li>
+          <li>Calendário comercial integrado até dezembro</li>
+          <li>Reunião mensal de alinhamento</li>
+          <li>DRE de Marketing (ADRI) mensal</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">2</div>
+        <div class="servico-icon">🎨</div>
+        <h3>Produção de Conteúdo</h3>
+        <p>Artes, vídeos com roteiro e conteúdo planejado para Instagram — com João como porta-voz da marca.</p>
+        <ul class="servico-list">
+          <li>Artes de oferta semanais (encarte digital)</li>
+          <li>Roteiro de vídeos com João na frente</li>
+          <li>Posts e reels planejados para Instagram</li>
+          <li>Stories de expectativa e antecipação</li>
+          <li>Peças de campanhas especiais e eventos</li>
+          <li>Conteúdo de bastidores da reforma</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">3</div>
+        <div class="servico-icon">🎯</div>
+        <h3>Tráfego Pago com Calendário</h3>
+        <p>Verba distribuída conforme o calendário — mais concentração nos eventos, ajuste semanal conforme resultado.</p>
+        <ul class="servico-list">
+          <li>Gestão de tráfego pago Meta</li>
+          <li>Distribuição de verba por calendário e evento</li>
+          <li>Criativos otimizados continuamente</li>
+          <li>Campanha máxima no Aniversário e Reinauguração</li>
+          <li>Relatório de performance mensal</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">4</div>
+        <div class="servico-icon">🎉</div>
+        <h3>Estrutura dos 2 Grandes Eventos</h3>
+        <p>Aniversário e Reinauguração planejados do início ao fim — antecipação, execução e cobertura completa.</p>
+        <ul class="servico-list">
+          <li>Campanha de antecipação e expectativa</li>
+          <li>Artes, vídeos e criativos de cada evento</li>
+          <li>Tráfego concentrado na semana do evento</li>
+          <li>Integração com carro de som e comunicação local</li>
+          <li>DRE de resultado pós-evento</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">5</div>
+        <div class="servico-icon">💬</div>
+        <h3>WhatsApp & Canais Próprios</h3>
+        <p>Construir e ativar os canais que pertencem ao Milene — sem depender só de alcance alugado do Instagram.</p>
+        <ul class="servico-list">
+          <li>Estrutura de comunidade WhatsApp</li>
+          <li>Captação ativa de contatos</li>
+          <li>Atualização semanal de ofertas</li>
+          <li>Google Meu Negócio atualizado</li>
+          <li>Campanha de avaliações no Google</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">6</div>
+        <div class="servico-icon">💰</div>
+        <h3>Trade Marketing</h3>
+        <p>Buscar verba dos fornecedores para ampliar o investimento em mídia sem custo adicional para a loja.</p>
+        <ul class="servico-list">
+          <li>Mapeamento de fornecedores com verba de trade</li>
+          <li>Estrutura de propostas para ativação</li>
+          <li>Integração das ações de trade no calendário</li>
+          <li>Acompanhamento das verbas captadas</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSTA -->
+<section class="proposta-bg" id="proposta" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Investimento</div>
+    <h2 class="section-title">Proposta Comercial</h2>
+    <p class="section-desc">Gestão estratégica completa, dois grandes eventos e calendário até dezembro — em uma única parceria mensal.</p>
+    <div class="proposta-box">
+      <div class="proposta-header">
+        <div class="proposta-destinatario">
+          <h3>Proposta preparada para</h3>
+          <p>João · Supermercado Milene</p>
+          <small>Faturamento ~R$1,8M/mês · ~28k cupons · Ticket médio R$65</small>
+        </div>
+        <div class="proposta-preco-wrap">
+          <div class="proposta-preco-label">Investimento mensal</div>
+          <div class="proposta-preco">R$3.000<small>/mês</small></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Gestão + Produção + Tráfego incluso</div>
+        </div>
+      </div>
+      <hr class="prop-divider">
+      <div class="proposta-cols">
+        <div>
+          <div class="prop-col-title">✦ Gestão & Estratégia</div>
+          <ul class="prop-itens">
+            <li>Planejamento mensal de marketing</li>
+            <li>Calendário comercial até dezembro</li>
+            <li>Reunião mensal de alinhamento</li>
+            <li>DRE de Marketing mensal (ADRI)</li>
+            <li>Plano de ação fechado todo mês</li>
+            <li>Acompanhamento semanal via WhatsApp</li>
+          </ul>
+        </div>
+        <div>
+          <div class="prop-col-title">✦ Produção & Canais</div>
+          <ul class="prop-itens">
+            <li>Artes de oferta semanais</li>
+            <li>Roteiro de vídeos com João</li>
+            <li>Posts e reels para Instagram</li>
+            <li>Gestão de tráfego pago Meta</li>
+            <li>WhatsApp: comunidade estruturada</li>
+            <li>Google Meu Negócio + avaliações</li>
+          </ul>
+        </div>
+      </div>
+      <hr class="prop-divider">
+      <div class="proposta-cols">
+        <div>
+          <div class="prop-col-title">✦ 2 Grandes Eventos Incluídos</div>
+          <ul class="prop-itens">
+            <li>Estrutura completa do Aniversário da Loja</li>
+            <li>Estrutura completa da Mega Reinauguração</li>
+            <li>Antecipação, execução e cobertura de cada evento</li>
+            <li>DRE de resultado pós-evento</li>
+          </ul>
+        </div>
+        <div>
+          <div class="prop-col-title">✦ Trade & Crescimento</div>
+          <ul class="prop-itens">
+            <li>Trade marketing com fornecedores</li>
+            <li>Narrativa da reforma como conteúdo</li>
+            <li>Bastidores da expansão nas redes</li>
+            <li>Benchmark mensal de performance</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proposta-nota">
+        <p>⚡ <strong>Verba de tráfego pago não incluída</strong> — recomendamos mínimo de R$1.500/mês distribuídos conforme o calendário comercial, com concentração maior nos meses dos dois grandes eventos. O investimento vai direto para o Meta, sem margem da agência.</p>
+      </div>
+      <div class="proposta-cta">
+        <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 52px;">✅ Fechar Parceria — R$3.000/mês</a>
+        <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDÁRIO ATÉ DEZEMBRO -->
+<section class="timeline-bg" id="calendario">
+  <div class="container">
+    <div class="section-label">Visão do Ano</div>
+    <h2 class="section-title">Calendário Estratégico<br>Maio a Dezembro</h2>
+    <p class="section-desc">Cada mês com sua prioridade — e os dois grandes eventos posicionados para máximo impacto.</p>
+    <div class="timeline-grid">
+      <div class="tl-card">
+        <div class="tl-badge verde">Início</div>
+        <div class="tl-mes">Maio</div>
+        <ul>
+          <li>Dia das Mães — campanha completa</li>
+          <li>Estruturação dos canais e comunidade WA</li>
+          <li>Primeiros vídeos com João</li>
+          <li>Trade marketing: primeiros contatos</li>
+        </ul>
+      </div>
+      <div class="tl-card">
+        <div class="tl-badge verde">Crescimento</div>
+        <div class="tl-mes">Junho</div>
+        <ul>
+          <li>Festa Junina — promoções temáticas</li>
+          <li>Calendário de açougue e padaria</li>
+          <li>Campanha de avaliações no Google</li>
+          <li>Narrativa da reforma começa</li>
+        </ul>
+      </div>
+      <div class="tl-card">
+        <div class="tl-badge verde">Crescimento</div>
+        <div class="tl-mes">Julho</div>
+        <ul>
+          <li>Férias escolares — hortifruti e lancheira</li>
+          <li>Bastidores da reforma nas redes</li>
+          <li>Preparação para o Aniversário</li>
+          <li>Aumento gradual de verba</li>
+        </ul>
+      </div>
+      <div class="tl-card destaque">
+        <div class="tl-badge amarelo">🎂 Evento 1</div>
+        <div class="tl-mes">Agosto–Outubro</div>
+        <ul>
+          <li>Aniversário da Loja — campanha máxima</li>
+          <li>Tráfego concentrado na semana do evento</li>
+          <li>Ação especial para clientes da cidade</li>
+          <li>DRE de resultado do evento</li>
+        </ul>
+      </div>
+      <div class="tl-card">
+        <div class="tl-badge azul">Preparação</div>
+        <div class="tl-mes">Novembro</div>
+        <ul>
+          <li>Black Friday — promoções estratégicas</li>
+          <li>Antecipação da Reinauguração</li>
+          <li>Conteúdo: "A nova loja está chegando"</li>
+          <li>Captação máxima de contatos WA</li>
+        </ul>
+      </div>
+      <div class="tl-card mega">
+        <div class="tl-badge verde">🚀 Evento 2</div>
+        <div class="tl-mes">Dezembro</div>
+        <ul>
+          <li>Mega Reinauguração — máximo impacto</li>
+          <li>Apresentação do novo espaço completo</li>
+          <li>Natal integrado ao evento</li>
+          <li>DRE de resultado + planejamento 2027</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO -->
+<section>
+  <div class="container">
+    <div class="section-label">O Que Significa</div>
+    <h2 class="section-title">O Impacto da Parceria<br>em Números</h2>
+    <p class="section-desc">Para uma loja que já fatura R$1,8M/mês, pequenas melhorias geram resultado expressivo.</p>
+    <div class="impacto-grid">
+      <div class="impacto-card c1">
+        <div class="impacto-num">+R$180k</div>
+        <h4>Por Mês com +10% Cupons</h4>
+        <p>Mais clientes na loja com o mesmo custo fixo da operação</p>
+      </div>
+      <div class="impacto-card c2">
+        <div class="impacto-num">2 picos</div>
+        <h4>de Faturamento no Ano</h4>
+        <p>Aniversário e Reinauguração — os dois maiores momentos de caixa do Milene</p>
+      </div>
+      <div class="impacto-card c3">
+        <div class="impacto-num">Trade</div>
+        <h4>Verba Extra dos Fornecedores</h4>
+        <p>Investimento adicional em mídia sem custo extra para a loja</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ENTREGÁVEIS -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Resumo</div>
+    <h2 class="section-title">Tudo Que o Milene Recebe</h2>
+    <p class="section-desc">Documentado, entregue e acompanhado todo mês até dezembro.</p>
+    <div class="entregaveis-grid">
+      <div class="entregavel-block">
+        <h3>🧭 Gestão & Inteligência</h3>
+        <ul>
+          <li>DRE de Marketing mensal (ADRI)</li>
+          <li>Calendário comercial integrado até dezembro</li>
+          <li>Reunião mensal de alinhamento</li>
+          <li>Plano de ação fechado todo mês</li>
+          <li>Bússola semanal de performance</li>
+          <li>Trade marketing com fornecedores</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>🎨 Produção & Conteúdo</h3>
+        <ul>
+          <li>Artes de oferta semanais</li>
+          <li>Roteiro de vídeos com João</li>
+          <li>Posts e reels para Instagram</li>
+          <li>Conteúdo de bastidores da reforma</li>
+          <li>Peças de eventos e campanhas especiais</li>
+          <li>Stories de expectativa e antecipação</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>🎉 2 Grandes Eventos</h3>
+        <ul>
+          <li>Estrutura completa do Aniversário da Loja</li>
+          <li>Estrutura completa da Mega Reinauguração</li>
+          <li>Antecipação, execução e cobertura</li>
+          <li>Tráfego concentrado em cada evento</li>
+          <li>DRE de resultado pós-evento</li>
+        </ul>
+      </div>
+      <div class="entregavel-block">
+        <h3>📲 Canais & Tráfego</h3>
+        <ul>
+          <li>Gestão de tráfego pago Meta por calendário</li>
+          <li>Comunidade WhatsApp estruturada</li>
+          <li>Google Meu Negócio + avaliações</li>
+          <li>Relatório de performance mensal</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="proposta-bg" style="padding:72px 40px;">
+  <div class="container" style="text-align:center;max-width:640px;">
+    <div class="section-label" style="color:var(--green);">Próximo Passo</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:16px;">Tradição que<br>vira referência.</h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.5);margin-bottom:36px;line-height:1.75;">O Milene já tem o que mais importa: história, confiança e estrutura. A GST entra com estratégia, calendário, conteúdo e os dois grandes eventos que vão marcar o ano na cidade.</p>
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:14px;margin-bottom:40px;">
+      <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 44px;">✅ Fechar Parceria — R$3.000/mês</a>
+      <a href="#eventos" class="btn-ghost" style="font-size:14px;padding:16px 28px;">Ver os Eventos do Ano</a>
+    </div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:18px;text-align:left;">
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🏪</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Especialistas em Supermercado</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Entendemos cupons, ticket médio e calendário comercial</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">🎯</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">Agência Proativa</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Planejamos, executamos e prestamos conta todo mês</p>
+      </div>
+      <div style="background:rgba(255,255,255,0.05);border-radius:12px;padding:20px;">
+        <div style="font-size:22px;margin-bottom:8px;">📈</div>
+        <h4 style="font-size:13px;font-weight:700;color:#fff;margin-bottom:4px;">DRE de Marketing</h4>
+        <p style="font-size:12px;color:rgba(255,255,255,0.38);">Todo real investido tem retorno medido e apresentado</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Proposta para João · Supermercado Milene</p>
+  <p style="margin-top:8px;">Marketing Especializado em Supermercados · Calendário até Dezembro/2026</p>
+</footer>
+
+</body>
+</html>

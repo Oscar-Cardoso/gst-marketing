@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST Marketing — Proposta Distribuidora de Bebidas · Rodrigo Alves</title>
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '816387441305466');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=816387441305466&ev=PageView&noscript=1" /></noscript>
+<!-- End Meta Pixel Code -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --green: #00c46a; --green-dark: #009f56; --green-light: #e6fff4;
+    --navy: #0d1b2a; --navy2: #162032; --navy3: #1e2d40;
+    --yellow: #f5b400; --red: #e53935; --orange: #f97316;
+    --gray: #64748b; --gray-light: #f4f7fb;
+    --white: #fff; --text: #1e293b;
+  }
+  html { scroll-behavior: smooth; }
+  body { font-family: 'Inter', sans-serif; background: #fff; color: var(--text); line-height: 1.6; }
+  h1,h2,h3,h4 { font-family: 'Poppins', sans-serif; }
+
+  /* NAV */
+  .nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: rgba(13,27,42,0.97); backdrop-filter: blur(12px);
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 40px; height: 64px;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .nav-logo { font-family:'Poppins',sans-serif; font-size:20px; font-weight:800; color:#fff; }
+  .nav-logo span { color: var(--green); }
+  .nav-links { display:flex; gap:28px; }
+  .nav-links a { font-size:13px; font-weight:500; color:rgba(255,255,255,0.6); text-decoration:none; transition:color 0.2s; }
+  .nav-links a:hover { color: var(--green); }
+  .nav-cta { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:13px; font-weight:700; padding:9px 22px; border-radius:6px; text-decoration:none; transition:background 0.2s; }
+  .nav-cta:hover { background:var(--green-dark); }
+  @media(max-width:768px){.nav-links{display:none;}}
+
+  /* HERO */
+  .hero {
+    background: linear-gradient(135deg, #0d1b2a 0%, #0f1f38 55%, #091428 100%);
+    color:#fff; padding:130px 40px 100px; position:relative; overflow:hidden;
+  }
+  .hero::before {
+    content:''; position:absolute; inset:0;
+    background: radial-gradient(ellipse at 78% 22%, rgba(0,196,106,0.13) 0%, transparent 55%),
+                radial-gradient(ellipse at 12% 88%, rgba(249,115,22,0.07) 0%, transparent 50%);
+  }
+  .hero-grid {
+    position:relative; max-width:1100px; margin:0 auto;
+    display:grid; grid-template-columns:1fr 340px; gap:56px; align-items:center;
+  }
+  @media(max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .hero-badge {
+    display:inline-flex; align-items:center; gap:8px;
+    background:rgba(0,196,106,0.15); border:1px solid rgba(0,196,106,0.35);
+    color:var(--green); font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase;
+    padding:6px 16px; border-radius:30px; margin-bottom:24px;
+  }
+  .hero-badge::before { content:'●'; font-size:8px; animation:blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .hero h1 { font-size:clamp(34px,4.5vw,58px); font-weight:900; line-height:1.05; margin-bottom:20px; letter-spacing:-1.5px; }
+  .hero h1 em { font-style:normal; color:var(--green); }
+  .hero-sub { font-size:16px; color:rgba(255,255,255,0.62); max-width:540px; margin-bottom:36px; line-height:1.75; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:40px; }
+  .hero-tag { background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.13); color:rgba(255,255,255,0.82); font-size:12px; font-weight:500; padding:6px 14px; border-radius:20px; }
+  .hero-btns { display:flex; gap:14px; flex-wrap:wrap; }
+  .btn-primary { background:var(--green); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:700; padding:15px 32px; border-radius:8px; text-decoration:none; display:inline-block; transition:background 0.2s, transform 0.15s; }
+  .btn-primary:hover { background:var(--green-dark); transform:translateY(-2px); }
+  .btn-ghost { background:transparent; border:2px solid rgba(255,255,255,0.28); color:#fff; font-family:'Poppins',sans-serif; font-size:14px; font-weight:600; padding:13px 28px; border-radius:8px; text-decoration:none; transition:border-color 0.2s; }
+  .btn-ghost:hover { border-color:rgba(255,255,255,0.7); }
+
+  .hero-card { background:rgba(255,255,255,0.055); border:1px solid rgba(255,255,255,0.11); border-radius:20px; padding:30px; backdrop-filter:blur(8px); }
+  .hero-card-title { font-size:10px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:18px; }
+  .hero-stat { margin-bottom:16px; padding-bottom:16px; border-bottom:1px solid rgba(255,255,255,0.07); }
+  .hero-stat:last-child { border-bottom:none; margin-bottom:0; padding-bottom:0; }
+  .hero-stat-num { font-family:'Poppins',sans-serif; font-size:28px; font-weight:800; color:#fff; line-height:1; }
+  .hero-stat-num span { color:var(--green); }
+  .hero-stat-num.orange span { color:var(--orange); }
+  .hero-stat-label { font-size:12px; color:rgba(255,255,255,0.42); margin-top:4px; }
+
+  /* SECTIONS */
+  section { padding:80px 40px; }
+  .container { max-width:1100px; margin:0 auto; }
+  .section-label { font-size:11px; font-weight:700; letter-spacing:2.5px; text-transform:uppercase; color:var(--green); margin-bottom:12px; }
+  .section-title { font-size:clamp(26px,3.5vw,44px); font-weight:800; line-height:1.1; letter-spacing:-0.5px; color:var(--navy); margin-bottom:14px; }
+  .section-desc { font-size:16px; color:var(--gray); max-width:680px; margin-bottom:52px; line-height:1.7; }
+
+  /* CENÁRIO */
+  .cenario-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:22px; }
+  .cenario-card { background:#fff; border-radius:16px; padding:28px; border:1px solid #e2e8f0; border-top:4px solid var(--green); transition:box-shadow 0.2s, transform 0.2s; }
+  .cenario-card:hover { box-shadow:0 8px 28px rgba(0,0,0,0.09); transform:translateY(-3px); }
+  .cenario-card.amarelo { border-top-color:var(--yellow); }
+  .cenario-card.laranja { border-top-color:var(--orange); }
+  .cenario-icon { font-size:30px; margin-bottom:12px; }
+  .cenario-card h3 { font-size:16px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .cenario-card p { font-size:13px; color:var(--gray); line-height:1.7; }
+
+  /* OPORTUNIDADE DESTAQUE */
+  .oport-destaque {
+    background: linear-gradient(135deg, #0d1b2a 0%, #0a2a18 100%);
+    border-radius:20px; padding:44px 48px; border:1px solid rgba(0,196,106,0.25);
+    display:grid; grid-template-columns:1fr 1fr; gap:48px; align-items:center;
+    max-width:900px; margin:0 auto;
+  }
+  @media(max-width:700px){.oport-destaque{grid-template-columns:1fr;padding:32px 24px;}}
+  .oport-destaque-num { font-family:'Poppins',sans-serif; font-size:80px; font-weight:900; color:var(--green); line-height:1; }
+  .oport-destaque-sub { font-size:13px; color:rgba(255,255,255,0.45); text-transform:uppercase; letter-spacing:1.5px; font-weight:700; margin-top:4px; }
+  .oport-destaque h3 { font-family:'Poppins',sans-serif; font-size:24px; font-weight:800; color:#fff; margin-bottom:12px; line-height:1.2; }
+  .oport-destaque p { font-size:14px; color:rgba(255,255,255,0.62); line-height:1.75; }
+
+  /* PILARES */
+  .pillars-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.pillars-grid{grid-template-columns:1fr;}}
+  .pillar-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; position:relative; overflow:hidden; }
+  .pillar-card.p1 { background:linear-gradient(135deg, #00c46a, #009f56); }
+  .pillar-card.p2 { background:linear-gradient(135deg, #f97316, #c2500f); }
+  .pillar-card.p3 { background:linear-gradient(135deg, #1a73e8, #1557b0); }
+  .pillar-num { font-family:'Poppins',sans-serif; font-size:72px; font-weight:900; opacity:0.12; position:absolute; right:14px; top:4px; line-height:1; }
+  .pillar-card h3 { font-size:20px; font-weight:800; margin-bottom:10px; }
+  .pillar-card p { font-size:13px; opacity:0.9; line-height:1.65; }
+
+  /* SERVIÇOS */
+  .servicos-grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(280px,1fr)); gap:24px; }
+  .servico-card { background:#fff; border-radius:18px; padding:32px 28px; border:1px solid #e2e8f0; position:relative; overflow:hidden; transition:box-shadow 0.2s, transform 0.2s; }
+  .servico-card:hover { box-shadow:0 12px 40px rgba(0,0,0,0.10); transform:translateY(-4px); }
+  .servico-num { font-family:'Poppins',sans-serif; font-size:80px; font-weight:900; color:var(--green); opacity:0.07; position:absolute; right:14px; top:2px; line-height:1; }
+  .servico-icon { font-size:34px; margin-bottom:14px; }
+  .servico-card h3 { font-size:17px; font-weight:700; color:var(--navy); margin-bottom:8px; }
+  .servico-card p { font-size:13px; color:var(--gray); line-height:1.7; margin-bottom:14px; }
+  .servico-list { list-style:none; }
+  .servico-list li { font-size:13px; color:var(--text); padding:5px 0; border-bottom:1px dashed #e2e8f0; display:flex; gap:8px; }
+  .servico-list li:last-child { border-bottom:none; }
+  .servico-list li::before { content:'✓'; color:var(--green); font-weight:700; flex-shrink:0; }
+
+  /* PROPOSTA */
+  .proposta-bg { background:linear-gradient(160deg, #0a1a2e 0%, #0d2a1a 100%); }
+  .proposta-bg .section-title { color:#fff; }
+  .proposta-bg .section-desc { color:rgba(255,255,255,0.5); }
+  .proposta-box {
+    background:rgba(255,255,255,0.05); border:1px solid rgba(0,196,106,0.22);
+    border-radius:24px; padding:52px 48px; max-width:860px; margin:0 auto; position:relative; overflow:hidden;
+  }
+  @media(max-width:660px){.proposta-box{padding:32px 22px;}}
+  .proposta-box::before { content:''; position:absolute; top:-100px; right:-100px; width:320px; height:320px; background:radial-gradient(circle, rgba(0,196,106,0.10) 0%, transparent 70%); }
+  .proposta-header { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:24px; margin-bottom:40px; position:relative; }
+  .proposta-destinatario h3 { font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); text-transform:uppercase; letter-spacing:1.5px; margin-bottom:6px; }
+  .proposta-destinatario p { font-size:22px; font-weight:700; color:#fff; }
+  .proposta-destinatario small { font-size:13px; color:rgba(255,255,255,0.32); display:block; margin-top:4px; }
+  .proposta-preco-wrap { text-align:right; }
+  .proposta-preco-label { font-size:11px; color:rgba(255,255,255,0.38); text-transform:uppercase; letter-spacing:1px; margin-bottom:4px; }
+  .proposta-preco { font-family:'Poppins',sans-serif; font-size:52px; font-weight:800; color:var(--green); line-height:1; }
+  .proposta-preco small { font-size:18px; font-weight:400; color:rgba(255,255,255,0.42); }
+  .prop-divider { border:none; border-top:1px solid rgba(255,255,255,0.08); margin:36px 0; }
+  .proposta-cols { display:grid; grid-template-columns:1fr 1fr; gap:36px; }
+  @media(max-width:600px){.proposta-cols{grid-template-columns:1fr;}}
+  .prop-col-title { font-size:11px; font-weight:700; letter-spacing:2px; text-transform:uppercase; color:var(--green); margin-bottom:16px; }
+  .prop-itens { list-style:none; }
+  .prop-itens li { font-size:13px; color:rgba(255,255,255,0.78); padding:8px 0; border-bottom:1px solid rgba(255,255,255,0.06); display:flex; gap:10px; align-items:flex-start; }
+  .prop-itens li:last-child { border-bottom:none; }
+  .prop-itens li::before { content:'✦'; color:var(--green); font-size:11px; flex-shrink:0; margin-top:3px; }
+  .proposta-nota { margin-top:36px; background:rgba(249,115,22,0.09); border:1px solid rgba(249,115,22,0.22); border-radius:12px; padding:20px 24px; }
+  .proposta-nota p { font-size:13px; color:rgba(255,255,255,0.68); line-height:1.7; }
+  .proposta-nota strong { color:var(--orange); }
+  .proposta-cta { margin-top:40px; text-align:center; }
+
+  /* PRÓXIMOS PASSOS */
+  .passos-bg { background:var(--gray-light); }
+  .passos-track { display:grid; grid-template-columns:repeat(4,1fr); gap:0; max-width:900px; }
+  @media(max-width:700px){.passos-track{grid-template-columns:repeat(2,1fr);}}
+  .passo { background:#fff; border:1px solid #e2e8f0; padding:28px 22px; position:relative; transition:background 0.2s; }
+  .passo:first-child { border-radius:12px 0 0 12px; }
+  .passo:last-child { border-radius:0 12px 12px 0; }
+  .passo:hover { background:var(--green-light); }
+  .passo-num { font-family:'Poppins',sans-serif; font-size:40px; font-weight:900; color:var(--green); opacity:0.18; line-height:1; margin-bottom:8px; }
+  .passo h4 { font-size:14px; font-weight:700; color:var(--navy); margin-bottom:6px; }
+  .passo p { font-size:12px; color:var(--gray); line-height:1.6; }
+  .passo-arrow { position:absolute; right:-14px; top:50%; transform:translateY(-50%); font-size:22px; color:var(--green); z-index:2; font-weight:700; }
+
+  /* IMPACTO */
+  .impacto-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; }
+  @media(max-width:700px){.impacto-grid{grid-template-columns:1fr;}}
+  .impacto-card { border-radius:18px; padding:36px 28px; text-align:center; color:#fff; }
+  .impacto-card.c1 { background:linear-gradient(135deg, #00c46a, #009f56); }
+  .impacto-card.c2 { background:linear-gradient(135deg, #f97316, #c2500f); }
+  .impacto-card.c3 { background:linear-gradient(135deg, #1a73e8, #1557b0); }
+  .impacto-num { font-family:'Poppins',sans-serif; font-size:46px; font-weight:900; line-height:1; margin-bottom:8px; }
+  .impacto-card h4 { font-size:15px; font-weight:600; margin-bottom:6px; }
+  .impacto-card p { font-size:13px; opacity:0.8; line-height:1.6; }
+
+  /* FOOTER */
+  .footer { background:var(--navy); padding:40px; text-align:center; }
+  .footer p { font-size:14px; color:rgba(255,255,255,0.36); }
+  .footer strong { color:rgba(255,255,255,0.65); }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-logo">GST <span>Marketing</span></div>
+  <div class="nav-links">
+    <a href="#cenario">Cenário</a>
+    <a href="#servicos">Serviços</a>
+    <a href="#proposta">Proposta</a>
+    <a href="#passos">Próximos Passos</a>
+  </div>
+  <a href="#proposta" class="nav-cta">Ver Proposta</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-grid">
+    <div>
+      <div class="hero-badge">Proposta Personalizada · Jardim Ingá — DF</div>
+      <h1>Nascer digital.<br><em>Crescer rápido.</em></h1>
+      <p class="hero-sub">A distribuidora de bebidas do Rodrigo tem 10 dias de vida — e já vai começar com estrutura digital completa, presença local e canal direto de vendas. Do zero ao reconhecido na região.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">Estruturação Digital Completa</span>
+        <span class="hero-tag">Tráfego Pago Local</span>
+        <span class="hero-tag">Instagram + Facebook</span>
+        <span class="hero-tag">WhatsApp como Canal de Vendas</span>
+        <span class="hero-tag">Criativos e Artes Incluídos</span>
+      </div>
+      <div class="hero-btns">
+        <a href="#proposta" class="btn-primary">Ver a Proposta — R$1.500/mês</a>
+        <a href="#servicos" class="btn-ghost">Como Funciona</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hero-card-title">📊 Cenário Atual · Rodrigo</div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>10</span> dias</div>
+        <div class="hero-stat-label">De operação — negócio novo, momento ideal para estruturar</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num orange"><span>Zero</span></div>
+        <div class="hero-stat-label">Presença digital ativa — Instagram, Facebook e WhatsApp a construir</div>
+      </div>
+      <div class="hero-stat">
+        <div class="hero-stat-num"><span>Alto</span></div>
+        <div class="hero-stat-label">Potencial local — público da região ativo nas redes sociais</div>
+      </div>
+      <div class="hero-stat" style="border:none;margin:0;padding:0;">
+        <div class="hero-stat-num"><span>R$1.500</span></div>
+        <div class="hero-stat-label">Investimento mensal em gestão — verba de anúncios separada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CENÁRIO ATUAL -->
+<section id="cenario" style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Diagnóstico</div>
+    <h2 class="section-title">O Ponto de Partida</h2>
+    <p class="section-desc">Com 10 dias de operação, o Rodrigo está no momento exato para construir do jeito certo — sem vícios, sem histórico ruim e com tudo para crescer.</p>
+    <div class="cenario-grid">
+      <div class="cenario-card">
+        <div class="cenario-icon">🚀</div>
+        <h3>Operação Nova, Momento Ideal</h3>
+        <p>Negócios que estruturam o digital desde o início crescem mais rápido e evitam os erros clássicos de quem começa sem estratégia. A hora certa é agora.</p>
+      </div>
+      <div class="cenario-card amarelo">
+        <div class="cenario-icon">📱</div>
+        <h3>Sem Presença Digital Ainda</h3>
+        <p>Instagram, Facebook e WhatsApp ainda não estão ativos como canais da distribuidora. A construção começa do zero — limpa, estratégica e com identidade certa.</p>
+      </div>
+      <div class="cenario-card laranja">
+        <div class="cenario-icon">🎯</div>
+        <h3>Objetivo Claro: Ser Conhecido na Região</h3>
+        <p>O foco imediato é gerar reconhecimento no Jardim Ingá e atrair clientes para a loja física. Tráfego local, segmentação por bairro e presença nos canais certos.</p>
+      </div>
+      <div class="cenario-card">
+        <div class="cenario-icon">💬</div>
+        <h3>WhatsApp como Canal Principal de Vendas</h3>
+        <p>O cliente já está no WhatsApp. Estruturar o atendimento e as vendas por esse canal é o caminho mais rápido para gerar pedidos recorrentes desde os primeiros dias.</p>
+      </div>
+      <div class="cenario-card amarelo">
+        <div class="cenario-icon">👥</div>
+        <h3>Público Ativo nas Redes Sociais</h3>
+        <p>O perfil do público da região tem forte presença no Instagram e Facebook — exatamente onde a distribuidora precisa aparecer com força e consistência.</p>
+      </div>
+      <div class="cenario-card">
+        <div class="cenario-icon">⏱️</div>
+        <h3>Sem Tempo Interno para Marketing</h3>
+        <p>Rodrigo está tocando a operação. A GST entra como braço de marketing completo — estratégia, criação, anúncios e acompanhamento, tudo sendo cuidado por quem entende.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- OPORTUNIDADE -->
+<section style="background:#fff;">
+  <div class="container" style="text-align:center;">
+    <div class="section-label">A Grande Oportunidade</div>
+    <h2 class="section-title">Nascer já estruturado<br>muda tudo.</h2>
+    <p class="section-desc" style="margin-left:auto;margin-right:auto;text-align:center;">A maioria dos negócios começa sem digital e tenta corrigir depois — o que custa tempo e dinheiro. Fazer certo desde o dia 10 é uma vantagem enorme.</p>
+    <div class="oport-destaque">
+      <div>
+        <div class="oport-destaque-num">Day<br/>1</div>
+        <div class="oport-destaque-sub">Estrutura desde o início</div>
+      </div>
+      <div style="text-align:left;">
+        <h3>Quem começa estruturado acelera mais rápido.</h3>
+        <p>Sem precisar corrigir erros de posicionamento, sem refazer identidade, sem perder clientes por falta de canal de contato. A distribuidora do Rodrigo vai aparecer no Instagram, no Google e no WhatsApp antes mesmo de virar referência na região — e é isso que acelera o reconhecimento local.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PILARES -->
+<section style="background:var(--gray-light);">
+  <div class="container">
+    <div class="section-label">Estratégia</div>
+    <h2 class="section-title">3 Frentes de Atuação</h2>
+    <p class="section-desc">O trabalho da GST está estruturado em três frentes simultâneas — presença, tráfego e relacionamento. As três juntas geram reconhecimento rápido.</p>
+    <div class="pillars-grid">
+      <div class="pillar-card p1">
+        <div class="pillar-num">1</div>
+        <h3>Presença</h3>
+        <p>Criação e estruturação de Instagram, Facebook e WhatsApp com identidade visual, bio profissional e integração entre canais.</p>
+      </div>
+      <div class="pillar-card p2">
+        <div class="pillar-num">2</div>
+        <h3>Tráfego</h3>
+        <p>Campanhas de anúncios no Meta segmentadas para o Jardim Ingá e região — para gerar visibilidade, reconhecimento e fluxo na loja.</p>
+      </div>
+      <div class="pillar-card p3">
+        <div class="pillar-num">3</div>
+        <h3>Relacionamento</h3>
+        <p>Conteúdo de ofertas, promoções e comunicação visual que cria desejo, gera pedidos pelo WhatsApp e fideliza o cliente local.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVIÇOS -->
+<section id="servicos">
+  <div class="container">
+    <div class="section-label">O Que Será Feito</div>
+    <h2 class="section-title">Escopo Completo<br>do Trabalho</h2>
+    <p class="section-desc">Estruturação, produção, gestão e estratégia — tudo sob responsabilidade da GST para o Rodrigo focar na operação.</p>
+    <div class="servicos-grid">
+      <div class="servico-card">
+        <div class="servico-num">1</div>
+        <div class="servico-icon">🏗️</div>
+        <h3>Estruturação Digital Completa</h3>
+        <p>O negócio começa sem presença digital — a GST monta tudo do zero com profissionalismo.</p>
+        <ul class="servico-list">
+          <li>Criação do perfil profissional no Instagram</li>
+          <li>Configuração do Facebook da distribuidora</li>
+          <li>Integração Instagram + Facebook</li>
+          <li>Configuração do Gerenciador de Anúncios</li>
+          <li>WhatsApp Business configurado para atendimento</li>
+          <li>Identidade visual aplicada nos perfis</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">2</div>
+        <div class="servico-icon">🎨</div>
+        <h3>Produção de Conteúdo</h3>
+        <p>Artes, criativos e materiais visuais que comunicam com força e geram desejo no público local.</p>
+        <ul class="servico-list">
+          <li>Artes de ofertas e promoções</li>
+          <li>Posts de divulgação da loja e do mix</li>
+          <li>Criativos para anúncios (imagem e vídeo)</li>
+          <li>Stories de engajamento e divulgação</li>
+          <li>Materiais visuais de apoio (banners, comunicação local)</li>
+          <li>Identidade consistente em todos os canais</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">3</div>
+        <div class="servico-icon">🎯</div>
+        <h3>Gestão de Tráfego Pago</h3>
+        <p>Anúncios no Meta segmentados para a região do Jardim Ingá — para aparecer para quem está perto e tem perfil de compra.</p>
+        <ul class="servico-list">
+          <li>Criação e gestão de campanhas no Meta</li>
+          <li>Segmentação por localização (raio da loja)</li>
+          <li>Campanhas de reconhecimento de marca</li>
+          <li>Campanhas de atração para a loja física</li>
+          <li>Otimização contínua dos anúncios</li>
+          <li>Relatório de performance mensal</li>
+        </ul>
+      </div>
+      <div class="servico-card">
+        <div class="servico-num">4</div>
+        <div class="servico-icon">📈</div>
+        <h3>Estratégia Comercial</h3>
+        <p>Planejamento de ações, campanhas e comunicação para gerar desejo, curiosidade e recorrência desde os primeiros dias.</p>
+        <ul class="servico-list">
+          <li>Definição de campanhas promocionais mensais</li>
+          <li>Estratégia de comunicação para despertar desejo</li>
+          <li>Planejamento de ações para fluxo na loja</li>
+          <li>Calendário de conteúdo mensal</li>
+          <li>Acompanhamento semanal via WhatsApp</li>
+          <li>Ajuste de rota conforme performance</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PROPOSTA -->
+<section class="proposta-bg" id="proposta" style="padding:80px 40px;">
+  <div class="container">
+    <div class="section-label" style="color:var(--green);">Investimento</div>
+    <h2 class="section-title">Proposta Comercial</h2>
+    <p class="section-desc">Estruturação completa + gestão mensal em um único investimento.</p>
+    <div class="proposta-box">
+      <div class="proposta-header">
+        <div class="proposta-destinatario">
+          <h3>Proposta preparada para</h3>
+          <p>Rodrigo Alves</p>
+          <small>Distribuidora de Bebidas · Jardim Ingá — DF · Abril/2026</small>
+        </div>
+        <div class="proposta-preco-wrap">
+          <div class="proposta-preco-label">Investimento mensal</div>
+          <div class="proposta-preco">R$1.500<small>/mês</small></div>
+          <div style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:6px;">Gestão + Produção + Estratégia incluso</div>
+        </div>
+      </div>
+      <hr class="prop-divider">
+      <div class="proposta-cols">
+        <div>
+          <div class="prop-col-title">✦ Estruturação & Gestão</div>
+          <ul class="prop-itens">
+            <li>Criação do Instagram profissional</li>
+            <li>Configuração do Facebook + integração</li>
+            <li>WhatsApp Business configurado</li>
+            <li>Gerenciador de Anúncios configurado</li>
+            <li>Calendário de conteúdo mensal</li>
+            <li>Acompanhamento semanal via WhatsApp</li>
+          </ul>
+        </div>
+        <div>
+          <div class="prop-col-title">✦ Produção & Tráfego</div>
+          <ul class="prop-itens">
+            <li>Artes de ofertas e promoções mensais</li>
+            <li>Criativos para anúncios (imagem e vídeo)</li>
+            <li>Stories de divulgação e engajamento</li>
+            <li>Gestão de tráfego pago Meta</li>
+            <li>Segmentação por região (Jardim Ingá)</li>
+            <li>Relatório de performance mensal</li>
+          </ul>
+        </div>
+      </div>
+      <div class="proposta-nota">
+        <p>⚡ <strong>Verba de anúncios não incluída</strong> — recomendamos entre <strong>R$10 a R$20/dia</strong> (R$300 a R$600/mês) investidos diretamente no Meta. Esse valor vai direto para os anúncios, sem margem da agência. Pode ser escalado conforme o resultado.</p>
+      </div>
+      <div class="proposta-cta">
+        <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 52px;">✅ Aprovar Proposta</a>
+        <p style="font-size:12px;color:rgba(255,255,255,0.28);margin-top:14px;">Fale com Oscar via WhatsApp · GST Marketing</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- IMPACTO -->
+<section>
+  <div class="container">
+    <div class="section-label">O Que Muda</div>
+    <h2 class="section-title">Do Zero ao Reconhecido<br>na Região</h2>
+    <p class="section-desc">O que a estruturação digital representa na prática para uma distribuidora em fase inicial.</p>
+    <div class="impacto-grid">
+      <div class="impacto-card c1">
+        <div class="impacto-num">Day 1</div>
+        <h4>Presença Estruturada</h4>
+        <p>Instagram, Facebook e WhatsApp ativos com identidade profissional desde o início</p>
+      </div>
+      <div class="impacto-card c2">
+        <div class="impacto-num">Local</div>
+        <h4>Tráfego Geolocalizado</h4>
+        <p>Anúncios chegando para quem mora e frequenta o Jardim Ingá — não para todo o DF</p>
+      </div>
+      <div class="impacto-card c3">
+        <div class="impacto-num">Canal</div>
+        <h4>Vendas pelo WhatsApp</h4>
+        <p>Canal direto de pedidos e atendimento — o cliente faz o pedido sem sair do celular</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRÓXIMOS PASSOS -->
+<section class="passos-bg" id="passos">
+  <div class="container">
+    <div class="section-label">Como Começa</div>
+    <h2 class="section-title">Próximos Passos</h2>
+    <p class="section-desc">Com a proposta aprovada, o início é imediato.</p>
+    <div class="passos-track">
+      <div class="passo">
+        <div class="passo-num">1</div>
+        <h4>Aprovação da Proposta</h4>
+        <p>Rodrigo confirma e a GST agenda o kick-off de início.</p>
+        <div class="passo-arrow">›</div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">2</div>
+        <h4>Estruturação Digital</h4>
+        <p>Criação dos perfis, configuração do WhatsApp e Gerenciador de Anúncios.</p>
+        <div class="passo-arrow">›</div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">3</div>
+        <h4>Primeiros Criativos</h4>
+        <p>Artes de apresentação da distribuidora e primeiros posts de divulgação.</p>
+        <div class="passo-arrow">›</div>
+      </div>
+      <div class="passo">
+        <div class="passo-num">4</div>
+        <h4>Campanhas no Ar</h4>
+        <p>Tráfego pago ativado para o Jardim Ingá e região. A distribuidora começa a aparecer.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="proposta-bg" style="padding:70px 40px;">
+  <div class="container" style="text-align:center;max-width:620px;">
+    <div class="section-label" style="color:var(--green);">Próximo Passo</div>
+    <h2 class="section-title" style="color:#fff;margin-bottom:16px;">Aprovando hoje,<br>começamos amanhã.</h2>
+    <p style="font-size:15px;color:rgba(255,255,255,0.52);margin-bottom:36px;line-height:1.75;">A distribuidora tem 10 dias de vida e já pode nascer com estrutura completa no digital. Cada dia sem presença é um dia que o concorrente aparece no lugar.</p>
+    <a href="https://wa.me/5511983912170" class="btn-primary" style="font-size:16px;padding:18px 44px;">✅ Aprovar Proposta — R$1.500/mês</a>
+    <p style="font-size:12px;color:rgba(255,255,255,0.3);margin-top:16px;">Fale com Oscar · GST Marketing · (11) 98391-2170</p>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p><strong>GST Marketing</strong> — Proposta para Rodrigo Alves · Distribuidora de Bebidas · Jardim Ingá — DF</p>
+  <p style="margin-top:8px;">Estruturação Digital · Tráfego Pago Local · Gestão de Conteúdo · Abril/2026</p>
+</footer>
+
+</body>
+</html>
