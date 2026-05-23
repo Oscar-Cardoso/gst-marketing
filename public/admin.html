@@ -559,13 +559,20 @@ async function carregarDados() {
     
     if (propostas) {
       const propostasTable = document.getElementById('propostasTable');
-      propostasTable.innerHTML = '<thead><tr><th>Título</th><th>Cliente</th><th>Valor</th><th>Status</th><th>Ação</th></tr></thead>';
+      propostasTable.innerHTML = '<thead><tr><th>Cliente</th><th>Valor/mês</th><th>Status</th><th>Ver Proposta</th><th>Mudar Status</th></tr></thead>';
       propostasTable.innerHTML += propostas.map(p => `
         <tr>
-          <td>${p.titulo}</td>
-          <td>${p.cliente}</td>
-          <td>R$ ${p.valor}</td>
+          <td>
+            <strong>${p.cliente}</strong><br>
+            <small style="color:#64748b">${p.titulo}</small>
+          </td>
+          <td><strong>R$ ${p.valor}</strong></td>
           <td><span class="badge badge-${p.status.toLowerCase().replace(' ', '')}">${p.status}</span></td>
+          <td>
+            ${p.notas && p.notas.startsWith('agenciagst') ? 
+              `<a href="https://${p.notas}" target="_blank" style="background:#00c46a;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;">🔗 Abrir</a>` 
+              : '<span style="color:#94a3b8">—</span>'}
+          </td>
           <td><select class="select-input" onchange="atualizarProposta('${p.id}', this.value)">
             <option value="">Mudar status</option>
             <option value="Enviada">Enviada</option>
