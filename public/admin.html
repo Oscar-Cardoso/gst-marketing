@@ -482,17 +482,32 @@
 </div>
 
 <script>
+// Configuração do Supabase
+const SUPABASE_URL = 'https://rybbojxebmmtfhbmnopm.supabase.co';
+const SUPABASE_KEY = 'eyJhbGc1OjIUz1INIIsInR5cCI6IkpxVCJ9.eyJpc3MiOjdzdk1JhYmFzZSIsInJZI61nJ5Y';
+
+// Importar Supabase
+const script = document.createElement('script');
+script.src = 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/+esm';
+script.type = 'module';
+script.onload = () => {
+  window.supabaseLoaded = true;
+};
+document.head.appendChild(script);
+
+async function initSupabase() {
+  const { createClient } = await import('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.38.4/+esm');
+  return createClient(SUPABASE_URL, SUPABASE_KEY);
+}
+
 async function fazerLogin() {
   const senha = document.getElementById('senhaInput').value;
-  const response = await fetch('/api/admin/login', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ senha })
-  });
-
-  if (response.ok) {
+  
+  // Validação simples de senha
+  if (senha === 'T@ubate6') {
     document.getElementById('loginScreen').classList.remove('show');
     document.getElementById('adminPanel').style.display = 'block';
+    localStorage.setItem('admin_logged_in', 'true');
     carregarDados();
   } else {
     alert('Senha incorreta!');
@@ -500,7 +515,7 @@ async function fazerLogin() {
 }
 
 async function fazerLogout() {
-  await fetch('/api/admin/logout', { method: 'POST' });
+  localStorage.removeItem('admin_logged_in');
   document.getElementById('loginScreen').classList.add('show');
   document.getElementById('adminPanel').style.display = 'none';
 }
@@ -514,123 +529,127 @@ function abrirAba(aba) {
 }
 
 async function carregarDados() {
-  const analytics = await fetch('/api/admin/analytics').then(r => r.json());
-  document.getElementById('totalLeads').textContent = analytics.totalLeads;
-  document.getElementById('totalPropostas').textContent = analytics.totalPropostas;
-  document.getElementById('ganhas').textContent = analytics.ganhas;
-  document.getElementById('taxaConversao').textContent = analytics.taxaConversao + '%';
-
-  const leads = await fetch('/api/admin/leads').then(r => r.json());
-  const leadsTable = document.getElementById('leadsTable');
-  leadsTable.innerHTML = '<thead><tr><th>Nome</th><th>WhatsApp</th><th>Loja</th><th>Faturamento</th><th>Data</th></tr></thead>';
-  leadsTable.innerHTML += leads.map(l => `
-    <tr>
-      <td>${l.nome}</td>
-      <td>${l.whatsapp}</td>
-      <td>${l.loja}</td>
-      <td>${l.faturamento || '-'}</td>
-      <td>${new Date(l.createdAt).toLocaleDateString()}</td>
-    </tr>
-  `).join('');
-
-  const propostas = await fetch('/api/admin/propostas').then(r => r.json());
-  const propostasTable = document.getElementById('propostasTable');
-  propostasTable.innerHTML = '<thead><tr><th>Título</th><th>Cliente</th><th>Valor</th><th>Status</th><th>Notas</th><th>Ação</th></tr></thead>';
-  propostasTable.innerHTML += propostas.map(p => `
-    <tr>
-      <td>${p.titulo}</td>
-      <td>${p.cliente}</td>
-      <td>R$ ${p.valor}</td>
-      <td><span class="badge badge-${p.status.toLowerCase().replace(' ', '')}">${p.status}</span></td>
-      <td><textarea class="textarea-input" style="width:100%; height:60px;" placeholder="Notas...">${p.notas || ''}</textarea></td>
-      <td><select class="select-input" onchange="atualizarProposta('${p.id}', this.value)">
-        <option value="">Mudar status</option>
-        <option value="Enviada">Enviada</option>
-        <option value="Em Negociação">Em Negociação</option>
-        <option value="Ganha">Ganha</option>
-        <option value="Perdida">Perdida</option>
-      </select></td>
-    </tr>
-  `).join('');
-
-  const playbooks = await fetch('/api/admin/playbooks').then(r => r.json());
-  const playooksTable = document.getElementById('playooksTable');
-  playooksTable.innerHTML = '<thead><tr><th>Título</th><th>Categoria</th><th>Arquivo</th><th>Data</th><th>Ação</th></tr></thead>';
-  playooksTable.innerHTML += playbooks.map(p => `
-    <tr>
-      <td>${p.titulo}</td>
-      <td>${p.categoria}</td>
-      <td><a href="/uploads/playbooks/${p.arquivo}" target="_blank">📥 Download</a></td>
-      <td>${new Date(p.uploadedAt).toLocaleDateString()}</td>
-      <td><button class="btn-danger" onclick="deletarPlaybook('${p.id}')">Deletar</button></td>
-    </tr>
-  `).join('');
-}
-
-function prepararPlaybook() {
-  // Placeholder para upload
-}
-
-async function fazerUploadPlaybook() {
-  const file = document.getElementById('playbookFile').files[0];
-  const titulo = document.getElementById('playbookTitulo').value;
-  const categoria = document.getElementById('playbookCategoria').value;
-  const descricao = document.getElementById('playbookDescricao').value;
-
-  if (!file || !titulo || !categoria) {
-    alert('Preencha todos os campos!');
-    return;
-  }
-
-  const formData = new FormData();
-  formData.append('file', file);
-  formData.append('titulo', titulo);
-  formData.append('categoria', categoria);
-  formData.append('descricao', descricao);
-
-  const response = await fetch('/api/admin/playbooks', {
-    method: 'POST',
-    body: formData
-  });
-
-  if (response.ok) {
-    alert('Playbook enviado com sucesso!');
-    document.getElementById('playbookTitulo').value = '';
-    document.getElementById('playbookCategoria').value = '';
-    document.getElementById('playbookDescricao').value = '';
-    document.getElementById('playbookFile').value = '';
-    carregarDados();
-  }
-}
-
-async function deletarPlaybook(id) {
-  if (confirm('Tem certeza que quer deletar este playbook?')) {
-    await fetch(`/api/admin/playbooks/${id}`, { method: 'DELETE' });
-    carregarDados();
+  try {
+    const supabase = await initSupabase();
+    
+    // Carregar leads
+    const { data: leads, error: leadsError } = await supabase
+      .from('leads')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (leads) {
+      const leadsTable = document.getElementById('leadsTable');
+      leadsTable.innerHTML = '<thead><tr><th>Nome</th><th>WhatsApp</th><th>Loja</th><th>Faturamento</th><th>Data</th></tr></thead>';
+      leadsTable.innerHTML += leads.map(l => `
+        <tr>
+          <td>${l.nome}</td>
+          <td>${l.whatsapp}</td>
+          <td>${l.loja}</td>
+          <td>${l.faturamento || '-'}</td>
+          <td>${new Date(l.created_at).toLocaleDateString()}</td>
+        </tr>
+      `).join('');
+    }
+    
+    // Carregar propostas
+    const { data: propostas } = await supabase
+      .from('propostas')
+      .select('*')
+      .order('created_at', { ascending: false });
+    
+    if (propostas) {
+      const propostasTable = document.getElementById('propostasTable');
+      propostasTable.innerHTML = '<thead><tr><th>Título</th><th>Cliente</th><th>Valor</th><th>Status</th><th>Ação</th></tr></thead>';
+      propostasTable.innerHTML += propostas.map(p => `
+        <tr>
+          <td>${p.titulo}</td>
+          <td>${p.cliente}</td>
+          <td>R$ ${p.valor}</td>
+          <td><span class="badge badge-${p.status.toLowerCase().replace(' ', '')}">${p.status}</span></td>
+          <td><select class="select-input" onchange="atualizarProposta('${p.id}', this.value)">
+            <option value="">Mudar status</option>
+            <option value="Enviada">Enviada</option>
+            <option value="Em Negociação">Em Negociação</option>
+            <option value="Ganha">Ganha</option>
+            <option value="Perdida">Perdida</option>
+          </select></td>
+        </tr>
+      `).join('');
+    }
+    
+    // Carregar playbooks
+    const { data: playbooks } = await supabase
+      .from('playbooks')
+      .select('*')
+      .order('uploaded_at', { ascending: false });
+    
+    if (playbooks) {
+      const playooksTable = document.getElementById('playooksTable');
+      playooksTable.innerHTML = '<thead><tr><th>Título</th><th>Categoria</th><th>Data</th><th>Ação</th></tr></thead>';
+      playooksTable.innerHTML += playbooks.map(p => `
+        <tr>
+          <td>${p.titulo}</td>
+          <td>${p.categoria}</td>
+          <td>${new Date(p.uploaded_at).toLocaleDateString()}</td>
+          <td><button class="btn-danger" onclick="deletarPlaybook('${p.id}')">Deletar</button></td>
+        </tr>
+      `).join('');
+    }
+    
+    // Analytics
+    const totalLeads = leads ? leads.length : 0;
+    const totalPropostas = propostas ? propostas.length : 0;
+    const ganhas = propostas ? propostas.filter(p => p.status === 'Ganha').length : 0;
+    const taxaConversao = totalPropostas > 0 ? ((ganhas / totalPropostas) * 100).toFixed(2) : 0;
+    
+    document.getElementById('totalLeads').textContent = totalLeads;
+    document.getElementById('totalPropostas').textContent = totalPropostas;
+    document.getElementById('ganhas').textContent = ganhas;
+    document.getElementById('taxaConversao').textContent = taxaConversao + '%';
+    
+  } catch (error) {
+    console.error('Erro ao carregar dados:', error);
   }
 }
 
 async function atualizarProposta(id, status) {
   if (status) {
-    await fetch(`/api/admin/propostas/${id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ status })
-    });
-    carregarDados();
+    try {
+      const supabase = await initSupabase();
+      await supabase
+        .from('propostas')
+        .update({ status })
+        .eq('id', id);
+      carregarDados();
+    } catch (error) {
+      console.error('Erro ao atualizar:', error);
+    }
   }
 }
 
-// Carregar dados ao abrir admin
-window.addEventListener('load', () => {
-  // Verifica se já está logado
-  fetch('/api/admin/analytics').then(r => {
-    if (r.ok) {
-      document.getElementById('loginScreen').classList.remove('show');
-      document.getElementById('adminPanel').style.display = 'block';
+async function deletarPlaybook(id) {
+  if (confirm('Tem certeza que quer deletar este playbook?')) {
+    try {
+      const supabase = await initSupabase();
+      await supabase
+        .from('playbooks')
+        .delete()
+        .eq('id', id);
       carregarDados();
+    } catch (error) {
+      console.error('Erro ao deletar:', error);
     }
-  });
+  }
+}
+
+// Verificar se já está logado
+window.addEventListener('load', () => {
+  if (localStorage.getItem('admin_logged_in') === 'true') {
+    document.getElementById('loginScreen').classList.remove('show');
+    document.getElementById('adminPanel').style.display = 'block';
+    carregarDados();
+  }
 });
 </script>
 
