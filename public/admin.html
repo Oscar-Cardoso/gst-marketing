@@ -64,6 +64,42 @@
 
     .logout-btn:hover { background: #c62828; }
 
+    .filtro-btn {
+      padding: 7px 16px; border-radius: 20px; border: 1.5px solid #e2e8f0;
+      background: #fff; color: #64748b; font-size: 13px; font-weight: 600;
+      cursor: pointer; transition: all 0.2s;
+    }
+    .filtro-btn:hover { border-color: #00c46a; color: #00c46a; }
+    .filtro-ativo { background: #00c46a !important; color: #fff !important; border-color: #00c46a !important; }
+
+    .proposta-card {
+      background: #fff; border-radius: 14px; padding: 22px;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.07); border: 1.5px solid #e8f0fe;
+      display: flex; flex-direction: column; gap: 12px;
+      transition: box-shadow 0.2s;
+    }
+    .proposta-card:hover { box-shadow: 0 6px 24px rgba(0,0,0,0.12); }
+    .proposta-card-header { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .proposta-card-tags { display: flex; gap: 6px; flex-wrap: wrap; }
+    .tag { font-size: 11px; font-weight: 700; padding: 3px 10px; border-radius: 20px; }
+    .tag-sm { background: #e6fff4; color: #009f56; }
+    .tag-beb { background: #fff3e0; color: #e65100; }
+    .tag-traf { background: #e8f4fd; color: #0277bd; }
+    .tag-prem { background: #fef9e7; color: #f39c12; }
+    .tag-status-enviada { background: #e8f4fd; color: #0277bd; }
+    .tag-status-emaberto { background: #fff3e0; color: #e65100; }
+    .tag-status-emneg { background: #f3e5f5; color: #7b1fa2; }
+    .tag-status-ganha { background: #e6fff4; color: #009f56; }
+    .tag-status-perdida { background: #fde8e8; color: #c62828; }
+    .proposta-card-cliente { font-family: Poppins,sans-serif; font-weight: 800; font-size: 17px; color: #0d1b2a; }
+    .proposta-card-sub { font-size: 13px; color: #64748b; margin-top: -6px; }
+    .proposta-card-valor { font-family: Poppins,sans-serif; font-weight: 800; font-size: 22px; color: #0d1b2a; }
+    .proposta-card-valor span { font-size: 14px; font-weight: 500; color: #64748b; }
+    .proposta-card-actions { display: flex; gap: 8px; margin-top: 4px; }
+    .btn-ver { background: #00c46a; color: #fff; border: none; padding: 9px 16px; border-radius: 8px; font-weight: 700; font-size: 13px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+    .btn-ver:hover { background: #009f56; }
+    .proposta-card-select select { border: 1.5px solid #e2e8f0; border-radius: 8px; padding: 8px 10px; font-size: 13px; color: #1e293b; background: #f8fafc; width: 100%; cursor: pointer; }
+
     .login-screen {
       display: none;
       position: fixed;
@@ -404,22 +440,16 @@
 
     <!-- PROPOSTAS -->
     <div id="tab-propostas" class="tab-pane">
-      <div class="card">
-        <h3>Gerenciar Propostas</h3>
-        <table id="propostasTable">
-          <thead>
-            <tr>
-              <th>Título</th>
-              <th>Cliente</th>
-              <th>Valor</th>
-              <th>Status</th>
-              <th>Notas</th>
-              <th>Ação</th>
-            </tr>
-          </thead>
-          <tbody></tbody>
-        </table>
+      <div style="margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;">
+        <h3 style="font-family:Poppins,sans-serif;font-weight:800;font-size:22px;">Central de Propostas</h3>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;" id="filtroPropostas">
+          <button onclick="filtrarPropostas('todos')" class="filtro-btn filtro-ativo">Todos</button>
+          <button onclick="filtrarPropostas('Supermercado')" class="filtro-btn">Supermercado</button>
+          <button onclick="filtrarPropostas('Bebidas')" class="filtro-btn">Bebidas</button>
+          <button onclick="filtrarPropostas('Tráfego')" class="filtro-btn">Só Tráfego</button>
+        </div>
       </div>
+      <div id="propostasCards" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:20px;"></div>
     </div>
 
     <!-- PLAYBOOKS -->
@@ -557,29 +587,9 @@ async function carregarDados() {
       .select('*')
       .order('created_at', { ascending: false });
     
+    window._propostas = propostas || [];
     if (propostas) {
-      const propostasTable = document.getElementById('propostasTable');
-      propostasTable.innerHTML = '<thead><tr><th>Cliente</th><th>Valor/mês</th><th>Status</th><th>Ver Proposta</th><th>Mudar Status</th></tr></thead>';
-      propostasTable.innerHTML += propostas.map(p => `
-        <tr>
-          <td>
-            <strong>${p.cliente}</strong><br>
-            <small style="color:#64748b">${p.titulo}</small>
-          </td>
-          <td><strong>R$ ${p.valor}</strong></td>
-          <td><span class="badge badge-${p.status.toLowerCase().replace(' ', '')}">${p.status}</span></td>
-          <td>
-            ${p.notas && p.notas.startsWith('agenciagst') ? 
-              `<a href="https://${p.notas}" target="_blank" style="background:#00c46a;color:#fff;padding:6px 12px;border-radius:6px;text-decoration:none;font-size:13px;font-weight:600;">🔗 Abrir</a>` 
-              : '<span style="color:#94a3b8">—</span>'}
-          </td>
-          <td><select class="select-input" onchange="atualizarProposta('${p.id}', this.value)">
-            <option value="">Mudar status</option>
-            <option value="Enviada">Enviada</option>
-            <option value="Em Negociação">Em Negociação</option>
-            <option value="Ganha">Ganha</option>
-            <option value="Perdida">Perdida</option>
-          </select></td>
+      renderPropostasCards(propostas);
         </tr>
       `).join('');
     }
@@ -617,6 +627,67 @@ async function carregarDados() {
   } catch (error) {
     console.error('Erro ao carregar dados:', error);
   }
+}
+
+function getTagSegmento(titulo) {
+  const t = titulo.toLowerCase();
+  if (t.includes('bebida')) return '<span class="tag tag-beb">Bebidas</span>';
+  if (t.includes('tráfego') || t.includes('trafego')) return '<span class="tag tag-traf">Tráfego</span>';
+  if (t.includes('premium')) return '<span class="tag tag-prem">Premium</span>';
+  return '<span class="tag tag-sm">Supermercado</span>';
+}
+
+function getTagStatus(status) {
+  const map = {
+    'Enviada': 'tag-status-enviada',
+    'Em aberto': 'tag-status-emaberto',
+    'Em Negociação': 'tag-status-emneg',
+    'Ganha': 'tag-status-ganha',
+    'Perdida': 'tag-status-perdida'
+  };
+  return `<span class="tag ${map[status] || 'tag-status-enviada'}">${status}</span>`;
+}
+
+function renderPropostasCards(propostas) {
+  const container = document.getElementById('propostasCards');
+  if (!container) return;
+  container.innerHTML = propostas.map(p => `
+    <div class="proposta-card" data-segmento="${p.titulo}">
+      <div class="proposta-card-header">
+        <div class="proposta-card-tags">
+          ${getTagSegmento(p.titulo)}
+          ${getTagStatus(p.status)}
+        </div>
+      </div>
+      <div class="proposta-card-cliente">${p.cliente}</div>
+      <div class="proposta-card-sub">${p.titulo}</div>
+      <div class="proposta-card-valor">R$${p.valor}<span>/mês</span></div>
+      <div class="proposta-card-actions">
+        ${p.notas && p.notas.startsWith('agenciagst') ? 
+          `<a class="btn-ver" href="https://${p.notas}" target="_blank">🔗 Ver Proposta</a>` 
+          : ''}
+      </div>
+      <div class="proposta-card-select">
+        <select onchange="atualizarProposta('${p.id}', this.value)">
+          <option value="">Mudar status...</option>
+          <option value="Enviada" ${p.status==='Enviada'?'selected':''}>Enviada</option>
+          <option value="Em aberto" ${p.status==='Em aberto'?'selected':''}>Em aberto</option>
+          <option value="Em Negociação" ${p.status==='Em Negociação'?'selected':''}>Em Negociação</option>
+          <option value="Ganha" ${p.status==='Ganha'?'selected':''}>Ganha</option>
+          <option value="Perdida" ${p.status==='Perdida'?'selected':''}>Perdida</option>
+        </select>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filtrarPropostas(segmento) {
+  document.querySelectorAll('.filtro-btn').forEach(b => b.classList.remove('filtro-ativo'));
+  event.target.classList.add('filtro-ativo');
+  const todos = window._propostas || [];
+  if (segmento === 'todos') { renderPropostasCards(todos); return; }
+  const filtradas = todos.filter(p => p.titulo.toLowerCase().includes(segmento.toLowerCase()));
+  renderPropostasCards(filtradas);
 }
 
 async function atualizarProposta(id, status) {
