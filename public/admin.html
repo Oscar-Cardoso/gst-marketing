@@ -237,9 +237,7 @@ function irPara(pg, btn) {
   document.getElementById('page-' + pg).classList.add('active');
   document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
-  // Re-renderizar ao abrir aba
-  if (pg === 'propostas' && window._propostas) renderProps(window._propostas);
-  if (pg === 'playbooks' && window._playbooks) renderPbCards(window._playbooks);
+  carregarTudo();
 }
 
 async function supa(path, opts={}) {
@@ -276,8 +274,12 @@ async function carregarTudo() {
 
   // Playbooks
   const pbs = await supa('playbooks?order=id.desc') || [];
+  console.log('Playbooks carregados:', pbs);
   window._playbooks = pbs;
   renderPbCards(pbs);
+
+  // Propostas - forçar render após carregamento
+  if (window._propostas && window._propostas.length) renderProps(window._propostas);
 }
 
 function tagSeg(titulo) {
