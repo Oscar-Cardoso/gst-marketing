@@ -236,6 +236,9 @@ function irPara(pg, btn) {
   document.getElementById('page-' + pg).classList.add('active');
   document.querySelectorAll('.sidebar-link').forEach(b => b.classList.remove('active'));
   btn.classList.add('active');
+  // Re-renderizar ao abrir aba
+  if (pg === 'propostas' && window._propostas) renderProps(window._propostas);
+  if (pg === 'playbooks' && window._playbooks) renderPbCards(window._playbooks);
 }
 
 async function supa(path, opts={}) {
