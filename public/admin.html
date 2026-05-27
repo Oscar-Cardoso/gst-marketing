@@ -261,12 +261,8 @@ async function carregarTudo() {
 
   // Playbooks
   const pbs = await supa('playbooks?order=uploaded_at.desc') || [];
-  const pt = document.getElementById('pbTable');
-  pt.innerHTML = '<thead><tr><th>Título</th><th>Categoria</th><th>Descrição</th><th>Data</th><th>Ação</th></tr></thead>';
-  pbs.forEach(p => {
-    const tr = pt.insertRow();
-    tr.innerHTML = `<td>${p.titulo}</td><td>${p.categoria}</td><td>${p.descricao||'—'}</td><td>${new Date(p.uploaded_at).toLocaleDateString('pt-BR')}</td><td><button class="btn-danger" onclick="deletarPb('${p.id}')">Deletar</button></td>`;
-  });
+  window._playbooks = pbs;
+  renderPbCards(pbs);
 }
 
 function tagSeg(titulo) {
@@ -314,17 +310,84 @@ async function mudarStatus(id, status) {
   carregarTudo();
 }
 
+// Ícones por categoria
+function pbIcon(cat) {
+  const map = {
+    'Tráfego Pago': '🎯',
+    'Gestão de Redes': '📱',
+    'WhatsApp Marketing': '💬',
+    'Pesquisa de Rastreio': '🔍',
+    'DRE de Marketing': '📊',
+    'Eventos & Reinauguração': '🎉',
+    'Google & SEO Local': '🌐',
+    'Diagnóstico & Descoberta': '🔬',
+    'Contrato & Proposta': '📋',
+    'Operacional': '⚙️'
+  };
+  return map[cat] || '📘';
+}
+
+function renderPbCards(pbs) {
+  const grid = document.getElementById('pbGrid');
+  if (!grid) return;
+  if (!pbs.length) {
+    grid.innerHTML = '<p style="color:#64748b;font-size:14px;padding:20px 0">Nenhum playbook cadastrado ainda.</p>';
+    return;
+  }
+  grid.innerHTML = pbs.map(p => `
+    <div class="prop-card">
+      <div style="font-size:32px">${pbIcon(p.categoria)}</div>
+      <div class="prop-tags">
+        <span class="tag tag-sm" style="background:#f0f4ff;color:#3b4fd4">${p.categoria}</span>
+      </div>
+      <div class="prop-cliente">${p.titulo}</div>
+      <div class="prop-sub" style="min-height:36px">${p.descricao || '—'}</div>
+      <div style="font-size:12px;color:#94a3b8">${new Date(p.uploaded_at).toLocaleDateString('pt-BR')}</div>
+      <div class="prop-actions" style="margin-top:4px">
+        ${p.arquivo_url && p.arquivo_url !== '-' ? 
+          `<a class="btn-ver" href="${p.arquivo_url}" target="_blank">📖 Abrir Playbook</a>` 
+          : ''}
+        <button onclick="deletarPb('${p.id}')" style="background:#fde8e8;color:#c62828;border:none;padding:8px 12px;border-radius:8px;font-size:12px;font-weight:700;cursor:pointer">Deletar</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function filtrarPb(cat, btn) {
+  document.querySelectorAll('#filtrosPb .filtro-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  const todos = window._playbooks || [];
+  if (cat === 'todos') { renderPbCards(todos); return; }
+  renderPbCards(todos.filter(p => p.categoria === cat));
+}
+
+function toggleFormPb() {
+  const form = document.getElementById('formPb');
+  const btn = document.getElementById('btnNovoPb');
+  if (form.style.display === 'none') {
+    form.style.display = 'block';
+    btn.textContent = '✕ Cancelar';
+    form.scrollIntoView({behavior:'smooth', block:'start'});
+  } else {
+    form.style.display = 'none';
+    btn.textContent = '+ Novo Playbook';
+  }
+}
+
 async function salvarPlaybook() {
   const titulo = document.getElementById('pbTitulo').value;
   const categoria = document.getElementById('pbCategoria').value;
   const descricao = document.getElementById('pbDescricao').value;
+  const url = document.getElementById('pbUrl') ? document.getElementById('pbUrl').value.trim() : '';
   if (!titulo || !categoria) { alert('Preencha título e categoria!'); return; }
-  await supa('playbooks', { method: 'POST', headers: {'Prefer':'return=minimal'}, body: JSON.stringify({titulo, categoria, descricao, arquivo_nome:'-', arquivo_url:'-'}) });
+  const arquivo_url = url ? (url.startsWith('http') ? url : 'https://' + url) : '-';
+  await supa('playbooks', { method: 'POST', headers: {'Prefer':'return=minimal'}, body: JSON.stringify({titulo, categoria, descricao, arquivo_nome: url || '-', arquivo_url}) });
   document.getElementById('pbTitulo').value = '';
   document.getElementById('pbCategoria').value = '';
   document.getElementById('pbDescricao').value = '';
+  if (document.getElementById('pbUrl')) document.getElementById('pbUrl').value = '';
+  toggleFormPb();
   carregarTudo();
-  alert('Playbook salvo!');
 }
 
 async function deletarPb(id) {
