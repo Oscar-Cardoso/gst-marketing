@@ -271,7 +271,7 @@ async function carregarTudo() {
   renderProps(props);
 
   // Playbooks
-  const pbs = await supa('playbooks?order=uploaded_at.desc') || [];
+  const pbs = await supa('playbooks?order=id.desc') || [];
   window._playbooks = pbs;
   renderPbCards(pbs);
 }
@@ -353,7 +353,7 @@ function renderPbCards(pbs) {
       </div>
       <div class="prop-cliente">${p.titulo}</div>
       <div class="prop-sub" style="min-height:36px">${p.descricao || '—'}</div>
-      <div style="font-size:12px;color:#94a3b8">${new Date(p.uploaded_at).toLocaleDateString('pt-BR')}</div>
+      <div style="font-size:12px;color:#94a3b8">${p.uploaded_at ? new Date(p.uploaded_at).toLocaleDateString('pt-BR') : '—'}</div>
       <div class="prop-actions" style="margin-top:4px">
         ${p.arquivo_url && p.arquivo_url !== '-' ? 
           `<a class="btn-ver" href="${p.arquivo_url}" target="_blank">📖 Abrir Playbook</a>` 
