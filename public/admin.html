@@ -160,35 +160,46 @@ tr:last-child td{border-bottom:none}
 
     <!-- PLAYBOOKS -->
     <div id="page-playbooks" class="page">
-      <h2 style="margin-bottom:20px">Playbooks</h2>
-      <div class="card" style="margin-bottom:20px">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
+        <h2>Biblioteca de Playbooks</h2>
+        <button class="btn-primary" onclick="toggleFormPb()" id="btnNovoPb">+ Novo Playbook</button>
+      </div>
+      <div id="formPb" style="display:none;background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06)">
         <h3 style="margin-bottom:16px">Cadastrar Playbook</h3>
-        <div class="form-group"><label>Título</label><input type="text" id="pbTitulo" placeholder="Ex: Guia de Tráfego Pago"></div>
-        <div class="form-group"><label>Categoria</label>
-          <select id="pbCategoria">
-            <option value="">Selecione...</option>
-            <option>Tráfego Pago</option>
-            <option>Gestão de Redes</option>
-            <option>WhatsApp Marketing</option>
-            <option>Pesquisa de Rastreio</option>
-            <option>DRE de Marketing</option>
-            <option>Eventos & Reinauguração</option>
-            <option>Google & SEO Local</option>
-            <option>Diagnóstico & Descoberta</option>
-            <option>Contrato & Proposta</option>
-            <option>Operacional</option>
-          </select>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+          <div class="form-group"><label>Título</label><input type="text" id="pbTitulo" placeholder="Ex: Playbook Meta Ads"></div>
+          <div class="form-group"><label>Categoria</label>
+            <select id="pbCategoria">
+              <option value="">Selecione...</option>
+              <option>Tráfego Pago</option>
+              <option>Gestão de Redes</option>
+              <option>WhatsApp Marketing</option>
+              <option>Pesquisa de Rastreio</option>
+              <option>DRE de Marketing</option>
+              <option>Eventos & Reinauguração</option>
+              <option>Google & SEO Local</option>
+              <option>Diagnóstico & Descoberta</option>
+              <option>Contrato & Proposta</option>
+              <option>Operacional</option>
+            </select>
+          </div>
         </div>
-        <div class="form-group"><label>Descrição</label><input type="text" id="pbDescricao" placeholder="Breve descrição"></div>
-        <button class="btn-primary" onclick="salvarPlaybook()">Salvar Playbook</button>
+        <div class="form-group"><label>URL do Playbook</label><input type="text" id="pbUrl" placeholder="https://agenciagst.com.br/playbook-..." style="font-family:monospace;font-size:13px"></div>
+        <div class="form-group"><label>Descrição</label><input type="text" id="pbDescricao" placeholder="Breve descrição do conteúdo"></div>
+        <div style="display:flex;gap:12px">
+          <button class="btn-primary" onclick="salvarPlaybook()">💾 Salvar</button>
+          <button onclick="toggleFormPb()" style="padding:11px 20px;border:1.5px solid #e2e8f0;border-radius:8px;background:#fff;cursor:pointer;font-size:14px">Cancelar</button>
+        </div>
       </div>
-      <div class="card">
-        <h3 style="margin-bottom:16px">Playbooks Cadastrados</h3>
-        <table id="pbTable">
-          <thead><tr><th>Título</th><th>Categoria</th><th>Descrição</th><th>Data</th><th>Ação</th></tr></thead>
-          <tbody></tbody>
-        </table>
+      <div class="filtros" id="filtrosPb">
+        <button class="filtro-btn active" onclick="filtrarPb('todos',this)">Todos</button>
+        <button class="filtro-btn" onclick="filtrarPb('Tráfego Pago',this)">Tráfego Pago</button>
+        <button class="filtro-btn" onclick="filtrarPb('Gestão de Redes',this)">Redes Sociais</button>
+        <button class="filtro-btn" onclick="filtrarPb('WhatsApp Marketing',this)">WhatsApp</button>
+        <button class="filtro-btn" onclick="filtrarPb('Diagnóstico & Descoberta',this)">Diagnóstico</button>
+        <button class="filtro-btn" onclick="filtrarPb('Contrato & Proposta',this)">Proposta</button>
       </div>
+      <div id="pbGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px"></div>
     </div>
 
   </div>
