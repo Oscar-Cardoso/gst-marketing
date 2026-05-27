@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manual do WhatsApp que Vende Todos os Dias | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --green:#00c46a;--green-dark:#009f56;--green-light:#e6fff4;
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --yellow:#f5b400;--red:#e53935;
+  --gray:#64748b;--gray-light:#f4f7fb;--text:#1e293b;--border:#e2e8f0;
+}
+body{font-family:'Inter',sans-serif;background:#fff;color:var(--text);line-height:1.7}
+h1,h2,h3,h4,h5{font-family:'Poppins',sans-serif}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#051810 0%,#0a2e1a 50%,#0d1b2a 100%);color:#fff;padding:80px 60px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,196,106,0.18),transparent 65%);border-radius:50%}
+.hero::after{content:'';position:absolute;bottom:-80px;left:20%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,196,106,0.08),transparent 65%);border-radius:50%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,196,106,0.15);border:1px solid rgba(0,196,106,0.4);color:var(--green);font-size:12px;font-weight:700;padding:7px 18px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
+.hero h1{font-size:clamp(30px,5vw,54px);font-weight:900;line-height:1.1;margin-bottom:16px}
+.hero h1 span{color:var(--green)}
+.hero-sub{font-size:17px;color:rgba(255,255,255,0.6);margin-bottom:40px;max-width:600px}
+.hero-frase{background:rgba(0,196,106,0.12);border-left:4px solid var(--green);border-radius:0 12px 12px 0;padding:18px 24px;max-width:600px;font-size:16px;font-weight:700;color:#fff;margin-bottom:40px;font-style:italic}
+.hero-nums{display:flex;gap:40px;flex-wrap:wrap}
+.hero-num strong{display:block;font-family:'Poppins',sans-serif;font-size:32px;font-weight:900;color:var(--green)}
+.hero-num span{font-size:12px;color:rgba(255,255,255,0.45);text-transform:uppercase;letter-spacing:0.5px}
+
+/* ÍNDICE */
+.indice{background:var(--navy2);padding:48px 60px}
+.indice h2{font-size:18px;font-weight:800;color:var(--green);margin-bottom:20px;letter-spacing:0.5px;text-transform:uppercase}
+.indice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px}
+.indice-item{display:flex;align-items:center;gap:10px;padding:12px 16px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:8px;text-decoration:none;color:rgba(255,255,255,0.7);font-size:13px;transition:all 0.2s;cursor:pointer}
+.indice-item:hover{border-color:var(--green);color:var(--green);background:rgba(0,196,106,0.08)}
+.indice-num{font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;color:var(--green);min-width:24px}
+
+/* MÓDULOS */
+.modulo{padding:64px 60px;border-bottom:1px solid var(--border);position:relative}
+.modulo:nth-child(even){background:var(--gray-light)}
+.modulo-header{display:flex;align-items:flex-start;gap:16px;margin-bottom:36px}
+.modulo-num{font-family:'Poppins',sans-serif;font-weight:900;font-size:64px;color:var(--green);opacity:0.2;line-height:1;min-width:72px}
+.modulo-titulo h2{font-size:clamp(20px,3vw,30px);font-weight:800;color:var(--navy);margin-bottom:6px}
+.modulo-titulo p{color:var(--gray);font-size:14px}
+
+/* CARDS */
+.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:24px 0}
+.card{background:#fff;border-radius:12px;padding:22px;border:1px solid var(--border);border-left:4px solid var(--green)}
+.card.yellow{border-left-color:var(--yellow);background:#fffdf0}
+.card.red{border-left-color:var(--red);background:#fff8f8}
+.card.navy{background:var(--navy);color:#fff;border-left-color:var(--green)}
+.card h4{font-size:14px;font-weight:700;margin-bottom:10px;color:var(--navy)}
+.card.navy h4{color:var(--green)}
+.card ul{padding-left:0;list-style:none}
+.card li{font-size:13px;color:var(--gray);padding:4px 0;display:flex;gap:8px;align-items:flex-start;border-bottom:1px solid rgba(0,0,0,0.04)}
+.card li:last-child{border-bottom:none}
+.card li::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.card.navy li{color:rgba(255,255,255,0.7)}
+.card.navy li::before{color:var(--green)}
+
+/* PASSO A PASSO */
+.passos{display:flex;flex-direction:column;gap:0;margin:24px 0}
+.passo{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--border)}
+.passo:last-child{border-bottom:none}
+.passo-num{width:40px;height:40px;background:var(--green);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:'Poppins',sans-serif;font-weight:800;font-size:15px;flex-shrink:0;margin-top:2px}
+.passo-content h4{font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.passo-content p{font-size:14px;color:var(--gray);line-height:1.6}
+.passo-content ul{padding-left:0;list-style:none;margin-top:8px}
+.passo-content li{font-size:13px;color:var(--gray);padding:3px 0;display:flex;gap:8px}
+.passo-content li::before{content:'•';color:var(--green);font-weight:900;min-width:10px}
+
+/* HIGHLIGHT BOX */
+.highlight{background:linear-gradient(135deg,var(--navy),var(--navy3));color:#fff;border-radius:16px;padding:28px 32px;margin:20px 0;position:relative;overflow:hidden}
+.highlight::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,196,106,0.2),transparent);border-radius:50%}
+.highlight h3{font-size:18px;font-weight:800;color:var(--green);margin-bottom:10px;position:relative}
+.highlight p,.highlight li{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7;position:relative}
+.highlight ul{padding-left:0;list-style:none;margin-top:8px}
+.highlight li{display:flex;gap:8px;padding:4px 0}
+.highlight li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+
+/* ALERTA */
+.alerta{background:#fffbeb;border-left:4px solid var(--yellow);border-radius:0 10px 10px 0;padding:16px 20px;margin:16px 0;font-size:14px;color:#5d4037}
+.alerta strong{color:#e65100}
+.danger{background:#fff5f5;border-left:4px solid var(--red);border-radius:0 10px 10px 0;padding:16px 20px;margin:16px 0;font-size:14px;color:#7f1d1d}
+.dica{background:var(--green-light);border-left:4px solid var(--green);border-radius:0 10px 10px 0;padding:16px 20px;margin:16px 0;font-size:14px;color:#064e3b}
+.dica strong{color:var(--green-dark)}
+
+/* FORMULA */
+.formula{background:var(--green-light);border:1px solid rgba(0,196,106,0.3);border-radius:12px;padding:20px 24px;margin:16px 0;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--navy);text-align:center}
+
+/* TABELA */
+.table-wrap{overflow-x:auto;margin:20px 0;border-radius:12px;box-shadow:0 2px 12px rgba(0,0,0,0.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-weight:700;font-family:'Poppins',sans-serif;font-size:11px;color:rgba(255,255,255,0.85);letter-spacing:0.5px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border)}
+tr:hover td{background:#f8fafc}
+tr:last-child td{border-bottom:none}
+
+/* CHECKLIST INTERATIVO */
+.checklist-modulo{background:#fff;border-radius:16px;padding:28px;margin-top:32px;border:1px solid var(--border);box-shadow:0 2px 12px rgba(0,0,0,0.05)}
+.checklist-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:10px}
+.checklist-header h3{font-size:16px;font-weight:800;color:var(--navy)}
+.checklist-progress{display:flex;align-items:center;gap:10px}
+.progress-bar{width:120px;height:6px;background:#e2e8f0;border-radius:10px;overflow:hidden}
+.progress-fill{height:100%;background:var(--green);border-radius:10px;transition:width 0.3s}
+.progress-text{font-size:12px;font-weight:700;color:var(--green);white-space:nowrap}
+.checklist-items{display:flex;flex-direction:column;gap:0}
+.check-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid #f1f5f9;cursor:pointer;transition:all 0.2s;border-radius:6px}
+.check-item:last-child{border-bottom:none}
+.check-item:hover{padding-left:4px}
+.check-box{width:22px;height:22px;border:2px solid var(--border);border-radius:6px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all 0.2s;margin-top:1px}
+.check-item.done .check-box{background:var(--green);border-color:var(--green)}
+.check-item.done .check-box::after{content:'✓';color:#fff;font-size:12px;font-weight:700}
+.check-item.done .check-text{color:var(--green-dark);text-decoration:line-through;opacity:0.7}
+.check-text{font-size:13px;color:var(--text);line-height:1.5}
+.check-sub{font-size:11px;color:var(--gray);margin-top:2px}
+
+/* ETIQUETAS */
+.etiquetas{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+.etiq{display:inline-flex;align-items:center;gap:6px;background:#fff;border:1px solid var(--border);border-radius:8px;padding:6px 12px;font-size:13px;font-weight:600}
+.etiq.verde{background:#e6fff4;border-color:rgba(0,196,106,0.3);color:var(--green-dark)}
+.etiq.amarelo{background:#fff8e1;border-color:rgba(245,180,0,0.3);color:#e65100}
+.etiq.azul{background:#e8f4fd;border-color:rgba(2,119,189,0.3);color:#0277bd}
+.etiq.vermelho{background:#fde8e8;border-color:rgba(229,57,53,0.3);color:var(--red)}
+
+/* MENSAGEM MODELO */
+.msg-modelo{background:var(--navy2);border-radius:12px;padding:20px 24px;margin:16px 0}
+.msg-modelo h5{font-size:11px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px}
+.msg-modelo p{font-size:14px;color:rgba(255,255,255,0.8);line-height:1.7;font-style:italic}
+
+/* NUMEROS IMPACTO */
+.impacto-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(160px,1fr));gap:16px;margin:24px 0}
+.impacto-card{background:#fff;border-radius:12px;padding:20px;text-align:center;border:1px solid var(--border)}
+.impacto-card strong{display:block;font-family:'Poppins',sans-serif;font-size:30px;font-weight:900;color:var(--green)}
+.impacto-card span{font-size:12px;color:var(--gray)}
+
+/* CTA FINAL */
+.cta-final{background:linear-gradient(135deg,#051810,#0a2e1a,#0d1b2a);padding:72px 60px;text-align:center;color:#fff}
+.cta-final h2{font-size:clamp(26px,4vw,40px);font-weight:900;margin-bottom:16px}
+.cta-final h2 span{color:var(--green)}
+.cta-final p{font-size:16px;color:rgba(255,255,255,0.6);max-width:500px;margin:0 auto 32px}
+.cta-btn{display:inline-flex;align-items:center;gap:10px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:'Poppins',sans-serif;font-weight:800;font-size:16px;text-decoration:none;transition:all 0.2s}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px)}
+
+footer{background:var(--navy);color:rgba(255,255,255,0.4);padding:32px 60px;text-align:center;font-size:13px}
+footer strong{color:var(--green)}
+
+@media(max-width:768px){
+  .hero,.indice,.modulo,.cta-final,footer{padding:40px 24px}
+  .modulo-num{font-size:40px;min-width:48px}
+  .cards-grid{grid-template-columns:1fr}
+  .hero-nums{gap:24px}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">💬 Programa Venda Todo Dia · GST Marketing</div>
+  <h1>Manual do <span>WhatsApp</span><br>que Vende<br>Todos os Dias</h1>
+  <p class="hero-sub">Guia prático e completo para transformar o WhatsApp da sua loja em uma máquina de vendas diária, previsível e escalável.</p>
+  <div class="hero-frase">"Quanto mais contatos você tem, maior é o seu poder de comunicação — e consequentemente, mais você vende."</div>
+  <div class="hero-nums">
+    <div class="hero-num"><strong>10</strong><span>Módulos completos</span></div>
+    <div class="hero-num"><strong>8</strong><span>Checklists interativos</span></div>
+    <div class="hero-num"><strong>∞</strong><span>Vendas possíveis</span></div>
+  </div>
+</div>
+
+<!-- ÍNDICE -->
+<div class="indice">
+  <h2>📋 Índice do Playbook</h2>
+  <div class="indice-grid">
+    <a href="#m1" class="indice-item"><span class="indice-num">01</span>Introdução e Contexto</a>
+    <a href="#m2" class="indice-item"><span class="indice-num">02</span>Estrutura Ideal do WhatsApp</a>
+    <a href="#m3" class="indice-item"><span class="indice-num">03</span>Criação do Grupo VIP</a>
+    <a href="#m4" class="indice-item"><span class="indice-num">04</span>Estratégias para Lotar o Grupo</a>
+    <a href="#m5" class="indice-item"><span class="indice-num">05</span>Gestão e Engajamento Diário</a>
+    <a href="#m6" class="indice-item"><span class="indice-num">06</span>Sorteios e Promoções Exclusivas</a>
+    <a href="#m7" class="indice-item"><span class="indice-num">07</span>Monitoramento e Resultados</a>
+    <a href="#m8" class="indice-item"><span class="indice-num">08</span>Melhoria Contínua e Expansão</a>
+    <a href="#m9" class="indice-item"><span class="indice-num">09</span>Checklist Final — Tudo Pronto</a>
+    <a href="#m10" class="indice-item"><span class="indice-num">10</span>Uso Interno da Agência GST</a>
+  </div>
+</div>
+
+<!-- MÓDULO 1 -->
+<div class="modulo" id="m1">
+  <div class="modulo-header">
+    <div class="modulo-num">01</div>
+    <div class="modulo-titulo">
+      <h2>Introdução e Contexto</h2>
+      <p>Por que o WhatsApp é o novo caixa da sua loja</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>O WhatsApp é o novo caixa da sua loja</h3>
+    <p>Você pode ter o melhor encarte, o melhor açougue, a padaria mais cheirosa da cidade… Mas se o cliente não te escuta, ele compra do concorrente. Hoje, o maior poder de um supermercado está em quem tem a atenção e o contato direto com o cliente.</p>
+  </div>
+
+  <div class="formula">📱 Mais gente no grupo → Mais gente vendo suas promoções → Mais gente comprando</div>
+
+  <div class="impacto-grid">
+    <div class="impacto-card"><strong>1x</strong><span>Mensagem por dia é suficiente</span></div>
+    <div class="impacto-card"><strong>1000</strong><span>Clientes num único grupo</span></div>
+    <div class="impacto-card"><strong>R$0</strong><span>Custo para enviar ao grupo</span></div>
+    <div class="impacto-card"><strong>7 dias</strong><span>Para montar e ativar</span></div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>📊 O problema do orgânico</h4>
+      <ul>
+        <li>Post no Instagram alcança 3–8% dos seguidores</li>
+        <li>2.000 seguidores = apenas 60–160 pessoas</li>
+        <li>Sem anúncio, a oferta fica restrita</li>
+        <li>WA alcança 100% dos membros do grupo</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>💬 Por que o WhatsApp ganha</h4>
+      <ul>
+        <li>Notificação direta no celular do cliente</li>
+        <li>Zero custo de envio para o grupo</li>
+        <li>Conversa direta = venda direta</li>
+        <li>Relacionamento e fidelização simultâneos</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <h4>🎯 O que esse manual entrega</h4>
+      <ul>
+        <li>Como montar do zero</li>
+        <li>Como lotar o grupo</li>
+        <li>Como engajar todo dia</li>
+        <li>Como transformar em canal previsível</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 2 -->
+<div class="modulo" id="m2">
+  <div class="modulo-header">
+    <div class="modulo-num">02</div>
+    <div class="modulo-titulo">
+      <h2>Estrutura Ideal do WhatsApp da Loja</h2>
+      <p>Antes de criar o grupo, organize a base</p>
+    </div>
+  </div>
+
+  <div class="passos">
+    <div class="passo">
+      <div class="passo-num">1</div>
+      <div class="passo-content">
+        <h4>Configure o WhatsApp Business</h4>
+        <p>Use a versão Business — foi feita para empresas. Permite automatizar mensagens, organizar contatos e criar perfil comercial completo.</p>
+        <ul>
+          <li>Baixe o WhatsApp Business</li>
+          <li>Conecte o número oficial da loja (não usar pessoal)</li>
+          <li>Configurações → Ferramentas comerciais → Perfil da empresa</li>
+          <li>Preencha: nome, descrição, horário, endereço, link do Instagram</li>
+        </ul>
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">2</div>
+      <div class="passo-content">
+        <h4>Monte um Catálogo Atualizado</h4>
+        <p>O catálogo é o seu "mostruário digital". Use-o para ofertas fixas, cestas promocionais e produtos de destaque da semana.</p>
+        <ul>
+          <li>Fotos claras e reais</li>
+          <li>Atualize com frequência</li>
+          <li>Nomes simples e atrativos (ex: Kit Churrasco do Fim de Semana)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">3</div>
+      <div class="passo-content">
+        <h4>Use Etiquetas para Organizar Contatos</h4>
+        <p>Crie etiquetas para gerenciar melhor sua base e enviar mensagens direcionadas.</p>
+        <div class="etiquetas">
+          <span class="etiq verde">🟢 Novo contato</span>
+          <span class="etiq amarelo">🟡 Cliente ativo</span>
+          <span class="etiq azul">🔵 Grupo VIP</span>
+          <span class="etiq vermelho">🔴 Cliente inativo</span>
+        </div>
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">4</div>
+      <div class="passo-content">
+        <h4>Ative Mensagens Automáticas</h4>
+        <p>Automatize o básico de forma humanizada.</p>
+        <ul>
+          <li>Saudação: "Olá! 👋 Seja bem-vindo(a)! Em breve nossa equipe te responde!"</li>
+          <li>Ausência: "Nosso horário é das 7h às 21h. Te respondemos em breve!"</li>
+          <li>Resposta rápida: /promo → link do Grupo VIP</li>
+        </ul>
+      </div>
+    </div>
+    <div class="passo">
+      <div class="passo-num">5</div>
+      <div class="passo-content">
+        <h4>Defina o Atendimento Interno</h4>
+        <p>Organize a equipe: quem responde, horário, tom de comunicação.</p>
+        <div class="dica"><strong>💡 Regra de ouro:</strong> Evite demorar mais de 5 minutos para responder. No digital, velocidade é venda.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="checklist-modulo" id="cl2">
+    <div class="checklist-header">
+      <h3>✅ Checklist — Estrutura do WhatsApp</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf2" style="width:0%"></div></div>
+        <span class="progress-text" id="pt2">0/10</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci2">
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">WhatsApp Business instalado e configurado</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Número oficial da loja conectado (não pessoal)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Perfil completo: nome, descrição, horário, endereço, Instagram</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Catálogo criado com fotos reais e produtos em destaque</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Etiquetas criadas: Novo contato, Cliente ativo, Grupo VIP, Inativo</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Mensagem de saudação configurada</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Mensagem de ausência configurada</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Respostas rápidas criadas (/promo → link do grupo)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Responsável pelo atendimento definido</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl2')"><div class="check-box"></div><div><div class="check-text">Padrão de resposta (tom, horário) alinhado com a equipe</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 3 -->
+<div class="modulo" id="m3">
+  <div class="modulo-header">
+    <div class="modulo-num">03</div>
+    <div class="modulo-titulo">
+      <h2>Criação do Grupo VIP da Loja</h2>
+      <p>Passo a passo para criar do zero com profissionalismo</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>Por que o Grupo VIP é o Novo Canal de Vendas?</h3>
+    <p>As listas de transmissão têm custo e limitações. O grupo VIP é a forma mais eficiente e gratuita de se comunicar diretamente com centenas de clientes todos os dias. Ali você cria uma comunidade de compradores fiéis, com acesso exclusivo às promoções.</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>🏷️ Nome do Grupo — Exemplos</h4>
+      <ul>
+        <li>🛒 Noronhense VIP</li>
+        <li>⭐ Amigos do Bom Preço</li>
+        <li>💰 Ofertas do Eldorado</li>
+        <li>🎁 Clube de Ofertas Ramos</li>
+      </ul>
+      <div class="dica" style="margin-top:12px;font-size:12px"><strong>Dica:</strong> Nome curto + nome da loja = mais reconhecimento</div>
+    </div>
+    <div class="card">
+      <h4>⚙️ Configurações Obrigatórias</h4>
+      <ul>
+        <li>Somente admins enviam mensagens</li>
+        <li>Somente admins editam informações</li>
+        <li>Autorização para novos membros</li>
+        <li>Capa personalizada com nome + VIP</li>
+      </ul>
+    </div>
+    <div class="card yellow">
+      <h4>📝 O que postar no grupo</h4>
+      <ul>
+        <li>🛍️ Ofertas do dia</li>
+        <li>🎉 Sorteios e dinâmicas</li>
+        <li>⚡ Promoções relâmpago</li>
+        <li>❤️ Mensagens de relacionamento</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="msg-modelo">
+    <h5>📋 Modelo de Mensagem de Boas-Vindas</h5>
+    <p>"Seja bem-vindo(a) ao nosso Grupo VIP! 🎉 Aqui você recebe promoções em primeira mão, participa de sorteios e fica por dentro das novidades da loja. Ative as notificações pra não perder nada! 💛"</p>
+  </div>
+
+  <div class="alerta"><strong>⚠️ Atenção:</strong> É possível automatizar a mensagem de boas-vindas com o BotConversa, criando um funil de entrada automático para cada novo membro do grupo.</div>
+
+  <div class="checklist-modulo" id="cl3">
+    <div class="checklist-header">
+      <h3>✅ Checklist — Criação do Grupo VIP</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf3" style="width:0%"></div></div>
+        <span class="progress-text" id="pt3">0/7</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci3">
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Grupo criado no WhatsApp Business</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Nome curto e com identificação da marca definido</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Capa personalizada criada com nome + selo VIP</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Descrição clara e convidativa preenchida</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Somente admins podem enviar e editar</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Mensagem de boas-vindas salva e pronta para envio</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl3')"><div class="check-box"></div><div><div class="check-text">Primeiro teste realizado (mensagem enviada como admin)</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 4 -->
+<div class="modulo" id="m4">
+  <div class="modulo-header">
+    <div class="modulo-num">04</div>
+    <div class="modulo-titulo">
+      <h2>Estratégias para Lotar o Grupo VIP</h2>
+      <p>Dentro e fora da loja — como crescer rápido</p>
+    </div>
+  </div>
+
+  <div class="formula">🧠 Mentalidade certa: O grupo só gera resultado se tiver gente. Antes de pensar em vendas, lote o grupo!</div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>🏪 Dentro da Loja — Caixas</h4>
+      <ul>
+        <li>QR Code visível no balcão e na maquininha</li>
+        <li>Cartaz pequeno com QR Code no caixa</li>
+        <li>Frase treinada: "Você já tá no nosso grupo VIP? Tem sorteio toda semana!"</li>
+        <li>Plaquinha de mesa com convite</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🗺️ Dentro da Loja — Setores</h4>
+      <ul>
+        <li>Açougue</li>
+        <li>Hortifruti</li>
+        <li>Padaria</li>
+        <li>Bebidas / Frios</li>
+        <li>Entrada da loja</li>
+      </ul>
+      <div class="dica" style="margin-top:10px;font-size:12px"><strong>Meta:</strong> Cliente vê o convite em todos os corredores</div>
+    </div>
+    <div class="card">
+      <h4>📱 Fora da Loja — Redes Sociais</h4>
+      <ul>
+        <li>Reels e stories com convite para o grupo</li>
+        <li>Link do grupo na bio do Instagram</li>
+        <li>Post fixado com QR Code</li>
+        <li>Stories toda semana reforçando o grupo</li>
+      </ul>
+    </div>
+    <div class="card yellow">
+      <h4>🎯 Tráfego Pago</h4>
+      <ul>
+        <li>Anúncio local chamando pro grupo</li>
+        <li>A partir de R$10/dia já funciona</li>
+        <li>Vídeo curto mostrando promoções</li>
+        <li>CTA: "Entre no Grupo VIP e ganhe"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>🏆 Sorteio Semanal — A isca que gera mais resultado</h3>
+    <ul>
+      <li>R$50 a R$80 por semana — suficiente para gerar desejo</li>
+      <li>Prêmios: vale-compras, cestas, Kit Churrasco, Kit Café da Manhã</li>
+      <li>Regra simples: "Toda sexta, sorteio exclusivo para quem está no grupo VIP"</li>
+      <li>Enquetes semanais: "Qual setor você mais gosta de economizar? 🥩🍎🧴"</li>
+    </ul>
+  </div>
+
+  <div class="checklist-modulo" id="cl4">
+    <div class="checklist-header">
+      <h3>✅ Checklist — Estratégias para Lotar</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf4" style="width:0%"></div></div>
+        <span class="progress-text" id="pt4">0/8</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci4">
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">QR Code do Grupo VIP criado e impresso</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">QR Code no caixa, maquininha e todos os setores</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">Frase padrão treinada com todos os atendentes de caixa</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">Mini treinamento de 10 minutos realizado com a equipe</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">Link do grupo na bio do Instagram e post fixado</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">Vídeo de convite gravado e postado nas redes</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">Sorteio semanal definido (prêmio + data + regra)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl4')"><div class="check-box"></div><div><div class="check-text">Crescimento do grupo monitorado semanalmente</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 5 -->
+<div class="modulo" id="m5">
+  <div class="modulo-header">
+    <div class="modulo-num">05</div>
+    <div class="modulo-titulo">
+      <h2>Gestão e Engajamento Diário</h2>
+      <p>Frequência gera faturamento — presença diária é tudo</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Tipo de Mensagem</th><th>Frequência</th><th>Exemplo</th><th>Objetivo</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Oferta do dia</strong></td><td>Diário (8h–9h)</td><td>"🔥 Picanha hoje por R$XX/kg! Só hoje!"</td><td>Venda imediata</td></tr>
+        <tr><td><strong>Promoção relâmpago</strong></td><td>2–3x/semana</td><td>"⚡ Próximas 2h: 20% em toda a padaria!"</td><td>Urgência</td></tr>
+        <tr><td><strong>Sorteio / dinâmica</strong></td><td>1x/semana</td><td>"🎁 Sexta é dia de sorteio VIP!"</td><td>Engajamento</td></tr>
+        <tr><td><strong>Relacionamento</strong></td><td>1x/semana</td><td>"Bom dia, família VIP! 💛 Toda economia conta!"</td><td>Fidelização</td></tr>
+        <tr><td><strong>Encarte semanal</strong></td><td>1x/semana</td><td>Imagem com todas as ofertas da semana</td><td>Planejamento</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>✅ Faça sempre</h4>
+      <ul>
+        <li>CTA em todas as mensagens ("Corre!", "Válido até hoje")</li>
+        <li>Áudios curtos com voz conhecida (dono, gerente)</li>
+        <li>Emojis de oferta: 🔥⚡🛒💥</li>
+        <li>Mesmo horário todos os dias</li>
+        <li>Padrão visual consistente</li>
+      </ul>
+    </div>
+    <div class="card red">
+      <h4>❌ Nunca faça</h4>
+      <ul>
+        <li>Repetir as mesmas ofertas por vários dias</li>
+        <li>Enviar fora do horário comercial</li>
+        <li>Conteúdo não relacionado à loja</li>
+        <li>Correntes, política, religião</li>
+        <li>Abrir o grupo para respostas sem moderação</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="dica"><strong>💡 Dica de escala:</strong> Quando o grupo chegar a 1.000 pessoas, crie um novo: "Noronhense VIP 2", "Noronhense VIP 3"... Poste o mesmo conteúdo em todos, de forma sincronizada.</div>
+
+  <div class="checklist-modulo" id="cl5">
+    <div class="checklist-header">
+      <h3>✅ Checklist — Gestão e Engajamento</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf5" style="width:0%"></div></div>
+        <span class="progress-text" id="pt5">0/6</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci5">
+      <div class="check-item" onclick="toggleCheck(this,'cl5')"><div class="check-box"></div><div><div class="check-text">Presença diária definida como prioridade</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl5')"><div class="check-box"></div><div><div class="check-text">Horário fixo de postagem definido (ex: 8h–9h)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl5')"><div class="check-box"></div><div><div class="check-text">Calendário mensal de conteúdo planejado</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl5')"><div class="check-box"></div><div><div class="check-text">CTA presente em todas as mensagens</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl5')"><div class="check-box"></div><div><div class="check-text">Padrão visual definido (modelo de arte para posts)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl5')"><div class="check-box"></div><div><div class="check-text">Mensagem de relacionamento enviada 1x por semana</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 6 -->
+<div class="modulo" id="m6">
+  <div class="modulo-header">
+    <div class="modulo-num">06</div>
+    <div class="modulo-titulo">
+      <h2>Sorteios e Promoções Exclusivas</h2>
+      <p>O motor do engajamento que mantém o grupo vivo</p>
+    </div>
+  </div>
+
+  <div class="highlight">
+    <h3>Por que sorteios funcionam tão bem?</h3>
+    <p>Sorteios mantêm os clientes atentos às mensagens, reforçam a sensação de exclusividade e geram prova social — as pessoas veem que vale a pena estar no grupo. Cada ação de sorteio traz novos participantes e impulsiona o alcance orgânico.</p>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>🎁 Prêmios que funcionam</h4>
+      <ul>
+        <li>Vale-compras R$50–R$80</li>
+        <li>Kit Churrasco do Fim de Semana</li>
+        <li>Kit Café da Manhã</li>
+        <li>Kit Limpeza do Mês</li>
+        <li>Cesta de produtos da loja</li>
+      </ul>
+    </div>
+    <div class="card yellow">
+      <h4>📋 Regras simples</h4>
+      <ul>
+        <li>Estar no grupo VIP</li>
+        <li>Reagir ou responder 1 post da semana</li>
+        <li>Não exigir compartilhamento</li>
+        <li>Estimular convite de amigos</li>
+        <li>Anunciar ganhador publicamente</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <h4>🚀 Identidade do Sorteio</h4>
+      <ul>
+        <li>"Sexta da Sorte Noronhense"</li>
+        <li>"VIP Premiado"</li>
+        <li>"Sorteio da Semana dos Fiéis"</li>
+        <li>Quando reconhecem o nome = evento esperado</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="dica"><strong>💡 Dica avançada:</strong> Sempre que tiver sorteio novo, altere temporariamente o nome do grupo: "Noronhense VIP — Sorteio da Sexta 🎁". Isso chama atenção de quem já está e reforça a rotina.</div>
+
+  <div class="dica"><strong>📸 Prova Social:</strong> Poste foto e nome do ganhador dentro do grupo. Se possível, tire foto da entrega e publique no Instagram marcando a pessoa (com autorização). Isso gera: "Eu quero ser o próximo ganhador!"</div>
+
+  <div class="checklist-modulo" id="cl6">
+    <div class="checklist-header">
+      <h3>✅ Checklist — Sorteios e Promoções</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf6" style="width:0%"></div></div>
+        <span class="progress-text" id="pt6">0/7</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci6">
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Sorteio semanal definido como ação fixa</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Prêmio escolhido (R$50–R$80) e separado</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Dia e horário fixos definidos (ex: toda sexta)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Nome do sorteio criado e padronizado</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Arte de divulgação preparada</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Nome do ganhador divulgado publicamente no grupo</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl6')"><div class="check-box"></div><div><div class="check-text">Próximo sorteio já planejado e comunicado</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 7 -->
+<div class="modulo" id="m7">
+  <div class="modulo-header">
+    <div class="modulo-num">07</div>
+    <div class="modulo-titulo">
+      <h2>Monitoramento e Resultados</h2>
+      <p>Medir é o que transforma o grupo de "teste" em ferramenta previsível</p>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Sinal</th><th>O que significa</th><th>O que fazer</th></tr></thead>
+      <tbody>
+        <tr><td><span style="color:var(--green);font-weight:700">✅ Grupo crescendo</span></td><td>Estratégia funcionando</td><td>Manter ritmo + sorteios semanais</td></tr>
+        <tr><td><span style="color:var(--yellow);font-weight:700">⚠️ Entradas = Saídas</span></td><td>Conteúdo pode estar repetitivo</td><td>Variar formatos e ofertas</td></tr>
+        <tr><td><span style="color:var(--red);font-weight:700">🔴 Mais saídas que entradas</span></td><td>Frequência ou tom errado</td><td>Reduzir volume, criar ação de reativação</td></tr>
+        <tr><td><span style="color:var(--green);font-weight:700">✅ Vendas sobem em dias de campanha</span></td><td>Grupo funcionando como canal</td><td>Aumentar intensidade das campanhas</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>📊 Indicadores para acompanhar</h4>
+      <ul>
+        <li>Número de participantes (semanal)</li>
+        <li>Entradas e saídas na semana</li>
+        <li>Aumento de cupons nos dias de campanha</li>
+        <li>Crescimento do ticket médio</li>
+        <li>Número de conversas no WA</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <h4>⚡ Ajustes rápidos que funcionam</h4>
+      <ul>
+        <li>Melhore a arte dos posts</li>
+        <li>Mude o horário de envio (manhã x tarde)</li>
+        <li>Alterne oferta, dica, sorteio, aviso</li>
+        <li>Chame pelo apelido: "VIPs do Noronhense"</li>
+        <li>Enquete simples: "Qual setor vocês querem?"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="checklist-modulo" id="cl7">
+    <div class="checklist-header">
+      <h3>✅ Checklist — Monitoramento</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf7" style="width:0%"></div></div>
+        <span class="progress-text" id="pt7">0/6</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci7">
+      <div class="check-item" onclick="toggleCheck(this,'cl7')"><div class="check-box"></div><div><div class="check-text">Monitoramento definido como rotina semanal</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl7')"><div class="check-box"></div><div><div class="check-text">Número de participantes registrado semanalmente</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl7')"><div class="check-box"></div><div><div class="check-text">Entradas e saídas acompanhadas</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl7')"><div class="check-box"></div><div><div class="check-text">Campanhas que geraram mais resultado identificadas</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl7')"><div class="check-box"></div><div><div class="check-text">Ajustes de comunicação feitos com base nos dados</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl7')"><div class="check-box"></div><div><div class="check-text">Reunião quinzenal para revisar resultados realizada</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 8 -->
+<div class="modulo" id="m8">
+  <div class="modulo-header">
+    <div class="modulo-num">08</div>
+    <div class="modulo-titulo">
+      <h2>Melhoria Contínua e Expansão</h2>
+      <p>Quando crescer, como crescer com profissionalismo</p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card">
+      <h4>📈 Quando abrir novos grupos</h4>
+      <ul>
+        <li>Grupo com mais de 80% da capacidade</li>
+        <li>Mensagens gerando muitas respostas</li>
+        <li>Demandas diferentes entre públicos</li>
+      </ul>
+      <div class="dica" style="margin-top:10px;font-size:12px"><strong>Dica:</strong> Lote um grupo primeiro. Só depois abra o segundo — isso gera prova social.</div>
+    </div>
+    <div class="card">
+      <h4>🔢 Modelo de numeração</h4>
+      <ul>
+        <li>VIP 1, VIP 2, VIP 3 (por lotação)</li>
+        <li>Grupo Premium (maiores compradores)</li>
+        <li>Mesmo conteúdo em todos, sincronizado</li>
+        <li>Padrão visual mantido em todos os grupos</li>
+      </ul>
+    </div>
+    <div class="card yellow">
+      <h4>🤖 Automatizar com BotConversa</h4>
+      <ul>
+        <li>Menus automáticos</li>
+        <li>Mensagens programadas</li>
+        <li>Boas-vindas automáticas ao entrar no grupo</li>
+        <li>Funil de captação + link do grupo</li>
+      </ul>
+    </div>
+    <div class="card navy">
+      <h4>📊 Usar dados para campanhas</h4>
+      <ul>
+        <li>Identificar produtos com mais interesse</li>
+        <li>Criar campanhas temáticas (Semana do Café)</li>
+        <li>Mensagens personalizadas para mais engajados</li>
+        <li>Planejar sazonalidade com base em histórico</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 9 — CHECKLIST FINAL -->
+<div class="modulo" id="m9">
+  <div class="modulo-header">
+    <div class="modulo-num">09</div>
+    <div class="modulo-titulo">
+      <h2>Checklist Final — Tudo Pronto pra Rodar</h2>
+      <p>Todos os itens para começar essa semana</p>
+    </div>
+  </div>
+
+  <div class="checklist-modulo" id="cl9">
+    <div class="checklist-header">
+      <h3>✅ Checklist Final Completo</h3>
+      <div class="checklist-progress">
+        <div class="progress-bar"><div class="progress-fill" id="pf9" style="width:0%"></div></div>
+        <span class="progress-text" id="pt9">0/25</span>
+      </div>
+    </div>
+    <div class="checklist-items" id="ci9">
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">WhatsApp Business configurado corretamente</div><div class="check-sub">Nome, descrição, horário, catálogo atualizados</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Etiquetas e respostas rápidas funcionando</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Mensagem automática de boas-vindas configurada</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Equipe treinada sobre tom de voz e padrão de atendimento</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Grupo criado com nome, capa e descrição personalizados</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Regras definidas — somente admins enviam</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Administradores definidos e orientados</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Cartazes com QR Code espalhados: entrada, caixa, setores</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Atendentes orientados para convidar clientes no caixa</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Link do grupo na bio do Instagram, stories e post fixado</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Vídeo curto gravado e postado convidando para o grupo</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Cronograma mensal de postagens definido</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Mensagens prontas e salvas (bloco de notas ou doc)</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Fotos reais da loja e produtos organizadas em pastas</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Planejamento de envio diário ativo — 1 mensagem por dia</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Primeiro sorteio agendado — data, hora e prêmio definidos</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Regras do sorteio criadas e comunicadas</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Arte do sorteio preparada</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Planilha de métricas criada e atualizada semanalmente</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Indicadores definidos: entradas, saídas, vendas, engajamento</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Próximos grupos (VIP 2, VIP 3) planejados para expansão</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Lembrete diário agendado para envio de conteúdo</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Reunião quinzenal para revisar resultados agendada</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">BotConversa avaliado para automação futura</div></div></div>
+      <div class="check-item" onclick="toggleCheck(this,'cl9')"><div class="check-box"></div><div><div class="check-text">Motivação e propósito alinhados com toda a equipe</div></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- MÓDULO 10 — USO INTERNO GST -->
+<div class="modulo" id="m10">
+  <div class="modulo-header">
+    <div class="modulo-num">10</div>
+    <div class="modulo-titulo">
+      <h2>Uso Interno — GST Marketing</h2>
+      <p>Como a agência aplica e acompanha esse playbook com os clientes</p>
+    </div>
+  </div>
+
+  <div class="cards-grid">
+    <div class="card navy">
+      <h4>📋 Como aplicar com o cliente</h4>
+      <ul>
+        <li>Apresentar o playbook na reunião de onboarding</li>
+        <li>Imprimir os checklists para o cliente</li>
+        <li>Acompanhar crescimento do grupo mensalmente</li>
+        <li>Incluir dados do WA no relatório mensal</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>🎯 Metas por fase</h4>
+      <ul>
+        <li>Mês 1: grupo criado + 100 membros</li>
+        <li>Mês 2: 300+ membros + sorteio semanal ativo</li>
+        <li>Mês 3: 500+ membros + encarte semanal consistente</li>
+        <li>Mês 6: 1.000+ membros → abrir VIP 2</li>
+      </ul>
+    </div>
+    <div class="card yellow">
+      <h4>⚠️ Sinais de alerta</h4>
+      <ul>
+        <li>Cliente não posta no grupo por mais de 3 dias</li>
+        <li>Grupo sem crescimento por 2 semanas</li>
+        <li>Saídas maiores que entradas por semana</li>
+        <li>Sorteio não foi realizado no prazo</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h4>💬 Frases para reunião com cliente</h4>
+      <ul>
+        <li>"Grupo sem post é grupo morto — precisamos de 1 por dia"</li>
+        <li>"Cada pessoa no grupo é um cliente com canal direto"</li>
+        <li>"Sorteio de R$60 pode trazer 50 pessoas novas"</li>
+        <li>"WhatsApp é o caixa — precisa estar sempre aberto"</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Entregável GST</th><th>Frequência</th><th>Responsável</th></tr></thead>
+      <tbody>
+        <tr><td>Artes para post diário no grupo</td><td>Diário ou semanal (lote)</td><td>Designer + Social Media</td></tr>
+        <tr><td>Arte do sorteio semanal</td><td>Semanal</td><td>Designer</td></tr>
+        <tr><td>Relatório de crescimento do grupo</td><td>Mensal</td><td>Social Media / Gestor</td></tr>
+        <tr><td>Revisão do checklist com o cliente</td><td>Mensal</td><td>Gestor da conta</td></tr>
+        <tr><td>Sugestão de novas campanhas WA</td><td>Mensal</td><td>Estrategista</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- CTA FINAL -->
+<div class="cta-final">
+  <h2>Coloque em prática <span>hoje.</span></h2>
+  <p>Utilize os checklists e modelos deste playbook para começar a organizar o WhatsApp da sua loja ainda esta semana. Quanto antes executar, mais rápido vende.</p>
+  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Quero%20aplicar%20o%20Playbook%20WhatsApp%20na%20minha%20loja!" class="cta-btn" target="_blank">💬 Falar com a equipe GST</a>
+</div>
+
+<footer>
+  <p>📱 Manual do WhatsApp que Vende Todos os Dias · Programa Venda Todo Dia · 2026</p>
+  <p style="margin-top:8px"><strong>GST Marketing</strong> · agenciagst.com.br · Uso interno e para clientes</p>
+</footer>
+
+<script>
+function toggleCheck(item, listId) {
+  item.classList.toggle('done');
+  updateProgress(listId);
+}
+
+function updateProgress(listId) {
+  const list = document.getElementById(listId);
+  const items = list.querySelectorAll('.check-item');
+  const done = list.querySelectorAll('.check-item.done').length;
+  const total = items.length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const num = listId.replace('cl','');
+  const pf = document.getElementById('pf'+num);
+  const pt = document.getElementById('pt'+num);
+  if(pf) pf.style.width = pct + '%';
+  if(pt) pt.textContent = done + '/' + total;
+}
+</script>
+</body>
+</html>
