@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Template Base GST — Sistema Operacional de Crescimento</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   GST PLAYBOOK SYSTEM — BASE TEMPLATE v1.0
+   Sistema Operacional de Crescimento GST
+   ============================================ */
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  /* Paleta GST */
+  --navy:       #0d1b2a;
+  --navy2:      #162032;
+  --navy3:      #1e2d40;
+  --navy4:      #243447;
+  --green:      #00c46a;
+  --green-dark: #009f56;
+  --green-glow: rgba(0,196,106,0.15);
+  --green-line: rgba(0,196,106,0.3);
+  --yellow:     #f5b400;
+  --yellow-dim: rgba(245,180,0,0.12);
+  --red:        #e53935;
+  --gray:       #64748b;
+  --gray-light: #f4f7fb;
+  --border:     rgba(255,255,255,0.07);
+  --border-day: #e2e8f0;
+  --text:       #1e293b;
+  --text-dim:   #94a3b8;
+
+  /* Tipografia */
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --font-mono: 'JetBrains Mono', monospace;
+
+  /* Layout */
+  --sidebar-w: 260px;
+  --content-max: 820px;
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: #f8fafc; color: var(--text); line-height: 1.7; }
+
+/* ============================================
+   SIDEBAR NAVEGAÇÃO FIXA
+   ============================================ */
+.sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: var(--sidebar-w);
+  background: var(--navy); z-index: 100;
+  display: flex; flex-direction: column;
+  border-right: 1px solid var(--border);
+  overflow-y: auto;
+}
+
+.sidebar-brand {
+  padding: 28px 24px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-brand-logo {
+  font-family: var(--font-head);
+  font-size: 18px; font-weight: 800;
+  color: #fff; margin-bottom: 4px;
+}
+.sidebar-brand-logo span { color: var(--green); }
+.sidebar-brand-sub {
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  text-transform: uppercase; letter-spacing: 1.5px;
+}
+
+.sidebar-meta {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-meta-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  margin-bottom: 4px;
+}
+.sidebar-meta-item span { color: rgba(255,255,255,0.7); font-weight: 500; }
+
+.sidebar-progress-wrap {
+  padding: 16px 24px;
+  border-bottom: 1px solid var(--border);
+}
+.sidebar-progress-label {
+  display: flex; justify-content: space-between;
+  font-size: 11px; color: rgba(255,255,255,0.4);
+  margin-bottom: 8px;
+}
+.sidebar-progress-label span { color: var(--green); font-weight: 700; }
+.sidebar-bar {
+  height: 3px; background: rgba(255,255,255,0.08);
+  border-radius: 10px; overflow: hidden;
+}
+.sidebar-bar-fill {
+  height: 100%; background: var(--green);
+  border-radius: 10px; transition: width 0.4s ease;
+  width: 0%;
+}
+
+.sidebar-nav { padding: 16px 0; flex: 1; }
+.sidebar-nav-label {
+  font-size: 10px; font-weight: 700;
+  color: rgba(255,255,255,0.25);
+  text-transform: uppercase; letter-spacing: 2px;
+  padding: 8px 24px 4px;
+}
+.sidebar-link {
+  display: flex; align-items: center; gap: 10px;
+  padding: 10px 24px;
+  font-size: 13px; font-weight: 500;
+  color: rgba(255,255,255,0.5);
+  cursor: pointer; transition: all 0.2s;
+  border: none; background: none; width: 100%; text-align: left;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+}
+.sidebar-link:hover { color: #fff; background: rgba(255,255,255,0.04); }
+.sidebar-link.active {
+  color: #fff; background: rgba(0,196,106,0.1);
+  border-left-color: var(--green);
+}
+.sidebar-link-num {
+  font-family: var(--font-mono); font-size: 10px;
+  color: var(--green); min-width: 20px; opacity: 0.7;
+}
+.sidebar-link.active .sidebar-link-num { opacity: 1; }
+
+.sidebar-footer {
+  padding: 20px 24px;
+  border-top: 1px solid var(--border);
+}
+.sidebar-footer-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  background: var(--green-glow); border: 1px solid var(--green-line);
+  color: var(--green); font-size: 11px; font-weight: 700;
+  padding: 5px 12px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 0.5px;
+}
+
+/* ============================================
+   CONTEÚDO PRINCIPAL
+   ============================================ */
+.main { margin-left: var(--sidebar-w); min-height: 100vh; }
+
+/* ============================================
+   HERO SECTION
+   ============================================ */
+.hero {
+  background: var(--navy);
+  padding: 72px 64px 64px;
+  position: relative; overflow: hidden;
+  border-bottom: 1px solid var(--border);
+}
+.hero::before {
+  content: '';
+  position: absolute; top: -200px; right: -200px;
+  width: 700px; height: 700px;
+  background: radial-gradient(circle, rgba(0,196,106,0.1), transparent 60%);
+  border-radius: 50%; pointer-events: none;
+}
+.hero::after {
+  content: '';
+  position: absolute; bottom: -100px; left: 10%;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(0,196,106,0.05), transparent 60%);
+  border-radius: 50%; pointer-events: none;
+}
+
+.hero-eyebrow {
+  display: flex; align-items: center; gap: 10px;
+  margin-bottom: 24px; flex-wrap: wrap;
+}
+.hero-tag {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 11px; font-weight: 700;
+  padding: 5px 14px; border-radius: 20px;
+  text-transform: uppercase; letter-spacing: 1px;
+  font-family: var(--font-mono);
+}
+.hero-tag.category { background: rgba(245,180,0,0.12); color: var(--yellow); border: 1px solid rgba(245,180,0,0.25); }
+.hero-tag.level { background: var(--green-glow); color: var(--green); border: 1px solid var(--green-line); }
+.hero-tag.version { background: rgba(255,255,255,0.06); color: rgba(255,255,255,0.4); border: 1px solid rgba(255,255,255,0.08); }
+
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(32px, 5vw, 52px);
+  font-weight: 800; line-height: 1.05;
+  color: #fff; margin-bottom: 20px;
+  position: relative;
+}
+.hero-title em { color: var(--green); font-style: normal; }
+
+.hero-sub {
+  font-size: 16px; color: rgba(255,255,255,0.55);
+  max-width: 580px; margin-bottom: 36px; line-height: 1.7;
+  position: relative;
+}
+
+.hero-quote {
+  background: rgba(0,196,106,0.08);
+  border-left: 3px solid var(--green);
+  border-radius: 0 12px 12px 0;
+  padding: 18px 24px; max-width: 600px;
+  font-size: 15px; font-style: italic;
+  color: rgba(255,255,255,0.8); line-height: 1.6;
+  margin-bottom: 40px; position: relative;
+}
+
+.hero-stats {
+  display: flex; gap: 32px; flex-wrap: wrap;
+  position: relative;
+}
+.hero-stat { display: flex; flex-direction: column; gap: 2px; }
+.hero-stat strong {
+  font-family: var(--font-head);
+  font-size: 28px; font-weight: 800; color: var(--green);
+}
+.hero-stat span { font-size: 11px; color: rgba(255,255,255,0.35); text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ============================================
+   SEÇÕES
+   ============================================ */
+.section {
+  padding: 64px;
+  border-bottom: 1px solid var(--border-day);
+  max-width: calc(var(--content-max) + 128px);
+}
+.section:nth-child(even) { background: #fff; }
+
+.section-label {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: var(--green); text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+.section-label::before { content: '//'; opacity: 0.5; }
+
+.section h2 {
+  font-family: var(--font-head);
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800; color: var(--navy);
+  margin-bottom: 10px; line-height: 1.2;
+}
+.section-desc { font-size: 15px; color: var(--gray); margin-bottom: 36px; max-width: 640px; }
+
+/* ============================================
+   FILOSOFIA GST — PILARES
+   ============================================ */
+.pilares-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px; margin: 28px 0;
+}
+.pilar-card {
+  background: var(--navy); border-radius: 16px;
+  padding: 28px 24px; position: relative; overflow: hidden;
+  border: 1px solid var(--border);
+}
+.pilar-card::before {
+  content: '';
+  position: absolute; bottom: -40px; right: -40px;
+  width: 120px; height: 120px;
+  background: radial-gradient(circle, var(--green-glow), transparent);
+  border-radius: 50%;
+}
+.pilar-num {
+  font-family: var(--font-mono); font-size: 11px;
+  color: var(--green); margin-bottom: 12px; display: block; opacity: 0.7;
+}
+.pilar-card h4 {
+  font-family: var(--font-head); font-size: 15px; font-weight: 700;
+  color: #fff; margin-bottom: 8px; line-height: 1.3;
+}
+.pilar-card p { font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.6; }
+
+/* ============================================
+   CARDS OPERACIONAIS
+   ============================================ */
+.op-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px; margin: 24px 0;
+}
+.op-card {
+  background: #fff; border-radius: 14px;
+  padding: 24px; border: 1px solid var(--border-day);
+  border-top: 3px solid var(--green);
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.op-card:hover { box-shadow: 0 8px 32px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.op-card.yellow { border-top-color: var(--yellow); }
+.op-card.red { border-top-color: var(--red); }
+.op-card.navy { background: var(--navy); border: 1px solid var(--border); border-top: 3px solid var(--green); }
+.op-card-icon { font-size: 24px; margin-bottom: 12px; display: block; }
+.op-card h4 {
+  font-family: var(--font-head); font-size: 14px; font-weight: 700;
+  color: var(--navy); margin-bottom: 10px;
+}
+.op-card.navy h4 { color: #fff; }
+.op-card ul { list-style: none; padding: 0; }
+.op-card li {
+  font-size: 13px; color: var(--gray);
+  padding: 5px 0; border-bottom: 1px solid #f8fafc;
+  display: flex; gap: 8px; align-items: flex-start;
+}
+.op-card li:last-child { border-bottom: none; }
+.op-card li::before { content: '→'; color: var(--green); font-weight: 700; min-width: 14px; }
+.op-card.navy li { color: rgba(255,255,255,0.6); border-color: rgba(255,255,255,0.04); }
+
+/* ============================================
+   PASSO A PASSO
+   ============================================ */
+.steps { display: flex; flex-direction: column; gap: 0; margin: 28px 0; }
+.step {
+  display: flex; gap: 24px; padding: 24px 0;
+  border-bottom: 1px solid var(--border-day);
+  position: relative;
+}
+.step:last-child { border-bottom: none; }
+.step-indicator { display: flex; flex-direction: column; align-items: center; gap: 0; }
+.step-num {
+  width: 44px; height: 44px; background: var(--navy); color: var(--green);
+  border-radius: 12px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-mono); font-size: 14px; font-weight: 700;
+  flex-shrink: 0; border: 1px solid var(--green-line);
+}
+.step-line {
+  width: 1px; flex: 1; background: var(--border-day);
+  margin: 8px 0; min-height: 20px;
+}
+.step:last-child .step-line { display: none; }
+.step-content { flex: 1; padding-top: 8px; }
+.step-content h4 {
+  font-family: var(--font-head); font-size: 16px; font-weight: 700;
+  color: var(--navy); margin-bottom: 8px;
+}
+.step-content p { font-size: 14px; color: var(--gray); line-height: 1.6; margin-bottom: 12px; }
+.step-content ul { list-style: none; padding: 0; }
+.step-content li {
+  font-size: 13px; color: var(--gray);
+  padding: 4px 0; display: flex; gap: 8px;
+}
+.step-content li::before { content: '•'; color: var(--green); font-weight: 900; min-width: 12px; }
+
+/* ============================================
+   HIGHLIGHT / CALLOUT
+   ============================================ */
+.callout {
+  border-radius: 16px; padding: 28px 32px; margin: 24px 0;
+  position: relative; overflow: hidden;
+}
+.callout.strategy {
+  background: linear-gradient(135deg, var(--navy), var(--navy3));
+  color: #fff; border: 1px solid var(--border);
+}
+.callout.strategy::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px;
+  background: radial-gradient(circle, var(--green-glow), transparent);
+  border-radius: 50%;
+}
+.callout.tip { background: var(--green-glow); border: 1px solid var(--green-line); }
+.callout.warning { background: var(--yellow-dim); border: 1px solid rgba(245,180,0,0.25); }
+.callout.danger { background: rgba(229,57,53,0.08); border: 1px solid rgba(229,57,53,0.2); }
+.callout-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 8px; display: block;
+}
+.callout.strategy .callout-label { color: var(--green); }
+.callout.tip .callout-label { color: var(--green-dark); }
+.callout.warning .callout-label { color: #c67800; }
+.callout.danger .callout-label { color: var(--red); }
+.callout h3 {
+  font-family: var(--font-head); font-size: 18px; font-weight: 800;
+  margin-bottom: 10px; position: relative;
+}
+.callout.strategy h3 { color: #fff; }
+.callout.tip h3 { color: var(--navy); }
+.callout.warning h3 { color: #7d4e00; }
+.callout p { font-size: 14px; line-height: 1.7; position: relative; }
+.callout.strategy p { color: rgba(255,255,255,0.7); }
+.callout.tip p { color: var(--navy); }
+.callout.warning p { color: #5d3800; }
+.callout ul { list-style: none; padding: 0; margin-top: 10px; position: relative; }
+.callout li { font-size: 13px; padding: 5px 0; display: flex; gap: 8px; }
+.callout.strategy li { color: rgba(255,255,255,0.7); }
+.callout li::before { content: '✓'; color: var(--green); font-weight: 700; min-width: 16px; }
+
+/* ============================================
+   TABELA PREMIUM
+   ============================================ */
+.table-wrap { overflow-x: auto; margin: 24px 0; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.06); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; }
+thead { background: var(--navy); }
+th {
+  padding: 14px 18px; text-align: left;
+  font-family: var(--font-mono); font-size: 11px; font-weight: 500;
+  color: rgba(255,255,255,0.6); letter-spacing: 1px; text-transform: uppercase;
+}
+td { padding: 13px 18px; border-bottom: 1px solid var(--border-day); font-size: 13px; }
+tr:last-child td { border-bottom: none; }
+tr:hover td { background: #f8fafc; }
+.badge {
+  display: inline-flex; align-items: center;
+  padding: 3px 10px; border-radius: 20px;
+  font-size: 11px; font-weight: 700;
+  font-family: var(--font-mono);
+}
+.badge-green { background: rgba(0,196,106,0.12); color: var(--green-dark); }
+.badge-yellow { background: rgba(245,180,0,0.12); color: #c67800; }
+.badge-red { background: rgba(229,57,53,0.1); color: var(--red); }
+.badge-navy { background: rgba(13,27,42,0.08); color: var(--navy); }
+
+/* ============================================
+   CHECKLIST INTERATIVO
+   ============================================ */
+.checklist-wrap {
+  background: #fff; border-radius: 16px; padding: 28px;
+  border: 1px solid var(--border-day); margin: 28px 0;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+.checklist-head {
+  display: flex; align-items: center;
+  justify-content: space-between; margin-bottom: 20px; flex-wrap: wrap; gap: 12px;
+}
+.checklist-head h3 {
+  font-family: var(--font-head); font-size: 16px; font-weight: 800; color: var(--navy);
+}
+.progress-widget { display: flex; align-items: center; gap: 10px; }
+.progress-track { width: 100px; height: 4px; background: var(--border-day); border-radius: 10px; overflow: hidden; }
+.progress-track-fill { height: 100%; background: var(--green); border-radius: 10px; transition: width 0.3s; }
+.progress-count { font-family: var(--font-mono); font-size: 12px; font-weight: 700; color: var(--green); white-space: nowrap; }
+.check-list { display: flex; flex-direction: column; }
+.check-row {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 0; border-bottom: 1px solid #f8fafc;
+  cursor: pointer; transition: all 0.15s; border-radius: 8px;
+}
+.check-row:last-child { border-bottom: none; }
+.check-row:hover { padding-left: 6px; }
+.check-box {
+  width: 22px; height: 22px; border: 2px solid var(--border-day);
+  border-radius: 6px; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: all 0.2s; margin-top: 1px;
+}
+.check-row.done .check-box { background: var(--green); border-color: var(--green); }
+.check-row.done .check-box::after { content: '✓'; color: #fff; font-size: 11px; font-weight: 800; }
+.check-row.done .check-label { color: var(--green-dark); text-decoration: line-through; opacity: 0.6; }
+.check-label { font-size: 13px; color: var(--text); line-height: 1.5; }
+.check-sub { font-size: 11px; color: var(--text-dim); margin-top: 2px; }
+
+/* ============================================
+   FÓRMULA / DESTAQUE
+   ============================================ */
+.formula {
+  background: linear-gradient(135deg, rgba(0,196,106,0.06), rgba(0,196,106,0.02));
+  border: 1px solid var(--green-line);
+  border-radius: 14px; padding: 20px 28px; margin: 20px 0;
+  text-align: center;
+  font-family: var(--font-head); font-size: 16px; font-weight: 700;
+  color: var(--navy); line-height: 1.5;
+}
+.formula span { color: var(--green); }
+
+/* ============================================
+   MÉTRICAS / KPIs
+   ============================================ */
+.kpi-grid {
+  display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 12px; margin: 24px 0;
+}
+.kpi-card {
+  background: var(--navy); border-radius: 14px; padding: 20px;
+  text-align: center; border: 1px solid var(--border);
+}
+.kpi-value {
+  font-family: var(--font-head); font-size: 30px; font-weight: 800;
+  color: var(--green); display: block; line-height: 1;
+}
+.kpi-label { font-size: 11px; color: rgba(255,255,255,0.4); margin-top: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+
+/* ============================================
+   MENSAGEM MODELO
+   ============================================ */
+.msg-box {
+  background: var(--navy2); border-radius: 12px;
+  padding: 20px 24px; margin: 16px 0;
+  border: 1px solid var(--border);
+}
+.msg-box-label {
+  font-family: var(--font-mono); font-size: 10px; font-weight: 700;
+  color: var(--green); text-transform: uppercase; letter-spacing: 1.5px;
+  margin-bottom: 10px; display: block;
+}
+.msg-box p { font-size: 14px; color: rgba(255,255,255,0.75); line-height: 1.7; font-style: italic; }
+
+/* ============================================
+   ETIQUETAS / TAGS
+   ============================================ */
+.tag-row { display: flex; flex-wrap: wrap; gap: 8px; margin: 12px 0; }
+.tag {
+  display: inline-flex; align-items: center; gap: 5px;
+  padding: 5px 14px; border-radius: 20px;
+  font-size: 12px; font-weight: 600; font-family: var(--font-mono);
+}
+.tag-green { background: rgba(0,196,106,0.12); color: var(--green-dark); border: 1px solid rgba(0,196,106,0.2); }
+.tag-yellow { background: rgba(245,180,0,0.1); color: #c67800; border: 1px solid rgba(245,180,0,0.2); }
+.tag-blue { background: rgba(2,119,189,0.1); color: #0277bd; border: 1px solid rgba(2,119,189,0.2); }
+.tag-red { background: rgba(229,57,53,0.1); color: var(--red); border: 1px solid rgba(229,57,53,0.2); }
+.tag-navy { background: rgba(13,27,42,0.08); color: var(--navy); border: 1px solid rgba(13,27,42,0.12); }
+
+/* ============================================
+   ÁREA DE TREINAMENTO
+   ============================================ */
+.training-box {
+  background: var(--navy); border-radius: 16px;
+  padding: 32px; margin: 24px 0;
+  border: 1px solid var(--border);
+}
+.training-box-header { margin-bottom: 24px; }
+.training-box-header h3 {
+  font-family: var(--font-head); font-size: 18px; font-weight: 800;
+  color: #fff; margin-bottom: 6px;
+}
+.training-box-header p { font-size: 13px; color: rgba(255,255,255,0.45); }
+.training-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+.training-item {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 10px; padding: 16px;
+}
+.training-item h5 { font-size: 12px; font-weight: 700; color: var(--green); margin-bottom: 6px; text-transform: uppercase; letter-spacing: 0.5px; }
+.training-item p { font-size: 12px; color: rgba(255,255,255,0.55); line-height: 1.5; }
+
+/* ============================================
+   RODAPÉ / CTA FINAL
+   ============================================ */
+.cta-section {
+  background: var(--navy); padding: 72px 64px;
+  text-align: center; position: relative; overflow: hidden;
+}
+.cta-section::before {
+  content: ''; position: absolute; top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 600px; height: 400px;
+  background: radial-gradient(ellipse, rgba(0,196,106,0.1), transparent 65%);
+  pointer-events: none;
+}
+.cta-section h2 {
+  font-family: var(--font-head); font-size: clamp(28px, 4vw, 42px);
+  font-weight: 800; color: #fff; margin-bottom: 16px; position: relative;
+}
+.cta-section h2 em { color: var(--green); font-style: normal; }
+.cta-section p { font-size: 16px; color: rgba(255,255,255,0.5); max-width: 480px; margin: 0 auto 36px; position: relative; }
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--green); color: #fff;
+  padding: 16px 36px; border-radius: 12px;
+  font-family: var(--font-head); font-weight: 800; font-size: 15px;
+  text-decoration: none; transition: all 0.2s; position: relative;
+  border: none; cursor: pointer;
+}
+.cta-btn:hover { background: var(--green-dark); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,196,106,0.25); }
+
+.page-footer {
+  background: var(--navy2); padding: 24px 64px;
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 12px;
+  border-top: 1px solid var(--border);
+}
+.page-footer p { font-size: 12px; color: rgba(255,255,255,0.3); }
+.page-footer strong { color: var(--green); }
+
+/* ============================================
+   ANIMAÇÕES
+   ============================================ */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.hero > * { animation: fadeUp 0.5s ease both; }
+.hero-eyebrow { animation-delay: 0.1s; }
+.hero-title { animation-delay: 0.2s; }
+.hero-sub { animation-delay: 0.3s; }
+.hero-quote { animation-delay: 0.4s; }
+.hero-stats { animation-delay: 0.5s; }
+
+/* ============================================
+   RESPONSIVO
+   ============================================ */
+@media (max-width: 900px) {
+  :root { --sidebar-w: 0px; }
+  .sidebar { display: none; }
+  .main { margin-left: 0; }
+  .hero, .section, .cta-section, .page-footer { padding: 48px 24px; }
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-brand">
+    <div class="sidebar-brand-logo">GST <span>Marketing</span></div>
+    <div class="sidebar-brand-sub">Sistema Operacional de Crescimento</div>
+  </div>
+
+  <div class="sidebar-meta">
+    <div class="sidebar-meta-item">📂 Categoria: <span id="meta-cat">WhatsApp Marketing</span></div>
+    <div class="sidebar-meta-item">🏷️ Nível: <span id="meta-level">Operacional</span></div>
+    <div class="sidebar-meta-item">🔖 Versão: <span id="meta-ver">v1.0 · 2026</span></div>
+    <div class="sidebar-meta-item">🔒 Uso: <span id="meta-uso">Interno + Cliente</span></div>
+  </div>
+
+  <div class="sidebar-progress-wrap">
+    <div class="sidebar-progress-label">
+      Progresso do playbook <span id="prog-pct">0%</span>
+    </div>
+    <div class="sidebar-bar"><div class="sidebar-bar-fill" id="sidebar-prog"></div></div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="sidebar-nav-label">Estrutura</div>
+    <a class="sidebar-link active" href="#s-hero"><span class="sidebar-link-num">00</span>Capa</a>
+    <a class="sidebar-link" href="#s-contexto"><span class="sidebar-link-num">01</span>Contexto Estratégico</a>
+    <a class="sidebar-link" href="#s-filosofia"><span class="sidebar-link-num">02</span>Filosofia GST</a>
+    <a class="sidebar-link" href="#s-operacional"><span class="sidebar-link-num">03</span>Estrutura Operacional</a>
+    <a class="sidebar-link" href="#s-treinamento"><span class="sidebar-link-num">04</span>Módulo de Treinamento</a>
+    <a class="sidebar-link" href="#s-cliente"><span class="sidebar-link-num">05</span>Para o Cliente</a>
+    <a class="sidebar-link" href="#s-checklist"><span class="sidebar-link-num">06</span>Checklist Executivo</a>
+    <a class="sidebar-link" href="#s-premium"><span class="sidebar-link-num">07</span>Área Premium</a>
+    <a class="sidebar-link" href="#s-cta"><span class="sidebar-link-num">08</span>Próximos Passos</a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="sidebar-footer-tag">⚡ GST System v1.0</div>
+  </div>
+</aside>
+
+<!-- CONTEÚDO -->
+<main class="main">
+
+  <!-- HERO -->
+  <section class="hero" id="s-hero">
+    <div class="hero-eyebrow">
+      <span class="hero-tag category">💬 [CATEGORIA DO PLAYBOOK]</span>
+      <span class="hero-tag level">● Nível Operacional</span>
+      <span class="hero-tag version">v1.0 · Mai 2026</span>
+    </div>
+    <h1 class="hero-title">
+      [Título Principal<br>do <em>Playbook</em>]
+    </h1>
+    <p class="hero-sub">
+      Este material apresenta a metodologia operacional utilizada pela GST Marketing para [objetivo do playbook]. Desenvolvido com base em experiência real no varejo alimentar brasileiro.
+    </p>
+    <div class="hero-quote">
+      "[Frase de posicionamento forte — algo que representa a filosofia central deste playbook]"
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><strong>00</strong><span>Módulos</span></div>
+      <div class="hero-stat"><strong>00</strong><span>Checklists</span></div>
+      <div class="hero-stat"><strong>00</strong><span>Frameworks</span></div>
+      <div class="hero-stat"><strong>2026</strong><span>Versão</span></div>
+    </div>
+  </section>
+
+  <!-- 01 — CONTEXTO ESTRATÉGICO -->
+  <section class="section" id="s-contexto">
+    <div class="section-label">01 · Contexto Estratégico</div>
+    <h2>Por que isso importa para o seu supermercado</h2>
+    <p class="section-desc">O mercado mudou. O comportamento do consumidor mudou. Supermercados que não se adaptam perdem clientes silenciosamente — sem saber por quê.</p>
+
+    <div class="op-grid">
+      <div class="op-card">
+        <span class="op-card-icon">🔍</span>
+        <h4>O problema real</h4>
+        <ul>
+          <li>[Dor principal do supermercadista]</li>
+          <li>[Impacto financeiro do problema]</li>
+          <li>[Causa raiz que poucos identificam]</li>
+        </ul>
+      </div>
+      <div class="op-card yellow">
+        <span class="op-card-icon">⚠️</span>
+        <h4>Erros mais comuns</h4>
+        <ul>
+          <li>[Erro 1 — o mais frequente]</li>
+          <li>[Erro 2 — o mais caro]</li>
+          <li>[Erro 3 — o mais silencioso]</li>
+        </ul>
+      </div>
+      <div class="op-card navy">
+        <span class="op-card-icon">💡</span>
+        <h4>A oportunidade escondida</h4>
+        <ul>
+          <li>[Oportunidade 1]</li>
+          <li>[Oportunidade 2]</li>
+          <li>[O que poucos estão fazendo]</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout strategy">
+      <span class="callout-label">// visão GST</span>
+      <h3>[Título da visão estratégica]</h3>
+      <p>[Análise estratégica profunda — como a GST enxerga esse cenário com base em experiência real. Tom de especialista que viveu a operação.] </p>
+    </div>
+  </section>
+
+  <!-- 02 — FILOSOFIA GST -->
+  <section class="section" id="s-filosofia">
+    <div class="section-label">02 · Filosofia GST</div>
+    <h2>Como pensamos na GST</h2>
+    <p class="section-desc">Nossa metodologia foi construída com base em experiência real de crescimento supermercadista — não em teoria de agência.</p>
+
+    <div class="callout tip">
+      <span class="callout-label">// fundamento</span>
+      <h3>O princípio central deste playbook</h3>
+      <p>[O princípio filosófico central — a crença que norteia toda a abordagem deste playbook. Deve ser memorável e verdadeiro.]</p>
+    </div>
+
+    <div class="pilares-grid">
+      <div class="pilar-card">
+        <span class="pilar-num">01 //</span>
+        <h4>[Pilar 1]</h4>
+        <p>[Explicação curta e poderosa]</p>
+      </div>
+      <div class="pilar-card">
+        <span class="pilar-num">02 //</span>
+        <h4>[Pilar 2]</h4>
+        <p>[Explicação curta e poderosa]</p>
+      </div>
+      <div class="pilar-card">
+        <span class="pilar-num">03 //</span>
+        <h4>[Pilar 3]</h4>
+        <p>[Explicação curta e poderosa]</p>
+      </div>
+      <div class="pilar-card">
+        <span class="pilar-num">04 //</span>
+        <h4>[Pilar 4]</h4>
+        <p>[Explicação curta e poderosa]</p>
+      </div>
+    </div>
+
+    <div class="formula">
+      <span>[Elemento A]</span> + <span>[Elemento B]</span> + <span>[Elemento C]</span> = <span>[Resultado Final]</span>
+    </div>
+  </section>
+
+  <!-- 03 — ESTRUTURA OPERACIONAL -->
+  <section class="section" id="s-operacional">
+    <div class="section-label">03 · Estrutura Operacional</div>
+    <h2>O passo a passo que funciona</h2>
+    <p class="section-desc">Metodologia testada e validada em operações reais de supermercado. Sequência lógica, executável e replicável.</p>
+
+    <div class="steps">
+      <div class="step">
+        <div class="step-indicator">
+          <div class="step-num">01</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>[Nome do Passo 1]</h4>
+          <p>[Descrição clara do que fazer e por que fazer neste passo]</p>
+          <ul>
+            <li>[Ação específica A]</li>
+            <li>[Ação específica B]</li>
+            <li>[Ação específica C]</li>
+          </ul>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-indicator">
+          <div class="step-num">02</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>[Nome do Passo 2]</h4>
+          <p>[Descrição clara do que fazer e por que fazer neste passo]</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-indicator">
+          <div class="step-num">03</div>
+          <div class="step-line"></div>
+        </div>
+        <div class="step-content">
+          <h4>[Nome do Passo 3]</h4>
+          <p>[Descrição clara do que fazer e por que fazer neste passo]</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>Elemento</th>
+            <th>O que fazer</th>
+            <th>Quando</th>
+            <th>Resultado esperado</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>[Item A]</strong></td>
+            <td>[Ação]</td>
+            <td>[Momento]</td>
+            <td>[Resultado]</td>
+            <td><span class="badge badge-green">Obrigatório</span></td>
+          </tr>
+          <tr>
+            <td><strong>[Item B]</strong></td>
+            <td>[Ação]</td>
+            <td>[Momento]</td>
+            <td>[Resultado]</td>
+            <td><span class="badge badge-yellow">Recomendado</span></td>
+          </tr>
+          <tr>
+            <td><strong>[Item C]</strong></td>
+            <td>[Ação]</td>
+            <td>[Momento]</td>
+            <td>[Resultado]</td>
+            <td><span class="badge badge-navy">Opcional</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 04 — TREINAMENTO -->
+  <section class="section" id="s-treinamento">
+    <div class="section-label">04 · Módulo de Treinamento</div>
+    <h2>Capacitação da equipe</h2>
+    <p class="section-desc">Estrutura para onboarding, treinamento e certificação interna da equipe GST e dos clientes.</p>
+
+    <div class="training-box">
+      <div class="training-box-header">
+        <h3>Objetivos de Aprendizado</h3>
+        <p>Ao concluir este módulo, o colaborador ou cliente deve ser capaz de:</p>
+      </div>
+      <div class="training-grid">
+        <div class="training-item">
+          <h5>Compreender</h5>
+          <p>[O conceito central que precisa ser entendido]</p>
+        </div>
+        <div class="training-item">
+          <h5>Executar</h5>
+          <p>[A habilidade prática que precisa ser dominada]</p>
+        </div>
+        <div class="training-item">
+          <h5>Medir</h5>
+          <p>[O indicador que deve ser acompanhado]</p>
+        </div>
+        <div class="training-item">
+          <h5>Replicar</h5>
+          <p>[O processo que deve ser padronizado]</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout warning">
+      <span class="callout-label">// atenção operacional</span>
+      <h3>[Ponto crítico de treinamento]</h3>
+      <p>[O erro mais comum que pessoas cometem ao aprender e executar isso. Seja específico e direto.]</p>
+    </div>
+  </section>
+
+  <!-- 05 — PARA O CLIENTE -->
+  <section class="section" id="s-cliente">
+    <div class="section-label">05 · Para o Cliente</div>
+    <h2>O que o supermercadista precisa entender</h2>
+    <p class="section-desc">Linguagem simplificada para comunicar o valor estratégico, alinhar expectativas e engajar o cliente na execução.</p>
+
+    <div class="op-grid">
+      <div class="op-card">
+        <span class="op-card-icon">🎯</span>
+        <h4>Valor estratégico</h4>
+        <ul>
+          <li>[Benefício direto para o negócio]</li>
+          <li>[Impacto financeiro mensurável]</li>
+          <li>[Diferencial competitivo gerado]</li>
+        </ul>
+      </div>
+      <div class="op-card">
+        <span class="op-card-icon">⏱️</span>
+        <h4>Expectativa correta</h4>
+        <ul>
+          <li>[O que acontece no mês 1]</li>
+          <li>[O que acontece no mês 3]</li>
+          <li>[O que acontece no mês 6]</li>
+        </ul>
+      </div>
+      <div class="op-card yellow">
+        <span class="op-card-icon">🤝</span>
+        <h4>Papel do cliente</h4>
+        <ul>
+          <li>[O que o cliente precisa fazer]</li>
+          <li>[O que a GST entrega]</li>
+          <li>[Como a parceria funciona]</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="msg-box">
+      <span class="msg-box-label">// argumento comercial pronto</span>
+      <p>"[Fala pronta para usar em reunião com cliente — convincente, honesta e baseada em resultado real. Tom consultivo, não vendedor.]"</p>
+    </div>
+  </section>
+
+  <!-- 06 — CHECKLIST -->
+  <section class="section" id="s-checklist">
+    <div class="section-label">06 · Checklist Executivo</div>
+    <h2>Tudo pronto para executar</h2>
+    <p class="section-desc">Checklist interativo para validar cada etapa antes, durante e após a implementação.</p>
+
+    <div class="checklist-wrap" id="cl-main">
+      <div class="checklist-head">
+        <h3>Checklist de Implementação</h3>
+        <div class="progress-widget">
+          <div class="progress-track"><div class="progress-track-fill" id="pf-main" style="width:0%"></div></div>
+          <span class="progress-count" id="pc-main">0/8</span>
+        </div>
+      </div>
+      <div class="check-list" id="ci-main">
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 1 — Fundação]</div><div class="check-sub">[Detalhe ou instrução adicional]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 2 — Configuração]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 3 — Execução]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 4 — Validação]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 5 — Comunicação]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 6 — Monitoramento]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 7 — Otimização]</div></div>
+        </div>
+        <div class="check-row" onclick="check(this,'cl-main')">
+          <div class="check-box"></div>
+          <div><div class="check-label">[Item 8 — Escala]</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07 — ÁREA PREMIUM -->
+  <section class="section" id="s-premium">
+    <div class="section-label">07 · Área Premium / Executiva</div>
+    <h2>Visão estratégica avançada</h2>
+    <p class="section-desc">Análises, tendências e inteligência de mercado para gestores e estrategistas. Conteúdo de nível consultivo.</p>
+
+    <div class="kpi-grid">
+      <div class="kpi-card"><span class="kpi-value">[00]</span><span class="kpi-label">[KPI 1]</span></div>
+      <div class="kpi-card"><span class="kpi-value">[00]</span><span class="kpi-label">[KPI 2]</span></div>
+      <div class="kpi-card"><span class="kpi-value">[00]</span><span class="kpi-label">[KPI 3]</span></div>
+      <div class="kpi-card"><span class="kpi-value">[00]</span><span class="kpi-label">[KPI 4]</span></div>
+    </div>
+
+    <div class="callout strategy">
+      <span class="callout-label">// análise estratégica GST</span>
+      <h3>[Título da análise premium]</h3>
+      <p>[Análise de nível consultivo — tendências, comportamento do consumidor, oportunidades de escala, inteligência de mercado. Tom de especialista sênior.]</p>
+      <ul>
+        <li>[Insight estratégico 1]</li>
+        <li>[Insight estratégico 2]</li>
+        <li>[Insight estratégico 3]</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 08 — CTA FINAL -->
+  <section class="cta-section" id="s-cta">
+    <h2>Execute. <em>Agora.</em></h2>
+    <p>O supermercado que executa hoje tem vantagem sobre o concorrente que vai executar amanhã.</p>
+    <a href="https://wa.me/5511983912170" class="cta-btn" target="_blank">
+      💬 Falar com a equipe GST
+    </a>
+  </section>
+
+  <footer class="page-footer">
+    <p>Sistema Operacional GST · Playbook Template v1.0 · 2026</p>
+    <p><strong>GST Marketing</strong> · agenciagst.com.br · Uso interno</p>
+  </footer>
+
+</main>
+
+<script>
+// ============================================
+// CHECKLIST INTERATIVO
+// ============================================
+function check(row, wrapId) {
+  row.classList.toggle('done');
+  const wrap = document.getElementById(wrapId);
+  const total = wrap.querySelectorAll('.check-row').length;
+  const done = wrap.querySelectorAll('.check-row.done').length;
+  const pct = total ? Math.round(done / total * 100) : 0;
+  const id = wrapId.replace('cl-', '');
+  const pf = document.getElementById('pf-' + id);
+  const pc = document.getElementById('pc-' + id);
+  if (pf) pf.style.width = pct + '%';
+  if (pc) pc.textContent = done + '/' + total;
+  updateSidebarProgress();
+}
+
+// ============================================
+// PROGRESSO GLOBAL NA SIDEBAR
+// ============================================
+function updateSidebarProgress() {
+  const all = document.querySelectorAll('.check-row').length;
+  const done = document.querySelectorAll('.check-row.done').length;
+  const pct = all ? Math.round(done / all * 100) : 0;
+  const bar = document.getElementById('sidebar-prog');
+  const label = document.getElementById('prog-pct');
+  if (bar) bar.style.width = pct + '%';
+  if (label) label.textContent = pct + '%';
+}
+
+// ============================================
+// ACTIVE LINK NA SIDEBAR AO SCROLLAR
+// ============================================
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sidebar-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const active = document.querySelector(`.sidebar-link[href="#${entry.target.id}"]`);
+      if (active) active.classList.add('active');
+    }
+  });
+}, { threshold: 0.3 });
+
+sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
