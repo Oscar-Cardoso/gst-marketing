@@ -428,32 +428,32 @@ async function sincronizarPlaybooks() {
 
     if (novos.length === 0) {
       btn.textContent = '✅ Tudo sincronizado!';
-      setTimeout(() => {
-        btn.textContent = '🔄 Sincronizar';
-        btn.disabled = false;
-      }, 3000);
+      setTimeout(() => { btn.textContent = '🔄 Sincronizar'; btn.disabled = false; }, 3000);
       return;
     }
 
-    // Inserir os novos
+    // Inserir os novos — usar fetch direto para capturar status 204
     let inseridos = 0;
     for (const pb of novos) {
-      const res = await supa('playbooks', {
+      const r = await fetch(SUPA_URL + '/rest/v1/playbooks', {
         method: 'POST',
-        headers: { 'Prefer': 'return=minimal' },
+        headers: {
+          'apikey': SUPA_KEY,
+          'Authorization': 'Bearer ' + SUPA_KEY,
+          'Content-Type': 'application/json',
+          'Prefer': 'return=minimal'
+        },
         body: JSON.stringify(pb)
       });
-      if (res !== null) inseridos++;
+      if (r.ok) inseridos++;
     }
 
     btn.textContent = `✅ ${inseridos} novo(s) adicionado(s)!`;
-    setTimeout(() => {
-      btn.textContent = '🔄 Sincronizar';
-      btn.disabled = false;
-    }, 3000);
-    carregarTudo();
+    setTimeout(() => { btn.textContent = '🔄 Sincronizar'; btn.disabled = false; }, 3000);
+    await carregarTudo();
 
   } catch (err) {
+    console.error('Sync error:', err);
     btn.textContent = '❌ Erro — tente novamente';
     btn.disabled = false;
   }
