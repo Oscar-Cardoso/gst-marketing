@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GST System — Onboarding de Crescimento | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;--navy4:#243447;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:264px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
+
+/* ── SIDEBAR ── */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:26px 24px 18px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,.65);font-weight:600}
+.sb-prog{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:6px}
+.sb-prog-lbl strong{color:var(--green);font-weight:700}
+.sb-bar{height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.sb-fill{height:100%;background:var(--green);border-radius:10px;transition:width .4s;width:0%}
+.sb-nav{padding:12px 0;flex:1}
+.sb-nav-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.18);text-transform:uppercase;letter-spacing:2px;padding:5px 24px 2px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 24px;font-size:12px;font-weight:500;color:rgba(255,255,255,.42);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.04)}
+.sb-link.active{color:#fff;background:rgba(0,196,106,.1);border-left-color:var(--green)}
+.sb-num{font-family:monospace;font-size:10px;color:var(--green);min-width:22px;opacity:.55}
+.sb-link.active .sb-num{opacity:1}
+.sb-foot{padding:16px 24px;border-top:1px solid var(--border)}
+.sb-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+
+/* ── MAIN ── */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+
+/* ── HERO ── */
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a2240 100%);padding:80px 64px 72px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 62%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-100px;left:18%;width:500px;height:500px;background:radial-gradient(circle,rgba(0,196,106,.05),transparent 65%);border-radius:50%;pointer-events:none}
+.hero-tags{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.htag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.htag-sys{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.htag-cat{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,180,0,.2)}
+.htag-ver{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07)}
+.hero-welcome{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px;font-family:var(--font-head)}
+.hero h1{font-family:var(--font-head);font-size:clamp(30px,5vw,54px);font-weight:900;line-height:1.05;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.48);max-width:560px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-tese{background:rgba(0,196,106,.08);border:1px solid rgba(0,196,106,.18);border-radius:14px;padding:20px 24px;max-width:600px;margin-bottom:40px;position:relative}
+.hero-tese-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;font-family:var(--font-head)}
+.hero-tese p{font-size:15px;font-weight:600;color:#fff;line-height:1.6;font-style:italic}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* ── SEÇÕES ── */
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day);background:#fff}
+.section:nth-child(odd){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(19px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:7px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+/* ── PILARES ── */
+.pilares{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:13px;margin:22px 0}
+.pilar{background:var(--navy);border-radius:14px;padding:20px 16px;border:1px solid var(--border);position:relative;overflow:hidden}
+.pilar::after{content:'';position:absolute;bottom:-28px;right:-28px;width:85px;height:85px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.pilar-n{font-size:10px;font-weight:700;color:var(--green);margin-bottom:8px;display:block;font-family:var(--font-head);letter-spacing:1px}
+.pilar h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;margin-bottom:5px;line-height:1.3}
+.pilar p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+
+/* ── CARDS SIMPLES ── */
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:13px;margin:22px 0}
+.op-card{background:#fff;border-radius:14px;padding:20px;border:1px solid var(--border-day);border-top:3px solid var(--green);transition:all .2s}
+.op-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);transform:translateY(-2px)}
+.op-card.yellow{border-top-color:var(--yellow)}
+.op-card.red{border-top-color:var(--red)}
+.op-card.navy{background:var(--navy);border:1px solid var(--border);border-top:3px solid var(--green)}
+.op-ico{font-size:22px;margin-bottom:9px;display:block}
+.op-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.op-card.navy h4{color:var(--green)}
+.op-card ul{list-style:none;padding:0}
+.op-card li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.op-card li:last-child{border-bottom:none}
+.op-card li::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.op-card.navy li{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.04)}
+.op-card.red li::before{content:'✗';color:var(--red)}
+
+/* ── TRILHA DE CRESCIMENTO ── */
+.fase{border-radius:20px;padding:34px;margin-bottom:16px;position:relative;overflow:hidden}
+.fase-1{background:#fff;border:2px solid var(--border-day);border-left:6px solid var(--gray)}
+.fase-2{background:var(--navy2);border:2px solid var(--navy3);border-left:6px solid var(--green)}
+.fase-3{background:linear-gradient(135deg,var(--navy),#0a2240);border:2px solid rgba(0,196,106,.25);border-left:6px solid var(--green)}
+.fase-3::after{content:'★ NÍVEL MÁXIMO';position:absolute;top:16px;right:16px;background:var(--green);color:#fff;font-size:9px;font-weight:800;padding:3px 10px;border-radius:20px;letter-spacing:.5px;font-family:var(--font-head)}
+.fase::before{content:'';position:absolute;bottom:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%;pointer-events:none}
+.fase-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:22px;flex-wrap:wrap;gap:12px}
+.fase-title{display:flex;align-items:center;gap:14px}
+.fase-num{width:46px;height:46px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:17px;font-weight:900;flex-shrink:0}
+.fase-1 .fase-num{background:var(--gray-light);color:var(--navy);border:1px solid var(--border-day)}
+.fase-2 .fase-num{background:rgba(0,196,106,.15);color:var(--green);border:1px solid var(--green-line)}
+.fase-3 .fase-num{background:rgba(0,196,106,.18);color:var(--green);border:1px solid rgba(0,196,106,.3)}
+.fase-name h3{font-family:var(--font-head);font-size:20px;font-weight:900;margin-bottom:3px}
+.fase-1 .fase-name h3{color:var(--navy)}
+.fase-2 .fase-name h3,.fase-3 .fase-name h3{color:#fff}
+.fase-name p{font-size:12px}
+.fase-1 .fase-name p{color:var(--gray)}
+.fase-2 .fase-name p,.fase-3 .fase-name p{color:rgba(255,255,255,.38)}
+.fase-badges{display:flex;flex-direction:column;gap:6px;align-items:flex-end}
+.fb{display:inline-flex;align-items:center;padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--font-head);white-space:nowrap}
+.fb-t{background:rgba(100,116,139,.1);color:var(--gray);border:1px solid rgba(100,116,139,.15)}
+.fase-2 .fb-t,.fase-3 .fb-t{background:rgba(255,255,255,.06);color:rgba(255,255,255,.45);border:1px solid rgba(255,255,255,.1)}
+.fb-v{background:var(--green-glow);color:var(--green-dark);border:1px solid var(--green-line)}
+.fase-body{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px}
+.fase-box{border-radius:11px;padding:15px}
+.fbox-obj{background:rgba(0,196,106,.06);border:1px solid rgba(0,196,106,.12)}
+.fase-2 .fbox-obj,.fase-3 .fbox-obj{background:rgba(0,196,106,.1);border:1px solid rgba(0,196,106,.18)}
+.fbox-c{background:rgba(100,116,139,.05);border:1px solid rgba(100,116,139,.1)}
+.fase-2 .fbox-c,.fase-3 .fbox-c{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07)}
+.fbox-k{background:var(--navy);border:1px solid var(--border)}
+.fase-1 .fbox-k{background:var(--gray-light);border:1px solid var(--border-day)}
+.fase-box h5{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-family:var(--font-head)}
+.fbox-obj h5{color:var(--green-dark)}
+.fase-2 .fbox-obj h5,.fase-3 .fbox-obj h5{color:var(--green)}
+.fbox-c h5{color:var(--gray)}
+.fase-2 .fbox-c h5,.fase-3 .fbox-c h5{color:rgba(255,255,255,.32)}
+.fbox-k h5{color:var(--green)}
+.fase-1 .fbox-k h5{color:var(--navy)}
+.fase-box ul{list-style:none;padding:0}
+.fase-box li{font-size:12px;padding:3px 0;display:flex;gap:7px}
+.fase-1 .fase-box li{color:var(--text)}
+.fase-2 .fase-box li,.fase-3 .fase-box li{color:rgba(255,255,255,.62)}
+.fase-box li::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.fase-arrow{text-align:center;padding:6px 0;font-size:22px;color:var(--green);opacity:.45}
+
+/* ── MAPA VISUAL ── */
+.mapa{display:flex;align-items:stretch;gap:0;margin:32px 0;border-radius:16px;overflow:hidden;border:1px solid var(--border-day)}
+.mapa-step{flex:1;padding:28px 20px;text-align:center;position:relative}
+.mapa-step+.mapa-step::before{content:'→';position:absolute;left:-1px;top:50%;transform:translateY(-50%);font-size:18px;color:var(--green);opacity:.5;background:#fff;padding:0 4px}
+.ms-1{background:#fff}
+.ms-2{background:var(--navy2)}
+.ms-3{background:var(--navy)}
+.mapa-step-ico{font-size:26px;margin-bottom:8px}
+.mapa-step h4{font-family:var(--font-head);font-size:14px;font-weight:800;margin-bottom:5px}
+.ms-1 h4{color:var(--navy)}
+.ms-2 h4,.ms-3 h4{color:#fff}
+.mapa-step p{font-size:11px;line-height:1.4}
+.ms-1 p{color:var(--gray)}
+.ms-2 p,.ms-3 p{color:rgba(255,255,255,.4)}
+.mapa-verba{font-family:var(--font-head);font-size:17px;font-weight:900;color:var(--green);margin-top:10px}
+
+/* ── ROADMAP ── */
+.roadmap{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:24px 0}
+.rm-col{border-radius:13px;overflow:hidden}
+.rm-head{padding:14px 16px;font-family:var(--font-head);font-size:12px;font-weight:800;color:var(--green)}
+.rm-col:nth-child(1) .rm-head{background:var(--navy)}
+.rm-col:nth-child(2) .rm-head{background:var(--navy2)}
+.rm-col:nth-child(3) .rm-head{background:var(--navy3)}
+.rm-col:nth-child(4) .rm-head{background:#1e3a52}
+.rm-body{padding:14px 16px;background:#fff;border:1px solid var(--border-day);border-top:none}
+.rm-item{font-size:12px;color:var(--text);padding:5px 0;border-bottom:1px solid #f8fafc;display:flex;gap:6px;align-items:flex-start}
+.rm-item:last-child{border-bottom:none}
+.rm-item.g::before{content:'GST';font-size:8px;color:var(--green);font-weight:800;min-width:26px;background:var(--green-glow);padding:2px 4px;border-radius:4px;margin-top:2px;white-space:nowrap}
+.rm-item.c::before{content:'CLI';font-size:8px;color:var(--yellow);font-weight:800;min-width:26px;background:rgba(245,180,0,.1);padding:2px 4px;border-radius:4px;margin-top:2px;white-space:nowrap}
+
+/* ── 90 DIAS ── */
+.dias-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin:24px 0}
+.dias-card{border-radius:13px;overflow:hidden}
+.dias-head{padding:16px 20px;font-family:var(--font-head);font-size:13px;font-weight:800}
+.dias-card:nth-child(1) .dias-head{background:var(--navy);color:#fff}
+.dias-card:nth-child(2) .dias-head{background:var(--navy2);color:var(--green)}
+.dias-card:nth-child(3) .dias-head{background:linear-gradient(135deg,var(--navy),#0a2040);color:var(--green);border:1px solid rgba(0,196,106,.18)}
+.dias-body{padding:16px 20px;background:#fff;border:1px solid var(--border-day);border-top:none}
+.dias-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.dias-item:last-child{border-bottom:none}
+.dias-item::before{content:'→';color:var(--green);min-width:14px;font-weight:700}
+
+/* ── TABELA ── */
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:13px;box-shadow:0 2px 12px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-green{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-yellow{background:rgba(245,180,0,.1);color:#b07500}
+.badge-gray{background:rgba(100,116,139,.1);color:var(--gray)}
+.badge-red{background:rgba(229,57,53,.08);color:var(--red)}
+
+/* ── CHECKLIST ── */
+.cl-wrap{background:#fff;border-radius:15px;padding:24px;border:1px solid var(--border-day);margin:22px 0;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.cl-wrap.dark{background:var(--navy);border:1px solid var(--border)}
+.cl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:15px;flex-wrap:wrap;gap:10px}
+.cl-head h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy)}
+.cl-wrap.dark .cl-head h3{color:#fff}
+.cl-prog{display:flex;align-items:center;gap:8px}
+.cl-track{width:80px;height:4px;background:var(--border-day);border-radius:10px;overflow:hidden}
+.cl-wrap.dark .cl-track{background:rgba(255,255,255,.08)}
+.cl-fill{height:100%;background:var(--green);border-radius:10px;transition:width .3s}
+.cl-count{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--green)}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:11px;padding:8px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:6px}
+.cl-wrap.dark .cl-row{border-color:rgba(255,255,255,.04)}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:20px;height:20px;border:2px solid var(--border-day);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-wrap.dark .cl-box{border-color:rgba(255,255,255,.15)}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:11px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.5}
+.cl-wrap.dark .cl-text{color:rgba(255,255,255,.7)}
+.cl-sub{font-size:11px;color:var(--text-dim);margin-top:1px}
+.cl-wrap.dark .cl-sub{color:rgba(255,255,255,.28)}
+
+/* ── CALLOUT ── */
+.callout{border-radius:13px;padding:22px 26px;margin:18px 0;position:relative;overflow:hidden}
+.callout.strategy{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.strategy::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.tip{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.warning{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.callout.danger{background:rgba(229,57,53,.07);border:1px solid rgba(229,57,53,.18)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.strategy .c-lbl{color:var(--green)}
+.callout.tip .c-lbl{color:var(--green-dark)}
+.callout.warning .c-lbl{color:#b07500}
+.callout.danger .c-lbl{color:var(--red)}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.strategy h3{color:#fff}
+.callout.tip h3{color:var(--navy)}
+.callout.warning h3{color:#6d4700}
+.callout.danger h3{color:var(--navy)}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.strategy p{color:rgba(255,255,255,.62)}
+.callout.tip p{color:var(--navy)}
+.callout.warning p{color:#5a3b00}
+.callout ul{list-style:none;padding:0;margin-top:10px;position:relative}
+.callout li{font-size:13px;padding:4px 0;display:flex;gap:8px}
+.callout.strategy li{color:rgba(255,255,255,.62)}
+.callout.tip li{color:var(--navy)}
+.callout li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+
+/* ── ERROS ── */
+.erros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:13px;margin:22px 0}
+.erro-card{background:#fff;border-radius:13px;padding:20px;border:1px solid var(--border-day);border-left:4px solid var(--red)}
+.erro-n{font-family:var(--font-head);font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+.erro-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.erro-card p{font-size:12px;color:var(--gray);line-height:1.5;margin-bottom:10px}
+.erro-fix{background:var(--gray-light);border-left:3px solid var(--green);border-radius:0 7px 7px 0;padding:8px 12px;font-size:12px;color:var(--navy);font-weight:600}
+.erro-fix span{color:var(--green)}
+
+/* ── KPIs ── */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(135px,1fr));gap:11px;margin:22px 0}
+.kpi{background:var(--navy);border-radius:12px;padding:16px;text-align:center;border:1px solid var(--border)}
+.kpi strong{display:block;font-family:var(--font-head);font-size:22px;font-weight:900;color:var(--green)}
+.kpi span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;display:block}
+
+/* ── FORMULA ── */
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:13px;padding:17px 24px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.5}
+.formula em{color:var(--green);font-style:normal}
+
+/* ── BIBLIOTECA ── */
+.bib-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:12px;margin:22px 0}
+.bib-card{background:var(--navy);border-radius:12px;padding:20px;border:1px solid var(--border);display:flex;flex-direction:column;gap:9px}
+.bib-card.ok{border-color:var(--green-line)}
+.bib-card.em{border-color:rgba(245,180,0,.18);opacity:.7}
+.bib-ico{font-size:22px}
+.bib-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff}
+.bib-card p{font-size:11px;color:rgba(255,255,255,.38);line-height:1.4}
+.bib-st{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head);margin-top:auto}
+.st-ok{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.st-em{background:rgba(245,180,0,.1);color:var(--yellow);border:1px solid rgba(245,180,0,.2)}
+
+/* ── INTERNO ── */
+.interno{background:var(--navy);border-radius:15px;padding:26px;margin:22px 0;border:1px solid var(--border)}
+.interno-tog{display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.interno-tog h3{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff}
+.interno-tog span{font-size:11px;font-weight:700;color:var(--green);background:var(--green-glow);border:1px solid var(--green-line);padding:4px 12px;border-radius:20px}
+.interno-body{display:none;margin-top:20px;border-top:1px solid var(--border);padding-top:20px}
+.interno-body.show{display:block}
+.int-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:11px}
+.int-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:13px}
+.int-item label{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:5px;font-family:var(--font-head)}
+.int-item input,.int-item select{width:100%;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:6px;padding:7px 10px;font-size:12px;color:#fff;font-family:var(--font-body)}
+.int-item input::placeholder{color:rgba(255,255,255,.22)}
+
+/* ── CTA ── */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a2240);padding:80px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:500px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(22px,4vw,38px);font-weight:900;color:#fff;margin-bottom:14px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:520px;margin:0 auto 28px;position:relative;line-height:1.7}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:15px 34px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:14px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,196,106,.25)}
+.page-footer{background:var(--navy2);padding:20px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.2)}
+.page-footer strong{color:var(--green)}
+
+/* ── LEGENDA ── */
+.legenda{display:flex;gap:14px;flex-wrap:wrap;margin-top:10px}
+.leg{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--gray)}
+.leg-tag{font-size:8px;font-weight:800;padding:2px 6px;border-radius:4px}
+.leg-gst{background:var(--green-glow);color:var(--green)}
+.leg-cli{background:rgba(245,180,0,.1);color:var(--yellow)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .5s ease both}
+.hero-tags{animation-delay:.1s}.hero-welcome{animation-delay:.15s}.hero h1{animation-delay:.2s}.hero-sub{animation-delay:.3s}.hero-tese{animation-delay:.4s}.hero-stats{animation-delay:.5s}
+
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}.main{margin-left:0}
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+  .roadmap,.dias-grid,.mapa{grid-template-columns:1fr;flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo">GST <span>System</span></div><div class="sb-sub">Sistema Operacional GST</div></div>
+  <div class="sb-meta">
+    <div class="sb-row">📂 Categoria: <span>Onboarding</span></div>
+    <div class="sb-row">🏷️ Nível: <span>Estratégico</span></div>
+    <div class="sb-row">🔖 Versão: <span>v1.0 · Mai 2026</span></div>
+    <div class="sb-row">🔒 Uso: <span>Cliente + Equipe GST</span></div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Progresso <strong id="pct">0%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" id="sbfill"></div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-nav-lbl">Jornada</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span>Boas-vindas</a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span>O que começa agora</a>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span>Filosofia GST</a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span>O que a GST faz</a>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span>O que a GST não faz</a>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span>Sua Trilha de Crescimento</a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span>Mapa Visual</a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span>Quando subir de fase</a>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span>Papel do Cliente</a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span>Papel da GST</a>
+    <a class="sb-link" href="#s10"><span class="sb-num">10</span>Primeiros 30 Dias</a>
+    <a class="sb-link" href="#s11"><span class="sb-num">11</span>Primeiros 90 Dias</a>
+    <a class="sb-link" href="#s12"><span class="sb-num">12</span>Como Medimos</a>
+    <a class="sb-link" href="#s13"><span class="sb-num">13</span>Erros que Atrapalham</a>
+    <a class="sb-link" href="#s14"><span class="sb-num">14</span>Acessos Necessários</a>
+    <a class="sb-link" href="#s15"><span class="sb-num">15</span>Calendário Comercial</a>
+    <a class="sb-link" href="#s16"><span class="sb-num">16</span>WhatsApp como Ativo</a>
+    <a class="sb-link" href="#s17"><span class="sb-num">17</span>GST System — Biblioteca</a>
+    <a class="sb-link" href="#s18"><span class="sb-num">18</span>Área Interna GST</a>
+  </nav>
+  <div class="sb-foot"><div class="sb-tag">⚡ GST System v1.0</div></div>
+</aside>
+
+<main class="main">
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hero-tags">
+    <span class="htag htag-sys">⚡ GST System</span>
+    <span class="htag htag-cat">🚀 Onboarding de Crescimento</span>
+    <span class="htag htag-ver">v1.0 · Mai 2026</span>
+  </div>
+  <div class="hero-welcome">Bem-vindo ao GST System</div>
+  <h1>Um sistema operacional<br>de crescimento para<br><em>supermercados.</em></h1>
+  <p class="hero-sub">Você não está contratando campanhas. Está entrando em uma rota estruturada de crescimento — com método, planejamento e visão dos próximos 18 meses.</p>
+  <div class="hero-tese">
+    <span class="hero-tese-lbl">// mensagem central</span>
+    <p>"Quem contrata a GST não está comprando anúncios. Está entrando em uma rota estruturada de crescimento para transformar seu supermercado em referência da cidade."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>3</strong><span>Fases de crescimento</span></div>
+    <div class="hero-stat"><strong>18</strong><span>Meses de jornada</span></div>
+    <div class="hero-stat"><strong>18</strong><span>Módulos do onboarding</span></div>
+    <div class="hero-stat"><strong>100%</strong><span>Foco supermercado</span></div>
+  </div>
+</section>
+
+<!-- 01 — O QUE COMEÇA -->
+<section class="section" id="s1">
+  <div class="sec-lbl">01 · O que começa agora</div>
+  <h2>Mais do que campanhas — uma parceria de crescimento</h2>
+  <p class="sec-desc">O onboarding existe porque resultado não começa com o primeiro anúncio. Começa com o alinhamento certo entre cliente e agência.</p>
+
+  <div class="callout strategy">
+    <span class="c-lbl">// por que esse material existe</span>
+    <h3>80% dos problemas em marketing acontecem antes da primeira campanha</h3>
+    <p>Expectativa errada, objetivo errado, responsabilidade errada. Este material existe para que você e a GST comecem do mesmo ponto, caminhem na mesma direção e meçam os mesmos indicadores. Quando gestor e cliente falam a mesma língua, o resultado vem mais rápido e dura mais tempo.</p>
+  </div>
+
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">🗓️</span><h4>O que acontece agora</h4><ul><li>Alinhamento de expectativas</li><li>Configuração dos acessos</li><li>Estrutura das primeiras campanhas</li><li>Definição do calendário comercial</li><li>Configuração do WhatsApp</li></ul></div>
+    <div class="op-card"><span class="op-ico">🎯</span><h4>O que você pode esperar</h4><ul><li>Estratégia clara para cada fase</li><li>Campanhas com objetivo definido</li><li>Relatórios com KPIs corretos</li><li>Evolução planejada e mensurável</li><li>Parceria de longo prazo</li></ul></div>
+    <div class="op-card navy"><span class="op-ico">🔧</span><h4>Como a GST trabalha</h4><ul><li>Planejamento antes de execução</li><li>Dado antes de opinião</li><li>Frequência antes de perfeição</li><li>Consistência antes de viralidade</li><li>Resultado antes de reconhecimento</li></ul></div>
+  </div>
+</section>
+
+<!-- 02 — FILOSOFIA -->
+<section class="section" id="s2">
+  <div class="sec-lbl">02 · Filosofia GST</div>
+  <h2>Como pensamos sobre crescimento de supermercado</h2>
+  <p class="sec-desc">A GST não nasceu no marketing. Nasceu dentro de supermercado — e isso muda tudo sobre como enxergamos o negócio do cliente.</p>
+
+  <div class="callout tip">
+    <span class="c-lbl">// origem GST</span>
+    <h3>De R$400 mil para mais de R$2 milhões — experiência real de operação</h3>
+    <p>O fundador da GST participou diretamente do crescimento de um supermercado de bairro de R$400 mil para mais de R$2 milhões de faturamento mensal. Esse crescimento não foi acidental — foi resultado de marketing consistente, WhatsApp ativo, calendário comercial e distribuição de ofertas. Essa experiência guia cada decisão estratégica da GST.</p>
+  </div>
+
+  <div class="pilares">
+    <div class="pilar"><span class="pilar-n">01 //</span><h4>Frequência vence ausência</h4><p>Aparecer toda semana é mais poderoso que aparecer perfeitamente uma vez por mês.</p></div>
+    <div class="pilar"><span class="pilar-n">02 //</span><h4>Oferta precisa de distribuição</h4><p>O melhor preço da cidade não vende se ninguém sabe que existe. Anúncio é canal de distribuição.</p></div>
+    <div class="pilar"><span class="pilar-n">03 //</span><h4>WhatsApp é ativo comercial</h4><p>Cada contato no grupo VIP é um canal de venda sem custo de distribuição. É patrimônio.</p></div>
+    <div class="pilar"><span class="pilar-n">04 //</span><h4>Calendário gera recorrência</h4><p>Supermercado sem calendário improvisa. Improvisação não escala.</p></div>
+    <div class="pilar"><span class="pilar-n">05 //</span><h4>Consistência vence isolamento</h4><p>Uma grande campanha não faz o que 52 semanas de presença constante fazem.</p></div>
+    <div class="pilar"><span class="pilar-n">06 //</span><h4>Marketing potencializa operação</h4><p>Marketing não conserta operação ruim. Mas potencializa operação boa de forma exponencial.</p></div>
+  </div>
+</section>
+
+<!-- 03 — O QUE FAZ -->
+<section class="section" id="s3">
+  <div class="sec-lbl">03 · O que a GST faz</div>
+  <h2>Nossa responsabilidade dentro da parceria</h2>
+  <p class="sec-desc">Cada área de atuação tem objetivo, entrega e indicador definido. Nada é genérico — tudo é orientado ao crescimento do supermercado.</p>
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">🎯</span><h4>Estratégia</h4><ul><li>Objetivos por fase de crescimento</li><li>Planejamento de campanhas</li><li>Distribuição de verba de mídia</li><li>Evolução do nível de investimento</li></ul></div>
+    <div class="op-card"><span class="op-ico">📡</span><h4>Meta Ads</h4><ul><li>Criação e gestão de campanhas</li><li>Segmentação local e por objetivo</li><li>Otimização semanal</li><li>Relatórios mensais</li></ul></div>
+    <div class="op-card"><span class="op-ico">💬</span><h4>WhatsApp</h4><ul><li>Estratégia do Grupo VIP</li><li>Crescimento da base de contatos</li><li>Rotina de mensagens</li><li>Automação quando aplicável</li></ul></div>
+    <div class="op-card"><span class="op-ico">🎨</span><h4>Criativos</h4><ul><li>Artes de oferta semanais</li><li>Vídeos humanizados</li><li>Calendário visual mensal</li><li>Identidade de campanha</li></ul></div>
+    <div class="op-card"><span class="op-ico">🗓️</span><h4>Calendário Comercial</h4><ul><li>Planejamento de datas e setores</li><li>Campanhas sazonais</li><li>Antecipação de oportunidades</li></ul></div>
+    <div class="op-card"><span class="op-ico">📊</span><h4>Relatórios e Otimização</h4><ul><li>Relatório mensal completo</li><li>KPIs por objetivo</li><li>Recomendações de evolução</li><li>Diagnóstico de problemas</li></ul></div>
+  </div>
+</section>
+
+<!-- 04 — O QUE NÃO FAZ -->
+<section class="section" id="s4">
+  <div class="sec-lbl">04 · O que a GST não faz</div>
+  <h2>Alinhamento honesto de expectativas</h2>
+  <p class="sec-desc">Clareza antes de começar evita frustração no meio do caminho. Isso é respeito — não limitação.</p>
+  <div class="op-grid">
+    <div class="op-card red"><span class="op-ico">🚫</span><h4>Fora do escopo</h4><ul><li>Controlar preços e margens</li><li>Gerenciar estoque</li><li>Substituir atendimento da loja</li><li>Garantir vendas sem execução</li><li>Prometer resultado fixo</li></ul></div>
+    <div class="op-card red"><span class="op-ico">📊</span><h4>Não são nossas métricas</h4><ul><li>Curtidas como indicador de vendas</li><li>Seguidores como indicador de resultado</li><li>Alcance como indicador de conversão</li><li>Visualizações como indicador de faturamento</li></ul></div>
+    <div class="op-card red"><span class="op-ico">⚠️</span><h4>O que compromete o resultado</h4><ul><li>Ofertas aprovadas com atraso</li><li>WhatsApp sem atendimento</li><li>Vídeos não gravados</li><li>Calendário ignorado pela loja</li><li>Estratégia trocada antes do tempo</li></ul></div>
+  </div>
+  <div class="callout warning">
+    <span class="c-lbl">// importante</span>
+    <h3>Marketing amplifica o que a loja já faz bem — e também o que faz mal</h3>
+    <p>Mais alcance com atendimento ruim = mais reclamação. Mais conversas com WhatsApp sem resposta = cliente frustrado. A GST potencializa operação boa. Por isso, a evolução da loja precisa acompanhar a evolução do marketing.</p>
+  </div>
+</section>
+
+<!-- 05 — TRILHA -->
+<section class="section" id="s5">
+  <div class="sec-lbl">05 · Sua Trilha de Crescimento</div>
+  <h2>Três fases. Uma jornada. Um destino.</h2>
+  <p class="sec-desc">Todo cliente GST entra em uma rota de evolução planejada. Cada fase tem objetivo, prazo, investimento e indicadores específicos.</p>
+
+  <div class="callout tip">
+    <span class="c-lbl">// entenda antes de começar</span>
+    <h3>Presença Local não é o plano final. É o ponto de partida.</h3>
+    <p>Crescimento não é apenas investir mais — é operar com mais consistência, mais campanhas, mais calendário e mais WhatsApp. Dominação não é só gastar R$5.000 — é transformar o supermercado em uma marca presente, lembrada e recorrente na cidade.</p>
+  </div>
+
+  <!-- FASE 1 -->
+  <div class="fase fase-1">
+    <div class="fase-header">
+      <div class="fase-title">
+        <div class="fase-num">1</div>
+        <div class="fase-name"><h3>Presença Local</h3><p>Colocar a loja no radar da cidade</p></div>
+      </div>
+      <div class="fase-badges">
+        <span class="fb fb-t">⏱ 0 a 6 meses</span>
+        <span class="fb fb-v">💰 R$1.000/mês de mídia</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="fase-box fbox-obj"><h5>Objetivo</h5><ul><li>Colocar a loja no radar da cidade</li><li>Fortalecer o WhatsApp</li><li>Criar frequência de comunicação</li><li>Iniciar distribuição das ofertas</li></ul></div>
+      <div class="fase-box fbox-c"><h5>Construímos</h5><ul><li>Campanhas locais de oferta</li><li>Rotina semanal de criativos</li><li>Primeiros públicos e raio</li><li>Reconhecimento local inicial</li><li>Base inicial de audiência</li></ul></div>
+      <div class="fase-box fbox-k"><h5>Indicadores</h5><ul><li>Alcance e frequência</li><li>Crescimento do WhatsApp</li><li>Primeiras conversas geradas</li><li>Consistência de publicação</li></ul></div>
+    </div>
+  </div>
+
+  <div class="fase-arrow">↓</div>
+
+  <!-- FASE 2 -->
+  <div class="fase fase-2">
+    <div class="fase-header">
+      <div class="fase-title">
+        <div class="fase-num">2</div>
+        <div class="fase-name"><h3>Crescimento</h3><p>Acelerar recorrência e fortalecer presença</p></div>
+      </div>
+      <div class="fase-badges">
+        <span class="fb fb-t">⏱ 6 a 12 meses</span>
+        <span class="fb fb-v">💰 R$2.000/mês de mídia</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="fase-box fbox-obj"><h5>Objetivo</h5><ul><li>Acelerar recorrência de compra</li><li>Fortalecer presença digital</li><li>Aumentar frequência de compra</li><li>Dominar bairros estratégicos</li></ul></div>
+      <div class="fase-box fbox-c"><h5>Construímos</h5><ul><li>Campanhas simultâneas ativas</li><li>Remarketing de engajados</li><li>Campanhas por setor</li><li>Campanhas sazonais planejadas</li><li>Vídeos humanizados da loja</li></ul></div>
+      <div class="fase-box fbox-k"><h5>Indicadores</h5><ul><li>Crescimento da audiência</li><li>Aumento de conversas WA</li><li>Campanhas vencedoras escaladas</li><li>Maior recorrência de compra</li></ul></div>
+    </div>
+  </div>
+
+  <div class="fase-arrow">↓</div>
+
+  <!-- FASE 3 -->
+  <div class="fase fase-3">
+    <div class="fase-header">
+      <div class="fase-title">
+        <div class="fase-num">3</div>
+        <div class="fase-name"><h3>Dominação</h3><p>Tornar-se referência na cidade</p></div>
+      </div>
+      <div class="fase-badges">
+        <span class="fb fb-t">⏱ 12 a 18 meses</span>
+        <span class="fb fb-v">💰 R$5.000/mês de mídia</span>
+      </div>
+    </div>
+    <div class="fase-body">
+      <div class="fase-box fbox-obj"><h5>Objetivo</h5><ul><li>Dominar a cidade digitalmente</li><li>Tornar-se referência local</li><li>Presença massiva e constante</li><li>Superar concorrentes em visibilidade</li></ul></div>
+      <div class="fase-box fbox-c"><h5>Construímos</h5><ul><li>Campanhas massivas diárias</li><li>Campanhas institucionais</li><li>Remarketing avançado</li><li>Lookalike de compradores</li><li>Presença em todos os dias</li></ul></div>
+      <div class="fase-box fbox-k"><h5>Indicadores</h5><ul><li>Autoridade local percebida</li><li>Marca lembrada na cidade</li><li>Presença superior à concorrência</li><li>Crescimento sustentável</li></ul></div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 — MAPA VISUAL -->
+<section class="section" id="s6">
+  <div class="sec-lbl">06 · Mapa Visual de Evolução</div>
+  <h2>Cada fase prepara para o próximo nível</h2>
+  <p class="sec-desc">A jornada GST não é linear por acaso — cada fase constrói a fundação da próxima.</p>
+
+  <div class="mapa">
+    <div class="mapa-step ms-1">
+      <div class="mapa-step-ico">🏁</div>
+      <h4>Presença Local</h4>
+      <p>Fundação digital, frequência, primeiros resultados</p>
+      <div class="mapa-verba">R$1.000/mês</div>
+    </div>
+    <div class="mapa-step ms-2">
+      <div class="mapa-step-ico">📈</div>
+      <h4>Crescimento</h4>
+      <p>Escala, recorrência, campanhas simultâneas</p>
+      <div class="mapa-verba">R$2.000/mês</div>
+    </div>
+    <div class="mapa-step ms-3">
+      <div class="mapa-step-ico">🏆</div>
+      <h4>Dominação</h4>
+      <p>Liderança, autoridade, referência local</p>
+      <div class="mapa-verba">R$5.000/mês</div>
+    </div>
+  </div>
+
+  <div class="formula"><em>Presença Local</em> → <em>Crescimento</em> → <em>Dominação</em> = <em>Referência na cidade</em></div>
+</section>
+
+<!-- 07 — QUANDO SUBIR -->
+<section class="section" id="s7">
+  <div class="sec-lbl">07 · Quando Subir de Fase</div>
+  <h2>Critérios objetivos para avançar na jornada</h2>
+  <p class="sec-desc">Subir de nível antes do tempo certo desperdiça verba. Subir no momento certo acelera tudo. O timing é parte da estratégia.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Critério</th><th>Presença → Crescimento</th><th>Crescimento → Dominação</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Calendário comercial</strong></td><td>Oferta semanal por 3+ meses seguidos</td><td>Calendário completo com datas e setores</td></tr>
+        <tr><td><strong>WhatsApp</strong></td><td>Grupo VIP com 100+ membros ativos</td><td>500+ membros + sorteio semanal ativo</td></tr>
+        <tr><td><strong>Criativos</strong></td><td>2+ criativos novos por semana</td><td>Vídeos humanizados + artes diárias</td></tr>
+        <tr><td><strong>Resultados</strong></td><td>Custo por conversa estável e consistente</td><td>Campanhas vencedoras escaladas</td></tr>
+        <tr><td><strong>Operação da loja</strong></td><td>WA respondido em menos de 5 minutos</td><td>Equipe treinada + processos definidos</td></tr>
+        <tr><td><strong>Verba confirmada</strong></td><td>R$1.000/mês comprometidos e pagos</td><td>R$2.000/mês comprometidos e pagos</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout strategy">
+    <span class="c-lbl">// decisão consultiva</span>
+    <h3>A GST vai recomendar — nunca impor — a evolução de fase</h3>
+    <p>Quando os indicadores mostrarem prontidão, a GST apresenta os dados e faz a recomendação de evolução. A decisão final é sempre do cliente. Crescer na hora certa é estratégia — não pressão comercial.</p>
+  </div>
+</section>
+
+<!-- 08 — PAPEL DO CLIENTE -->
+<section class="section" id="s8">
+  <div class="sec-lbl">08 · Papel do Cliente</div>
+  <h2>O que o supermercado precisa assumir</h2>
+  <p class="sec-desc">Marketing é parceria. A GST entrega a estratégia e a execução digital — mas o resultado depende também da operação da loja.</p>
+
+  <div class="cl-wrap" id="cl-cli">
+    <div class="cl-head"><h3>📋 Responsabilidades do Cliente</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-cli" style="width:0%"></div></div><span class="cl-count" id="pc-cli">0/10</span></div></div>
+    <div class="cl-items" id="ci-cli">
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Enviar ofertas da semana até sexta-feira anterior</div><div class="cl-sub">Atraso no envio = atraso nas campanhas</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Aprovar criativos em até 24 horas após envio</div><div class="cl-sub">Aprovação tardia compromete o calendário</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Gravar vídeos da loja semanalmente</div><div class="cl-sub">Vídeos humanizados são os que mais engajam e convertem</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Responder o WhatsApp em até 5 minutos</div><div class="cl-sub">Campanha que não é atendida não converte</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Participar das reuniões de alinhamento mensais</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Manter acessos ativos e funcionando</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Informar mudanças de horário, preço e produtos</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Seguir o calendário comercial definido em conjunto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Respeitar o prazo de aprendizado das campanhas (5–7 dias)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cli')"><div class="cl-box"></div><div><div class="cl-text">Comunicar imediatamente qualquer problema de atendimento</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 — PAPEL DA GST -->
+<section class="section" id="s9">
+  <div class="sec-lbl">09 · Papel da GST</div>
+  <h2>O que a GST entrega na parceria</h2>
+  <p class="sec-desc">Nossas responsabilidades são claras, mensuráveis e comprometidas com a evolução contínua do cliente.</p>
+
+  <div class="cl-wrap dark" id="cl-gst">
+    <div class="cl-head"><h3>⚡ Responsabilidades da GST</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-gst" style="width:0%"></div></div><span class="cl-count" id="pc-gst">0/10</span></div></div>
+    <div class="cl-items" id="ci-gst">
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Estratégia de campanhas por fase e objetivo</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Criação e gestão de campanhas no Meta Ads</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Produção de criativos semanais (artes e vídeos)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Otimização semanal das campanhas ativas</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Planejamento do calendário comercial mensal</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Estratégia e crescimento do WhatsApp / Grupo VIP</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Relatório mensal com KPIs e recomendações</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Reunião mensal de alinhamento e evolução</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Diagnóstico e correção de problemas de performance</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-gst')"><div class="cl-box"></div><div><div class="cl-text">Recomendação de evolução de fase quando indicado pelos dados</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 — 30 DIAS -->
+<section class="section" id="s10">
+  <div class="sec-lbl">10 · Primeiros 30 Dias</div>
+  <h2>Semana a semana — o que acontece</h2>
+  <p class="sec-desc">O primeiro mês é de fundação. Cada semana tem entrega definida e responsável identificado.</p>
+
+  <div class="roadmap">
+    <div class="rm-col">
+      <div class="rm-head">Semana 1 — Fundação</div>
+      <div class="rm-body">
+        <div class="rm-item g">Levantamento de acessos</div>
+        <div class="rm-item g">Instalação e teste do Pixel</div>
+        <div class="rm-item g">Configuração do WA Business</div>
+        <div class="rm-item c">Envio de logo, fotos e dados</div>
+        <div class="rm-item c">Aprovação do perfil da loja</div>
+        <div class="rm-item g">Briefing completo preenchido</div>
+      </div>
+    </div>
+    <div class="rm-col">
+      <div class="rm-head">Semana 2 — Lançamento</div>
+      <div class="rm-body">
+        <div class="rm-item g">1ª campanha de oferta ativa</div>
+        <div class="rm-item g">Grupo VIP criado e configurado</div>
+        <div class="rm-item g">Calendário do mês montado</div>
+        <div class="rm-item c">Aprovação dos primeiros criativos</div>
+        <div class="rm-item c">Divulgação do Grupo VIP na loja</div>
+        <div class="rm-item g">Monitoramento diário iniciado</div>
+      </div>
+    </div>
+    <div class="rm-col">
+      <div class="rm-head">Semana 3 — Ajustes</div>
+      <div class="rm-body">
+        <div class="rm-item g">Otimização das campanhas ativas</div>
+        <div class="rm-item g">Análise dos primeiros dados</div>
+        <div class="rm-item g">Ajuste de público e raio</div>
+        <div class="rm-item c">Gravação do 1º vídeo da loja</div>
+        <div class="rm-item c">Envio das ofertas da semana</div>
+        <div class="rm-item g">Relatório parcial enviado</div>
+      </div>
+    </div>
+    <div class="rm-col">
+      <div class="rm-head">Semana 4 — Consolidação</div>
+      <div class="rm-body">
+        <div class="rm-item g">Relatório do 1º mês</div>
+        <div class="rm-item g">Reunião de alinhamento</div>
+        <div class="rm-item g">Planejamento do mês 2</div>
+        <div class="rm-item c">Feedback e ajustes</div>
+        <div class="rm-item g">Calendário do mês 2 entregue</div>
+        <div class="rm-item g">Revisão de KPIs e metas</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="legenda">
+    <div class="leg"><span class="leg-tag leg-gst">GST</span> Responsabilidade da equipe GST</div>
+    <div class="leg"><span class="leg-tag leg-cli">CLI</span> Responsabilidade do cliente</div>
+  </div>
+</section>
+
+<!-- 11 — 90 DIAS -->
+<section class="section" id="s11">
+  <div class="sec-lbl">11 · Primeiros 90 Dias</div>
+  <h2>A evolução esperada mês a mês</h2>
+  <p class="sec-desc">Os 90 primeiros dias são a base de tudo. O que for construído aqui determina a velocidade dos próximos 15 meses.</p>
+
+  <div class="dias-grid">
+    <div class="dias-card">
+      <div class="dias-head">0–30 dias · Fundação</div>
+      <div class="dias-body">
+        <div class="dias-item">Acessos configurados e funcionando</div>
+        <div class="dias-item">Pixel instalado e disparando</div>
+        <div class="dias-item">Primeiras campanhas no ar</div>
+        <div class="dias-item">Grupo VIP criado e sendo divulgado</div>
+        <div class="dias-item">Calendário do 1º mês executado</div>
+        <div class="dias-item">Primeiros dados coletados</div>
+      </div>
+    </div>
+    <div class="dias-card">
+      <div class="dias-head">31–60 dias · Aprendizado</div>
+      <div class="dias-body">
+        <div class="dias-item">Público aquecido e mapeado</div>
+        <div class="dias-item">Criativos vencedores identificados</div>
+        <div class="dias-item">Rotina de ofertas consistente</div>
+        <div class="dias-item">WhatsApp com primeiros resultados</div>
+        <div class="dias-item">Custo por conversa estabilizando</div>
+        <div class="dias-item">Calendário do mês 2 executado</div>
+      </div>
+    </div>
+    <div class="dias-card">
+      <div class="dias-head">61–90 dias · Crescimento</div>
+      <div class="dias-body">
+        <div class="dias-item">Campanhas vencedoras escaladas</div>
+        <div class="dias-item">Remarketing ativo e funcionando</div>
+        <div class="dias-item">Grupo VIP com 100+ membros</div>
+        <div class="dias-item">Frequência de comunicação consolidada</div>
+        <div class="dias-item">Primeiras análises de evolução de fase</div>
+        <div class="dias-item">Base de audiência em crescimento</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 12 — COMO MEDIMOS -->
+<section class="section" id="s12">
+  <div class="sec-lbl">12 · Como Medimos Resultados</div>
+  <h2>Indicadores honestos — sem ilusão de métrica</h2>
+  <p class="sec-desc">Cada objetivo tem seu KPI. Medir a coisa errada é tão ruim quanto não medir nada.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Indicador</th><th>O que mede</th><th>Objetivo</th><th>Fase</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Alcance</strong></td><td>Quantas pessoas únicas viram</td><td>Presença local</td><td><span class="badge badge-gray">Fase 1</span></td></tr>
+        <tr><td><strong>Frequência</strong></td><td>Quantas vezes cada pessoa viu</td><td>Lembrança de marca</td><td><span class="badge badge-gray">Fase 1–2</span></td></tr>
+        <tr><td><strong>Conversas no WA</strong></td><td>Clientes que iniciaram contato</td><td>Conversão direta</td><td><span class="badge badge-green">Todas</span></td></tr>
+        <tr><td><strong>Custo por conversa</strong></td><td>Eficiência da campanha</td><td>Otimização de verba</td><td><span class="badge badge-green">Todas</span></td></tr>
+        <tr><td><strong>Crescimento do WA</strong></td><td>Novos membros no Grupo VIP</td><td>Base de comunicação</td><td><span class="badge badge-green">Todas</span></td></tr>
+        <tr><td><strong>CTR</strong></td><td>% de quem clicou</td><td>Relevância do criativo</td><td><span class="badge badge-yellow">Fase 2–3</span></td></tr>
+        <tr><td><strong>CPM</strong></td><td>Custo por 1.000 impressões</td><td>Eficiência do público</td><td><span class="badge badge-yellow">Fase 2–3</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="callout warning">
+    <span class="c-lbl">// transparência importante</span>
+    <h3>Vendas dependem de mais do que marketing</h3>
+    <p>A GST distribui a oferta — mas a venda final depende de preço competitivo, produto disponível em estoque, atendimento eficiente e concorrência local. Medimos conversas e presença porque quando esses indicadores evoluem, o faturamento acompanha.</p>
+  </div>
+</section>
+
+<!-- 13 — ERROS -->
+<section class="section" id="s13">
+  <div class="sec-lbl">13 · Erros que Atrapalham Resultados</div>
+  <h2>O que compromete a evolução — e como evitar</h2>
+  <p class="sec-desc">A maioria dos problemas em marketing de supermercado não é de campanha. É de processo.</p>
+
+  <div class="erros-grid">
+    <div class="erro-card"><div class="erro-n">Erro 01</div><h4>Aprovar criativos com atraso</h4><p>Arte aprovada na quarta para promoção de segunda compromete o planejamento inteiro.</p><div class="erro-fix"><span>Solução:</span> Prazo de aprovação de até 24h após envio.</div></div>
+    <div class="erro-card"><div class="erro-n">Erro 02</div><h4>Enviar ofertas sem antecedência</h4><p>Oferta enviada na última hora não tem criativo bom. Criativo ruim = resultado ruim.</p><div class="erro-fix"><span>Solução:</span> Enviar ofertas toda sexta para a semana seguinte.</div></div>
+    <div class="erro-card"><div class="erro-n">Erro 03</div><h4>Não gravar vídeos</h4><p>Vídeos humanizados são os que mais convertem. Loja que não grava perde seu ativo mais poderoso.</p><div class="erro-fix"><span>Solução:</span> 2 vídeos por semana — pode ser feito com celular.</div></div>
+    <div class="erro-card"><div class="erro-n">Erro 04</div><h4>WhatsApp sem atendimento</h4><p>Campanha traz conversa. Sem resposta em 5 minutos, o cliente foi embora.</p><div class="erro-fix"><span>Solução:</span> Definir responsável pelo WA com horário e padrão.</div></div>
+    <div class="erro-card"><div class="erro-n">Erro 05</div><h4>Trocar estratégia cedo demais</h4><p>Campanha nova precisa de 5–7 dias para aprender. Trocar antes desperdiça todo o dado.</p><div class="erro-fix"><span>Solução:</span> Confiar no processo. Dados precisam de tempo.</div></div>
+    <div class="erro-card"><div class="erro-n">Erro 06</div><h4>Ignorar o calendário comercial</h4><p>Calendário existe para antecipar. Loja que improvisa perde as melhores oportunidades do mês.</p><div class="erro-fix"><span>Solução:</span> Reunião mensal de calendário na última semana do mês anterior.</div></div>
+  </div>
+</section>
+
+<!-- 14 — ACESSOS -->
+<section class="section" id="s14">
+  <div class="sec-lbl">14 · Acessos Necessários</div>
+  <h2>Tudo que precisamos para começar</h2>
+  <p class="sec-desc">Sem acesso, sem campanha. Este checklist precisa estar 100% antes da semana 1.</p>
+
+  <div class="cl-wrap" id="cl-acc">
+    <div class="cl-head"><h3>🔑 Checklist de Acessos</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-acc" style="width:0%"></div></div><span class="cl-count" id="pc-acc">0/12</span></div></div>
+    <div class="cl-items" id="ci-acc">
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Meta Business Suite — acesso de administrador</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Conta de Anúncios criada com método de pagamento ativo</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Página do Facebook da loja — acesso admin</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Instagram da loja — conta business conectada ao Meta</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">WhatsApp Business — número oficial da loja</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Logotipo da loja em alta resolução (PNG fundo transparente)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Fotos reais da loja (fachada, setores, produtos)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Endereço completo e horário de funcionamento</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Telefone para contato e WhatsApp</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Paleta de cores da marca (se houver)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Contato do responsável por aprovar criativos</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-acc')"><div class="cl-box"></div><div><div class="cl-text">Contato do responsável pelo atendimento no WhatsApp</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 — CALENDÁRIO -->
+<section class="section" id="s15">
+  <div class="sec-lbl">15 · Calendário Comercial</div>
+  <h2>O ativo que transforma marketing em sistema</h2>
+  <p class="sec-desc">Supermercado sem calendário improvisa. Quem improvisa não escala. O calendário é onde a estratégia vira rotina.</p>
+
+  <div class="pilares">
+    <div class="pilar"><span class="pilar-n">SEMANAL //</span><h4>Oferta da semana</h4><p>Toda semana tem campanha. Produto, preço e prazo definidos com antecedência.</p></div>
+    <div class="pilar"><span class="pilar-n">MENSAL //</span><h4>Datas comemorativas</h4><p>Dia das Mães, Churrasco, Páscoa, Natal — planejados com 30 dias de antecedência.</p></div>
+    <div class="pilar"><span class="pilar-n">SETORIAL //</span><h4>Campanhas por setor</h4><p>Açougue, Hortifruti, Padaria — cada setor tem seu momento no mês.</p></div>
+    <div class="pilar"><span class="pilar-n">SAZONAL //</span><h4>Copa, Carnaval, FDS</h4><p>Oportunidades sazonais mapeadas antecipadamente = campanhas mais fortes.</p></div>
+  </div>
+
+  <div class="formula">Calendário planejado = <em>criativo melhor</em> + <em>campanha mais forte</em> + <em>resultado maior</em></div>
+</section>
+
+<!-- 16 — WHATSAPP -->
+<section class="section" id="s16">
+  <div class="sec-lbl">16 · WhatsApp como Ativo</div>
+  <h2>O canal mais lucrativo do supermercado</h2>
+  <p class="sec-desc">Cada contato no grupo VIP é um canal de venda sem custo de distribuição. Trate como patrimônio da loja.</p>
+
+  <div class="kpi-row">
+    <div class="kpi"><strong>R$0</strong><span>Custo por mensagem no grupo</span></div>
+    <div class="kpi"><strong>100%</strong><span>Entrega no grupo</span></div>
+    <div class="kpi"><strong>1.000</strong><span>Membros por grupo</span></div>
+    <div class="kpi"><strong>1x</strong><span>Mensagem por dia ideal</span></div>
+  </div>
+
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">👥</span><h4>Grupo VIP</h4><ul><li>Comunidade de compradores fiéis</li><li>Ofertas exclusivas em primeira mão</li><li>Sorteios semanais que fidelizam</li><li>Crescimento orgânico constante</li></ul></div>
+    <div class="op-card"><span class="op-ico">🤖</span><h4>Automação</h4><ul><li>Boas-vindas automáticas ao entrar</li><li>Respostas rápidas configuradas</li><li>Funil de captação ativo</li><li>BotConversa quando aplicável</li></ul></div>
+    <div class="op-card navy"><span class="op-ico">🔁</span><h4>Retenção e Escala</h4><ul><li>Mensagem diária no mesmo horário</li><li>Prova social dos sorteios divulgada</li><li>Relacionamento semanal</li><li>Expansão: VIP 2, VIP 3 quando lotar</li></ul></div>
+  </div>
+</section>
+
+<!-- 17 — BIBLIOTECA -->
+<section class="section" id="s17">
+  <div class="sec-lbl">17 · GST System — Biblioteca</div>
+  <h2>Todos os materiais da sua jornada</h2>
+  <p class="sec-desc">O GST System é uma biblioteca completa de metodologia, estratégia e operação construída exclusivamente para supermercados.</p>
+
+  <div class="bib-grid">
+    <div class="bib-card ok"><div class="bib-ico">🚀</div><h4>Onboarding GST</h4><p>Este material — sua rota completa de crescimento nos próximos 18 meses</p><span class="bib-st st-ok">✓ Você está aqui</span></div>
+    <div class="bib-card ok"><div class="bib-ico">🎯</div><h4>Playbook Meta Ads</h4><p>15 módulos: públicos, campanhas, remarketing e escala para varejo</p><span class="bib-st st-ok">✓ Disponível</span></div>
+    <div class="bib-card ok"><div class="bib-ico">📊</div><h4>Mapa de Investimento</h4><p>Os 3 níveis de verba explicados com argumentos e plano de implementação</p><span class="bib-st st-ok">✓ Disponível</span></div>
+    <div class="bib-card ok"><div class="bib-ico">⚡</div><h4>Objetivos de Campanha</h4><p>WhatsApp, Alcance, Engajamento, Link — quando usar cada objetivo</p><span class="bib-st st-ok">✓ Disponível</span></div>
+    <div class="bib-card ok"><div class="bib-ico">💬</div><h4>Manual WhatsApp</h4><p>Grupo VIP, sorteios, engajamento e crescimento diário da base</p><span class="bib-st st-ok">✓ Disponível</span></div>
+    <div class="bib-card em"><div class="bib-ico">🗓️</div><h4>Calendário Comercial</h4><p>Planejamento de datas, setores e campanhas sazonais</p><span class="bib-st st-em">Em breve</span></div>
+    <div class="bib-card em"><div class="bib-ico">🎨</div><h4>Playbook de Criativos</h4><p>Vídeos, artes, copy e formatos que convertem no varejo</p><span class="bib-st st-em">Em breve</span></div>
+    <div class="bib-card em"><div class="bib-ico">🎉</div><h4>Playbook de Inauguração</h4><p>Do pré-hype à consolidação — cronograma completo de inauguração</p><span class="bib-st st-em">Em breve</span></div>
+  </div>
+</section>
+
+<!-- 18 — INTERNO -->
+<section class="section" id="s18">
+  <div class="sec-lbl">18 · Área Interna</div>
+  <h2>Gestão do cliente — uso exclusivo GST</h2>
+  <p class="sec-desc">Informações operacionais internas para acompanhamento e evolução do cliente.</p>
+
+  <div class="interno">
+    <div class="interno-tog" onclick="toggleInterno()">
+      <h3>🔒 Dados Internos do Cliente</h3>
+      <span id="btn-int">▼ Expandir</span>
+    </div>
+    <div class="interno-body" id="int-body">
+      <div class="int-grid">
+        <div class="int-item"><label>Nome do Cliente</label><input type="text" placeholder="Ex: Supermercado Noronhense"></div>
+        <div class="int-item"><label>Gestor Responsável</label><input type="text" placeholder="Ex: Ester / Felipe"></div>
+        <div class="int-item"><label>Fase Atual</label><select><option>Presença Local</option><option>Crescimento</option><option>Dominação</option></select></div>
+        <div class="int-item"><label>Verba Atual de Mídia</label><input type="text" placeholder="Ex: R$1.000/mês"></div>
+        <div class="int-item"><label>Maturidade Digital</label><select><option>Iniciante</option><option>Intermediário</option><option>Avançado</option></select></div>
+        <div class="int-item"><label>Potencial de Crescimento</label><select><option>Alto</option><option>Médio</option><option>Em desenvolvimento</option></select></div>
+        <div class="int-item"><label>Próximo Passo</label><input type="text" placeholder="Ex: Escalar para Crescimento"></div>
+        <div class="int-item"><label>Observações</label><input type="text" placeholder="Notas internas..."></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>Você não está contratando<br>apenas campanhas.<br>Está entrando em um<br><em>sistema de crescimento.</em></h2>
+  <p>Construído para transformar supermercados locais em referências da sua cidade — com método, planejamento e visão de longo prazo.</p>
+  <a href="https://wa.me/5511983912170?text=Olá!%20Acabei%20de%20ver%20o%20material%20de%20onboarding%20da%20GST%20e%20quero%20dar%20o%20próximo%20passo." class="cta-btn" target="_blank">💬 Falar com a equipe GST</a>
+</section>
+
+<footer class="page-footer">
+  <p>GST System — Onboarding de Crescimento para Supermercados · v1.0 · Mai 2026</p>
+  <p><strong>GST Marketing</strong> · agenciagst.com.br · Uso interno e para clientes</p>
+</footer>
+
+</main>
+
+<script>
+function ck(row, wrapId) {
+  row.classList.toggle('done');
+  const wrap = document.getElementById(wrapId);
+  const total = wrap.querySelectorAll('.cl-row').length;
+  const done = wrap.querySelectorAll('.cl-row.done').length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const id = wrapId.replace('cl-','');
+  const pf = document.getElementById('pf-'+id);
+  const pc = document.getElementById('pc-'+id);
+  if(pf) pf.style.width = pct+'%';
+  if(pc) pc.textContent = done+'/'+total;
+  const allRows = document.querySelectorAll('.cl-row').length;
+  const allDone = document.querySelectorAll('.cl-row.done').length;
+  const gPct = allRows ? Math.round(allDone/allRows*100) : 0;
+  const sb = document.getElementById('sbfill');
+  const sp = document.getElementById('pct');
+  if(sb) sb.style.width = gPct+'%';
+  if(sp) sp.textContent = gPct+'%';
+}
+
+function toggleInterno() {
+  const body = document.getElementById('int-body');
+  const btn = document.getElementById('btn-int');
+  body.classList.toggle('show');
+  btn.textContent = body.classList.contains('show') ? '▲ Recolher' : '▼ Expandir';
+}
+
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sb-link');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, {threshold:0.2});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
