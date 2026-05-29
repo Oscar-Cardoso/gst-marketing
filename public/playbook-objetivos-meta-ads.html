@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Objetivos de Campanha Meta Ads | GST System</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:264px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:26px 24px 18px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,0.65);font-weight:600}
+.sb-prog{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:6px}
+.sb-prog-lbl strong{color:var(--green);font-weight:700}
+.sb-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden}
+.sb-fill{height:100%;background:var(--green);border-radius:10px;transition:width .4s;width:0%}
+.sb-nav{padding:12px 0;flex:1}
+.sb-nav-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,0.18);text-transform:uppercase;letter-spacing:2px;padding:5px 24px 2px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 24px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.42);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.sb-link.active{color:#fff;background:rgba(0,196,106,0.1);border-left-color:var(--green)}
+.sb-num{font-family:monospace;font-size:10px;color:var(--green);min-width:22px;opacity:.55}
+.sb-link.active .sb-num{opacity:1}
+.sb-foot{padding:16px 24px;border-top:1px solid var(--border)}
+.sb-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0a0e1a 0%,#0d1b2a 60%,#0a2040 100%);padding:70px 64px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,0.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;left:20%;width:400px;height:400px;background:radial-gradient(circle,rgba(59,130,246,0.06),transparent 65%);border-radius:50%;pointer-events:none}
+.hero-tags{display:flex;align-items:center;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.htag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.htag-cat{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,180,0,.2)}
+.htag-lvl{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.htag-ver{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07)}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,50px);font-weight:900;line-height:1.1;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.5);max-width:580px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-tese{background:rgba(0,196,106,.08);border:1px solid rgba(0,196,106,.2);border-radius:14px;padding:20px 24px;max-width:600px;margin-bottom:36px;position:relative}
+.hero-tese-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;font-family:var(--font-head)}
+.hero-tese p{font-size:15px;font-weight:600;color:#fff;line-height:1.6;font-style:italic}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* SEÇÕES */
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day);background:#fff}
+.section:nth-child(odd){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(19px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:7px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+/* ALGORITMO VISUAL */
+.algo-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:24px 0}
+.algo-card{background:var(--navy);border-radius:14px;padding:24px;border:1px solid var(--border);position:relative;overflow:hidden}
+.algo-card::after{content:'';position:absolute;bottom:-30px;right:-30px;width:100px;height:100px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.algo-obj{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+.algo-busca{margin-bottom:12px}
+.algo-busca h5{font-size:10px;font-weight:700;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:1px;margin-bottom:7px;font-family:var(--font-head)}
+.algo-busca ul{list-style:none;padding:0}
+.algo-busca li{font-size:12px;color:rgba(255,255,255,.65);padding:3px 0;display:flex;gap:7px}
+.algo-busca li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+.algo-nao{background:rgba(229,57,53,.08);border:1px solid rgba(229,57,53,.15);border-radius:8px;padding:10px 12px}
+.algo-nao h5{font-size:10px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;font-family:var(--font-head)}
+.algo-nao li{font-size:12px;color:rgba(255,255,255,.45);padding:2px 0;display:flex;gap:7px}
+.algo-nao li::before{content:'✗';color:var(--red);min-width:14px}
+
+/* OBJETIVO CARDS GRANDES */
+.obj-section{margin:28px 0}
+.obj-card{background:#fff;border-radius:16px;padding:32px;border:1px solid var(--border-day);margin-bottom:20px;border-left:5px solid var(--green)}
+.obj-card.wpp{border-left-color:var(--green)}
+.obj-card.link{border-left-color:#3b82f6}
+.obj-card.eng{border-left-color:var(--yellow)}
+.obj-card.alc{border-left-color:#8b5cf6}
+.obj-header{display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.obj-title{display:flex;align-items:center;gap:12px}
+.obj-icon{font-size:32px}
+.obj-title h3{font-family:var(--font-head);font-size:20px;font-weight:800;color:var(--navy)}
+.obj-title p{font-size:13px;color:var(--gray);margin-top:2px}
+.obj-badge{display:inline-flex;align-items:center;padding:6px 16px;border-radius:20px;font-size:12px;font-weight:700;font-family:var(--font-head);white-space:nowrap}
+.badge-wpp{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-link{background:rgba(59,130,246,.1);color:#2563eb}
+.badge-eng{background:rgba(245,180,0,.1);color:#b07500}
+.badge-alc{background:rgba(139,92,246,.1);color:#7c3aed}
+.obj-body{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:14px}
+.obj-box{border-radius:10px;padding:16px}
+.obj-box.quando{background:var(--gray-light);border:1px solid var(--border-day)}
+.obj-box.procura{background:var(--navy);border:1px solid var(--border)}
+.obj-box.kpi{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.obj-box.vantagens{background:rgba(0,196,106,.06);border:1px solid var(--green-line)}
+.obj-box.limites{background:rgba(229,57,53,.05);border:1px solid rgba(229,57,53,.15)}
+.obj-box h5{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1px;margin-bottom:9px;font-family:var(--font-head)}
+.obj-box.quando h5{color:var(--gray)}
+.obj-box.procura h5{color:var(--green)}
+.obj-box.kpi h5{color:var(--green)}
+.obj-box.vantagens h5{color:var(--green-dark)}
+.obj-box.limites h5{color:var(--red)}
+.obj-box ul{list-style:none;padding:0}
+.obj-box li{font-size:12px;padding:3px 0;display:flex;gap:7px}
+.obj-box.quando li{color:var(--text)}
+.obj-box.procura li,.obj-box.kpi li{color:rgba(255,255,255,.65)}
+.obj-box.vantagens li{color:var(--navy)}
+.obj-box.limites li{color:var(--red)}
+.obj-box li::before{content:'→';font-weight:700;min-width:14px}
+.obj-box.quando li::before{color:var(--green)}
+.obj-box.procura li::before{color:var(--green)}
+.obj-box.kpi li::before{color:var(--green)}
+.obj-box.vantagens li::before{color:var(--green)}
+.obj-box.limites li::before{color:var(--red);content:'!'}
+
+/* KPI DESTAQUE */
+.kpi-destaque{background:var(--navy);border-radius:12px;padding:16px;margin-top:12px}
+.kpi-destaque h6{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-family:var(--font-head)}
+.kpi-row-small{display:flex;gap:8px;flex-wrap:wrap}
+.kpi-item{flex:1;min-width:80px;background:rgba(255,255,255,.04);border-radius:8px;padding:10px;text-align:center;border:1px solid var(--border)}
+.kpi-item strong{display:block;font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--green)}
+.kpi-item span{font-size:10px;color:rgba(255,255,255,.35);margin-top:2px;display:block}
+.kpi-item.bom strong{color:var(--green)}
+.kpi-item.ok strong{color:var(--yellow)}
+.kpi-item.ruim strong{color:var(--red)}
+
+/* TABELA */
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-green{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-blue{background:rgba(59,130,246,.1);color:#2563eb}
+.badge-yellow{background:rgba(245,180,0,.1);color:#b07500}
+.badge-purple{background:rgba(139,92,246,.1);color:#7c3aed}
+.badge-red{background:rgba(229,57,53,.08);color:var(--red)}
+
+/* MATRIZ */
+.matriz-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:16px;margin:24px 0}
+.matriz-card{background:var(--navy);border-radius:16px;padding:26px;border:1px solid var(--border);position:relative;overflow:hidden}
+.matriz-card::before{content:'';position:absolute;top:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.matriz-card h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;margin-bottom:16px;position:relative}
+.matriz-bars{display:flex;flex-direction:column;gap:8px;position:relative}
+.matriz-bar-row{display:flex;align-items:center;gap:10px}
+.matriz-bar-lbl{font-size:11px;color:rgba(255,255,255,.5);min-width:90px;font-weight:500}
+.matriz-bar-wrap{flex:1;height:8px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.matriz-bar-fill{height:100%;border-radius:10px;transition:width .6s}
+.fill-wpp{background:var(--green)}
+.fill-alc{background:#8b5cf6}
+.fill-eng{background:var(--yellow)}
+.fill-link{background:#3b82f6}
+.matriz-bar-pct{font-family:var(--font-head);font-size:11px;font-weight:700;color:rgba(255,255,255,.5);min-width:30px;text-align:right}
+
+/* FLUXO MÉTODO */
+.metodo-flow{display:flex;flex-direction:column;gap:0;margin:28px 0;max-width:500px}
+.flow-step{display:flex;gap:16px;align-items:flex-start;padding:20px 0;border-bottom:1px solid var(--border-day)}
+.flow-step:last-child{border-bottom:none}
+.flow-ind{display:flex;flex-direction:column;align-items:center;gap:0}
+.flow-circle{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:13px;font-weight:800;flex-shrink:0;border:2px solid}
+.flow-1{background:rgba(139,92,246,.15);border-color:#8b5cf6;color:#8b5cf6}
+.flow-2{background:rgba(245,180,0,.12);border-color:var(--yellow);color:var(--yellow)}
+.flow-3{background:rgba(0,196,106,.12);border-color:var(--green);color:var(--green)}
+.flow-4{background:rgba(0,196,106,.12);border-color:var(--green);color:var(--green)}
+.flow-5{background:rgba(59,130,246,.12);border-color:#3b82f6;color:#3b82f6}
+.flow-arrow{width:2px;flex:1;background:var(--border-day);min-height:16px;margin:4px 0}
+.flow-step:last-child .flow-arrow{display:none}
+.flow-content{flex:1;padding-top:8px}
+.flow-content h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.flow-content p{font-size:13px;color:var(--gray);line-height:1.5}
+.flow-tag{display:inline-flex;align-items:center;margin-top:8px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;font-family:var(--font-head)}
+.ft-alc{background:rgba(139,92,246,.1);color:#7c3aed}
+.ft-eng{background:rgba(245,180,0,.1);color:#b07500}
+.ft-wpp{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.ft-mix{background:rgba(59,130,246,.1);color:#2563eb}
+
+/* ERROS */
+.erros-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:24px 0}
+.erro-card{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-left:4px solid var(--red)}
+.erro-num{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--red);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+.erro-card h4{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.erro-card p{font-size:13px;color:var(--gray);line-height:1.5;margin-bottom:12px}
+.erro-fix{background:var(--gray-light);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:var(--navy);font-weight:600}
+.erro-fix span{color:var(--green)}
+
+/* FRASES CLIENTE */
+.frases-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:24px 0}
+.frase-card{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day)}
+.frase-obj{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head);text-transform:uppercase;letter-spacing:.5px;margin-bottom:10px}
+.frase-card h4{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:8px}
+.frase-box{background:var(--gray-light);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:12px 14px;font-size:13px;color:var(--text);font-style:italic;line-height:1.6}
+
+/* CALLOUT */
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.strategy{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.strategy::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.tip{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.warning{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.strategy .c-lbl{color:var(--green)}
+.callout.tip .c-lbl{color:var(--green-dark)}
+.callout.warning .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.strategy h3{color:#fff}
+.callout.tip h3{color:var(--navy)}
+.callout.warning h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.strategy p{color:rgba(255,255,255,.65)}
+.callout.tip p{color:var(--navy)}
+.callout.warning p{color:#5a3b00}
+.callout ul{list-style:none;padding:0;margin-top:10px;position:relative}
+.callout li{font-size:13px;padding:4px 0;display:flex;gap:8px}
+.callout.strategy li{color:rgba(255,255,255,.65)}
+.callout.tip li{color:var(--navy)}
+.callout li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+
+/* CHECKLIST */
+.cl-wrap{background:#fff;border-radius:16px;padding:26px;border:1px solid var(--border-day);margin:26px 0;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.cl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.cl-head h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy)}
+.cl-prog{display:flex;align-items:center;gap:8px}
+.cl-track{width:80px;height:4px;background:var(--border-day);border-radius:10px;overflow:hidden}
+.cl-fill{height:100%;background:var(--green);border-radius:10px;transition:width .3s}
+.cl-count{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--green)}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:6px}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:20px;height:20px;border:2px solid var(--border-day);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:11px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.5}
+.cl-sub{font-size:11px;color:var(--text-dim);margin-top:1px}
+
+/* PILARES */
+.pilares{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:22px 0}
+.pilar{background:var(--navy);border-radius:14px;padding:22px 18px;border:1px solid var(--border);position:relative;overflow:hidden}
+.pilar::after{content:'';position:absolute;bottom:-30px;right:-30px;width:90px;height:90px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.pilar-n{font-size:10px;font-weight:700;color:var(--green);margin-bottom:9px;display:block;font-family:var(--font-head);letter-spacing:1px}
+.pilar h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;margin-bottom:5px;line-height:1.3}
+.pilar p{font-size:12px;color:rgba(255,255,255,.42);line-height:1.5}
+
+/* FORMULA */
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:14px;padding:18px 26px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.5}
+.formula em{color:var(--green);font-style:normal}
+
+/* CTA */
+.cta-sec{background:var(--navy);padding:70px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:12px;position:relative}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:14px 30px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:14px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,196,106,.25)}
+.page-footer{background:var(--navy2);padding:20px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .5s ease both}
+.hero-tags{animation-delay:.1s}.hero h1{animation-delay:.2s}.hero-sub{animation-delay:.3s}.hero-tese{animation-delay:.4s}.hero-stats{animation-delay:.5s}
+
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}.main{margin-left:0}
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo">GST <span>System</span></div><div class="sb-sub">Sistema Operacional GST</div></div>
+  <div class="sb-meta">
+    <div class="sb-row">📂 Categoria: <span>Tráfego Pago</span></div>
+    <div class="sb-row">🏷️ Nível: <span>Operacional + Comercial</span></div>
+    <div class="sb-row">🔖 Versão: <span>v1.0 · Mai 2026</span></div>
+    <div class="sb-row">🔒 Uso: <span>Equipe + Cliente</span></div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Progresso <strong id="pct">0%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" id="sbfill"></div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-nav-lbl">Estrutura</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span>Capa</a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span>A Grande Mentira</a>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span>Como a Meta Aprende</a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span>Estrutura GST de Campanhas</a>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span>WhatsApp — Objetivo Principal</a>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span>Tráfego para Link</a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span>Engajamento</a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span>Alcance</a>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span>Tabela Comparativa</a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span>Matriz GST</a>
+    <a class="sb-link" href="#s10"><span class="sb-num">10</span>Erros Mais Comuns</a>
+    <a class="sb-link" href="#s11"><span class="sb-num">11</span>Como Explicar ao Cliente</a>
+    <a class="sb-link" href="#s12"><span class="sb-num">12</span>Método GST — ATRAIR ao DOMINAR</a>
+    <a class="sb-link" href="#s13"><span class="sb-num">13</span>Checklist Executivo</a>
+  </nav>
+  <div class="sb-foot"><div class="sb-tag">⚡ GST System v1.0</div></div>
+</aside>
+
+<main class="main">
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hero-tags">
+    <span class="htag htag-cat">🎯 GST System · Meta Ads</span>
+    <span class="htag htag-lvl">● Operacional + Comercial</span>
+    <span class="htag htag-ver">v1.0 · Mai 2026</span>
+  </div>
+  <h1>Objetivos de Campanha<br><em>Meta Ads</em> para<br>Supermercados</h1>
+  <p class="hero-sub">Este playbook cria alinhamento entre gestor de tráfego, social media, comercial e cliente — e elimina 80% das discussões sobre "a campanha está funcionando ou não?"</p>
+  <div class="hero-tese">
+    <span class="hero-tese-lbl">// tese central GST</span>
+    <p>"Cada objetivo possui uma função específica dentro da estratégia de crescimento do supermercado. Usar o objetivo errado não é apenas ineficiente — é caro."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>12</strong><span>Módulos</span></div>
+    <div class="hero-stat"><strong>4</strong><span>Objetivos mapeados</span></div>
+    <div class="hero-stat"><strong>5</strong><span>Erros eliminados</span></div>
+    <div class="hero-stat"><strong>1</strong><span>Método GST</span></div>
+  </div>
+</section>
+
+<!-- 01 — A GRANDE MENTIRA -->
+<section class="section" id="s1">
+  <div class="sec-lbl">01 · A Grande Mentira</div>
+  <h2>O que supermercados acreditam — e está errado</h2>
+  <p class="sec-desc">Antes de falar sobre objetivos, precisamos destruir três crenças que custam muito dinheiro ao cliente e muito desgaste ao gestor.</p>
+
+  <div class="erros-grid">
+    <div class="erro-card">
+      <div class="erro-num">Mito 01</div>
+      <h4>Mais alcance = mais vendas</h4>
+      <p>Alcance mostra para mais pessoas — mas não escolhe quem vai comprar. É ferramenta de exposição, não de conversão.</p>
+      <div class="erro-fix"><span>Realidade GST:</span> Alcance constrói presença. WhatsApp converte.</div>
+    </div>
+    <div class="erro-card">
+      <div class="erro-num">Mito 02</div>
+      <h4>Mais curtidas = mais vendas</h4>
+      <p>Engajamento otimiza para quem interage — não para quem compra. São públicos diferentes com comportamentos diferentes.</p>
+      <div class="erro-fix"><span>Realidade GST:</span> Curtidas não pagam boleto. Conversas no WA sim.</div>
+    </div>
+    <div class="erro-card">
+      <div class="erro-num">Mito 03</div>
+      <h4>Mais seguidores = mais vendas</h4>
+      <p>Seguidor é audiência — não cliente. Sem campanha de conversão ativa, seguidor não compra.</p>
+      <div class="erro-fix"><span>Realidade GST:</span> Seguidores aquecem. Campanhas de WA convertem.</div>
+    </div>
+  </div>
+
+  <div class="callout strategy">
+    <span class="c-lbl">// visão GST</span>
+    <h3>O algoritmo entrega exatamente o que você pede — nem mais, nem menos</h3>
+    <p>Se você pedir alcance, a Meta vai mostrar para muita gente. Se você pedir engajamento, vai buscar quem curte. Se você pedir mensagens, vai buscar quem conversa. O problema começa quando o gestor pede uma coisa e o cliente espera outra. Este playbook existe para alinhar essa expectativa.</p>
+  </div>
+</section>
+
+<!-- 02 — COMO A META APRENDE -->
+<section class="section" id="s2">
+  <div class="sec-lbl">02 · Como a Meta Aprende</div>
+  <h2>A Meta otimiza para aquilo que você pede</h2>
+  <p class="sec-desc">Cada objetivo ensina coisas diferentes ao algoritmo. Entender isso é o que separa quem gasta de quem investe.</p>
+
+  <div class="algo-grid">
+    <div class="algo-card">
+      <div class="algo-obj">📡 Alcance</div>
+      <div class="algo-busca">
+        <h5>A Meta busca</h5>
+        <ul><li>Mostrar para mais pessoas únicas</li><li>Maximizar impressões no raio</li><li>Frequência distribuída</li></ul>
+      </div>
+      <div class="algo-nao">
+        <h5>Não busca</h5>
+        <ul class="algo-nao"><li>Mensagens ou conversas</li><li>Cliques ou conversões</li></ul>
+      </div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-obj">💬 Mensagens (WA)</div>
+      <div class="algo-busca">
+        <h5>A Meta busca</h5>
+        <ul><li>Pessoas com histórico de conversar</li><li>Pessoas que clicam em botões WA</li><li>Alta probabilidade de interação</li></ul>
+      </div>
+      <div class="algo-nao">
+        <h5>Não busca</h5>
+        <ul class="algo-nao"><li>Alcance máximo</li><li>Curtidas ou seguidores</li></ul>
+      </div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-obj">👍 Engajamento</div>
+      <div class="algo-busca">
+        <h5>A Meta busca</h5>
+        <ul><li>Pessoas que curtem posts</li><li>Pessoas que comentam</li><li>Pessoas que compartilham</li></ul>
+      </div>
+      <div class="algo-nao">
+        <h5>Não busca</h5>
+        <ul class="algo-nao"><li>Conversas ou compras</li><li>Cliques em links</li></ul>
+      </div>
+    </div>
+    <div class="algo-card">
+      <div class="algo-obj">🔗 Tráfego (Link)</div>
+      <div class="algo-busca">
+        <h5>A Meta busca</h5>
+        <ul><li>Pessoas que clicam em links</li><li>Comportamento de navegação</li><li>Curiosidade e intenção</li></ul>
+      </div>
+      <div class="algo-nao">
+        <h5>Não busca</h5>
+        <ul class="algo-nao"><li>Quem vai converter na página</li><li>Mensagens no WA</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="c-lbl">// princípio central</span>
+    <h3>Objetivo errado = público errado = dinheiro errado</h3>
+    <p>Campanha de engajamento para gerar WhatsApp é como contratar vendedor para fazer panfleto. A ferramenta certa faz a coisa certa — a ferramenta errada faz outra coisa muito bem, mas não o que você queria.</p>
+  </div>
+</section>
+
+<!-- 03 — ESTRUTURA GST -->
+<section class="section" id="s3">
+  <div class="sec-lbl">03 · Estrutura GST de Campanhas</div>
+  <h2>Os 4 tipos de campanha — e para que serve cada um</h2>
+  <p class="sec-desc">Na GST, toda campanha tem função estratégica definida antes de ser criada. Sem função = sem sentido.</p>
+
+  <div class="pilares">
+    <div class="pilar">
+      <span class="pilar-n">AQUISIÇÃO //</span>
+      <h4>Trazer novos clientes</h4>
+      <p>WhatsApp · Link · Vídeo</p>
+    </div>
+    <div class="pilar">
+      <span class="pilar-n">AQUECIMENTO //</span>
+      <h4>Fortalecer marca</h4>
+      <p>Engajamento · Alcance</p>
+    </div>
+    <div class="pilar">
+      <span class="pilar-n">RETENÇÃO //</span>
+      <h4>Aparecer com frequência</h4>
+      <p>Alcance · Engajamento</p>
+    </div>
+    <div class="pilar">
+      <span class="pilar-n">CONVERSÃO //</span>
+      <h4>Gerar ação imediata</h4>
+      <p>WhatsApp · Link</p>
+    </div>
+  </div>
+
+  <div class="formula"><em>Função antes de formato.</em> Antes de criar a campanha, defina: estamos <em>adquirindo</em>, <em>aquecendo</em>, <em>retendo</em> ou <em>convertendo</em>?</div>
+</section>
+
+<!-- 04 — WHATSAPP -->
+<section class="section" id="s4">
+  <div class="sec-lbl">04 · WhatsApp — Objetivo Principal GST</div>
+  <h2>O objetivo que mais converte no varejo local</h2>
+  <p class="sec-desc">Para supermercados, campanha de mensagens para WhatsApp é o objetivo com maior retorno direto e mensurável.</p>
+
+  <div class="obj-card wpp">
+    <div class="obj-header">
+      <div class="obj-title">
+        <div class="obj-icon">💬</div>
+        <div>
+          <h3>Mensagens — WhatsApp</h3>
+          <p>Objetivo primário de conversão da GST</p>
+        </div>
+      </div>
+      <span class="obj-badge badge-wpp">⭐ Principal GST</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-box quando">
+        <h5>Quando usar</h5>
+        <ul>
+          <li>Ofertas diárias</li>
+          <li>Inauguração / reinauguração</li>
+          <li>Crescimento do Grupo VIP</li>
+          <li>Comunidade e lista VIP</li>
+          <li>Promoções relâmpago</li>
+          <li>Churrasco, FDS, datas</li>
+        </ul>
+      </div>
+      <div class="obj-box procura">
+        <h5>A Meta procura</h5>
+        <ul>
+          <li>Histórico de clicar em WA</li>
+          <li>Perfil de conversar</li>
+          <li>Alta intenção de contato</li>
+        </ul>
+      </div>
+      <div class="obj-box vantagens">
+        <h5>Vantagens</h5>
+        <ul>
+          <li>Resultado rápido e mensurável</li>
+          <li>Gera base própria</li>
+          <li>Custo por conversa claro</li>
+          <li>Canal recorrente após conversão</li>
+        </ul>
+      </div>
+      <div class="obj-box limites">
+        <h5>Limitações</h5>
+        <ul>
+          <li>Depende do atendimento</li>
+          <li>Depende da oferta ser forte</li>
+        </ul>
+      </div>
+    </div>
+    <div class="kpi-destaque" style="margin-top:20px">
+      <h6>// KPI GST — Custo por Conversa</h6>
+      <div class="kpi-row-small">
+        <div class="kpi-item bom"><strong>até R$1,50</strong><span>Excelente</span></div>
+        <div class="kpi-item ok"><strong>até R$3,00</strong><span>Bom</span></div>
+        <div class="kpi-item ruim"><strong>acima R$5,00</strong><span>Atenção</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 — LINK -->
+<section class="section" id="s5">
+  <div class="sec-lbl">05 · Tráfego para Link</div>
+  <h2>Quando a conversão acontece fora do WA</h2>
+  <p class="sec-desc">Menos usado no varejo alimentar — mas essencial para captação, sorteios e landing pages estruturadas.</p>
+
+  <div class="obj-card link">
+    <div class="obj-header">
+      <div class="obj-title">
+        <div class="obj-icon">🔗</div>
+        <div>
+          <h3>Tráfego — Link</h3>
+          <p>Para quando a conversão é em página externa</p>
+        </div>
+      </div>
+      <span class="obj-badge badge-link">Situacional</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-box quando">
+        <h5>Quando usar</h5>
+        <ul>
+          <li>Landing pages de captação</li>
+          <li>Formulário de cadastro</li>
+          <li>Sorteios com inscrição</li>
+          <li>Eventos com confirmação</li>
+          <li>Pesquisas de satisfação</li>
+        </ul>
+      </div>
+      <div class="obj-box procura">
+        <h5>A Meta procura</h5>
+        <ul>
+          <li>Pessoas que clicam em links</li>
+          <li>Comportamento de navegação web</li>
+          <li>Intenção de descoberta</li>
+        </ul>
+      </div>
+      <div class="obj-box limites">
+        <h5>Erro mais comum</h5>
+        <ul>
+          <li>Culpar a campanha</li>
+          <li>Quando o problema é a página</li>
+          <li>Carregamento lento</li>
+          <li>Formulário ruim</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout warning">
+    <span class="c-lbl">// atenção operacional</span>
+    <h3>Campanha de link não converte? Veja a página primeiro</h3>
+    <p>Antes de pausar ou trocar a campanha, verifique: a página carrega em menos de 3 segundos? O formulário tem menos de 5 campos? O CTA está visível sem scroll? Na maioria dos casos, o problema não é a campanha — é o destino.</p>
+  </div>
+</section>
+
+<!-- 06 — ENGAJAMENTO -->
+<section class="section" id="s6">
+  <div class="sec-lbl">06 · Engajamento</div>
+  <h2>O objetivo mais mal utilizado no varejo</h2>
+  <p class="sec-desc">Engajamento não gera WhatsApp. Engajamento gera autoridade, prova social e audiência aquecida. São funções diferentes.</p>
+
+  <div class="obj-card eng">
+    <div class="obj-header">
+      <div class="obj-title">
+        <div class="obj-icon">👍</div>
+        <div>
+          <h3>Engajamento</h3>
+          <p>Para fortalecer marca e aquecer audiência</p>
+        </div>
+      </div>
+      <span class="obj-badge badge-eng">Aquecimento</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-box quando">
+        <h5>Quando usar</h5>
+        <ul>
+          <li>Fortalecer o perfil do Instagram</li>
+          <li>Ganhar prova social nos posts</li>
+          <li>Aquecer audiência para remarketing</li>
+          <li>Campanhas institucionais</li>
+          <li>Vídeos humanizados de bastidor</li>
+        </ul>
+      </div>
+      <div class="obj-box procura">
+        <h5>A Meta procura</h5>
+        <ul>
+          <li>Pessoas que curtem posts</li>
+          <li>Pessoas que comentam</li>
+          <li>Pessoas que compartilham</li>
+        </ul>
+      </div>
+      <div class="obj-box limites">
+        <h5>Quando NÃO usar</h5>
+        <ul>
+          <li>Para gerar WhatsApp</li>
+          <li>Para conversão direta</li>
+          <li>Como principal campanha</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout tip">
+    <span class="c-lbl">// estratégia GST de engajamento</span>
+    <h3>Use engajamento para construir audiência de remarketing</h3>
+    <p>Pessoas que engajaram com o perfil nos últimos 30–90 dias são uma excelente fonte de remarketing para campanhas de WhatsApp. Engajamento alimenta o topo do funil — mas quem converte é a campanha de mensagens.</p>
+  </div>
+</section>
+
+<!-- 07 — ALCANCE -->
+<section class="section" id="s7">
+  <div class="sec-lbl">07 · Alcance</div>
+  <h2>O objetivo mais subestimado — e mais poderoso em inaugurações</h2>
+  <p class="sec-desc">Alcance não converte diretamente — mas domina a consciência local. Para inaugurações e datas especiais, é insubstituível.</p>
+
+  <div class="obj-card">
+    <div class="obj-header">
+      <div class="obj-title">
+        <div class="obj-icon">📡</div>
+        <div>
+          <h3>Alcance</h3>
+          <p>Para dominar a consciência local</p>
+        </div>
+      </div>
+      <span class="obj-badge badge-purple">Dominação</span>
+    </div>
+    <div class="obj-body">
+      <div class="obj-box quando">
+        <h5>Quando usar</h5>
+        <ul>
+          <li>Inauguração e reinauguração</li>
+          <li>Datas especiais (Natal, Páscoa)</li>
+          <li>Ofertas massivas da semana</li>
+          <li>Anunciar novidade para a cidade</li>
+          <li>Construção de presença constante</li>
+        </ul>
+      </div>
+      <div class="obj-box procura">
+        <h5>A Meta procura</h5>
+        <ul>
+          <li>Mostrar para o maior número de pessoas únicas no raio</li>
+          <li>Frequência controlada</li>
+        </ul>
+      </div>
+      <div class="obj-box vantagens">
+        <h5>Vantagens</h5>
+        <ul>
+          <li>CPM mais barato</li>
+          <li>Alta cobertura local</li>
+          <li>Alimenta remarketing futuro</li>
+          <li>Constrói lembrança de marca</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout strategy">
+    <span class="c-lbl">// exemplo GST de alcance</span>
+    <h3>"Queremos que toda a cidade saiba que existe promoção"</h3>
+    <p>Para inaugurações, o objetivo não é conversa imediata — é que todo morador do raio de 5 km saiba que aquela loja está chegando. Alcance faz isso melhor e mais barato que qualquer outro objetivo. Depois que a cidade conhece, o WhatsApp converte.</p>
+  </div>
+</section>
+
+<!-- 08 — TABELA -->
+<section class="section" id="s8">
+  <div class="sec-lbl">08 · Tabela Comparativa</div>
+  <h2>Os 4 objetivos — decisão rápida</h2>
+  <p class="sec-desc">Referência operacional para o gestor escolher o objetivo certo em menos de 30 segundos.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Objetivo</th><th>Função</th><th>Melhor uso</th><th>KPI principal</th><th>Erro clássico</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><span class="badge badge-green">💬 WhatsApp</span></td>
+          <td>Conversão direta</td>
+          <td>Ofertas, promoções, grupo VIP</td>
+          <td>Custo por conversa</td>
+          <td>Oferta fraca → conversa cara</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-blue">🔗 Link</span></td>
+          <td>Captação externa</td>
+          <td>Sorteios, formulários, landing pages</td>
+          <td>CPC + conversão da página</td>
+          <td>Culpar campanha por página ruim</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-yellow">👍 Engajamento</span></td>
+          <td>Aquecimento</td>
+          <td>Vídeos, bastidores, institucional</td>
+          <td>CPE, alcance orgânico</td>
+          <td>Usar para gerar WA diretamente</td>
+        </tr>
+        <tr>
+          <td><span class="badge badge-purple">📡 Alcance</span></td>
+          <td>Dominação local</td>
+          <td>Inauguração, datas, cobertura massiva</td>
+          <td>CPM, frequência, cobertura</td>
+          <td>Esperar conversas diretas</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 09 — MATRIZ GST -->
+<section class="section" id="s9">
+  <div class="sec-lbl">09 · Matriz GST</div>
+  <h2>Distribuição ideal por perfil de cliente</h2>
+  <p class="sec-desc">A distribuição de verba entre objetivos muda conforme o momento e o perfil do supermercado. Use esta matriz como referência.</p>
+
+  <div class="matriz-grid">
+    <div class="matriz-card">
+      <h4>🆕 Cliente Novo</h4>
+      <div class="matriz-bars">
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">WhatsApp</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-wpp" style="width:70%"></div></div><span class="matriz-bar-pct">70%</span></div>
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">Alcance</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-alc" style="width:30%"></div></div><span class="matriz-bar-pct">30%</span></div>
+      </div>
+    </div>
+    <div class="matriz-card">
+      <h4>🎉 Inauguração</h4>
+      <div class="matriz-bars">
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">Alcance</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-alc" style="width:60%"></div></div><span class="matriz-bar-pct">60%</span></div>
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">WhatsApp</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-wpp" style="width:40%"></div></div><span class="matriz-bar-pct">40%</span></div>
+      </div>
+    </div>
+    <div class="matriz-card">
+      <h4>🏪 Loja Consolidada</h4>
+      <div class="matriz-bars">
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">WhatsApp</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-wpp" style="width:50%"></div></div><span class="matriz-bar-pct">50%</span></div>
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">Alcance</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-alc" style="width:30%"></div></div><span class="matriz-bar-pct">30%</span></div>
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">Engajamento</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-eng" style="width:20%"></div></div><span class="matriz-bar-pct">20%</span></div>
+      </div>
+    </div>
+    <div class="matriz-card">
+      <h4>🏆 Construção de Marca</h4>
+      <div class="matriz-bars">
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">Engajamento</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-eng" style="width:40%"></div></div><span class="matriz-bar-pct">40%</span></div>
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">Alcance</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-alc" style="width:40%"></div></div><span class="matriz-bar-pct">40%</span></div>
+        <div class="matriz-bar-row"><span class="matriz-bar-lbl">WhatsApp</span><div class="matriz-bar-wrap"><div class="matriz-bar-fill fill-wpp" style="width:20%"></div></div><span class="matriz-bar-pct">20%</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 10 — ERROS -->
+<section class="section" id="s10">
+  <div class="sec-lbl">10 · Erros Mais Comuns</div>
+  <h2>Os 5 erros que custam mais caro</h2>
+  <p class="sec-desc">Cada erro tem uma causa, uma consequência e uma correção. Reconheça antes de repetir.</p>
+
+  <div class="erros-grid">
+    <div class="erro-card">
+      <div class="erro-num">Erro 01</div>
+      <h4>Usar engajamento esperando vendas</h4>
+      <p>A campanha performa bem em curtidas — mas o cliente pergunta por que não chegou conversa no WA. Objetivos diferentes, públicos diferentes.</p>
+      <div class="erro-fix"><span>Correção:</span> Separar campanhas de aquecimento das de conversão. Nunca misturar KPI.</div>
+    </div>
+    <div class="erro-card">
+      <div class="erro-num">Erro 02</div>
+      <h4>Usar alcance esperando conversas</h4>
+      <p>Cliente vê alcance alto no relatório e pergunta por que poucas conversas. Alcance distribui impressões — não busca quem vai conversar.</p>
+      <div class="erro-fix"><span>Correção:</span> Alinhar na reunião: alcance = presença. WhatsApp = conversa. São campanhas diferentes.</div>
+    </div>
+    <div class="erro-card">
+      <div class="erro-num">Erro 03</div>
+      <h4>Usar WhatsApp sem oferta forte</h4>
+      <p>Campanha de mensagens com criativo fraco ou oferta genérica gera custo alto por conversa — e o cliente culpa a campanha.</p>
+      <div class="erro-fix"><span>Correção:</span> Oferta precisa ser específica, com preço visível e urgência real. Criativo fraco = conversa cara.</div>
+    </div>
+    <div class="erro-card">
+      <div class="erro-num">Erro 04</div>
+      <h4>Trocar campanha antes do aprendizado</h4>
+      <p>Pausar ou editar campanha nos primeiros 5–7 dias reinicia a fase de aprendizado e desperdiça todo o dado acumulado.</p>
+      <div class="erro-fix"><span>Correção:</span> Aguardar 5–7 dias e 50 eventos antes de qualquer decisão. Dados precisam de tempo.</div>
+    </div>
+    <div class="erro-card">
+      <div class="erro-num">Erro 05</div>
+      <h4>Avaliar campanha apenas por curtidas</h4>
+      <p>Curtida não é KPI de negócio. Supermercado precisa de cupom, conversa, faturamento — não de aprovação social.</p>
+      <div class="erro-fix"><span>Correção:</span> Definir KPI antes de criar a campanha. Cada objetivo tem seu indicador correto.</div>
+    </div>
+  </div>
+</section>
+
+<!-- 11 — FRASES PARA CLIENTE -->
+<section class="section" id="s11">
+  <div class="sec-lbl">11 · Como Explicar ao Cliente</div>
+  <h2>Frases prontas para cada objetivo</h2>
+  <p class="sec-desc">Linguagem simplificada que alinha expectativa, evita frustração e posiciona o gestor como especialista.</p>
+
+  <div class="frases-grid">
+    <div class="frase-card">
+      <div class="frase-obj badge-purple" style="background:rgba(139,92,246,.1);color:#7c3aed">📡 Alcance</div>
+      <h4>O que dizer ao cliente</h4>
+      <div class="frase-box">"Estamos comprando atenção da cidade. Todo mundo do seu raio vai ver que sua loja existe e tem promoção. É construção de presença — não conversa imediata."</div>
+    </div>
+    <div class="frase-card">
+      <div class="frase-obj badge-yellow">👍 Engajamento</div>
+      <h4>O que dizer ao cliente</h4>
+      <div class="frase-box">"Estamos fortalecendo a autoridade da sua marca. Cada curtida e comentário constrói relevância e aquece o público para as campanhas de WhatsApp."</div>
+    </div>
+    <div class="frase-card">
+      <div class="frase-obj badge-wpp">💬 WhatsApp</div>
+      <h4>O que dizer ao cliente</h4>
+      <div class="frase-box">"Estamos trazendo pessoas interessadas diretamente para o seu canal próprio. Cada conversa no WA é um cliente em potencial que você pode trabalhar para sempre."</div>
+    </div>
+    <div class="frase-card">
+      <div class="frase-obj badge-link">🔗 Link</div>
+      <h4>O que dizer ao cliente</h4>
+      <div class="frase-box">"Estamos levando pessoas para uma página preparada para uma ação específica. O resultado depende tanto da campanha quanto da qualidade da página de destino."</div>
+    </div>
+  </div>
+
+  <div class="callout strategy">
+    <span class="c-lbl">// como usar na reunião</span>
+    <h3>Sempre defina o objetivo antes de apresentar o resultado</h3>
+    <ul>
+      <li>Antes de mostrar o relatório, relembre: "O objetivo desta campanha era [X]"</li>
+      <li>Mostre o KPI correto para aquele objetivo — não o que parece bonito</li>
+      <li>Se o cliente perguntar por que não tem conversa em campanha de alcance — use as frases acima</li>
+      <li>Documento este playbook e envie para o cliente antes do onboarding</li>
+    </ul>
+  </div>
+</section>
+
+<!-- 12 — MÉTODO GST -->
+<section class="section" id="s12">
+  <div class="sec-lbl">12 · Método GST</div>
+  <h2>Do primeiro anúncio à dominação local</h2>
+  <p class="sec-desc">O fluxo completo que guia todos os clientes GST — do zero ao crescimento constante.</p>
+
+  <div class="metodo-flow">
+    <div class="flow-step">
+      <div class="flow-ind"><div class="flow-circle flow-1">01</div><div class="flow-arrow"></div></div>
+      <div class="flow-content">
+        <h4>ATRAIR</h4>
+        <p>Fazer a cidade conhecer a loja. Mostrar que existe, que tem promoção, que vale a visita.</p>
+        <span class="flow-tag ft-alc">📡 Alcance</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-ind"><div class="flow-circle flow-2">02</div><div class="flow-arrow"></div></div>
+      <div class="flow-content">
+        <h4>AQUECER</h4>
+        <p>Fortalecer a marca. Construir familiaridade, prova social e autoridade local.</p>
+        <span class="flow-tag ft-eng">👍 Engajamento</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-ind"><div class="flow-circle flow-3">03</div><div class="flow-arrow"></div></div>
+      <div class="flow-content">
+        <h4>CONVERTER</h4>
+        <p>Transformar interesse em conversa, conversa em compra. Canal direto e mensurável.</p>
+        <span class="flow-tag ft-wpp">💬 WhatsApp</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-ind"><div class="flow-circle flow-4">04</div><div class="flow-arrow"></div></div>
+      <div class="flow-content">
+        <h4>RETER</h4>
+        <p>Manter o cliente comprando com frequência. Reativar quem não interagiu recentemente.</p>
+        <span class="flow-tag ft-wpp">💬 WhatsApp</span>
+        <span class="flow-tag ft-alc" style="margin-left:6px">📡 Alcance</span>
+      </div>
+    </div>
+    <div class="flow-step">
+      <div class="flow-ind"><div class="flow-circle flow-5">05</div><div class="flow-arrow"></div></div>
+      <div class="flow-content">
+        <h4>DOMINAR</h4>
+        <p>Presença constante, lembrança de marca e liderança percebida em toda a cidade.</p>
+        <span class="flow-tag ft-mix">⚡ Todos os objetivos integrados</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula">
+    <em>Atrair</em> → <em>Aquecer</em> → <em>Converter</em> → <em>Reter</em> → <em>Dominar</em>
+  </div>
+
+  <div class="callout tip">
+    <span class="c-lbl">// o método na prática</span>
+    <h3>Supermercado novo: começa no passo 1. Loja consolidada: opera no 3 e 4 simultaneamente.</h3>
+    <p>Não existe "pular etapas". Tentar converter antes de aquecer gera custo alto e resultado ruim. O método GST respeita o tempo de maturação do público e da conta — e entrega resultado consistente por isso.</p>
+  </div>
+</section>
+
+<!-- 13 — CHECKLIST -->
+<section class="section" id="s13">
+  <div class="sec-lbl">13 · Checklist Executivo</div>
+  <h2>Validação antes de subir qualquer campanha</h2>
+  <p class="sec-desc">Use este checklist para garantir que objetivo, criativo, KPI e expectativa do cliente estão alinhados.</p>
+
+  <div class="cl-wrap" id="cl-pre">
+    <div class="cl-head"><h3>✅ Pré-Campanha — Alinhamento de Objetivo</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-pre" style="width:0%"></div></div><span class="cl-count" id="pc-pre">0/6</span></div></div>
+    <div class="cl-items" id="ci-pre">
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Objetivo definido com base na função (aquisição, aquecimento, retenção ou conversão)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">KPI correto definido para o objetivo escolhido</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Cliente informado sobre o que esperar desta campanha</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Criativo alinhado com o objetivo (oferta forte para WA, vídeo para engajamento)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Fase de aprendizado respeitada (5–7 dias sem edição)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Nomenclatura seguindo padrão GST com objetivo no nome</div></div></div>
+    </div>
+  </div>
+
+  <div class="cl-wrap" id="cl-rel">
+    <div class="cl-head"><h3>📊 Relatório — Como Apresentar os Resultados</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-rel" style="width:0%"></div></div><span class="cl-count" id="pc-rel">0/5</span></div></div>
+    <div class="cl-items" id="ci-rel">
+      <div class="cl-row" onclick="ck(this,'cl-rel')"><div class="cl-box"></div><div><div class="cl-text">Relembrar o objetivo da campanha antes de mostrar os números</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-rel')"><div class="cl-box"></div><div><div class="cl-text">Mostrar apenas o KPI correto para aquele objetivo</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-rel')"><div class="cl-box"></div><div><div class="cl-text">Usar as frases prontas do módulo 11 para explicar resultados</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-rel')"><div class="cl-box"></div><div><div class="cl-text">Recomendar próximo passo baseado na Matriz GST</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-rel')"><div class="cl-box"></div><div><div class="cl-text">Documentar decisões e ajustes para histórico da conta</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec" id="s14">
+  <h2>Objetivo certo.<br>KPI certo.<br><em>Resultado certo.</em></h2>
+  <p>Este playbook foi construído para que gestor de tráfego, social media, comercial e cliente falem a mesma língua. Execute com consistência.</p>
+  <a href="https://wa.me/5511983912170?text=Olá!%20Quero%20saber%20mais%20sobre%20a%20metodologia%20GST%20para%20Meta%20Ads." class="cta-btn" target="_blank">💬 Falar com a equipe GST</a>
+</section>
+
+<footer class="page-footer">
+  <p>Objetivos de Campanha Meta Ads · GST System v1.0 · Mai 2026</p>
+  <p><strong>GST Marketing</strong> · agenciagst.com.br · Uso interno e comercial</p>
+</footer>
+
+</main>
+
+<script>
+function ck(row, wrapId) {
+  row.classList.toggle('done');
+  const wrap = document.getElementById(wrapId);
+  const total = wrap.querySelectorAll('.cl-row').length;
+  const done = wrap.querySelectorAll('.cl-row.done').length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const id = wrapId.replace('cl-','');
+  const pf = document.getElementById('pf-'+id);
+  const pc = document.getElementById('pc-'+id);
+  if(pf) pf.style.width = pct+'%';
+  if(pc) pc.textContent = done+'/'+total;
+  const allRows = document.querySelectorAll('.cl-row').length;
+  const allDone = document.querySelectorAll('.cl-row.done').length;
+  const gPct = allRows ? Math.round(allDone/allRows*100) : 0;
+  const sb = document.getElementById('sbfill');
+  const sp = document.getElementById('pct');
+  if(sb) sb.style.width = gPct+'%';
+  if(sp) sp.textContent = gPct+'%';
+}
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sb-link');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, {threshold:0.25});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
