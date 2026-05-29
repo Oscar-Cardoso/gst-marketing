@@ -3,913 +3,634 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Playbook Meta Ads — Supermercados | GST Marketing</title>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<title>Playbook Meta Ads para Supermercados | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --green:#00c46a;--green-dark:#009f56;--green-light:#e6fff4;
   --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
-  --yellow:#f5b400;--red:#e53935;
-  --gray:#64748b;--gray-light:#f4f7fb;--text:#1e293b;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:264px;
 }
-body{font-family:'Inter',sans-serif;background:#fff;color:var(--text);line-height:1.7}
-h1,h2,h3,h4,h5{font-family:'Poppins',sans-serif}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
 
-/* CAPA */
-.capa{background:var(--navy);color:#fff;padding:80px 60px;position:relative;overflow:hidden}
-.capa::before{content:'';position:absolute;top:-100px;right:-100px;width:500px;height:500px;background:radial-gradient(circle,rgba(0,196,106,0.15),transparent 70%);border-radius:50%}
-.capa-badge{display:inline-block;background:rgba(0,196,106,0.15);border:1px solid rgba(0,196,106,0.3);color:var(--green);font-size:12px;font-weight:700;padding:6px 16px;border-radius:20px;letter-spacing:1px;text-transform:uppercase;margin-bottom:24px}
-.capa h1{font-size:clamp(32px,5vw,56px);font-weight:900;line-height:1.1;margin-bottom:20px}
-.capa h1 span{color:var(--green)}
-.capa p{font-size:18px;color:rgba(255,255,255,0.6);max-width:600px;margin-bottom:40px}
-.capa-meta{display:flex;gap:32px;flex-wrap:wrap}
-.capa-meta-item{display:flex;flex-direction:column;gap:4px}
-.capa-meta-item strong{font-size:20px;font-weight:800;color:var(--green);font-family:'Poppins',sans-serif}
-.capa-meta-item span{font-size:12px;color:rgba(255,255,255,0.5);text-transform:uppercase;letter-spacing:0.5px}
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:26px 24px 18px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,0.65);font-weight:600}
+.sb-prog{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:6px}
+.sb-prog-lbl strong{color:var(--green);font-weight:700}
+.sb-bar{height:3px;background:rgba(255,255,255,0.06);border-radius:10px;overflow:hidden}
+.sb-fill{height:100%;background:var(--green);border-radius:10px;transition:width .4s;width:0%}
+.sb-nav{padding:12px 0;flex:1}
+.sb-nav-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,0.18);text-transform:uppercase;letter-spacing:2px;padding:5px 24px 2px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 24px;font-size:12px;font-weight:500;color:rgba(255,255,255,0.42);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,0.04)}
+.sb-link.active{color:#fff;background:rgba(0,196,106,0.1);border-left-color:var(--green)}
+.sb-num{font-family:monospace;font-size:10px;color:var(--green);min-width:22px;opacity:.55}
+.sb-link.active .sb-num{opacity:1}
+.sb-foot{padding:16px 24px;border-top:1px solid var(--border)}
+.sb-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
 
-/* ÍNDICE */
-.indice{background:var(--gray-light);padding:48px 60px}
-.indice h2{font-size:20px;font-weight:800;margin-bottom:24px;color:var(--navy)}
-.indice-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:8px}
-.indice-item{display:flex;align-items:center;gap:12px;padding:12px 16px;background:#fff;border-radius:8px;border:1px solid #e2e8f0;text-decoration:none;color:var(--text);transition:all 0.2s}
-.indice-item:hover{border-color:var(--green);color:var(--green)}
-.indice-num{font-family:'Poppins',sans-serif;font-weight:800;font-size:13px;color:var(--green);min-width:28px}
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
 
-/* SECÇÕES */
-.section{padding:64px 60px;border-bottom:1px solid #f1f5f9}
-.section:nth-child(even){background:var(--gray-light)}
-.section-header{display:flex;align-items:flex-start;gap:20px;margin-bottom:40px}
-.section-num{font-family:'Poppins',sans-serif;font-weight:900;font-size:48px;color:var(--green);opacity:0.3;line-height:1;min-width:60px}
-.section-title{flex:1}
-.section-title h2{font-size:clamp(22px,3vw,32px);font-weight:800;color:var(--navy);margin-bottom:8px}
-.section-title p{color:var(--gray);font-size:15px}
+/* HERO */
+.hero{background:var(--navy);padding:70px 64px 60px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,0.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-tags{display:flex;align-items:center;gap:8px;margin-bottom:22px;flex-wrap:wrap}
+.htag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.htag-cat{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,180,0,.2)}
+.htag-lvl{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.htag-ver{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07)}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,48px);font-weight:900;line-height:1.1;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.5);max-width:560px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-quote{background:rgba(0,196,106,.08);border-left:3px solid var(--green);border-radius:0 12px 12px 0;padding:15px 20px;max-width:560px;font-size:14px;font-weight:600;color:rgba(255,255,255,.82);line-height:1.6;margin-bottom:36px;font-style:italic;position:relative}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* SEÇÕES */
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day);background:#fff}
+.section:nth-child(odd){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(19px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:7px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:620px;line-height:1.6}
+
+/* PILARES */
+.pilares{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:22px 0}
+.pilar{background:var(--navy);border-radius:14px;padding:22px 18px;border:1px solid var(--border);position:relative;overflow:hidden}
+.pilar::after{content:'';position:absolute;bottom:-30px;right:-30px;width:90px;height:90px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.pilar-n{font-size:10px;font-weight:700;color:var(--green);margin-bottom:9px;display:block;font-family:var(--font-head);letter-spacing:1px}
+.pilar h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;margin-bottom:5px;line-height:1.3}
+.pilar p{font-size:12px;color:rgba(255,255,255,.42);line-height:1.5}
 
 /* CARDS */
-.cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:24px 0}
-.card{background:#fff;border-radius:12px;padding:24px;border:1px solid #e2e8f0;border-left:4px solid var(--green)}
-.card.yellow{border-left-color:var(--yellow)}
-.card.red{border-left-color:var(--red)}
-.card.navy{border-left-color:var(--navy);background:var(--navy);color:#fff}
-.card.navy p,.card.navy li{color:rgba(255,255,255,0.7)}
-.card h4{font-size:15px;font-weight:700;margin-bottom:10px;color:var(--navy)}
-.card.navy h4{color:#fff}
-.card p{font-size:14px;color:var(--gray)}
-.card ul{padding-left:16px;margin-top:8px}
-.card li{font-size:13px;color:var(--gray);margin-bottom:4px}
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:22px 0}
+.op-card{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green);transition:all .2s}
+.op-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);transform:translateY(-2px)}
+.op-card.yellow{border-top-color:var(--yellow)}
+.op-card.red{border-top-color:var(--red)}
+.op-card.navy{background:var(--navy);border:1px solid var(--border);border-top:3px solid var(--green)}
+.op-ico{font-size:22px;margin-bottom:9px;display:block}
+.op-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.op-card.navy h4{color:var(--green)}
+.op-card ul{list-style:none;padding:0}
+.op-card li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.op-card li:last-child{border-bottom:none}
+.op-card li::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.op-card.navy li{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.04)}
 
-/* TABELAS */
-.table-wrap{overflow-x:auto;margin:24px 0}
+/* CALLOUT */
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.strategy{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.strategy::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.tip{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.warning{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.callout.danger{background:rgba(229,57,53,.07);border:1px solid rgba(229,57,53,.18)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.strategy .c-lbl{color:var(--green)}
+.callout.tip .c-lbl{color:var(--green-dark)}
+.callout.warning .c-lbl{color:#b07500}
+.callout.danger .c-lbl{color:var(--red)}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.strategy h3{color:#fff}
+.callout.tip h3,.callout.danger h3{color:var(--navy)}
+.callout.warning h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.strategy p{color:rgba(255,255,255,.65)}
+.callout.tip p{color:var(--navy)}
+.callout.warning p{color:#5a3b00}
+.callout ul{list-style:none;padding:0;margin-top:10px;position:relative}
+.callout li{font-size:13px;padding:4px 0;display:flex;gap:8px}
+.callout.strategy li{color:rgba(255,255,255,.65)}
+.callout li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+
+/* TABELA */
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
 table{width:100%;border-collapse:collapse;font-size:13px}
-thead{background:var(--navy);color:#fff}
-th{padding:12px 16px;text-align:left;font-weight:600;font-family:'Poppins',sans-serif;font-size:12px;letter-spacing:0.5px}
-td{padding:11px 16px;border-bottom:1px solid #f1f5f9}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day)}
+tr:last-child td{border-bottom:none}
 tr:hover td{background:#f8fafc}
-.badge{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700}
-.badge-green{background:var(--green-light);color:var(--green-dark)}
-.badge-yellow{background:#fff8e1;color:#f57f17}
-.badge-red{background:#fde8e8;color:var(--red)}
-.badge-navy{background:#e8edf3;color:var(--navy)}
-
-/* HIGHLIGHTS */
-.highlight-box{background:linear-gradient(135deg,var(--navy),var(--navy3));color:#fff;border-radius:16px;padding:32px;margin:24px 0;position:relative;overflow:hidden}
-.highlight-box::before{content:'';position:absolute;top:-50px;right:-50px;width:200px;height:200px;background:radial-gradient(circle,rgba(0,196,106,0.2),transparent);border-radius:50%}
-.highlight-box h3{font-size:20px;font-weight:800;color:var(--green);margin-bottom:12px}
-.highlight-box p{font-size:14px;color:rgba(255,255,255,0.75);line-height:1.7}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-green{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-yellow{background:rgba(245,180,0,.1);color:#b07500}
+.badge-navy{background:rgba(13,27,42,.07);color:var(--navy)}
+.badge-red{background:rgba(229,57,53,.08);color:var(--red)}
 
 /* CHECKLIST */
-.checklist{list-style:none;padding:0;margin:16px 0}
-.checklist li{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f1f5f9;font-size:14px}
-.checklist li:last-child{border-bottom:none}
-.checklist li::before{content:'✓';color:var(--green);font-weight:700;font-size:13px;margin-top:2px;min-width:16px}
+.cl-wrap{background:#fff;border-radius:16px;padding:26px;border:1px solid var(--border-day);margin:26px 0;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.cl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.cl-head h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy)}
+.cl-prog{display:flex;align-items:center;gap:8px}
+.cl-track{width:80px;height:4px;background:var(--border-day);border-radius:10px;overflow:hidden}
+.cl-fill{height:100%;background:var(--green);border-radius:10px;transition:width .3s}
+.cl-count{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--green)}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:6px}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:20px;height:20px;border:2px solid var(--border-day);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:11px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.5}
+.cl-sub{font-size:11px;color:var(--text-dim);margin-top:1px}
+
+/* STEPS */
+.steps{display:flex;flex-direction:column;margin:24px 0}
+.step{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--border-day)}
+.step:last-child{border-bottom:none}
+.step-ind{display:flex;flex-direction:column;align-items:center}
+.step-num{width:40px;height:40px;background:var(--navy);color:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:13px;font-weight:700;flex-shrink:0;border:1px solid var(--green-line)}
+.step-line{width:1px;flex:1;background:var(--border-day);margin:6px 0;min-height:16px}
+.step:last-child .step-line{display:none}
+.step-body{flex:1;padding-top:6px}
+.step-body h4{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:7px}
+.step-body p{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:10px}
+.step-body ul{list-style:none;padding:0}
+.step-body li{font-size:12px;color:var(--gray);padding:3px 0;display:flex;gap:7px}
+.step-body li::before{content:'•';color:var(--green);font-weight:900;min-width:10px}
 
 /* TAGS */
-.tags{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
-.tag{background:var(--green-light);color:var(--green-dark);font-size:12px;font-weight:600;padding:4px 12px;border-radius:20px}
-.tag.dark{background:var(--navy2);color:rgba(255,255,255,0.8)}
-.tag.yellow{background:#fff8e1;color:#e65100}
-.tag.red{background:#fde8e8;color:var(--red)}
+.tag-row{display:flex;flex-wrap:wrap;gap:7px;margin:12px 0}
+.tag{display:inline-flex;align-items:center;gap:5px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:600;font-family:var(--font-head)}
+.tag-g{background:rgba(0,196,106,.1);color:var(--green-dark);border:1px solid rgba(0,196,106,.2)}
+.tag-y{background:rgba(245,180,0,.1);color:#b07500;border:1px solid rgba(245,180,0,.2)}
+.tag-b{background:rgba(2,119,189,.1);color:#0277bd;border:1px solid rgba(2,119,189,.2)}
+.tag-r{background:rgba(229,57,53,.1);color:var(--red);border:1px solid rgba(229,57,53,.2)}
 
-/* FÓRMULA */
-.formula{background:var(--green-light);border:1px solid rgba(0,196,106,0.3);border-radius:12px;padding:20px 24px;margin:16px 0;font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:var(--navy)}
+/* KPIs */
+.kpi-row{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:12px;margin:22px 0}
+.kpi{background:var(--navy);border-radius:12px;padding:18px;text-align:center;border:1px solid var(--border)}
+.kpi strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.kpi span{font-size:11px;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:.3px;margin-top:4px;display:block}
 
-/* ALERTA */
-.alerta{background:#fff8e1;border-left:4px solid var(--yellow);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0;font-size:14px;color:#5d4037}
-.alerta strong{color:#e65100}
+/* FORMULA */
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:14px;padding:18px 26px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.5}
+.formula em{color:var(--green);font-style:normal}
 
-.danger{background:#fde8e8;border-left:4px solid var(--red);border-radius:0 8px 8px 0;padding:16px 20px;margin:16px 0;font-size:14px;color:#7f0000}
+/* TRAIN */
+.train-box{background:var(--navy);border-radius:16px;padding:28px;margin:22px 0;border:1px solid var(--border)}
+.train-box h3{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-bottom:5px}
+.train-box>.sub{font-size:13px;color:rgba(255,255,255,.35);margin-bottom:20px}
+.train-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(165px,1fr));gap:10px}
+.train-item{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px;padding:14px}
+.train-item h5{font-size:11px;font-weight:700;color:var(--green);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;font-family:var(--font-head)}
+.train-item p{font-size:12px;color:rgba(255,255,255,.45);line-height:1.5}
 
-/* NÚMEROS GRANDES */
-.numeros{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:16px;margin:24px 0}
-.numero-card{background:#fff;border-radius:12px;padding:20px;text-align:center;border:1px solid #e2e8f0;box-shadow:0 2px 8px rgba(0,0,0,0.05)}
-.numero-card strong{display:block;font-family:'Poppins',sans-serif;font-size:28px;font-weight:900;color:var(--green)}
-.numero-card span{font-size:12px;color:var(--gray)}
+/* CTA */
+.cta-sec{background:var(--navy);padding:70px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:12px;position:relative}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:440px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:14px 30px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:14px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 10px 28px rgba(0,196,106,.25)}
+.page-footer{background:var(--navy2);padding:20px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
 
-/* RODAPÉ */
-footer{background:var(--navy);color:rgba(255,255,255,0.5);padding:40px 60px;text-align:center;font-size:13px}
-footer strong{color:var(--green)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .5s ease both}
+.hero-tags{animation-delay:.1s}.hero h1{animation-delay:.2s}.hero-sub{animation-delay:.3s}.hero-quote{animation-delay:.4s}.hero-stats{animation-delay:.5s}
 
-@media(max-width:768px){
-  .capa,.indice,.section{padding:40px 24px}
-  .section-num{font-size:32px;min-width:40px}
-  .cards-grid{grid-template-columns:1fr}
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}.main{margin-left:0}
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
 }
 </style>
 </head>
 <body>
 
-<!-- CAPA -->
-<div class="capa">
-  <div class="capa-badge">🎯 GST Marketing · Uso Interno</div>
-  <h1>Playbook Completo<br><span>Meta Ads</span> para<br>Supermercados</h1>
-  <p>Guia operacional e estratégico para campanhas locais, WhatsApp, tráfego pago e escala de resultados no varejo alimentar brasileiro.</p>
-  <div class="capa-meta">
-    <div class="capa-meta-item"><strong>15</strong><span>Módulos</span></div>
-    <div class="capa-meta-item"><strong>2026</strong><span>Versão</span></div>
-    <div class="capa-meta-item"><strong>Premium</strong><span>Nível</span></div>
-    <div class="capa-meta-item"><strong>GST</strong><span>Agência</span></div>
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo">GST <span>Marketing</span></div><div class="sb-sub">Sistema Operacional GST</div></div>
+  <div class="sb-meta">
+    <div class="sb-row">📂 Categoria: <span>Tráfego Pago</span></div>
+    <div class="sb-row">🏷️ Nível: <span>Operacional</span></div>
+    <div class="sb-row">🔖 Versão: <span>v2.0 · Mai 2026</span></div>
+    <div class="sb-row">🔒 Uso: <span>Interno + Treinamento</span></div>
   </div>
-</div>
-
-<!-- ÍNDICE -->
-<div class="indice">
-  <h2>Índice do Playbook</h2>
-  <div class="indice-grid">
-    <a href="#s1" class="indice-item"><span class="indice-num">01</span>Fundamentos Estratégicos dos Públicos</a>
-    <a href="#s2" class="indice-item"><span class="indice-num">02</span>Estrutura Ideal por Tipo de Negócio</a>
-    <a href="#s3" class="indice-item"><span class="indice-num">03</span>Estrutura de Campanhas por Objetivo</a>
-    <a href="#s4" class="indice-item"><span class="indice-num">04</span>Públicos Detalhados Mais Fortes</a>
-    <a href="#s5" class="indice-item"><span class="indice-num">05</span>Estratégia Geográfica</a>
-    <a href="#s6" class="indice-item"><span class="indice-num">06</span>Estratégia de Remarketing</a>
-    <a href="#s7" class="indice-item"><span class="indice-num">07</span>Estratégia de Lookalike</a>
-    <a href="#s8" class="indice-item"><span class="indice-num">08</span>Estrutura de Testes</a>
-    <a href="#s9" class="indice-item"><span class="indice-num">09</span>Escala de Campanhas</a>
-    <a href="#s10" class="indice-item"><span class="indice-num">10</span>Públicos para Inaugurações</a>
-    <a href="#s11" class="indice-item"><span class="indice-num">11</span>Públicos para WhatsApp</a>
-    <a href="#s12" class="indice-item"><span class="indice-num">12</span>Estrutura Operacional da Agência</a>
-    <a href="#s13" class="indice-item"><span class="indice-num">13</span>Diagnóstico de Problemas</a>
-    <a href="#s14" class="indice-item"><span class="indice-num">14</span>Tendências Futuras</a>
-    <a href="#s15" class="indice-item"><span class="indice-num">15</span>Plano Final Executivo</a>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Progresso <strong id="pct">0%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" id="sbfill"></div></div>
   </div>
-</div>
+  <nav class="sb-nav">
+    <div class="sb-nav-lbl">Estrutura</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span>Capa</a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span>Contexto Estratégico</a>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span>Filosofia GST</a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span>Fundamentos do Algoritmo</a>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span>Estrutura por Negócio</a>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span>Campanhas por Objetivo</a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span>Públicos Mais Fortes</a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span>Estratégia Geográfica</a>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span>Remarketing</a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span>Lookalike</a>
+    <a class="sb-link" href="#s10"><span class="sb-num">10</span>Testes e Escala</a>
+    <a class="sb-link" href="#s11"><span class="sb-num">11</span>Inaugurações</a>
+    <a class="sb-link" href="#s12"><span class="sb-num">12</span>Diagnóstico</a>
+    <a class="sb-link" href="#s13"><span class="sb-num">13</span>Operacional GST</a>
+    <a class="sb-link" href="#s14"><span class="sb-num">14</span>Checklist Executivo</a>
+    <a class="sb-link" href="#s15"><span class="sb-num">15</span>Próximos Passos</a>
+  </nav>
+  <div class="sb-foot"><div class="sb-tag">⚡ GST System v2.0</div></div>
+</aside>
 
-<!-- MÓDULO 1 -->
-<div class="section" id="s1">
-  <div class="section-header">
-    <div class="section-num">01</div>
-    <div class="section-title">
-      <h2>Fundamentos Estratégicos dos Públicos</h2>
-      <p>Como o algoritmo da Meta funciona e como usar isso a nosso favor</p>
-    </div>
+<main class="main">
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hero-tags">
+    <span class="htag htag-cat">🎯 Meta Ads · Públicos</span>
+    <span class="htag htag-lvl">● Nível Operacional</span>
+    <span class="htag htag-ver">v2.0 · Mai 2026</span>
   </div>
-
-  <div class="highlight-box">
-    <h3>A lógica central da Meta</h3>
-    <p>A Meta não vende audiência — ela vende atenção. Seu algoritmo tem um único objetivo: maximizar o tempo de engajamento na plataforma. Quem entende isso, ganha. O trabalho do anunciante é fornecer sinais suficientes para que a máquina encontre quem vai converter. Público errado + criativo errado = dinheiro queimado. Criativo certo + público aberto = máquina que aprende sozinha.</p>
+  <h1>Playbook Completo de<br><em>Meta Ads</em> para<br>Supermercados</h1>
+  <p class="hero-sub">Metodologia operacional GST para estruturar públicos, campanhas, remarketing e escala no varejo alimentar brasileiro. Construído com base em operação real de supermercado.</p>
+  <div class="hero-quote">"Público errado + criativo errado = dinheiro queimado. Criativo certo + público aberto = máquina que aprende sozinha."</div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>15</strong><span>Módulos</span></div>
+    <div class="hero-stat"><strong>100%</strong><span>Foco supermercado</span></div>
+    <div class="hero-stat"><strong>GST</strong><span>Metodologia própria</span></div>
+    <div class="hero-stat"><strong>2026</strong><span>Versão atualizada</span></div>
   </div>
+</section>
 
-  <div class="cards-grid">
-    <div class="card">
-      <h4>🧠 Como funciona o algoritmo</h4>
-      <ul>
-        <li>Meta usa Machine Learning preditivo</li>
-        <li>Analisa histórico de comportamento do usuário</li>
-        <li>Otimiza para o evento de conversão configurado</li>
-        <li>Precisa de 50 eventos/semana por conjunto para aprender</li>
-        <li>Fase de aprendizado: primeiros 7 dias</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>🎯 Como a Meta interpreta intenção</h4>
-      <ul>
-        <li>Páginas curtidas e seguidas</li>
-        <li>Grupos de interesse</li>
-        <li>Tempo em conteúdos similares</li>
-        <li>Cliques anteriores em anúncios</li>
-        <li>Localização geográfica em tempo real</li>
-        <li>Histórico de compras online</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>📊 Impacto criativo vs público</h4>
-      <ul>
-        <li>70% do resultado vem do criativo</li>
-        <li>20% do público</li>
-        <li>10% da segmentação técnica</li>
-        <li>Criativo ruim derruba qualquer público</li>
-        <li>Criativo forte compensa público médio</li>
-      </ul>
-    </div>
-    <div class="card navy">
-      <h4>📅 O que mudou nos últimos anos</h4>
-      <ul>
-        <li>Fim dos interesses precisos</li>
-        <li>Broad audience dominando</li>
-        <li>Advantage+ Shopping crescendo</li>
-        <li>IA substituindo segmentação manual</li>
-        <li>Privacidade iOS reduziu rastreio</li>
-      </ul>
-    </div>
+<!-- 01 — CONTEXTO -->
+<section class="section" id="s1">
+  <div class="sec-lbl">01 · Contexto Estratégico</div>
+  <h2>Por que Meta Ads é diferente para supermercado</h2>
+  <p class="sec-desc">Supermercado não é e-commerce. Não é produto único. É recorrência, hábito, vizinhança. A estratégia de Meta Ads precisa refletir isso.</p>
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">🛒</span><h4>O comportamento do consumidor</h4><ul><li>Compra toda semana — hábito é o ativo</li><li>Decisão por preço E proximidade</li><li>Alta sensibilidade a promoções</li><li>WhatsApp como canal de compra</li></ul></div>
+    <div class="op-card yellow"><span class="op-ico">⚠️</span><h4>Erros mais comuns</h4><ul><li>Anunciar para público nacional</li><li>Medir curtidas em vez de conversas</li><li>Parar anúncio quando "tá caro"</li><li>Trocar criativo antes de aprender</li></ul></div>
+    <div class="op-card navy"><span class="op-ico">💡</span><h4>O diferencial GST</h4><ul><li>Foco em raio local cirúrgico</li><li>Campanha de WA como conversão principal</li><li>Calendário comercial integrado</li><li>Frequência > perfeição criativa</li></ul></div>
   </div>
+  <div class="callout strategy">
+    <span class="c-lbl">// experiência real GST</span>
+    <h3>De R$400 mil para R$2 milhões — o papel do Meta Ads</h3>
+    <p>A GST foi construída com base em operação real de supermercado. O crescimento não aconteceu por acaso — foi resultado de presença digital consistente, campanhas locais bem estruturadas e WhatsApp como canal principal de vendas. O Meta Ads foi a ponte entre a oferta da loja e o cliente da cidade.</p>
+  </div>
+</section>
 
-  <h3 style="margin:32px 0 16px;font-size:18px">Quando usar cada tipo de público</h3>
+<!-- 02 — FILOSOFIA -->
+<section class="section" id="s2">
+  <div class="sec-lbl">02 · Filosofia GST</div>
+  <h2>Como pensamos sobre Meta Ads para varejo</h2>
+  <p class="sec-desc">Nossa abordagem não é de agência genérica. É de quem entende operação supermercadista por dentro.</p>
+  <div class="callout tip">
+    <span class="c-lbl">// princípio central</span>
+    <h3>70% do resultado vem do criativo — 20% do público</h3>
+    <p>Criativo ruim derruba qualquer público. Criativo forte compensa público médio. Antes de otimizar segmentação, otimize o que aparece na tela do cliente.</p>
+  </div>
+  <div class="pilares">
+    <div class="pilar"><span class="pilar-n">01 //</span><h4>Local antes de amplo</h4><p>Raio certo converte mais que raio grande. CPM maior, resultado melhor.</p></div>
+    <div class="pilar"><span class="pilar-n">02 //</span><h4>WhatsApp é conversão</h4><p>No varejo local, conversa no WA é mais valiosa que clique em site.</p></div>
+    <div class="pilar"><span class="pilar-n">03 //</span><h4>Frequência constrói hábito</h4><p>Aparecer toda semana cria lembrança. Lembrança vira venda recorrente.</p></div>
+    <div class="pilar"><span class="pilar-n">04 //</span><h4>Dados antes de opinião</h4><p>Cortar campanha por achismo desperdiça aprendizado. Respeitar dados.</p></div>
+  </div>
+  <div class="formula"><em>Criativo certo</em> + <em>Raio certo</em> + <em>Frequência certa</em> = <em>Dominação local</em></div>
+</section>
+
+<!-- 03 — FUNDAMENTOS -->
+<section class="section" id="s3">
+  <div class="sec-lbl">03 · Fundamentos do Algoritmo</div>
+  <h2>Como a Meta funciona — e como usar isso</h2>
+  <p class="sec-desc">Entender o algoritmo não é opcional. É o que separa quem gasta de quem investe.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Tipo de Público</th><th>Quando Usar</th><th>Verba Mínima</th><th>Fase Ideal</th></tr></thead>
+      <thead><tr><th>Tipo de Público</th><th>Quando usar</th><th>Verba mínima</th><th>Fase ideal</th></tr></thead>
       <tbody>
-        <tr><td><strong>Segmentação Detalhada</strong></td><td>Início, pouco histórico, nicho específico</td><td>R$ 15–30/dia</td><td>Fase 1</td></tr>
-        <tr><td><strong>Broad / Aberto</strong></td><td>Quando a conta tem histórico, criativo forte</td><td>R$ 50+/dia</td><td>Fase 2</td></tr>
-        <tr><td><strong>Lookalike</strong></td><td>Base com 500+ clientes/engajados</td><td>R$ 30+/dia</td><td>Fase 2–3</td></tr>
-        <tr><td><strong>Remarketing</strong></td><td>Sempre, como camada complementar</td><td>R$ 10–15/dia</td><td>Todas</td></tr>
-        <tr><td><strong>Advantage+ Audience</strong></td><td>Contas maduras, objetivo vendas</td><td>R$ 50+/dia</td><td>Fase 3</td></tr>
+        <tr><td><strong>Segmentação Detalhada</strong></td><td>Início, pouco histórico</td><td>R$15–30/dia</td><td><span class="badge badge-yellow">Fase 1</span></td></tr>
+        <tr><td><strong>Broad / Aberto</strong></td><td>Conta com histórico, criativo forte</td><td>R$50+/dia</td><td><span class="badge badge-green">Fase 2</span></td></tr>
+        <tr><td><strong>Lookalike</strong></td><td>Base com 500+ clientes/engajados</td><td>R$30+/dia</td><td><span class="badge badge-green">Fase 2–3</span></td></tr>
+        <tr><td><strong>Remarketing</strong></td><td>Sempre — camada complementar</td><td>R$10–15/dia</td><td><span class="badge badge-navy">Todas</span></td></tr>
+        <tr><td><strong>Advantage+ Audience</strong></td><td>Contas maduras, objetivo vendas</td><td>R$50+/dia</td><td><span class="badge badge-green">Fase 3</span></td></tr>
       </tbody>
     </table>
   </div>
-</div>
-
-<!-- MÓDULO 2 -->
-<div class="section" id="s2">
-  <div class="section-header">
-    <div class="section-num">02</div>
-    <div class="section-title">
-      <h2>Estrutura Ideal por Tipo de Negócio</h2>
-      <p>Configurações específicas para cada segmento do varejo alimentar</p>
-    </div>
+  <div class="callout warning">
+    <span class="c-lbl">// atenção crítica</span>
+    <h3>Fase de aprendizado — o erro mais caro</h3>
+    <p>O algoritmo precisa de 50 eventos/semana para sair da fase de aprendizado. Cortar verba ou trocar campanha antes disso reinicia o processo e desperdiça o aprendizado acumulado. Aguarde sempre 5–7 dias antes de qualquer decisão.</p>
   </div>
+</section>
 
+<!-- 04 — ESTRUTURA POR NEGÓCIO -->
+<section class="section" id="s4">
+  <div class="sec-lbl">04 · Estrutura por Negócio</div>
+  <h2>Configurações específicas para cada segmento</h2>
+  <p class="sec-desc">Cada tipo de varejo tem raio ideal, público e foco diferente. Padronizar é errar.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Tipo</th><th>Raio Ideal</th><th>Público-Alvo</th><th>Nível Recomendado</th><th>Verba de Mídia</th><th>Foco Principal</th></tr></thead>
+      <thead><tr><th>Tipo</th><th>Raio ideal</th><th>Público-alvo</th><th>Nível recomendado</th><th>Verba de mídia</th><th>Foco principal</th></tr></thead>
       <tbody>
-        <tr>
-          <td><strong>Supermercado Pequeno</strong><br><span style="font-size:12px;color:#64748b">1–2 lojas, cidade pequena</span></td>
-          <td>2–5 km</td><td>18–65 anos, mulheres 60%</td>
-          <td><span class="badge badge-blue">Presença Local</span></td>
-          <td><strong>R$ 1.000/mês</strong></td>
-          <td>WhatsApp + Ofertas</td>
-        </tr>
-        <tr>
-          <td><strong>Supermercado Médio</strong><br><span style="font-size:12px;color:#64748b">2–5 lojas, cidade média</span></td>
-          <td>5–10 km</td><td>25–55 anos, família</td>
-          <td><span class="badge badge-navy">Crescimento</span></td>
-          <td><strong>R$ 2.000/mês</strong></td>
-          <td>Encarte + Branding</td>
-        </tr>
-        <tr>
-          <td><strong>Atacarejo</strong><br><span style="font-size:12px;color:#64748b">Regional, alto volume</span></td>
-          <td>10–30 km</td><td>Revendedores, famílias grandes</td>
-          <td><span class="badge badge-green">Dominação</span></td>
-          <td><strong>R$ 5.000/mês</strong></td>
-          <td>Volume + Preço</td>
-        </tr>
-        <tr>
-          <td><strong>Hortifruti</strong></td>
-          <td>1–3 km</td><td>Mulheres 25–50, saudável</td>
-          <td><span class="badge badge-blue">Presença Local</span></td>
-          <td><strong>R$ 1.000/mês</strong></td>
-          <td>Frescor + WhatsApp</td>
-        </tr>
-        <tr>
-          <td><strong>Açougue</strong></td>
-          <td>2–5 km</td><td>Homens 25–55, churrasco</td>
-          <td><span class="badge badge-blue">Presença Local</span></td>
-          <td><strong>R$ 1.000/mês</strong></td>
-          <td>Churrasco + Promoção</td>
-        </tr>
-        <tr>
-          <td><strong>Conveniência</strong></td>
-          <td>1–2 km</td><td>18–40 anos, impulsivo</td>
-          <td><span class="badge badge-blue">Presença Local</span></td>
-          <td><strong>R$ 1.000/mês</strong></td>
-          <td>Proximidade + Rapidez</td>
-        </tr>
-        <tr>
-          <td><strong>Distribuidora</strong></td>
-          <td>Cidade + região</td><td>Donos de comércio, PJ</td>
-          <td><span class="badge badge-navy">Crescimento</span></td>
-          <td><strong>R$ 2.000/mês</strong></td>
-          <td>B2B + Volume</td>
-        </tr>
+        <tr><td><strong>Supermercado Pequeno</strong><br><small style="color:#94a3b8">1–2 lojas, cidade pequena</small></td><td>2–5 km</td><td>18–65 anos, mulheres 60%</td><td><span class="badge badge-navy">Presença Local</span></td><td><strong>R$1.000/mês</strong></td><td>WhatsApp + Ofertas</td></tr>
+        <tr><td><strong>Supermercado Médio</strong><br><small style="color:#94a3b8">2–5 lojas, cidade média</small></td><td>5–10 km</td><td>25–55 anos, família</td><td><span class="badge badge-yellow">Crescimento</span></td><td><strong>R$2.000/mês</strong></td><td>Encarte + Branding</td></tr>
+        <tr><td><strong>Atacarejo</strong></td><td>10–30 km</td><td>Revendedores, famílias grandes</td><td><span class="badge badge-green">Dominação</span></td><td><strong>R$5.000/mês</strong></td><td>Volume + Preço</td></tr>
+        <tr><td><strong>Hortifruti</strong></td><td>1–3 km</td><td>Mulheres 25–50, saudável</td><td><span class="badge badge-navy">Presença Local</span></td><td><strong>R$1.000/mês</strong></td><td>Frescor + WhatsApp</td></tr>
+        <tr><td><strong>Açougue</strong></td><td>2–5 km</td><td>Homens 25–55, churrasco</td><td><span class="badge badge-navy">Presença Local</span></td><td><strong>R$1.000/mês</strong></td><td>Churrasco + Promoção</td></tr>
+        <tr><td><strong>Conveniência</strong></td><td>1–2 km</td><td>18–40 anos, impulsivo</td><td><span class="badge badge-navy">Presença Local</span></td><td><strong>R$1.000/mês</strong></td><td>Proximidade + Rapidez</td></tr>
       </tbody>
     </table>
   </div>
-  <div class="alerta" style="margin-top:16px">
-    <strong>📊 Referência:</strong> Verbas alinhadas ao <a href="/playbook-mapa-investimento-meta-ads" style="color:#00c46a;font-weight:700">Mapa de Investimento GST</a> — Presença Local R$1.000 · Crescimento R$2.000 · Dominação R$5.000. Verba de mídia é separada do fee de gestão da agência.
+  <div class="callout danger">
+    <span class="c-lbl">// regra de ouro GST</span>
+    <h3>Nunca configure raio maior do que o cliente consegue entregar</h3>
+    <p>Raio grande = CPM barato + conversão ruim. Raio certo = CPM maior + conversão alta. O objetivo não é alcançar mais pessoas — é alcançar as pessoas certas.</p>
   </div>
+</section>
 
-  <div class="alerta">
-    <strong>⚠️ Regra de ouro:</strong> Nunca configure raio maior do que o cliente consegue entregar. Raio grande = CPM barato + conversão ruim. Raio certo = CPM maior + conversão alta.
-  </div>
-</div>
-
-<!-- MÓDULO 3 -->
-<div class="section" id="s3">
-  <div class="section-header">
-    <div class="section-num">03</div>
-    <div class="section-title">
-      <h2>Estrutura de Campanhas por Objetivo</h2>
-      <p>Metas, verbas, métricas e KPIs esperados para cada tipo de campanha</p>
-    </div>
-  </div>
-
+<!-- 05 — CAMPANHAS -->
+<section class="section" id="s5">
+  <div class="sec-lbl">05 · Campanhas por Objetivo</div>
+  <h2>Estrutura completa de campanhas</h2>
+  <p class="sec-desc">Metas, verbas, métricas e KPIs esperados para cada tipo de campanha no varejo alimentar.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Campanha</th><th>Objetivo</th><th>Verba/dia</th><th>CPM Esperado</th><th>CTR Esperado</th><th>Custo/Conversa</th></tr></thead>
+      <thead><tr><th>Campanha</th><th>Objetivo</th><th>Verba/dia</th><th>CPM esperado</th><th>CTR esperado</th><th>Custo/conversa</th></tr></thead>
       <tbody>
-        <tr><td><strong>WhatsApp Direto</strong></td><td>Mensagens</td><td>R$ 20–40</td><td>R$ 15–35</td><td>1,5–3%</td><td>R$ 3–12</td></tr>
-        <tr><td><strong>Reconhecimento de Marca</strong></td><td>Alcance/Awareness</td><td>R$ 15–25</td><td>R$ 8–18</td><td>0,5–1%</td><td>N/A</td></tr>
-        <tr><td><strong>Engajamento</strong></td><td>Engajamento</td><td>R$ 10–20</td><td>R$ 5–15</td><td>1–2%</td><td>N/A</td></tr>
-        <tr><td><strong>Tráfego Site/Link</strong></td><td>Tráfego</td><td>R$ 15–30</td><td>R$ 10–25</td><td>1–2,5%</td><td>N/A</td></tr>
-        <tr><td><strong>Promoção Semanal</strong></td><td>Mensagens</td><td>R$ 25–50</td><td>R$ 15–30</td><td>2–4%</td><td>R$ 4–15</td></tr>
-        <tr><td><strong>Churrasco/Fim de Semana</strong></td><td>Mensagens</td><td>R$ 30–60</td><td>R$ 20–40</td><td>2,5–5%</td><td>R$ 5–18</td></tr>
-        <tr><td><strong>Encarte Digital</strong></td><td>Alcance</td><td>R$ 15–30</td><td>R$ 8–20</td><td>1–2%</td><td>N/A</td></tr>
-        <tr><td><strong>Hortifruti Diário</strong></td><td>Mensagens</td><td>R$ 15–25</td><td>R$ 12–22</td><td>1,5–3%</td><td>R$ 3–10</td></tr>
-        <tr><td><strong>Data Comemorativa</strong></td><td>Mensagens/Alcance</td><td>R$ 40–80</td><td>R$ 25–50</td><td>2–5%</td><td>R$ 6–20</td></tr>
-        <tr><td><strong>Inauguração</strong></td><td>Alcance+Mensagens</td><td>R$ 50–150</td><td>R$ 15–35</td><td>2–6%</td><td>R$ 5–20</td></tr>
+        <tr><td><strong>WhatsApp Direto</strong></td><td>Mensagens</td><td>R$20–40</td><td>R$15–35</td><td>1,5–3%</td><td>R$3–12</td></tr>
+        <tr><td><strong>Reconhecimento</strong></td><td>Alcance/Awareness</td><td>R$15–25</td><td>R$8–18</td><td>0,5–1%</td><td>N/A</td></tr>
+        <tr><td><strong>Promoção Semanal</strong></td><td>Mensagens</td><td>R$25–50</td><td>R$15–30</td><td>2–4%</td><td>R$4–15</td></tr>
+        <tr><td><strong>Churrasco/FDS</strong></td><td>Mensagens</td><td>R$30–60</td><td>R$20–40</td><td>2,5–5%</td><td>R$5–18</td></tr>
+        <tr><td><strong>Encarte Digital</strong></td><td>Alcance</td><td>R$15–30</td><td>R$8–20</td><td>1–2%</td><td>N/A</td></tr>
+        <tr><td><strong>Data Comemorativa</strong></td><td>Mensagens/Alcance</td><td>R$40–80</td><td>R$25–50</td><td>2–5%</td><td>R$6–20</td></tr>
+        <tr><td><strong>Inauguração</strong></td><td>Alcance+Mensagens</td><td>R$50–150</td><td>R$15–35</td><td>2–6%</td><td>R$5–20</td></tr>
       </tbody>
     </table>
   </div>
-
-  <div class="highlight-box">
-    <h3>Estrutura padrão GST para campanha de oferta semanal</h3>
-    <p>📦 1 campanha → 2 conjuntos (público quente + público frio) → 3 criativos por conjunto (1 vídeo + 1 carrossel + 1 imagem estática). Sempre testar CTA direto no WhatsApp. Janela de conversão: 1 dia após clique. Duração: 3–5 dias. Orçamento: concentrar 70% no conjunto vencedor após 48h.</p>
+  <div class="callout strategy">
+    <span class="c-lbl">// estrutura padrão GST</span>
+    <h3>Campanha de oferta semanal — configuração ideal</h3>
+    <ul>
+      <li>1 campanha → 2 conjuntos (público quente + público frio)</li>
+      <li>3 criativos por conjunto: 1 vídeo + 1 carrossel + 1 imagem estática</li>
+      <li>CTA direto para WhatsApp em todos os criativos</li>
+      <li>Janela de conversão: 1 dia após clique</li>
+      <li>Duração: 3–5 dias. Após 48h: concentrar 70% no vencedor</li>
+    </ul>
   </div>
-</div>
+</section>
 
-<!-- MÓDULO 4 -->
-<div class="section" id="s4">
-  <div class="section-header">
-    <div class="section-num">04</div>
-    <div class="section-title">
-      <h2>Públicos Detalhados Mais Fortes do Nicho</h2>
-      <p>Interesses, comportamentos e combinações que realmente funcionam</p>
+<!-- 06 — PÚBLICOS -->
+<section class="section" id="s6">
+  <div class="sec-lbl">06 · Públicos Mais Fortes</div>
+  <h2>Interesses, comportamentos e combinações que funcionam</h2>
+  <p class="sec-desc">Resultado de testes reais em campanhas para supermercados. Não é teoria — é o que performa.</p>
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">🛒</span><h4>Supermercado Geral</h4>
+      <div class="tag-row"><span class="tag tag-g">Supermercado</span><span class="tag tag-g">Compras de supermercado</span><span class="tag tag-g">Economia doméstica</span><span class="tag tag-g">Cozinha</span><span class="tag tag-g">Receitas</span></div>
     </div>
-  </div>
-
-  <div class="cards-grid">
-    <div class="card">
-      <h4>🛒 Interesses — Supermercado Geral</h4>
-      <div class="tags">
-        <span class="tag">Supermercado</span>
-        <span class="tag">Compras de supermercado</span>
-        <span class="tag">Promoções e ofertas</span>
-        <span class="tag">Cozinha</span>
-        <span class="tag">Receitas</span>
-        <span class="tag">Economia doméstica</span>
-        <span class="tag">Alimentação saudável</span>
-      </div>
+    <div class="op-card"><span class="op-ico">👩‍👧</span><h4>Mães e Família</h4>
+      <div class="tag-row"><span class="tag tag-b">Mães</span><span class="tag tag-b">Família</span><span class="tag tag-b">Alimentação infantil</span><span class="tag tag-b">Gestantes</span><span class="tag tag-b">Pais e filhos</span></div>
     </div>
-    <div class="card">
-      <h4>👩‍👧 Interesses — Mães e Família</h4>
-      <div class="tags">
-        <span class="tag">Mães</span>
-        <span class="tag">Família</span>
-        <span class="tag">Pais e filhos</span>
-        <span class="tag">Alimentação infantil</span>
-        <span class="tag">Cuidados com a família</span>
-        <span class="tag">Gestantes</span>
-      </div>
+    <div class="op-card"><span class="op-ico">🍖</span><h4>Churrasco</h4>
+      <div class="tag-row"><span class="tag tag-y">Churrasco</span><span class="tag tag-y">Cerveja</span><span class="tag tag-y">Picanha</span><span class="tag tag-y">Churrasqueiro</span><span class="tag tag-y">Fim de semana</span></div>
     </div>
-    <div class="card yellow">
-      <h4>🍖 Interesses — Churrasco</h4>
-      <div class="tags">
-        <span class="tag yellow">Churrasco</span>
-        <span class="tag yellow">Churrasqueiro</span>
-        <span class="tag yellow">Cerveja</span>
-        <span class="tag yellow">Costela</span>
-        <span class="tag yellow">Picanha</span>
-        <span class="tag yellow">Fim de semana</span>
-      </div>
-    </div>
-    <div class="card">
-      <h4>🥦 Interesses — Hortifruti</h4>
-      <div class="tags">
-        <span class="tag">Frutas e verduras</span>
-        <span class="tag">Alimentação saudável</span>
-        <span class="tag">Orgânicos</span>
-        <span class="tag">Dieta</span>
-        <span class="tag">Fitness</span>
-        <span class="tag">Vegetarianismo</span>
-      </div>
+    <div class="op-card red"><span class="op-ico">❌</span><h4>Públicos para evitar</h4>
+      <ul><li>Gastronomia geral (muito amplo)</li><li>Culinária internacional</li><li>Delivery (concorrência direta)</li><li>Públicos menores que 20k pessoas</li></ul>
     </div>
   </div>
-
-  <h3 style="margin:32px 0 16px;font-size:18px">Combinações e Empilhamentos Estratégicos</h3>
-  <div class="cards-grid">
-    <div class="card">
-      <h4>✅ Combinação Ouro — Donas de casa</h4>
-      <p style="font-size:13px;margin-bottom:8px">Interesse: Culinária + Comportamento: Comprador engajado</p>
-      <p style="font-size:13px">Excluir: Restaurantes, delivery, fast food</p>
-    </div>
-    <div class="card">
-      <h4>✅ Combinação Ouro — Churrasco</h4>
-      <p style="font-size:13px;margin-bottom:8px">Interesse: Churrasco + Demografico: Homens 25–50</p>
-      <p style="font-size:13px">Excluir: Vegetarianos, veganos</p>
-    </div>
-    <div class="card red">
-      <h4>❌ Públicos Ruins — Evitar</h4>
-      <ul>
-        <li>Gastronomia geral (muito amplo)</li>
-        <li>Pessoas interessadas em comida (saturado)</li>
-        <li>Culinária internacional (fora de contexto)</li>
-        <li>Delivery (concorrência direta)</li>
-      </ul>
-    </div>
+  <div class="callout warning">
+    <span class="c-lbl">// erros clássicos com públicos</span>
+    <h3>Os 3 erros mais caros</h3>
+    <p>Público muito pequeno (&lt;20k) satura rápido. Público muito grande (&gt;2M) com pouca verba nunca sai do aprendizado. Não excluir clientes já convertidos desperdiça verba em quem já comprou.</p>
   </div>
+</section>
 
-  <div class="danger">
-    <strong>⛔ Erros mais comuns com públicos:</strong> Público muito pequeno (&lt;20k) → satura rápido. Público muito grande (&gt;2M) com pouca verba → nunca sai da fase de aprendizado. Não excluir clientes já convertidos → desperdício de verba.
+<!-- 07 — GEOGRÁFICO -->
+<section class="section" id="s7">
+  <div class="sec-lbl">07 · Estratégia Geográfica</div>
+  <h2>Como dominar a vizinhança</h2>
+  <p class="sec-desc">A estratégia geográfica é onde a maioria das agências genéricas erra. Varejo é local — e local é cirúrgico.</p>
+  <div class="op-grid">
+    <div class="op-card navy"><span class="op-ico">🏘️</span><h4>Cidades pequenas (até 30k hab.)</h4><ul><li>Raio: cidade inteira (3–8 km)</li><li>CPM mais baixo</li><li>Saturação rápida — rotacionar criativos</li><li>Frequência: 3–5x/semana</li></ul></div>
+    <div class="op-card"><span class="op-ico">🏙️</span><h4>Cidades médias (30k–300k)</h4><ul><li>Raio: 3–8 km do endereço</li><li>Dividir por bairro quando possível</li><li>Frequência: 2–3x/semana</li><li>Expandir progressivamente</li></ul></div>
+    <div class="op-card yellow"><span class="op-ico">🌆</span><h4>Capitais e grandes cidades</h4><ul><li>Raio: 2–5 km (hiper-local)</li><li>Segmentar por bairros específicos</li><li>CPM mais alto — criativo precisa ser forte</li><li>Concorrência maior</li></ul></div>
   </div>
-</div>
+  <div class="formula">Raio ideal = <em>tempo aceitável de deslocamento</em> × <em>velocidade média da cidade</em></div>
+</section>
 
-<!-- MÓDULO 5 -->
-<div class="section" id="s5">
-  <div class="section-header">
-    <div class="section-num">05</div>
-    <div class="section-title">
-      <h2>Estratégia Geográfica</h2>
-      <p>Como dominar a vizinhança e expandir com eficiência</p>
-    </div>
-  </div>
-
-  <div class="cards-grid">
-    <div class="card navy">
-      <h4>🏘️ Cidades Pequenas (até 30k hab.)</h4>
-      <ul>
-        <li>Raio: cidade inteira (3–8 km)</li>
-        <li>Frequência ideal: 3–5x/semana</li>
-        <li>CPM mais baixo</li>
-        <li>Saturação rápida — rotacionar criativos</li>
-        <li>Público: 5.000–50.000</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>🏙️ Cidades Médias (30k–300k hab.)</h4>
-      <ul>
-        <li>Raio: 3–8 km do endereço</li>
-        <li>Dividir por bairro quando possível</li>
-        <li>Frequência ideal: 2–3x/semana</li>
-        <li>Público: 50.000–300.000</li>
-        <li>Expandir progressivamente</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>🌆 Capitais e Grandes Cidades</h4>
-      <ul>
-        <li>Raio: 2–5 km (hiper-local)</li>
-        <li>Segmentar por bairros específicos</li>
-        <li>CPM mais alto</li>
-        <li>Concorrência maior</li>
-        <li>Criativo precisa ser muito forte</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="formula">
-    🗺️ Fórmula GST de Raio: (Tempo médio de deslocamento aceitável pelo cliente em minutos × velocidade média da cidade em km/min) = raio ideal em km
-  </div>
-</div>
-
-<!-- MÓDULO 6 -->
-<div class="section" id="s6">
-  <div class="section-header">
-    <div class="section-num">06</div>
-    <div class="section-title">
-      <h2>Estratégia de Remarketing</h2>
-      <p>Reconquistar quem já demonstrou interesse — a camada mais lucrativa</p>
-    </div>
-  </div>
-
+<!-- 08 — REMARKETING -->
+<section class="section" id="s8">
+  <div class="sec-lbl">08 · Estratégia de Remarketing</div>
+  <h2>A camada mais lucrativa das campanhas</h2>
+  <p class="sec-desc">Remarketing é reconquistar quem já demonstrou interesse. É sempre mais barato converter quem já conhece do que conquistar alguém novo.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Fonte</th><th>Janela Ideal</th><th>Criativo Recomendado</th><th>Oferta Ideal</th><th>Frequência</th></tr></thead>
+      <thead><tr><th>Fonte</th><th>Janela ideal</th><th>Criativo recomendado</th><th>Oferta ideal</th><th>Frequência</th></tr></thead>
       <tbody>
-        <tr><td>Visualizações de vídeo (75%+)</td><td>7–14 dias</td><td>Imagem com preço destacado</td><td>Promoção relâmpago</td><td>2–3x/semana</td></tr>
-        <tr><td>Engajamento no Instagram (30 dias)</td><td>30 dias</td><td>Carrossel de ofertas</td><td>Frete grátis ou brinde</td><td>3–4x/semana</td></tr>
+        <tr><td>Visualizações de vídeo 75%+</td><td>7–14 dias</td><td>Imagem com preço destacado</td><td>Promoção relâmpago</td><td>2–3x/semana</td></tr>
+        <tr><td>Engajamento Instagram (30 dias)</td><td>30 dias</td><td>Carrossel de ofertas</td><td>Frete grátis ou brinde</td><td>3–4x/semana</td></tr>
         <tr><td>Clicou no link do WhatsApp</td><td>3–7 dias</td><td>Vídeo curto com urgência</td><td>Oferta exclusiva</td><td>Diário</td></tr>
         <tr><td>Lista de clientes (upload)</td><td>Sempre ativa</td><td>Oferta fidelidade</td><td>Desconto exclusivo</td><td>2x/semana</td></tr>
-        <tr><td>Visitantes do site</td><td>14–30 dias</td><td>Produto que visualizou</td><td>Preço especial</td><td>3–5x/semana</td></tr>
       </tbody>
     </table>
   </div>
-
-  <div class="highlight-box">
-    <h3>Sequência de Remarketing GST — 3 Camadas</h3>
-    <p><strong>Camada 1 (Quente — 0–3 dias):</strong> Quem clicou no WA mas não conversou → urgência máxima, oferta agressiva<br><strong>Camada 2 (Morno — 4–14 dias):</strong> Quem engajou mas não clicou → mostrar prova social, depoimentos<br><strong>Camada 3 (Frio — 15–30 dias):</strong> Quem viu o vídeo → conteúdo de valor, encarte, novidades</p>
+  <div class="callout strategy">
+    <span class="c-lbl">// sistema de remarketing GST — 3 camadas</span>
+    <h3>Quente → Morno → Frio</h3>
+    <ul>
+      <li><strong>Camada 1 (0–3 dias):</strong> Clicou no WA mas não conversou → urgência máxima, oferta agressiva</li>
+      <li><strong>Camada 2 (4–14 dias):</strong> Engajou mas não clicou → prova social, depoimentos, benefício</li>
+      <li><strong>Camada 3 (15–30 dias):</strong> Viu o vídeo → conteúdo de valor, encarte, novidades da semana</li>
+    </ul>
   </div>
-</div>
+</section>
 
-<!-- MÓDULO 7 -->
-<div class="section" id="s7">
-  <div class="section-header">
-    <div class="section-num">07</div>
-    <div class="section-title">
-      <h2>Estratégia de Lookalike</h2>
-      <p>Encontrar novos clientes parecidos com os melhores que você já tem</p>
-    </div>
+<!-- 09 — LOOKALIKE -->
+<section class="section" id="s9">
+  <div class="sec-lbl">09 · Estratégia de Lookalike</div>
+  <h2>Encontrar novos clientes parecidos com os melhores</h2>
+  <p class="sec-desc">Lookalike só funciona bem com fonte de qualidade. Lixo entra, lixo sai — a base define o resultado.</p>
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">🥇</span><h4>Melhores fontes</h4><ul><li>Lista de clientes que compraram</li><li>Visualizações 75%+ de vídeo</li><li>Engajamento Instagram (90 dias)</li><li>Cliques no WhatsApp confirmados</li></ul></div>
+    <div class="op-card"><span class="op-ico">📊</span><h4>Percentuais recomendados</h4><ul><li>1% — mais parecido, menor, mais caro</li><li>2–3% — equilíbrio qualidade/alcance</li><li>5–10% — escala, qualidade menor</li><li>Usar 1–3% para conversão</li></ul></div>
+    <div class="op-card red"><span class="op-ico">⚠️</span><h4>Quando evitar</h4><ul><li>Fonte menor que 200–500 pessoas</li><li>Cidade muito pequena</li><li>Conta nova sem histórico</li><li>Base de baixa qualidade</li></ul></div>
   </div>
+</section>
 
-  <div class="cards-grid">
-    <div class="card">
-      <h4>🥇 Melhores Fontes para Lookalike</h4>
-      <ul>
-        <li>Lista de clientes que compraram</li>
-        <li>Visualizações 75%+ de vídeo</li>
-        <li>Engajamento Instagram (90 dias)</li>
-        <li>Cliques no WhatsApp confirmados</li>
-        <li>Pixel — eventos de Purchase</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>📊 Percentuais Recomendados</h4>
-      <ul>
-        <li><strong>1%</strong> — mais parecido, menor, mais caro</li>
-        <li><strong>2–3%</strong> — equilíbrio qualidade/alcance</li>
-        <li><strong>5–10%</strong> — escala, qualidade menor</li>
-        <li>Usar 1–3% para conversão</li>
-        <li>Usar 5–10% para awareness</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>⚙️ Escala Progressiva</h4>
-      <ul>
-        <li>Começar com 1%</li>
-        <li>Se ROAS bom → duplicar para 2–3%</li>
-        <li>Se ainda bom → expandir 5%</li>
-        <li>Testar múltiplos percentuais simultâneos</li>
-        <li>Renovar fonte a cada 30–60 dias</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h4>⚠️ Quando evitar Lookalike</h4>
-      <ul>
-        <li>Fonte menor que 200–500 pessoas</li>
-        <li>Cidade muito pequena</li>
-        <li>Conta nova sem histórico</li>
-        <li>Público base de baixa qualidade</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- MÓDULO 8 -->
-<div class="section" id="s8">
-  <div class="section-header">
-    <div class="section-num">08</div>
-    <div class="section-title">
-      <h2>Estrutura de Testes</h2>
-      <p>Sistema operacional de testes para validar antes de escalar</p>
-    </div>
-  </div>
-
+<!-- 10 — TESTES E ESCALA -->
+<section class="section" id="s10">
+  <div class="sec-lbl">10 · Testes e Escala</div>
+  <h2>Sistema operacional de testes GST</h2>
+  <p class="sec-desc">Testar antes de escalar. Escalar o que funciona. Cortar o que não funciona. Sem achismo.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>O que testar</th><th>Tempo mínimo</th><th>Verba mín.</th><th>Como validar</th><th>Critério de corte</th></tr></thead>
+      <thead><tr><th>O que testar</th><th>Tempo mínimo</th><th>Verba mín.</th><th>Critério de corte</th></tr></thead>
       <tbody>
-        <tr><td>Criativo (imagem vs vídeo)</td><td>3–5 dias</td><td>R$ 15/dia cada</td><td>CTR, CPC, conversas</td><td>CTR &lt; 0,8%</td></tr>
-        <tr><td>Público (A vs B)</td><td>5–7 dias</td><td>R$ 20/dia cada</td><td>Custo/conversa</td><td>Custo 2x maior</td></tr>
-        <tr><td>Copy (texto do anúncio)</td><td>3–5 dias</td><td>R$ 15/dia cada</td><td>CTR, Hook rate</td><td>CTR &lt; 1%</td></tr>
-        <tr><td>Formato (feed vs stories)</td><td>3 dias</td><td>R$ 10/dia cada</td><td>CPM, alcance</td><td>CPM 3x maior</td></tr>
-        <tr><td>CTA (texto do botão)</td><td>3–5 dias</td><td>R$ 15/dia cada</td><td>Cliques, conversas</td><td>Cliques 50% menor</td></tr>
-        <tr><td>Oferta (produto vs % desconto)</td><td>5 dias</td><td>R$ 20/dia cada</td><td>Conversas, vendas</td><td>Conversas 50% menor</td></tr>
+        <tr><td>Criativo (imagem vs vídeo)</td><td>3–5 dias</td><td>R$15/dia cada</td><td>CTR &lt; 0,8%</td></tr>
+        <tr><td>Público (A vs B)</td><td>5–7 dias</td><td>R$20/dia cada</td><td>Custo 2x maior</td></tr>
+        <tr><td>Copy (texto do anúncio)</td><td>3–5 dias</td><td>R$15/dia cada</td><td>CTR &lt; 1%</td></tr>
+        <tr><td>CTA (texto do botão)</td><td>3–5 dias</td><td>R$15/dia cada</td><td>Cliques 50% menor</td></tr>
+        <tr><td>Oferta (produto vs % desconto)</td><td>5 dias</td><td>R$20/dia cada</td><td>Conversas 50% menor</td></tr>
       </tbody>
     </table>
   </div>
-
-  <div class="alerta">
-    <strong>Regra GST de Testes:</strong> Testar apenas uma variável por vez. Nunca cortar antes de 3 dias. Identificar vencedor por custo/resultado — não por "gosto pessoal". Sempre documentar o resultado no relatório mensal.
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">📈</span><h4>Escala Vertical</h4><ul><li>Aumentar orçamento máx. 20%/dia</li><li>Nunca dobrar de uma vez</li><li>Aguardar 3 dias entre aumentos</li><li>Monitorar CPM e frequência</li></ul></div>
+    <div class="op-card navy"><span class="op-ico">🔁</span><h4>Escala Horizontal</h4><ul><li>Duplicar conjunto vencedor</li><li>Mudar apenas 1 variável</li><li>Expandir raio geográfico</li><li>Testar novo segmento demográfico</li></ul></div>
   </div>
-</div>
+  <div class="formula">Regra dos 20%: <em>nunca aumente mais de 20% por dia</em> — aumento brusco reinicia o aprendizado</div>
+</section>
 
-<!-- MÓDULO 9 -->
-<div class="section" id="s9">
-  <div class="section-header">
-    <div class="section-num">09</div>
-    <div class="section-title">
-      <h2>Escala de Campanhas</h2>
-      <p>Como crescer sem quebrar o que está funcionando</p>
-    </div>
-  </div>
-
-  <div class="cards-grid">
-    <div class="card">
-      <h4>📈 Escala Vertical (mesmo conjunto)</h4>
-      <ul>
-        <li>Aumentar orçamento máx. 20%/dia</li>
-        <li>Nunca dobrar de uma vez</li>
-        <li>Aguardar 3 dias antes de novo aumento</li>
-        <li>Monitorar CPM e frequência</li>
-        <li>Se CPM subir 30%+: pausar e revisar</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>🔁 Escala Horizontal (duplicar)</h4>
-      <ul>
-        <li>Duplicar conjunto vencedor</li>
-        <li>Mudar apenas 1 variável</li>
-        <li>Expandir raio geográfico</li>
-        <li>Testar novo segmento demográfico</li>
-        <li>Adicionar novo criativo na cópia</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>🌎 Expansão Regional</h4>
-      <ul>
-        <li>Validar cidade atual primeiro</li>
-        <li>Expandir para bairros adjacentes</li>
-        <li>Depois cidade vizinha</li>
-        <li>Usar dados locais no criativo</li>
-        <li>Não generalizar criativos demais</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="formula">
-    📐 Regra dos 20%: Nunca aumente o orçamento mais de 20% por dia. Aumento brusco reinicia a fase de aprendizado e quebra a performance.
-  </div>
-</div>
-
-<!-- MÓDULO 10 -->
-<div class="section" id="s10">
-  <div class="section-header">
-    <div class="section-num">10</div>
-    <div class="section-title">
-      <h2>Públicos para Inaugurações</h2>
-      <p>Cronograma estratégico do hype à consolidação</p>
-    </div>
-  </div>
-
+<!-- 11 — INAUGURAÇÕES -->
+<section class="section" id="s11">
+  <div class="sec-lbl">11 · Inaugurações</div>
+  <h2>Cronograma estratégico de inauguração</h2>
+  <p class="sec-desc">Do hype à consolidação — cada fase tem objetivo, público, verba e criativo específico.</p>
   <div class="table-wrap">
     <table>
       <thead><tr><th>Fase</th><th>Período</th><th>Objetivo</th><th>Público</th><th>Verba/dia</th><th>Criativo</th></tr></thead>
       <tbody>
-        <tr><td><span class="badge badge-navy">Pré-hype</span></td><td>30–15 dias antes</td><td>Awareness</td><td>Raio 5–10 km, amplo</td><td>R$ 30–50</td><td>"Em breve — novidade na sua cidade"</td></tr>
-        <tr><td><span class="badge badge-yellow">Expectativa</span></td><td>15–5 dias antes</td><td>Engajamento</td><td>Remarketing engajados</td><td>R$ 50–80</td><td>Contagem regressiva, bastidores</td></tr>
-        <tr><td><span class="badge badge-green">Inauguração</span></td><td>D-3 ao D+3</td><td>Alcance máximo</td><td>Raio amplo, novo público</td><td>R$ 80–200</td><td>Oferta de inauguração, urgência</td></tr>
-        <tr><td><span class="badge badge-navy">Consolidação</span></td><td>7–30 dias depois</td><td>WhatsApp / Fidelidade</td><td>Engajados + remarketing</td><td>R$ 40–80</td><td>"Você já nos conheceu — volte!"</td></tr>
+        <tr><td><span class="badge badge-navy">Pré-hype</span></td><td>30–15 dias antes</td><td>Awareness</td><td>Raio amplo</td><td>R$30–50</td><td>"Em breve — novidade na cidade"</td></tr>
+        <tr><td><span class="badge badge-yellow">Expectativa</span></td><td>15–5 dias antes</td><td>Engajamento</td><td>Remarketing engajados</td><td>R$50–80</td><td>Contagem regressiva, bastidores</td></tr>
+        <tr><td><span class="badge badge-green">Inauguração</span></td><td>D-3 ao D+3</td><td>Alcance máximo</td><td>Raio amplo, novo público</td><td>R$80–200</td><td>Oferta exclusiva, urgência</td></tr>
+        <tr><td><span class="badge badge-navy">Consolidação</span></td><td>7–30 dias depois</td><td>WA + Fidelidade</td><td>Engajados + remarketing</td><td>R$40–80</td><td>"Você já nos conheceu — volte!"</td></tr>
       </tbody>
     </table>
   </div>
+</section>
 
-  <div class="highlight-box">
-    <h3>Budget total recomendado para inauguração</h3>
-    <p>Cidade pequena: R$ 1.500–3.000 nos 30 dias | Cidade média: R$ 3.000–8.000 | Cidade grande: R$ 8.000–20.000+</p>
-  </div>
-</div>
-
-<!-- MÓDULO 11 -->
-<div class="section" id="s11">
-  <div class="section-header">
-    <div class="section-num">11</div>
-    <div class="section-title">
-      <h2>Públicos para WhatsApp</h2>
-      <p>A estratégia central da GST — transformar cliques em conversas</p>
-    </div>
-  </div>
-
-  <div class="cards-grid">
-    <div class="card">
-      <h4>📱 Melhor público para WA</h4>
-      <ul>
-        <li>Remarketing: clicou antes mas não conversou</li>
-        <li>Lookalike: lista de contatos do WA</li>
-        <li>Interesse: compradores frequentes locais</li>
-        <li>Geográfico: dentro de 3–5 km</li>
-        <li>Demografico: 25–55, mulheres + homens</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>🎨 Melhor criativo para WA</h4>
-      <ul>
-        <li>Vídeo curto (15–30s) com oferta clara</li>
-        <li>Texto no vídeo (maioria sem áudio)</li>
-        <li>Preço em destaque</li>
-        <li>Urgência: "Hoje somente"</li>
-        <li>CTA direto: "Fale no WhatsApp"</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>✍️ Melhor copy para WA</h4>
-      <ul>
-        <li>Curto e direto — máx. 3 linhas</li>
-        <li>Oferta no início</li>
-        <li>Emojis estratégicos 🛒🔥💥</li>
-        <li>Urgência e escassez</li>
-        <li>CTA: "Clique e peça no WA agora"</li>
-      </ul>
-    </div>
-    <div class="card navy">
-      <h4>🔧 Estrutura ideal</h4>
-      <ul>
-        <li>1 campanha por objetivo</li>
-        <li>2 conjuntos: frio + quente</li>
-        <li>3 criativos: vídeo, imagem, carrossel</li>
-        <li>Botão WA configurado no Business</li>
-        <li>Mensagem pré-preenchida no link</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- MÓDULO 12 -->
-<div class="section" id="s12">
-  <div class="section-header">
-    <div class="section-num">12</div>
-    <div class="section-title">
-      <h2>Estrutura Operacional da Agência</h2>
-      <p>Padrões, nomenclaturas e checklists da GST Marketing</p>
-    </div>
-  </div>
-
-  <h3 style="margin-bottom:16px;font-size:18px">Nomenclatura Padrão de Campanhas</h3>
-  <div class="formula">
-    [CLIENTE]_[OBJETIVO]_[PÚBLICO]_[CRIATIVO]_[DATA]<br>
-    Exemplo: ELZIO_WA_REMARKETING_VIDEO-CHURRASCO_20260601
-  </div>
-
-  <div class="cards-grid" style="margin-top:24px">
-    <div class="card">
-      <h4>✅ Checklist pré-campanha</h4>
-      <ul class="checklist">
-        <li>Pixel instalado e disparando</li>
-        <li>WhatsApp Business conectado</li>
-        <li>Criativos aprovados pelo cliente</li>
-        <li>Público configurado e revisado</li>
-        <li>Orçamento definido e aprovado</li>
-        <li>Nomenclatura seguindo padrão</li>
-        <li>UTMs configurados</li>
-        <li>Campanha em modo rascunho revisada</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>📊 Checklist semanal de otimização</h4>
-      <ul class="checklist">
-        <li>Verificar frequência (ideal: &lt; 3,5)</li>
-        <li>Verificar CPM (comparar semana anterior)</li>
-        <li>Verificar CTR (ideal: &gt; 1%)</li>
-        <li>Pausar criativos com CTR &lt; 0,7%</li>
-        <li>Aumentar orçamento dos vencedores</li>
-        <li>Renovar criativos a cada 2–3 semanas</li>
-        <li>Atualizar públicos de remarketing</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>📋 Checklist de relatório mensal</h4>
-      <ul class="checklist">
-        <li>Total investido vs planejado</li>
-        <li>Total de impressões e alcance</li>
-        <li>Total de conversas no WA</li>
-        <li>Custo por conversa</li>
-        <li>Criativos vencedores do mês</li>
-        <li>Público com melhor performance</li>
-        <li>Recomendações para próximo mês</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- MÓDULO 13 -->
-<div class="section" id="s13">
-  <div class="section-header">
-    <div class="section-num">13</div>
-    <div class="section-title">
-      <h2>Diagnóstico de Problemas</h2>
-      <p>Identificar, entender e corrigir os erros mais comuns</p>
-    </div>
-  </div>
-
+<!-- 12 — DIAGNÓSTICO -->
+<section class="section" id="s12">
+  <div class="sec-lbl">12 · Diagnóstico de Problemas</div>
+  <h2>Identificar, entender e corrigir</h2>
+  <p class="sec-desc">Todo problema tem causa e tem solução. O erro é ficar achando sem diagnosticar.</p>
   <div class="table-wrap">
     <table>
-      <thead><tr><th>Problema</th><th>Causas Prováveis</th><th>Solução Imediata</th></tr></thead>
+      <thead><tr><th>Problema</th><th>Causas prováveis</th><th>Solução imediata</th></tr></thead>
       <tbody>
-        <tr><td><span class="badge badge-red">CPM Alto</span></td><td>Público pequeno, leilão competitivo, frequência alta, data especial</td><td>Ampliar público, trocar criativo, reduzir frequência</td></tr>
-        <tr><td><span class="badge badge-red">CTR Baixo</span></td><td>Criativo fraco, oferta irrelevante, público errado</td><td>Trocar criativo, testar nova oferta, revisar segmentação</td></tr>
-        <tr><td><span class="badge badge-red">Não entrega</span></td><td>Orçamento baixo, público muito pequeno, aprovação pendente</td><td>Aumentar verba, ampliar público, verificar status do anúncio</td></tr>
-        <tr><td><span class="badge badge-yellow">Frequência Alta</span></td><td>Público saturado, campanha longa demais</td><td>Renovar criativo, ampliar raio, pausar 3 dias</td></tr>
-        <tr><td><span class="badge badge-yellow">Custo Alto por Conversa</span></td><td>Criativo fraco, CTA sem urgência, público frio demais</td><td>Reforçar oferta, adicionar urgência, usar público mais quente</td></tr>
-        <tr><td><span class="badge badge-red">Campanha Travada</span></td><td>Fase de aprendizado, poucas impressões, verba muito baixa</td><td>Aumentar orçamento em 30%, consolidar conjuntos</td></tr>
+        <tr><td><span class="badge badge-red">CPM Alto</span></td><td>Público pequeno, frequência alta, data especial</td><td>Ampliar público, trocar criativo, reduzir frequência</td></tr>
+        <tr><td><span class="badge badge-red">CTR Baixo</span></td><td>Criativo fraco, oferta irrelevante, público errado</td><td>Trocar criativo, testar nova oferta</td></tr>
+        <tr><td><span class="badge badge-red">Não entrega</span></td><td>Orçamento baixo, público muito pequeno</td><td>Aumentar verba, ampliar público</td></tr>
+        <tr><td><span class="badge badge-yellow">Frequência Alta</span></td><td>Público saturado, campanha longa</td><td>Renovar criativo, ampliar raio, pausar 3 dias</td></tr>
+        <tr><td><span class="badge badge-yellow">Custo Alto/Conversa</span></td><td>Criativo fraco, CTA sem urgência</td><td>Reforçar oferta, adicionar urgência</td></tr>
+        <tr><td><span class="badge badge-red">Campanha Travada</span></td><td>Fase de aprendizado, verba baixa</td><td>Aumentar orçamento 30%, consolidar conjuntos</td></tr>
       </tbody>
     </table>
   </div>
-</div>
+</section>
 
-<!-- MÓDULO 14 -->
-<div class="section" id="s14">
-  <div class="section-header">
-    <div class="section-num">14</div>
-    <div class="section-title">
-      <h2>Tendências Futuras</h2>
-      <p>O que está chegando e o que devemos dominar agora</p>
+<!-- 13 — OPERACIONAL -->
+<section class="section" id="s13">
+  <div class="sec-lbl">13 · Operacional GST</div>
+  <h2>Padrões, nomenclaturas e processos internos</h2>
+  <p class="sec-desc">Padronização é escalabilidade. O que não tem padrão não pode crescer.</p>
+  <div class="formula">Nomenclatura: <em>[CLIENTE]_[OBJETIVO]_[PÚBLICO]_[CRIATIVO]_[DATA]</em></div>
+  <div class="train-box">
+    <h3>Checklists Operacionais GST</h3>
+    <p class="sub">Validação obrigatória antes, durante e após cada campanha</p>
+    <div class="train-grid">
+      <div class="train-item"><h5>Pré-Campanha</h5><p>Pixel instalado, WA conectado, criativos aprovados, público revisado, nomenclatura correta</p></div>
+      <div class="train-item"><h5>Semanal</h5><p>Frequência &lt;3,5, CTR &gt;1%, pausar criativos ruins, aumentar vencedores</p></div>
+      <div class="train-item"><h5>Mensal</h5><p>Total investido, total de conversas, custo/conversa, criativos vencedores, recomendações</p></div>
+      <div class="train-item"><h5>Treinamento</h5><p>Novo gestor deve dominar este playbook antes de gerir qualquer conta de supermercado</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- 14 — CHECKLIST -->
+<section class="section" id="s14">
+  <div class="sec-lbl">14 · Checklist Executivo</div>
+  <h2>Validação operacional completa</h2>
+  <p class="sec-desc">Checklist interativo para garantir que nada foi esquecido antes de lançar ou otimizar campanhas.</p>
+
+  <div class="cl-wrap" id="cl-pre">
+    <div class="cl-head"><h3>✅ Pré-Campanha</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-pre" style="width:0%"></div></div><span class="cl-count" id="pc-pre">0/6</span></div></div>
+    <div class="cl-items" id="ci-pre">
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Pixel instalado e disparando corretamente</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">WhatsApp Business conectado ao gerenciador</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Criativos aprovados pelo cliente</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Público configurado e raio validado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Orçamento definido e aprovado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text">Nomenclatura seguindo padrão GST</div></div></div>
     </div>
   </div>
 
-  <div class="cards-grid">
-    <div class="card navy">
-      <h4>🚀 O que vai crescer</h4>
-      <ul>
-        <li>Advantage+ Audience (IA da Meta)</li>
-        <li>Criativos dinâmicos gerados por IA</li>
-        <li>Campanhas broad com criativo forte</li>
-        <li>Vídeos curtos (Reels ads)</li>
-        <li>WhatsApp Ads nativos</li>
-        <li>Automação de mensagens no WA</li>
-      </ul>
-    </div>
-    <div class="card red">
-      <h4>💀 O que vai morrer</h4>
-      <ul>
-        <li>Segmentação ultra-granular</li>
-        <li>Públicos detalhados por interesse</li>
-        <li>Imagens estáticas genéricas</li>
-        <li>Campanhas sem Pixel instalado</li>
-        <li>Anúncios sem texto no vídeo</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>🧠 O que dominar agora</h4>
-      <ul>
-        <li>Produção de vídeo de baixo custo</li>
-        <li>Copy com IA (ChatGPT + revisar)</li>
-        <li>Advantage+ Shopping Campaigns</li>
-        <li>Configuração avançada do Pixel</li>
-        <li>Integração WA + CRM</li>
-      </ul>
+  <div class="cl-wrap" id="cl-oti">
+    <div class="cl-head"><h3>📊 Otimização Semanal</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-oti" style="width:0%"></div></div><span class="cl-count" id="pc-oti">0/6</span></div></div>
+    <div class="cl-items" id="ci-oti">
+      <div class="cl-row" onclick="ck(this,'cl-oti')"><div class="cl-box"></div><div><div class="cl-text">Frequência verificada (ideal: &lt;3,5)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-oti')"><div class="cl-box"></div><div><div class="cl-text">CPM comparado com semana anterior</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-oti')"><div class="cl-box"></div><div><div class="cl-text">CTR verificado (ideal: &gt;1%)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-oti')"><div class="cl-box"></div><div><div class="cl-text">Criativos com CTR &lt;0,7% pausados</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-oti')"><div class="cl-box"></div><div><div class="cl-text">Orçamento dos vencedores aumentado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-oti')"><div class="cl-box"></div><div><div class="cl-text">Públicos de remarketing atualizados</div></div></div>
     </div>
   </div>
-</div>
+</section>
 
-<!-- MÓDULO 15 -->
-<div class="section" id="s15">
-  <div class="section-header">
-    <div class="section-num">15</div>
-    <div class="section-title">
-      <h2>Plano Final Executivo</h2>
-      <p>O modelo ideal GST — replicável para qualquer supermercado</p>
-    </div>
-  </div>
+<!-- 15 — CTA -->
+<section class="cta-sec" id="s15">
+  <h2>Conhecimento sem execução<br>é só <em>teoria.</em></h2>
+  <p>Este playbook foi construído para ser executado — não apenas lido. Aplique, meça, otimize e escale.</p>
+  <a href="https://wa.me/5511983912170?text=Olá!%20Quero%20aplicar%20o%20Playbook%20Meta%20Ads%20GST%20no%20meu%20supermercado." class="cta-btn" target="_blank">💬 Falar com a equipe GST</a>
+</section>
 
-  <div class="highlight-box">
-    <h3>Estrutura GST Standard para Supermercado</h3>
-    <p>
-      <strong>Campanha 1 — WhatsApp Frio:</strong> 2 conjuntos (interesse + geográfico puro) × 3 criativos → Verba: 40% do total<br>
-      <strong>Campanha 2 — WhatsApp Remarketing:</strong> Engajados 30 dias + vídeo views → Verba: 30% do total<br>
-      <strong>Campanha 3 — Reconhecimento:</strong> Alcance local amplo, encarte semanal → Verba: 20% do total<br>
-      <strong>Campanha 4 — Testes:</strong> Novos criativos, novos públicos → Verba: 10% do total
-    </p>
-  </div>
-
-  <div class="numeros">
-    <div class="numero-card"><strong>4</strong><span>Campanhas ativas</span></div>
-    <div class="numero-card"><strong>8</strong><span>Conjuntos totais</span></div>
-    <div class="numero-card"><strong>16+</strong><span>Criativos ativos</span></div>
-    <div class="numero-card"><strong>3</strong><span>Ciclos de teste/mês</span></div>
-    <div class="numero-card"><strong>2×</strong><span>Rotação criativos</span></div>
-    <div class="numero-card"><strong>R$50+</strong><span>Verba mín./dia</span></div>
-  </div>
-
-  <h3 style="margin:32px 0 16px;font-size:18px">Checklist Final de Implementação</h3>
-  <div class="cards-grid">
-    <div class="card">
-      <h4>Semana 1 — Fundação</h4>
-      <ul class="checklist">
-        <li>Pixel instalado e verificado</li>
-        <li>Conta Business configurada</li>
-        <li>WhatsApp Business conectado</li>
-        <li>Primeiros criativos produzidos</li>
-        <li>Públicos criados e salvos</li>
-      </ul>
-    </div>
-    <div class="card">
-      <h4>Semana 2 — Lançamento</h4>
-      <ul class="checklist">
-        <li>Campanha 1 ativa (WA frio)</li>
-        <li>Campanha 3 ativa (reconhecimento)</li>
-        <li>Monitoramento diário configurado</li>
-        <li>Relatório semanal estruturado</li>
-        <li>Comunicação com cliente ativa</li>
-      </ul>
-    </div>
-    <div class="card yellow">
-      <h4>Semana 3–4 — Otimização</h4>
-      <ul class="checklist">
-        <li>Remarketing ativado (campanha 2)</li>
-        <li>Criativos vencedores escalados</li>
-        <li>Perdedores pausados</li>
-        <li>Primeiro lookalike criado</li>
-        <li>Relatório mensal enviado</li>
-      </ul>
-    </div>
-  </div>
-
-  <div class="alerta" style="margin-top:32px">
-    <strong>Mensagem final do Playbook:</strong> Não existe fórmula mágica — existe consistência operacional. Os supermercados que mais crescem com Meta Ads são aqueles onde a agência entende o negócio, o cliente confia no processo e a equipe executa com disciplina. O diferencial da GST Marketing é exatamente esse: conhecimento especializado + execução rigorosa + resultado mensurável.
-  </div>
-</div>
-
-<footer>
-  <p>📘 Playbook Meta Ads para Supermercados · Versão 2026</p>
-  <p style="margin-top:8px"><strong>GST Marketing</strong> · agenciagst.com.br · Uso interno — confidencial</p>
+<footer class="page-footer">
+  <p>Playbook Meta Ads para Supermercados · Sistema Operacional GST v2.0 · Mai 2026</p>
+  <p><strong>GST Marketing</strong> · agenciagst.com.br · Uso interno e treinamento</p>
 </footer>
 
+</main>
+
+<script>
+function ck(row, wrapId) {
+  row.classList.toggle('done');
+  const wrap = document.getElementById(wrapId);
+  const total = wrap.querySelectorAll('.cl-row').length;
+  const done = wrap.querySelectorAll('.cl-row.done').length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const id = wrapId.replace('cl-','');
+  const pf = document.getElementById('pf-'+id);
+  const pc = document.getElementById('pc-'+id);
+  if(pf) pf.style.width = pct+'%';
+  if(pc) pc.textContent = done+'/'+total;
+  // Progresso global
+  const allRows = document.querySelectorAll('.cl-row').length;
+  const allDone = document.querySelectorAll('.cl-row.done').length;
+  const gPct = allRows ? Math.round(allDone/allRows*100) : 0;
+  const sb = document.getElementById('sbfill');
+  const sp = document.getElementById('pct');
+  if(sb) sb.style.width = gPct+'%';
+  if(sp) sp.textContent = gPct+'%';
+}
+
+// Sidebar active link
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sb-link');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) {
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, { threshold: 0.25 });
+sections.forEach(s => obs.observe(s));
+</script>
 </body>
 </html>
