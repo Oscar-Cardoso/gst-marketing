@@ -162,7 +162,10 @@ tr:last-child td{border-bottom:none}
     <div id="page-playbooks" class="page">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px">
         <h2>Biblioteca de Playbooks</h2>
-        <button class="btn-primary" onclick="toggleFormPb()" id="btnNovoPb">+ Novo Playbook</button>
+        <div style="display:flex;gap:10px;flex-wrap:wrap">
+          <button id="btnSincronizar" onclick="sincronizarPlaybooks()" style="padding:10px 18px;background:var(--navy2);color:var(--green);border:1px solid var(--green);border-radius:8px;font-size:13px;font-weight:700;cursor:pointer;transition:all .2s" onmouseover="this.style.background='rgba(0,196,106,0.1)'" onmouseout="this.style.background='var(--navy2)'">🔄 Sincronizar</button>
+          <button class="btn-primary" onclick="toggleFormPb()" id="btnNovoPb">+ Novo Playbook</button>
+        </div>
       </div>
       <div id="formPb" style="display:none;background:#fff;border-radius:12px;padding:24px;margin-bottom:20px;box-shadow:0 2px 8px rgba(0,0,0,0.06)">
         <h3 style="margin-bottom:16px">Cadastrar Playbook</h3>
@@ -376,6 +379,84 @@ function filtrarPb(cat, btn) {
   const todos = window._playbooks || [];
   if (cat === 'todos') { renderPbCards(todos); return; }
   renderPbCards(todos.filter(p => p.categoria === cat));
+}
+
+// Catálogo de todos os playbooks do site
+const GST_PLAYBOOKS = [
+  {
+    titulo: 'Playbook Meta Ads para Supermercados',
+    categoria: 'Tráfego Pago',
+    descricao: '15 módulos completos: públicos, campanhas, remarketing, escala e operacional',
+    arquivo_nome: 'playbook-meta-ads-supermercados',
+    arquivo_url: 'https://agenciagst.com.br/playbook-meta-ads-supermercados'
+  },
+  {
+    titulo: 'Mapa de Investimento em Meta Ads',
+    categoria: 'Tráfego Pago',
+    descricao: '3 níveis de verba: Presença Local, Crescimento e Dominação — com argumentos de venda e plano de implementação',
+    arquivo_nome: 'playbook-mapa-investimento-meta-ads',
+    arquivo_url: 'https://agenciagst.com.br/playbook-mapa-investimento-meta-ads'
+  },
+  {
+    titulo: 'Objetivos de Campanha Meta Ads',
+    categoria: 'Tráfego Pago',
+    descricao: 'GST System: os 4 objetivos + Método GST + Matriz de distribuição por perfil de cliente',
+    arquivo_nome: 'playbook-objetivos-meta-ads',
+    arquivo_url: 'https://agenciagst.com.br/playbook-objetivos-meta-ads'
+  },
+  {
+    titulo: 'Manual do WhatsApp que Vende Todos os Dias',
+    categoria: 'WhatsApp Marketing',
+    descricao: '12 módulos: estrutura do WA, grupo VIP, sorteios, engajamento e checklists interativos',
+    arquivo_nome: 'playbook-whatsapp-vende-todos-os-dias',
+    arquivo_url: 'https://agenciagst.com.br/playbook-whatsapp-vende-todos-os-dias'
+  }
+];
+
+async function sincronizarPlaybooks() {
+  const btn = document.getElementById('btnSincronizar');
+  btn.textContent = '⏳ Sincronizando...';
+  btn.disabled = true;
+
+  try {
+    // Buscar playbooks já cadastrados
+    const existentes = await supa('playbooks?select=arquivo_nome') || [];
+    const existentesNomes = existentes.map(p => p.arquivo_nome);
+
+    // Filtrar os que ainda não foram cadastrados
+    const novos = GST_PLAYBOOKS.filter(p => !existentesNomes.includes(p.arquivo_nome));
+
+    if (novos.length === 0) {
+      btn.textContent = '✅ Tudo sincronizado!';
+      setTimeout(() => {
+        btn.textContent = '🔄 Sincronizar';
+        btn.disabled = false;
+      }, 3000);
+      return;
+    }
+
+    // Inserir os novos
+    let inseridos = 0;
+    for (const pb of novos) {
+      const res = await supa('playbooks', {
+        method: 'POST',
+        headers: { 'Prefer': 'return=minimal' },
+        body: JSON.stringify(pb)
+      });
+      if (res !== null) inseridos++;
+    }
+
+    btn.textContent = `✅ ${inseridos} novo(s) adicionado(s)!`;
+    setTimeout(() => {
+      btn.textContent = '🔄 Sincronizar';
+      btn.disabled = false;
+    }, 3000);
+    carregarTudo();
+
+  } catch (err) {
+    btn.textContent = '❌ Erro — tente novamente';
+    btn.disabled = false;
+  }
 }
 
 function toggleFormPb() {
