@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>GST Marketing — Admin</title>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -212,6 +213,7 @@ tr:last-child td{border-bottom:none}
 // v1779848783
 const SUPA_URL = 'https://rybbojxebmmtfhbmnopm.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5YmJvanhlYm1tdGZoYm1ub3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0OTA1NTIsImV4cCI6MjA5NTA2NjU1Mn0.OYK-XEqCfDc3ApMwyc4Dr6TEarsU9LuUsvt9yGoObio';
+const db = supabase.createClient(SUPA_URL, SUPA_KEY);
 
 // Pressionar Enter no login
 document.getElementById('senhaInput').addEventListener('keydown', e => {
@@ -244,6 +246,7 @@ function irPara(pg, btn) {
 }
 
 async function supa(path, opts={}) {
+  // Compatibilidade: usa fetch direto para paths complexos com query string
   const r = await fetch(SUPA_URL + '/rest/v1/' + path, {
     headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json', ...opts.headers },
     ...opts
@@ -257,7 +260,7 @@ let _propostas = [];
 
 async function carregarTudo() {
   // Leads
-  const leads = await supa('leads?order=created_at.desc') || [];
+  const { data: leads = [] } = await db.from('leads').select('*').order('created_at', { ascending: false });
   document.getElementById('st-leads').textContent = leads.length;
   const lt = document.getElementById('leadsTable');
   lt.innerHTML = '<thead><tr><th>Nome</th><th>WhatsApp</th><th>Loja</th><th>Faturamento</th><th>Data</th></tr></thead>';
@@ -267,7 +270,7 @@ async function carregarTudo() {
   });
 
   // Propostas
-  const props = await supa('propostas?order=created_at.desc') || [];
+  const { data: props = [] } = await db.from('propostas').select('*').order('created_at', { ascending: false });
   _propostas = props;
   const ganhas = props.filter(p => p.status === 'Ganha').length;
   document.getElementById('st-props').textContent = props.length;
@@ -276,7 +279,7 @@ async function carregarTudo() {
   renderProps(props);
 
   // Playbooks
-  const pbs = await supa('playbooks?order=id.desc') || [];
+  const { data: pbs = [] } = await db.from('playbooks').select('*').order('id', { ascending: false });
   console.log('Playbooks carregados:', pbs);
   window._playbooks = pbs;
   renderPbCards(pbs);
@@ -326,7 +329,7 @@ function filtrar(seg, btn) {
 
 async function mudarStatus(id, status) {
   if (!status) return;
-  await supa('propostas?id=eq.' + id, { method: 'PATCH', headers: {'Prefer':'return=minimal'}, body: JSON.stringify({status}) });
+  await db.from('propostas').update({ status }).eq('id', id);
   carregarTudo();
 }
 
@@ -419,11 +422,14 @@ async function sincronizarPlaybooks() {
   btn.disabled = true;
 
   try {
-    // Buscar playbooks já cadastrados
-    const existentes = await supa('playbooks?select=arquivo_nome') || [];
-    const existentesNomes = existentes.map(p => p.arquivo_nome);
+    // Buscar playbooks já cadastrados via supabase-js (sem bloqueio de CORS)
+    const { data: existentes, error: erroLeitura } = await db
+      .from('playbooks')
+      .select('arquivo_nome');
 
-    // Filtrar os que ainda não foram cadastrados
+    if (erroLeitura) throw new Error(erroLeitura.message);
+
+    const existentesNomes = (existentes || []).map(p => p.arquivo_nome);
     const novos = GST_PLAYBOOKS.filter(p => !existentesNomes.includes(p.arquivo_nome));
 
     if (novos.length === 0) {
@@ -432,23 +438,11 @@ async function sincronizarPlaybooks() {
       return;
     }
 
-    // Inserir os novos — usar fetch direto para capturar status 204
-    let inseridos = 0;
-    for (const pb of novos) {
-      const r = await fetch(SUPA_URL + '/rest/v1/playbooks', {
-        method: 'POST',
-        headers: {
-          'apikey': SUPA_KEY,
-          'Authorization': 'Bearer ' + SUPA_KEY,
-          'Content-Type': 'application/json',
-          'Prefer': 'return=minimal'
-        },
-        body: JSON.stringify(pb)
-      });
-      if (r.ok) inseridos++;
-    }
+    // Inserir novos via supabase-js
+    const { error: erroInsert } = await db.from('playbooks').insert(novos);
+    if (erroInsert) throw new Error(erroInsert.message);
 
-    btn.textContent = `✅ ${inseridos} novo(s) adicionado(s)!`;
+    btn.textContent = `✅ ${novos.length} novo(s) adicionado(s)!`;
     setTimeout(() => { btn.textContent = '🔄 Sincronizar'; btn.disabled = false; }, 3000);
     await carregarTudo();
 
@@ -479,7 +473,7 @@ async function salvarPlaybook() {
   const url = document.getElementById('pbUrl') ? document.getElementById('pbUrl').value.trim() : '';
   if (!titulo || !categoria) { alert('Preencha título e categoria!'); return; }
   const arquivo_url = url ? (url.startsWith('http') ? url : 'https://' + url) : '-';
-  await supa('playbooks', { method: 'POST', headers: {'Prefer':'return=minimal'}, body: JSON.stringify({titulo, categoria, descricao, arquivo_nome: url || '-', arquivo_url}) });
+  await db.from('playbooks').insert({ titulo, categoria, descricao, arquivo_nome: url || '-', arquivo_url });
   document.getElementById('pbTitulo').value = '';
   document.getElementById('pbCategoria').value = '';
   document.getElementById('pbDescricao').value = '';
@@ -490,7 +484,7 @@ async function salvarPlaybook() {
 
 async function deletarPb(id) {
   if (!confirm('Deletar este playbook?')) return;
-  await supa('playbooks?id=eq.' + id, { method: 'DELETE', headers: {'Prefer':'return=minimal'} });
+  await db.from('playbooks').delete().eq('id', id);
   carregarTudo();
 }
 
