@@ -210,8 +210,7 @@ tr:last-child td{border-bottom:none}
 
 <script>
 // v1779848783
-const SUPA_URL = 'https://rybbojxebmmtfhbmnopm.supabase.co';
-const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJ5YmJvanhlYm1tdGZoYm1ub3BtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzk0OTA1NTIsImV4cCI6MjA5NTA2NjU1Mn0.OYK-XEqCfDc3ApMwyc4Dr6TEarsU9LuUsvt9yGoObio';
+const SUPA_PROXY = '/api/supabase';
 
 // Pressionar Enter no login
 document.getElementById('senhaInput').addEventListener('keydown', e => {
@@ -244,10 +243,11 @@ function irPara(pg, btn) {
 }
 
 async function supa(path, opts={}) {
-  const r = await fetch(SUPA_URL + '/rest/v1/' + path, {
-    headers: { 'apikey': SUPA_KEY, 'Authorization': 'Bearer ' + SUPA_KEY, 'Content-Type': 'application/json', ...opts.headers },
-    ...opts
-  });
+  // Separar path base de query string
+  const [basePath, qs] = path.split('?');
+  const url = SUPA_PROXY + '/' + basePath + (qs ? '?' + qs : '');
+  const headers = { 'Content-Type': 'application/json', ...opts.headers };
+  const r = await fetch(url, { ...opts, headers });
   if (!r.ok) return null;
   const txt = await r.text();
   return txt ? JSON.parse(txt) : [];
@@ -435,11 +435,9 @@ async function sincronizarPlaybooks() {
     // Inserir os novos — usar fetch direto para capturar status 204
     let inseridos = 0;
     for (const pb of novos) {
-      const r = await fetch(SUPA_URL + '/rest/v1/playbooks', {
+      const r = await fetch(SUPA_PROXY + '/playbooks', {
         method: 'POST',
         headers: {
-          'apikey': SUPA_KEY,
-          'Authorization': 'Bearer ' + SUPA_KEY,
           'Content-Type': 'application/json',
           'Prefer': 'return=minimal'
         },
