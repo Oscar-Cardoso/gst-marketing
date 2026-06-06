@@ -1,0 +1,1106 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Humanização de Supermercados | GST System</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:264px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:26px 24px 18px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,0.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,0.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,0.65);font-weight:600}
+.sb-prog{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,0.4);margin-bottom:7px}
+#pct{color:var(--green);font-weight:700}
+.sb-bar{height:5px;background:rgba(255,255,255,0.08);border-radius:3px;overflow:hidden}
+#sbfill{height:100%;background:var(--green);border-radius:3px;width:0%;transition:width .4s}
+.sb-nav{flex:1;padding:14px 0}
+.sb-section-title{font-size:10px;text-transform:uppercase;letter-spacing:1.4px;color:rgba(255,255,255,0.22);padding:8px 24px 4px;font-weight:600}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 24px;font-size:12.5px;color:rgba(255,255,255,0.5);text-decoration:none;transition:all .2s;border-left:3px solid transparent;line-height:1.3}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,0.05)}
+.sb-link.active{color:#fff;background:var(--green-glow);border-left-color:var(--green)}
+.sb-link-num{font-size:10px;color:rgba(255,255,255,0.2);font-weight:600;min-width:18px}
+.sb-footer{padding:18px 24px;border-top:1px solid var(--border)}
+.sb-cta{display:block;background:var(--green);color:#fff;text-align:center;padding:10px;border-radius:8px;font-size:12px;font-weight:700;text-decoration:none;font-family:var(--font-head)}
+.sb-cta:hover{background:var(--green-dark)}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);padding:48px 52px;max-width:calc(var(--sidebar-w) + 820px)}
+
+/* HERO */
+.hero{background:var(--navy);border-radius:16px;padding:52px 52px 44px;margin-bottom:44px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 70% 50%, rgba(0,196,106,0.08) 0%, transparent 65%)}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:var(--green-glow);border:1px solid var(--green-line);border-radius:20px;padding:5px 14px;font-size:11px;color:var(--green);font-weight:600;letter-spacing:.5px;margin-bottom:18px;text-transform:uppercase}
+.hero-title{font-family:var(--font-head);font-size:38px;font-weight:900;color:#fff;line-height:1.15;margin-bottom:14px}
+.hero-title span{color:var(--green)}
+.hero-desc{font-size:15px;color:rgba(255,255,255,0.6);max-width:580px;line-height:1.7;margin-bottom:30px}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap}
+.h-stat{text-align:left}
+.h-stat-val{font-family:var(--font-head);font-size:24px;font-weight:800;color:var(--green)}
+.h-stat-lbl{font-size:11px;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:.5px}
+
+/* SECTION */
+section{margin-bottom:48px}
+.sec-header{display:flex;align-items:center;gap:14px;margin-bottom:28px}
+.sec-num{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--green);background:var(--green-glow);border:1px solid var(--green-line);padding:3px 10px;border-radius:20px;letter-spacing:.5px}
+.sec-title{font-family:var(--font-head);font-size:22px;font-weight:800;color:var(--navy)}
+.sec-title span{color:var(--green)}
+
+/* CARDS */
+.card{background:#fff;border-radius:12px;padding:28px;margin-bottom:16px;border:1px solid #e8edf4;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.card-title{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:12px;display:flex;align-items:center;gap:10px}
+.card-tag{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;padding:3px 9px;border-radius:10px}
+.tag-green{background:rgba(0,196,106,0.1);color:var(--green-dark)}
+.tag-yellow{background:rgba(245,180,0,0.12);color:#c49200}
+.tag-navy{background:rgba(13,27,42,0.08);color:var(--navy)}
+.tag-red{background:rgba(229,57,53,0.1);color:var(--red)}
+
+/* GRID */
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.grid-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+
+/* PROCESSO */
+.processo-steps{display:flex;flex-direction:column;gap:0}
+.p-step{display:flex;gap:20px;align-items:flex-start;padding:20px 0;border-bottom:1px solid #f0f4f8}
+.p-step:last-child{border-bottom:none}
+.p-num{width:38px;height:38px;background:var(--navy);color:var(--green);border-radius:10px;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-weight:800;font-size:16px;flex-shrink:0}
+.p-body h4{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.p-body p{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* ROTEIROS / MISSÕES */
+.missao-card{background:#fff;border:1px solid #e8edf4;border-radius:14px;overflow:hidden;margin-bottom:20px;box-shadow:0 1px 4px rgba(0,0,0,0.04)}
+.missao-header{background:var(--navy);padding:18px 24px;display:flex;align-items:center;gap:14px}
+.missao-icon{font-size:22px}
+.missao-info h3{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff}
+.missao-info p{font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+.missao-body{padding:22px 24px}
+.duracao{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--yellow);background:var(--yellow-dim);padding:4px 12px;border-radius:20px;margin-bottom:16px}
+
+/* CENAS */
+.cenas{display:flex;flex-direction:column;gap:12px}
+.cena{border:1px solid #edf2f8;border-radius:10px;padding:16px 18px;background:#fafbfd}
+.cena-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.cena-title{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy)}
+.cena-time{font-size:11px;color:var(--gray);background:#f0f4f8;padding:2px 8px;border-radius:8px;font-weight:600}
+.cena-row{display:grid;grid-template-columns:70px 1fr;gap:8px;font-size:12.5px;margin-bottom:6px;align-items:baseline}
+.cena-row:last-child{margin-bottom:0}
+.cena-label{color:var(--green-dark);font-weight:700;font-size:11px;text-transform:uppercase;letter-spacing:.3px}
+.cena-text{color:var(--gray);line-height:1.5}
+
+/* CHECKLIST */
+.cl-group{background:#fff;border:1px solid #e8edf4;border-radius:12px;overflow:hidden;margin-bottom:16px}
+.cl-group-header{background:var(--navy);padding:14px 20px;display:flex;align-items:center;justify-content:space-between}
+.cl-group-title{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff}
+.cl-progress{font-size:11px;color:var(--green);font-weight:600}
+.cl-prog-bar{height:3px;background:rgba(255,255,255,0.08)}
+.cl-prog-fill{height:100%;background:var(--green);transition:width .3s;width:0%}
+.cl-row{display:flex;align-items:flex-start;gap:12px;padding:13px 20px;border-bottom:1px solid #f0f4f8;cursor:pointer;transition:background .15s}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{background:#f8fbff}
+.cl-row.done{background:#f0fdf7}
+.cl-row.done .cl-text{text-decoration:line-through;color:var(--text-dim)}
+.cl-box{width:20px;height:20px;border:2px solid #d0dae8;border-radius:5px;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;transition:all .2s}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-check{color:#fff;font-size:11px;display:none}
+.cl-row.done .cl-check{display:block}
+.cl-text{font-size:13px;color:var(--text);line-height:1.5}
+.cl-sub{font-size:11px;color:var(--text-dim);margin-top:2px}
+
+/* DICAS */
+.dica-list{display:flex;flex-direction:column;gap:10px}
+.dica-item{display:flex;align-items:flex-start;gap:12px;padding:14px 18px;background:#fff;border-radius:10px;border:1px solid #e8edf4}
+.dica-dot{width:8px;height:8px;border-radius:50%;background:var(--green);margin-top:6px;flex-shrink:0}
+.dica-text{font-size:13px;color:var(--text);line-height:1.55}
+
+/* TABLE */
+.tbl{width:100%;border-collapse:collapse;font-size:13px}
+.tbl th{background:var(--navy);color:#fff;padding:11px 16px;text-align:left;font-family:var(--font-head);font-size:12px;font-weight:700;letter-spacing:.3px}
+.tbl td{padding:11px 16px;border-bottom:1px solid #f0f4f8;color:var(--text)}
+.tbl tr:nth-child(even) td{background:#fafbfd}
+.tbl tr:last-child td{border-bottom:none}
+
+/* QUOTE */
+.quote{background:var(--navy);border-radius:12px;padding:28px 32px;position:relative;overflow:hidden}
+.quote::before{content:'"';position:absolute;top:-10px;left:20px;font-size:120px;color:var(--green);opacity:.08;font-family:Georgia,serif;line-height:1}
+.quote-text{font-size:17px;color:#fff;font-style:italic;line-height:1.6;position:relative;z-index:1}
+.quote-author{margin-top:14px;font-size:12px;color:var(--green);font-weight:600;text-transform:uppercase;letter-spacing:.5px}
+
+/* INFO BOX */
+.info-box{border-radius:10px;padding:16px 20px;margin-bottom:16px;display:flex;gap:14px;align-items:flex-start}
+.info-box.green{background:rgba(0,196,106,0.08);border:1px solid rgba(0,196,106,0.2)}
+.info-box.yellow{background:rgba(245,180,0,0.08);border:1px solid rgba(245,180,0,0.2)}
+.info-box.red{background:rgba(229,57,53,0.06);border:1px solid rgba(229,57,53,0.15)}
+.info-icon{font-size:20px;margin-top:1px;flex-shrink:0}
+.info-content p{font-size:13px;color:var(--text);line-height:1.6}
+.info-content strong{color:var(--navy);font-weight:700}
+
+@media(max-width:900px){
+  .sidebar{display:none}
+  .main{margin-left:0;padding:24px 20px}
+  .hero{padding:32px 24px}
+  .hero-title{font-size:26px}
+  .grid-2,.grid-3{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+  .cena-row{grid-template-columns:60px 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+  <div class="sb-brand">
+    <div class="sb-logo">GST <span>System</span></div>
+    <div class="sb-sub">Programa Venda Todo Dia</div>
+  </div>
+  <div class="sb-meta">
+    <div class="sb-row">Módulo <span>Humanização</span></div>
+    <div class="sb-row">Nível <span>Operacional</span></div>
+    <div class="sb-row">Vídeos <span>16 roteiros</span></div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl"><span>Progresso geral</span><span id="pct">0%</span></div>
+    <div class="sb-bar"><div id="sbfill"></div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-section-title">Fundamentos</div>
+    <a class="sb-link" href="#intro"><span class="sb-link-num">01</span>Introdução</a>
+    <a class="sb-link" href="#processo"><span class="sb-link-num">02</span>Processo de Humanização</a>
+    <a class="sb-link" href="#checklist"><span class="sb-link-num">03</span>Checklist de Produção</a>
+    <div class="sb-section-title">Missões</div>
+    <a class="sb-link" href="#m01"><span class="sb-link-num">M1</span>Aula 01 – Imediato</a>
+    <a class="sb-link" href="#m02"><span class="sb-link-num">M2</span>Vídeos do Mês</a>
+    <a class="sb-link" href="#m03"><span class="sb-link-num">M3</span>Antecipação de Ofertas</a>
+    <a class="sb-link" href="#m04"><span class="sb-link-num">M4</span>Destaques por Setor</a>
+    <a class="sb-link" href="#m05"><span class="sb-link-num">M5</span>Vídeo Institucional</a>
+    <div class="sb-section-title">Roteiros</div>
+    <a class="sb-link" href="#r-ofertas"><span class="sb-link-num">R1</span>Roteiros de Ofertas</a>
+    <a class="sb-link" href="#r-setores"><span class="sb-link-num">R2</span>Roteiros de Setores</a>
+    <a class="sb-link" href="#r-servicos"><span class="sb-link-num">R3</span>Roteiros de Serviços</a>
+    <a class="sb-link" href="#r-institucional"><span class="sb-link-num">R4</span>Institucional da Loja</a>
+  </nav>
+  <div class="sb-footer">
+    <a class="sb-cta" href="https://wa.me/5512981805454" target="_blank">💬 Falar com GST</a>
+  </div>
+</aside>
+
+<!-- MAIN -->
+<main class="main">
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero-badge">📹 Programa Venda Todo Dia</div>
+    <h1 class="hero-title">Humanização de<br><span>Supermercados</span></h1>
+    <p class="hero-desc">Guia completo para criar vídeos humanizados, aproximar clientes e destacar os diferenciais da loja. Do roteiro à publicação, com metodologia GST.</p>
+    <div class="hero-stats">
+      <div class="h-stat">
+        <div class="h-stat-val">5</div>
+        <div class="h-stat-lbl">Missões</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val">16</div>
+        <div class="h-stat-lbl">Roteiros prontos</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val">7</div>
+        <div class="h-stat-lbl">Etapas do processo</div>
+      </div>
+      <div class="h-stat">
+        <div class="h-stat-val">30–90s</div>
+        <div class="h-stat-lbl">Duração dos vídeos</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="sec-header">
+      <div class="sec-num">01</div>
+      <h2 class="sec-title">O que é <span>Humanização</span>?</h2>
+    </div>
+    <div class="quote">
+      <p class="quote-text">Humanização não é sobre fazer vídeos bonitos. É sobre fazer o cliente sentir que conhece a loja antes de entrar nela. É conexão antes da conversão.</p>
+      <div class="quote-author">Metodologia GST Marketing</div>
+    </div>
+    <div style="margin-top:20px">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-title"><span>🎯</span>O que você vai aprender</div>
+        <div class="dica-list">
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Produzir conteúdos que geram conexão com o público</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Mostrar os diferenciais da loja de forma natural</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Planejar, gravar e publicar vídeos humanizados</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Engajar clientes pelo WhatsApp e redes sociais</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-title"><span>📱</span>Canais de distribuição</div>
+        <div class="dica-list">
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Instagram Feed e Reels</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Stories com CTA para WhatsApp</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">WhatsApp – comunidades e listas de transmissão</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Destaques do perfil (fixados por tema)</div></div>
+        </div>
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <!-- PROCESSO -->
+  <section id="processo">
+    <div class="sec-header">
+      <div class="sec-num">02</div>
+      <h2 class="sec-title">Processo de <span>Humanização</span></h2>
+    </div>
+    <div class="card" style="padding:8px 24px">
+      <div class="processo-steps">
+        <div class="p-step">
+          <div class="p-num">1</div>
+          <div class="p-body"><h4>Seleção dos roteiros do dia</h4><p>Escolha os roteiros que serão gravados. Defina quem será responsável por cada vídeo e qual setor será mostrado.</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num">2</div>
+          <div class="p-body"><h4>Preparação para gravação</h4><p>Verifique iluminação e som do ambiente. Organize o setor, produtos e colaboradores. Prepare celular ou câmera, tripé e microfone (se disponível).</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num">3</div>
+          <div class="p-body"><h4>Gravação dos takes</h4><p>Grave pequenos vídeos seguindo o roteiro. Sorria, olhe para a câmera como se falasse com o cliente. Mostre produtos, colaboradores e setores de forma natural.</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num">4</div>
+          <div class="p-body"><h4>Upload para o Google Drive</h4><p>Suba os vídeos no Drive da loja para que a equipe possa editar. Organize os arquivos por nome e setor para facilitar o processo.</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num">5</div>
+          <div class="p-body"><h4>Edição profissional</h4><p>A equipe GST realiza cortes, ajustes de som e inclusão de elementos gráficos quando necessário.</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num">6</div>
+          <div class="p-body"><h4>Aprovação dos vídeos</h4><p>Vocês conferem os vídeos editados e dão feedback ou aprovação antes da publicação.</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num">7</div>
+          <div class="p-body"><h4>Programação e publicação</h4><p>Os vídeos aprovados são publicados nas redes sociais e enviados para WhatsApp conforme o planejamento do mês.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHECKLIST -->
+  <section id="checklist">
+    <div class="sec-header">
+      <div class="sec-num">03</div>
+      <h2 class="sec-title">Checklist de <span>Produção</span></h2>
+    </div>
+    <div class="info-box yellow">
+      <div class="info-icon">⚡</div>
+      <div class="info-content"><p><strong>Use este checklist mensal.</strong> Cada item representa um vídeo que precisa ser produzido. Marque conforme avança na produção.</p></div>
+    </div>
+
+    <div class="cl-group" id="cl-preparacao">
+      <div class="cl-group-header">
+        <div class="cl-group-title">📋 Preparação Inicial</div>
+        <div class="cl-progress" id="pc-preparacao">0/2</div>
+      </div>
+      <div class="cl-prog-bar"><div class="cl-prog-fill" id="pf-preparacao"></div></div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-preparacao')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Assistir Aula 01 de Humanização</div><div class="cl-sub">Base teórica antes de começar a gravar</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-preparacao')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Produzir todos os vídeos do mês presente</div><div class="cl-sub">Seguindo os roteiros mensais atualizados</div></div>
+      </div>
+    </div>
+
+    <div class="cl-group" id="cl-ofertas">
+      <div class="cl-group-header">
+        <div class="cl-group-title">🏷️ Vídeos de Oferta Semanal</div>
+        <div class="cl-progress" id="pc-ofertas">0/5</div>
+      </div>
+      <div class="cl-prog-bar"><div class="cl-prog-fill" id="pf-ofertas"></div></div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-ofertas')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Segunda Mão de Vaca</div><div class="cl-sub">Engajamento + WhatsApp CTA</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-ofertas')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Terça do Real</div><div class="cl-sub">Produtos a partir de R$1,00</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-ofertas')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Quarta MasterChef</div><div class="cl-sub">Produtos frescos para receitas</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-ofertas')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Quinta Nota 10</div><div class="cl-sub">Combos a R$10,00</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-ofertas')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Sinal Verde / 48h de Ofertas</div><div class="cl-sub">Urgência para final de semana</div></div>
+      </div>
+    </div>
+
+    <div class="cl-group" id="cl-destaques">
+      <div class="cl-group-header">
+        <div class="cl-group-title">🏪 Vídeos de Destaque (Setores)</div>
+        <div class="cl-progress" id="pc-destaques">0/9</div>
+      </div>
+      <div class="cl-prog-bar"><div class="cl-prog-fill" id="pf-destaques"></div></div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Açougue (destaque)</div><div class="cl-sub">Frescor, cortes, diferenciais</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Padaria (destaque)</div><div class="cl-sub">Pães, bolos e produtos artesanais</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Hortifruti (destaque)</div><div class="cl-sub">Frescor, variedade e atendimento</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Pizzaria (destaque)</div><div class="cl-sub">Qualidade, sabores e diferenciais</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Como receber ofertas (destaque)</div><div class="cl-sub">Tutorial WhatsApp – passo a passo</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Atendimento (destaque)</div><div class="cl-sub">Horários, filiais, localização</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Delivery (destaque)</div><div class="cl-sub">Como pedir, prazo, benefícios</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Currículo/RH (destaque)</div><div class="cl-sub">Contratações e canais de envio</div></div>
+      </div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-destaques')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Cartão/App/Clube (destaque)</div><div class="cl-sub">Benefícios e como solicitar</div></div>
+      </div>
+    </div>
+
+    <div class="cl-group" id="cl-institucional">
+      <div class="cl-group-header">
+        <div class="cl-group-title">🎬 Vídeo Institucional</div>
+        <div class="cl-progress" id="pc-institucional">0/1</div>
+      </div>
+      <div class="cl-prog-bar"><div class="cl-prog-fill" id="pf-institucional"></div></div>
+      <div class="cl-row" onclick="toggleCL(this,'cl-institucional')">
+        <div class="cl-box"><span class="cl-check">✓</span></div>
+        <div><div class="cl-text">Institucional da loja (fixar no feed)</div><div class="cl-sub">Vídeo completo 1:30min – todos os setores</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSÃO 1 -->
+  <section id="m01">
+    <div class="sec-header">
+      <div class="sec-num">M1</div>
+      <h2 class="sec-title">Missão 01 – <span>Imediato</span></h2>
+    </div>
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">🎓</div>
+        <div class="missao-info">
+          <h3>Assistir Aula 01 de Humanização</h3>
+          <p>Ação imediata antes de começar a produzir</p>
+        </div>
+      </div>
+      <div class="missao-body">
+        <div class="dica-list">
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Técnicas de gravação e produção de vídeos</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Equipamentos necessários (câmera, tripé, microfone)</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Exemplos práticos de vídeos humanizados reais</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Tudo que você precisa saber antes de começar a gravar</div></div>
+        </div>
+        <div class="info-box green" style="margin-top:16px">
+          <div class="info-icon">💡</div>
+          <div class="info-content"><p>Após assistir, <strong>anote pelo menos 3 ideias</strong> que possam ser aplicadas nos vídeos da sua loja imediatamente.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSÃO 2 -->
+  <section id="m02">
+    <div class="sec-header">
+      <div class="sec-num">M2</div>
+      <h2 class="sec-title">Missão 02 – <span>Produção do Mês</span></h2>
+    </div>
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">🎬</div>
+        <div class="missao-info">
+          <h3>Produzir todos os vídeos do mês</h3>
+          <p>Conteúdos humanizados conforme roteiros mensais</p>
+        </div>
+      </div>
+      <div class="missao-body">
+        <div class="info-box green">
+          <div class="info-icon">📅</div>
+          <div class="info-content"><p><strong>Os roteiros do mês são atualizados automaticamente.</strong> Acesse o link disponibilizado pela GST para ver os roteiros específicos do mês atual, com os temas e datas já planejados.</p></div>
+        </div>
+        <div class="info-box yellow" style="margin-top:0">
+          <div class="info-icon">⚠️</div>
+          <div class="info-content"><p>Grave <strong>todos</strong> os vídeos necessários para o mês de uma vez. Isso reduz interrupções e garante consistência de publicação.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSÃO 3 -->
+  <section id="m03">
+    <div class="sec-header">
+      <div class="sec-num">M3</div>
+      <h2 class="sec-title">Missão 03 – <span>Antecipação de Ofertas</span></h2>
+    </div>
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">📣</div>
+        <div class="missao-info">
+          <h3>Vídeos de Oferta + WhatsApp</h3>
+          <p>Antecipar promoções e engajar clientes semanalmente</p>
+        </div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ Duração: 20 a 40 segundos cada</div>
+        <table class="tbl" style="margin-bottom:20px">
+          <tr><th>Dia</th><th>Nome</th><th>Tema</th></tr>
+          <tr><td>Segunda</td><td>Mão de Vaca</td><td>Economia + Engajamento WhatsApp</td></tr>
+          <tr><td>Segunda</td><td>Segunda da Economia</td><td>Itens essenciais com preço baixo</td></tr>
+          <tr><td>Terça</td><td>Do Real</td><td>Produtos a partir de R$1,00</td></tr>
+          <tr><td>Quarta</td><td>MasterChef</td><td>Ingredientes frescos para receitas</td></tr>
+          <tr><td>Quinta</td><td>Nota 10</td><td>Combos de R$10,00</td></tr>
+          <tr><td>Final de semana</td><td>Sinal Verde</td><td>Descontos e promoções</td></tr>
+          <tr><td>Quinzenal</td><td>48h de Ofertas</td><td>Urgência e senso de escassez</td></tr>
+        </table>
+        <div class="card-title" style="margin-bottom:12px"><span>🎙️</span>Dicas de gravação</div>
+        <div class="dica-list">
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Vídeos curtos: 20 a 40 segundos</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Mostrar produtos, promoções e colaboradores</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Linguagem descontraída e próxima do cliente</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Sempre incentivar o engajamento no WhatsApp no final</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSÃO 4 -->
+  <section id="m04">
+    <div class="sec-header">
+      <div class="sec-num">M4</div>
+      <h2 class="sec-title">Missão 04 – <span>Destaques por Setor</span></h2>
+    </div>
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">🏪</div>
+        <div class="missao-info">
+          <h3>Vídeos Institucionais dos Setores</h3>
+          <p>Mostrar os diferenciais de cada setor da loja</p>
+        </div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ Duração: 30 a 50 segundos cada</div>
+        <div class="grid-2" style="margin-bottom:16px">
+          <div class="card" style="padding:16px 18px">
+            <div class="card-title" style="font-size:13px"><span>🥩</span>Açougue</div>
+            <p style="font-size:12.5px;color:var(--gray)">O melhor açougue da região, ofertas toda quarta, qualidade garantida. Close nos cortes frescos e colaborador atendendo.</p>
+          </div>
+          <div class="card" style="padding:16px 18px">
+            <div class="card-title" style="font-size:13px"><span>🥖</span>Padaria</div>
+            <p style="font-size:12.5px;color:var(--gray)">Pães, bolos e produtos artesanais fresquinhos. Close nos pães saindo do forno, bolos decorados.</p>
+          </div>
+          <div class="card" style="padding:16px 18px">
+            <div class="card-title" style="font-size:13px"><span>🥦</span>Hortifruti</div>
+            <p style="font-size:12.5px;color:var(--gray)">Frescor, variedade e atendimento personalizado. Frutas e verduras com cores vibrantes, gotas de água.</p>
+          </div>
+          <div class="card" style="padding:16px 18px">
+            <div class="card-title" style="font-size:13px"><span>🍕</span>Pizzaria</div>
+            <p style="font-size:12.5px;color:var(--gray)">Qualidade, sabores e diferenciais do serviço. Pizza sendo preparada, forno funcionando, ingredientes selecionados.</p>
+          </div>
+        </div>
+        <div class="dica-list">
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Mostrar colaboradores sorrindo e produtos em destaque</div></div>
+          <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Falar diretamente com o cliente de forma amigável</div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- MISSÃO 5 -->
+  <section id="m05">
+    <div class="sec-header">
+      <div class="sec-num">M5</div>
+      <h2 class="sec-title">Missão 05 – <span>Vídeo Institucional</span></h2>
+    </div>
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">🏆</div>
+        <div class="missao-info">
+          <h3>Vídeo Institucional da Loja</h3>
+          <p>Vídeo completo e elaborado – fixar no feed</p>
+        </div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ Duração: 1 minuto e 30 segundos</div>
+        <div class="grid-2" style="margin-bottom:20px">
+          <div class="card" style="padding:16px 18px">
+            <div class="card-title" style="font-size:13px"><span>📝</span>Conteúdo obrigatório</div>
+            <div class="dica-list">
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Apresentar toda a loja</div></div>
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Mostrar setores e diferenciais</div></div>
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Destacar horário de funcionamento</div></div>
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Valorizar experiência do cliente</div></div>
+            </div>
+          </div>
+          <div class="card" style="padding:16px 18px">
+            <div class="card-title" style="font-size:13px"><span>💡</span>Dicas de produção</div>
+            <div class="dica-list">
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Use storytelling para contar a história da loja</div></div>
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Mostre colaboradores e clientes interagindo naturalmente</div></div>
+              <div class="dica-item"><div class="dica-dot"></div><div class="dica-text">Faça cortes estratégicos para manter o vídeo dinâmico</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROTEIROS DE OFERTAS -->
+  <section id="r-ofertas">
+    <div class="sec-header">
+      <div class="sec-num">R1</div>
+      <h2 class="sec-title">Roteiros de <span>Ofertas Semanais</span></h2>
+    </div>
+
+    <!-- SEGUNDA MÃO DE VACA -->
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">🐄</div>
+        <div class="missao-info"><h3>Segunda – Mão de Vaca</h3><p>Engajamento + inscrição WhatsApp</p></div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ 30–40 segundos</div>
+        <div class="cenas">
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 1 – Quebra de padrão</div><div class="cena-time">0–5s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Mão colocando um mocotó dentro do carrinho vazio</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Segura esse mocotó! É Segunda Mão de Vaca, dia de economizar de verdade!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 2 – Apresentação da oferta</div><div class="cena-time">5–15s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Carrinho sendo preenchido com produtos em oferta</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Aqui é o lugar certo pra quem quer gastar pouco e levar muito!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 3 – CTA WhatsApp</div><div class="cena-time">15–25s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Colaborador sorrindo, apontando para o carrinho</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber todas as ofertas direto no WhatsApp? É só clicar no link!"</div></div>
+            <div class="cena-row"><div class="cena-label">Ação</div><div class="cena-text">Mostrar link/número do WhatsApp com animação "Clique aqui"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 4 – Fechamento e marca</div><div class="cena-time">25–40s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Logo da loja e prateleiras com produtos em destaque</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Segunda Mão de Vaca é todo começo de semana aqui na [Loja]. Economize e receba nossas ofertas no WhatsApp!"</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERÇA DO REAL -->
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">💰</div>
+        <div class="missao-info"><h3>Terça – Do Real</h3><p>Produtos a partir de R$1,00</p></div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ 30–40 segundos</div>
+        <div class="cenas">
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 1 – Quebra de padrão</div><div class="cena-time">0–5s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Colaborador segurando sacola com produtos variados, expressão divertida</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Segura essa sacola! Hoje é Terça do Real e tem produtos a partir de apenas R$1,00!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 2 – Apresentação da oferta</div><div class="cena-time">5–15s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Carrinho sendo preenchido com produtos básicos, etiquetas de R$1,00</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Terça do Real é pra quem quer economizar sem abrir mão da variedade. Produtos a partir de R$1,00!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 3 – CTA WhatsApp</div><div class="cena-time">15–25s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber todas as ofertas da Terça do Real direto no WhatsApp? É só clicar no link!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 4 – Fechamento e marca</div><div class="cena-time">25–40s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Terça do Real é todo começo de semana na [Loja]! Produtos a partir de R$1,00, economia garantida!"</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUARTA MASTERCHEF -->
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">👨‍🍳</div>
+        <div class="missao-info"><h3>Quarta – MasterChef</h3><p>Produtos frescos para receitas</p></div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ 30–40 segundos</div>
+        <div class="cenas">
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 1 – Quebra de padrão</div><div class="cena-time">0–5s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Close em panela sendo aberta ou ingredientes frescos sendo mostrados</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Segura essa receita! Toda quarta é dia de MasterChef aqui na [Loja]!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 2 – Apresentação da oferta</div><div class="cena-time">5–15s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Carrinho preenchido com carnes, verduras, temperos</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"É o dia de criar pratos deliciosos sem gastar muito! Confira nossas ofertas especiais e leve ingredientes fresquinhos."</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 3 – CTA WhatsApp</div><div class="cena-time">15–25s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber todas as ofertas da Quarta MasterChef direto no WhatsApp? Clique no link e não perca nenhuma receita!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 4 – Fechamento e marca</div><div class="cena-time">25–40s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Toda quarta é dia de MasterChef na [Loja]! Aproveite, economize e receba todas as novidades no WhatsApp!"</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- QUINTA NOTA 10 -->
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">⭐</div>
+        <div class="missao-info"><h3>Quinta – Nota 10</h3><p>Combos a R$10,00</p></div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ 30–40 segundos</div>
+        <div class="cenas">
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 1 – Quebra de padrão</div><div class="cena-time">0–5s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Colaborador segurando combo com sorriso animado, etiquetas R$10,00</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Segura esse combo! Toda quinta é Quinta Nota 10 aqui na [Loja]!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 2 – Apresentação da oferta</div><div class="cena-time">5–15s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"É dia de economizar e levar muito! Todos os combos saem por apenas R$10,00. Garanta os melhores produtos sem pesar no bolso."</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 3 – CTA WhatsApp</div><div class="cena-time">15–25s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber todos os combos de Quinta Nota 10 direto no WhatsApp? Clique no link e não perca nenhuma oferta!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 4 – Fechamento e marca</div><div class="cena-time">25–40s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quinta Nota 10 é toda quinta-feira na [Loja]! Combos de R$10,00 e ofertas direto no WhatsApp!"</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 48H OFERTAS -->
+    <div class="missao-card">
+      <div class="missao-header">
+        <div class="missao-icon">⏰</div>
+        <div class="missao-info"><h3>Sinal Verde / 48h de Ofertas</h3><p>Urgência e final de semana</p></div>
+      </div>
+      <div class="missao-body">
+        <div class="duracao">⏱️ 30–40 segundos</div>
+        <div class="cenas">
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 1 – Urgência</div><div class="cena-time">0–5s</div></div>
+            <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Colaborador com cronômetro/plaquinha verde, expressão animada</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Atenção! Só 48 horas pra aproveitar nossas ofertas imperdíveis!" / "Sinal verde ligado! Chegou o final de semana com ofertas!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 2 – Oferta</div><div class="cena-time">5–15s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"São apenas dois dias para garantir preços especiais em produtos selecionados. Aproveite para economizar!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 3 – CTA WhatsApp</div><div class="cena-time">15–25s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber as ofertas no WhatsApp e garantir seus produtos antes que acabe? Clique no link!"</div></div>
+          </div>
+          <div class="cena">
+            <div class="cena-header"><div class="cena-title">Cena 4 – Fechamento</div><div class="cena-time">25–40s</div></div>
+            <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"48h de Ofertas é toda semana na [Loja]! Receba todas as promoções diretamente no WhatsApp!"</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROTEIROS DE SETORES -->
+  <section id="r-setores">
+    <div class="sec-header">
+      <div class="sec-num">R2</div>
+      <h2 class="sec-title">Roteiros de <span>Setores</span></h2>
+    </div>
+
+    <div class="grid-2">
+      <!-- AÇOUGUE -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">🥩</div>
+          <div class="missao-info"><h3>Açougue</h3><p>40–50 segundos</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Abertura</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Aqui é o melhor açougue da cidade! Qualidade e frescor que você sente no primeiro olhar."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Diferenciais</div><div class="cena-time">5–20s</div></div>
+              <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Balcão com cortes, carnes temperadas e opções prontas</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Todos os dias, carnes fresquinhas e selecionadas. Qualidade não é opção, é compromisso!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Produtos especiais</div><div class="cena-time">20–35s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Do churrasco ao jantar em família, temos tudo para tornar suas refeições inesquecíveis!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Fechamento</div><div class="cena-time">35–50s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"O açougue da [Loja]: frescor, qualidade e atendimento que faz você se sentir em casa!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PADARIA -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">🥖</div>
+          <div class="missao-info"><h3>Padaria</h3><p>40–50 segundos</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Abertura</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Pães saindo do forno com vapor visível</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Nada como o cheirinho de pão fresquinho! Aqui é a melhor padaria da cidade."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Diferenciais</div><div class="cena-time">5–20s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Todos os dias, pães fresquinhos, bolos irresistíveis e doces especiais preparados com todo cuidado."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Produtos especiais</div><div class="cena-time">20–35s</div></div>
+              <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Bolos decorados, croissants, pães artesanais</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Do café da manhã ao lanche da tarde, temos opções que fazem você se sentir em casa."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Fechamento</div><div class="cena-time">35–50s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"A padaria da [Loja] é sinônimo de frescor, sabor e variedade todos os dias!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HORTIFRUTI -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">🥦</div>
+          <div class="missao-info"><h3>Hortifruti</h3><p>40–50 segundos</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Abertura</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Frutas e verduras fresquinhas, cores vibrantes, gotas de água</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"No nosso Hortifruti, frescor e qualidade são prioridade! Impossível resistir a tanta cor e sabor."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Diferenciais</div><div class="cena-time">5–20s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Todos os dias, produtos frescos, selecionados com cuidado, vindos dos melhores produtores."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Fechamento</div><div class="cena-time">35–50s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"O Hortifruti da [Loja] é referência em frescor e qualidade. Venha conferir pessoalmente!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PIZZARIA -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">🍕</div>
+          <div class="missao-info"><h3>Pizzaria</h3><p>40–50 segundos</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Abertura</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Pizza sendo preparada, forno funcionando, close nos ingredientes</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Na nossa Pizzaria, sabor artesanal com ingredientes selecionados todos os dias!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Diferenciais</div><div class="cena-time">5–20s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Perfeita para sua refeição rápida ou confraternização com a família. Qualidade que você sente em cada fatia!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Fechamento</div><div class="cena-time">35–50s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Venha provar e descobrir por que a [Loja] é referência em pizza artesanal na cidade!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROTEIROS DE SERVIÇOS -->
+  <section id="r-servicos">
+    <div class="sec-header">
+      <div class="sec-num">R3</div>
+      <h2 class="sec-title">Roteiros de <span>Serviços</span></h2>
+    </div>
+    <div class="grid-2">
+
+      <!-- COMO RECEBER OFERTAS -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">📲</div>
+          <div class="missao-info"><h3>Como Receber Ofertas</h3><p>Tutorial WhatsApp – 40–50s</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Introdução</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber todas as ofertas da [Loja] direto no WhatsApp? Vou te mostrar como é fácil!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Passo a passo</div><div class="cena-time">5–25s</div></div>
+              <div class="cena-row"><div class="cena-label">Ação</div><div class="cena-text">1. Clique no link da bio → 2. Clique em "Ofertas" → 3. Entre no WhatsApp. Pronto!</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Benefícios</div><div class="cena-time">25–40s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quem está na nossa comunidade recebe ofertas antes de todo mundo, novidades exclusivas e participa de sorteios toda semana!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATENDIMENTO -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">🏪</div>
+          <div class="missao-info"><h3>Atendimento</h3><p>Horários, filiais e localização – 30–40s</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Horário</div><div class="cena-time">5–15s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Estamos abertos todos os dias, das [horário] às [horário]. Sempre prontos para te atender!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Filiais</div><div class="cena-time">15–25s</div></div>
+              <div class="cena-row"><div class="cena-label">Visual</div><div class="cena-text">Mapa animado com marcadores das filiais</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Temos filiais pela cidade para você ter sempre o melhor da [Loja] pertinho de você!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DELIVERY -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">🛵</div>
+          <div class="missao-info"><h3>Delivery</h3><p>Como pedir e benefícios – 40–50s</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Introdução</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer receber os produtos da [Loja] sem sair de casa? Vou te mostrar como é rápido!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Passo a passo</div><div class="cena-time">5–25s</div></div>
+              <div class="cena-row"><div class="cena-label">Ação</div><div class="cena-text">1. Acesse o link do delivery na bio → 2. Escolha os produtos → 3. Finalize com endereço e pagamento</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Benefícios</div><div class="cena-time">25–40s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Seu pedido chega em até [prazo] com total segurança. Praticidade, conforto e economia sem sair de casa!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CURRÍCULO/RH -->
+      <div class="missao-card">
+        <div class="missao-header">
+          <div class="missao-icon">💼</div>
+          <div class="missao-info"><h3>Currículo / RH</h3><p>Recrutamento – 30–40s</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="cenas">
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Abertura</div><div class="cena-time">0–5s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Está procurando uma oportunidade incrível? A [Loja] quer você na equipe!"</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Perfil</div><div class="cena-time">5–15s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Estamos contratando para várias áreas! Procuramos pessoas proativas, dedicadas e que queiram crescer."</div></div>
+            </div>
+            <div class="cena">
+              <div class="cena-header"><div class="cena-title">Envio</div><div class="cena-time">15–30s</div></div>
+              <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Envie seu currículo pelo WhatsApp [número] ou e-mail [e-mail] e faça parte do nosso time!"</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CARTÃO/APP/CLUBE -->
+      <div class="missao-card" style="grid-column:1/-1">
+        <div class="missao-header">
+          <div class="missao-icon">💳</div>
+          <div class="missao-info"><h3>Cartão / App / Clube</h3><p>Benefícios e adesão – 40–50s</p></div>
+        </div>
+        <div class="missao-body">
+          <div class="grid-2">
+            <div class="cenas">
+              <div class="cena">
+                <div class="cena-header"><div class="cena-title">Abertura</div><div class="cena-time">0–5s</div></div>
+                <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Quer aproveitar ainda mais vantagens? Conheça o Cartão da [Loja]!"</div></div>
+              </div>
+              <div class="cena">
+                <div class="cena-header"><div class="cena-title">Benefícios</div><div class="cena-time">5–25s</div></div>
+                <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Com o Cartão você recebe ofertas exclusivas, descontos especiais e participa de promoções todos os dias!"</div></div>
+              </div>
+            </div>
+            <div class="cenas">
+              <div class="cena">
+                <div class="cena-header"><div class="cena-title">Como solicitar</div><div class="cena-time">25–40s</div></div>
+                <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Basta ir até o caixa, preencher seu cadastro ou acessar nosso app. Simples assim!"</div></div>
+              </div>
+              <div class="cena">
+                <div class="cena-header"><div class="cena-title">CTA Final</div><div class="cena-time">40–50s</div></div>
+                <div class="cena-row"><div class="cena-label">Copy</div><div class="cena-text">"Não fique de fora! Solicite hoje o Cartão da [Loja] e aproveite todas as vantagens exclusivas!"</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ROTEIRO INSTITUCIONAL -->
+  <section id="r-institucional">
+    <div class="sec-header">
+      <div class="sec-num">R4</div>
+      <h2 class="sec-title">Roteiro <span>Institucional da Loja</span></h2>
+    </div>
+    <div class="info-box green">
+      <div class="info-icon">🏆</div>
+      <div class="info-content"><p><strong>Este é o vídeo mais importante.</strong> Dura 1:30 min e deve ser fixado no feed do Instagram. Use storytelling, mostre todos os setores e termine com um CTA poderoso.</p></div>
+    </div>
+    <div class="card" style="padding:8px 24px;margin-top:16px">
+      <div class="processo-steps">
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">0–10s</div>
+          <div class="p-body"><h4>Abertura – Fachada da loja</h4><p>Drone ou câmera externa. "Seja bem-vindo à [Loja]! Aqui, sua experiência de compra é única, com qualidade, variedade e preços que cabem no seu bolso!"</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">10–25s</div>
+          <div class="p-body"><h4>Panorâmica interna</h4><p>Corredores, clientes satisfeitos, prateleiras organizadas. "Na [Loja] você encontra tudo em um só lugar: produtos frescos, variedades exclusivas e atendimento que faz a diferença."</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">25–40s</div>
+          <div class="p-body"><h4>Setor Açougue</h4><p>Close nos cortes de carne, funcionário atendendo. "Nosso Açougue: cortes fresquinhos, temperados e qualidade garantida para o seu churrasco e o dia a dia!"</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">40–50s</div>
+          <div class="p-body"><h4>Setor Hortifruti</h4><p>Frutas e verduras fresquinhas. "No Hortifruti, produtos frescos todos os dias, direto do produtor para sua mesa."</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">50–60s</div>
+          <div class="p-body"><h4>Setor Padaria</h4><p>"Nossa Padaria traz pães, doces e bolos fresquinhos todos os dias, feitos com carinho para o seu café da manhã ou lanche especial."</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">60–70s</div>
+          <div class="p-body"><h4>Setor Pizzaria</h4><p>"Na Pizzaria, sabor artesanal com ingredientes selecionados. Perfeita para refeição rápida ou confraternização com a família!"</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">70–85s</div>
+          <div class="p-body"><h4>Diferenciais e ofertas</h4><p>"Além de qualidade, oferecemos ofertas imperdíveis todos os dias, promoções especiais e atendimento personalizado."</p></div>
+        </div>
+        <div class="p-step">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700">85–90s</div>
+          <div class="p-body"><h4>Horário, filiais e contato</h4><p>Mapa e WhatsApp na tela. "Abertos todos os dias das [horário], com filiais para atender você melhor. Peça pelo WhatsApp!"</p></div>
+        </div>
+        <div class="p-step" style="border:none">
+          <div class="p-num" style="font-size:12px;width:52px;border-radius:8px;font-weight:700;background:var(--green)">90s</div>
+          <div class="p-body"><h4>CTA Final</h4><p>"[Loja] – qualidade, variedade e ofertas todos os dias. Venha nos conhecer e viva a experiência de comprar com economia e excelência!"</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<script>
+function toggleCL(row, groupId) {
+  row.classList.toggle('done');
+  updateProgress(groupId);
+}
+function updateProgress(wrapId) {
+  const group = document.getElementById(wrapId);
+  const total = group.querySelectorAll('.cl-row').length;
+  const done = group.querySelectorAll('.cl-row.done').length;
+  const pct = total ? Math.round(done/total*100) : 0;
+  const id = wrapId.replace('cl-','');
+  const pf = document.getElementById('pf-'+id);
+  const pc = document.getElementById('pc-'+id);
+  if(pf) pf.style.width = pct+'%';
+  if(pc) pc.textContent = done+'/'+total;
+  const allRows = document.querySelectorAll('.cl-row').length;
+  const allDone = document.querySelectorAll('.cl-row.done').length;
+  const gPct = allRows ? Math.round(allDone/allRows*100) : 0;
+  const sb = document.getElementById('sbfill');
+  const sp = document.getElementById('pct');
+  if(sb) sb.style.width = gPct+'%';
+  if(sp) sp.textContent = gPct+'%';
+}
+const sections = document.querySelectorAll('section[id]');
+const links = document.querySelectorAll('.sb-link');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      links.forEach(l => l.classList.remove('active'));
+      const a = document.querySelector(`.sb-link[href="#${e.target.id}"]`);
+      if(a) a.classList.add('active');
+    }
+  });
+}, {threshold:0.2});
+sections.forEach(s => obs.observe(s));
+</script>
+</body>
+</html>
