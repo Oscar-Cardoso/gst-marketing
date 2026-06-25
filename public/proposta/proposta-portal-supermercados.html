@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Comercial — Portal Supermercados | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:1.7}
+
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a2240 100%);padding:72px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;position:relative}
+.hero-logo{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff}
+.hero-logo span{color:var(--green)}
+.hero-badge{background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.hero-pre{font-size:12px;font-weight:600;color:rgba(255,255,255,.35);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,50px);font-weight:900;line-height:1.1;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.48);max-width:560px;margin-bottom:36px;line-height:1.7;position:relative}
+.hero-cliente h3{font-family:var(--font-head);font-size:18px;font-weight:800;color:#fff;margin-bottom:4px;position:relative}
+.hero-cliente p{font-size:13px;color:rgba(255,255,255,.4);position:relative}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day)}
+.section:nth-child(even){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+.diag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:24px 0}
+.diag-card{border-radius:14px;padding:22px;border-left:4px solid}
+.diag-card.p{background:#fff5f5;border-color:var(--red)}
+.diag-card.o{background:rgba(0,196,106,.06);border-color:var(--green)}
+.diag-card.a{background:var(--yellow-dim);border-color:var(--yellow)}
+.diag-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;margin-bottom:8px}
+.diag-card.p h4{color:var(--red)}
+.diag-card.o h4{color:var(--green-dark)}
+.diag-card.a h4{color:#b07500}
+.diag-card ul{list-style:none;padding:0}
+.diag-card li{font-size:12px;color:var(--text);padding:3px 0;display:flex;gap:7px;border-bottom:1px solid rgba(0,0,0,.04)}
+.diag-card li:last-child{border-bottom:none}
+.diag-card.p li::before{content:'✗';color:var(--red);min-width:14px;font-weight:700}
+.diag-card.o li::before{content:'→';color:var(--green);min-width:14px;font-weight:700}
+.diag-card.a li::before{content:'!';color:#b07500;min-width:14px;font-weight:700}
+
+.perfil-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+.perfil-card{background:var(--navy);border-radius:16px;padding:28px;border:1px solid var(--border)}
+.perfil-card h3{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-bottom:16px}
+.perfil-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.perfil-item:last-child{border-bottom:none}
+.pi-lbl{font-size:11px;color:rgba(255,255,255,.35);min-width:110px}
+.pi-val{font-size:13px;color:#fff;font-weight:600}
+.pi-val.g{color:var(--green)}
+.pi-val.y{color:var(--yellow)}
+.pi-val.r{color:var(--red)}
+
+.proposta-box{background:linear-gradient(135deg,var(--navy),#0a2240);border-radius:20px;padding:40px;border:1px solid rgba(0,196,106,.2);position:relative;overflow:hidden;margin:24px 0}
+.proposta-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.pb-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-family:var(--font-head);position:relative}
+.proposta-box h3{font-family:var(--font-head);font-size:22px;font-weight:900;color:#fff;margin-bottom:6px;position:relative}
+.proposta-box p{font-size:14px;color:rgba(255,255,255,.5);position:relative;margin-bottom:28px}
+.pb-valores{display:flex;gap:20px;flex-wrap:wrap;position:relative}
+.pb-valor{flex:1;min-width:150px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:20px;text-align:center}
+.pb-valor strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.pb-valor span{font-size:12px;color:rgba(255,255,255,.38);margin-top:4px;display:block}
+.pb-valor.total{background:rgba(0,196,106,.12);border-color:var(--green-line)}
+.pb-valor.total strong{font-size:32px}
+.pb-valor.total span{color:var(--green)}
+
+.servicos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:24px 0}
+.servico{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green)}
+.s-ico{font-size:22px;margin-bottom:9px;display:block}
+.servico h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.servico ul{list-style:none;padding:0}
+.servico li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.servico li:last-child{border-bottom:none}
+.servico li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+
+.est-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.est-card{border-radius:13px;overflow:hidden}
+.est-head{padding:14px 18px;font-family:var(--font-head);font-size:12px;font-weight:800;color:var(--green)}
+.est-card:nth-child(1) .est-head{background:var(--navy)}
+.est-card:nth-child(2) .est-head{background:var(--navy2)}
+.est-card:nth-child(3) .est-head{background:linear-gradient(135deg,var(--navy),#0a2040)}
+.est-body{padding:14px 18px;background:#fff;border:1px solid var(--border-day);border-top:none}
+.est-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.est-item:last-child{border-bottom:none}
+.est-item::before{content:'→';color:var(--green);min-width:14px;font-weight:700}
+
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)} .callout.t .c-lbl{color:var(--green-dark)} .callout.w .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.s h3{color:#fff} .callout.t h3{color:var(--navy)} .callout.w h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)} .callout.t p{color:var(--navy)} .callout.w p{color:#5a3b00}
+
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-g{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-y{background:rgba(245,180,0,.1);color:#b07500}
+.badge-n{background:rgba(13,27,42,.07);color:var(--navy)}
+
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:14px;padding:18px 26px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.5}
+.formula em{color:var(--green);font-style:normal}
+
+.rm-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:24px 0}
+.rm-card{border-radius:12px;overflow:hidden}
+.rm-head{padding:13px 16px;font-family:var(--font-head);font-size:12px;font-weight:800;color:var(--green)}
+.rm-card:nth-child(1) .rm-head{background:var(--navy)}
+.rm-card:nth-child(2) .rm-head{background:var(--navy2)}
+.rm-card:nth-child(3) .rm-head{background:linear-gradient(135deg,var(--navy),#0a2040)}
+.rm-body{padding:13px 16px;background:#fff;border:1px solid var(--border-day);border-top:none}
+.rm-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.rm-item:last-child{border-bottom:none}
+.rm-item::before{content:'→';color:var(--green);min-width:14px;font-weight:700}
+
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a2240);padding:72px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:12px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,196,106,.25)}
+.cta-sec small{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.28);position:relative}
+
+.page-footer{background:var(--navy2);padding:22px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .5s ease both}
+
+@media(max-width:768px){
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+  .perfil-grid,.est-grid,.rm-grid{grid-template-columns:1fr}
+  .pb-valores{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">GST <span>Marketing</span></div>
+    <span class="hero-badge">⚡ Proposta Comercial</span>
+  </div>
+  <div class="hero-pre">Apresentado para</div>
+  <h1>Portal <em>Supermercados</em><br>Uma nova rota de<br>crescimento digital.</h1>
+  <p class="hero-sub">Diagnóstico, estratégia e plano de execução para reverter a queda de performance e recuperar a liderança regional em Gravataí e Cachoeirinha — RS.</p>
+  <div class="hero-cliente">
+    <h3>Portal Supermercados</h3>
+    <p>Gravataí e Cachoeirinha · RS · 5 lojas · Quase 20 anos de mercado · 51k seguidores</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>5</strong><span>Lojas ativas</span></div>
+    <div class="hero-stat"><strong>51k</strong><span>Seguidores Instagram</span></div>
+    <div class="hero-stat"><strong>19</strong><span>Anos de mercado</span></div>
+    <div class="hero-stat"><strong>-7%</strong><span>Queda recente</span></div>
+  </div>
+</section>
+
+<!-- 01 - DIAGNÓSTICO -->
+<section class="section">
+  <div class="sec-lbl">01 · Diagnóstico</div>
+  <h2>O que os dados nos dizem sobre o momento atual</h2>
+  <p class="sec-desc">O Portal tem ativo, estrutura e presença — mas algo na estratégia digital está travando o crescimento e acelerando a queda.</p>
+
+  <div class="diag-grid">
+    <div class="diag-card p">
+      <h4>⚠️ Sinais de Alerta</h4>
+      <ul>
+        <li>Queda de ~7% no faturamento por 6 meses consecutivos</li>
+        <li>R$10k em mídia distribuídos em 5 lojas = R$2k/loja</li>
+        <li>Verba fragmentada reduz aprendizado do algoritmo</li>
+        <li>Tendência de queda sem reversão visível</li>
+      </ul>
+    </div>
+    <div class="diag-card o">
+      <h4>💡 Oportunidades</h4>
+      <ul>
+        <li>51k seguidores = audiência enorme pouco explorada</li>
+        <li>19 anos de marca = confiança e reconhecimento</li>
+        <li>Açougue e hortifruti como diferenciais fortes</li>
+        <li>App próprio = canal de retenção ativo</li>
+        <li>Duas cidades = duas praças para dominar</li>
+      </ul>
+    </div>
+    <div class="diag-card a">
+      <h4>🔍 Hipóteses da Queda</h4>
+      <ul>
+        <li>Verba diluída demais por loja sem escala</li>
+        <li>Campanhas sem remarketing estruturado</li>
+        <li>Concorrência mais agressiva digitalmente</li>
+        <li>Falta de calendário comercial integrado</li>
+        <li>Objetivo de campanha errado para o momento</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// análise GST</span>
+    <h3>R$2.000 por loja é pouco para gerar escala — o algoritmo não aprende</h3>
+    <p>Com a verba fragmentada em 5 lojas, cada conjunto de campanhas tem orçamento insuficiente para sair da fase de aprendizado e acumular dados de qualidade. O resultado é CPM alto, frequência baixa e custo por conversa elevado. A estratégia precisa de consolidação antes de expansão.</p>
+  </div>
+</section>
+
+<!-- 02 - PERFIL -->
+<section class="section">
+  <div class="sec-lbl">02 · Perfil do Cliente</div>
+  <h2>Quem é o Portal Supermercados</h2>
+  <p class="sec-desc">Uma rede com história, estrutura e potencial — que merece uma gestão digital à altura do seu tamanho.</p>
+
+  <div class="perfil-grid">
+    <div class="perfil-card">
+      <h3>🏪 Dados da Empresa</h3>
+      <div class="perfil-item"><span class="pi-lbl">Razão social</span><span class="pi-val">Portal Supermercados Ltda</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Fundação</span><span class="pi-val">2006 — quase 20 anos</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Cidades</span><span class="pi-val">Gravataí e Cachoeirinha · RS</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Lojas ativas</span><span class="pi-val g">5 unidades</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Equipe</span><span class="pi-val">51–200 funcionários</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Diferenciais</span><span class="pi-val">Açougue + Hortifruti + Padaria</span></div>
+      <div class="perfil-item"><span class="pi-lbl">App próprio</span><span class="pi-val g">✓ App Portal ativo</span></div>
+    </div>
+    <div class="perfil-card">
+      <h3>📱 Presença Digital</h3>
+      <div class="perfil-item"><span class="pi-lbl">Instagram</span><span class="pi-val g">51.000 seguidores</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Posts</span><span class="pi-val">2.223 publicações</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Bio</span><span class="pi-val">"Há quase 20 anos na sua família"</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Verba atual</span><span class="pi-val y">R$10.000/mês · 5 lojas</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Resultado</span><span class="pi-val r">-7% últimos 6 meses</span></div>
+      <div class="perfil-item"><span class="pi-lbl">Gestão atual</span><span class="pi-val y">Já anuncia — sem resultado</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 - PROPOSTA -->
+<section class="section">
+  <div class="sec-lbl">03 · Proposta de Valor</div>
+  <h2>O que a GST entrega para o Portal</h2>
+  <p class="sec-desc">Gestão estratégica integrada das 5 lojas — com foco em reverter a queda, recuperar o faturamento e posicionar o Portal como referência digital em Gravataí e Cachoeirinha.</p>
+
+  <div class="proposta-box">
+    <div class="pb-lbl">// investimento mensal</div>
+    <h3>Gestão GST — Nível Dominação</h3>
+    <p>Cobertura completa das 5 lojas com estratégia unificada e calendário integrado</p>
+    <div class="pb-valores">
+      <div class="pb-valor"><strong>R$4.000</strong><span>Fee de gestão GST/mês</span></div>
+      <div class="pb-valor"><strong>R$10.000</strong><span>Verba de mídia (mantida)</span></div>
+      <div class="pb-valor total"><strong>R$14.000</strong><span>Investimento total/mês</span></div>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// posicionamento GST</span>
+    <h3>A verba de mídia não muda — o que muda é como ela trabalha</h3>
+    <p>O Portal já investe R$10k/mês. A GST não vai pedir mais verba — vai fazer a verba atual trabalhar melhor: com estrutura consolidada, campanhas por objetivo correto, remarketing ativo e calendário integrado para as 5 lojas.</p>
+  </div>
+</section>
+
+<!-- 04 - SERVIÇOS -->
+<section class="section">
+  <div class="sec-lbl">04 · Escopo de Serviços</div>
+  <h2>O que está incluído na gestão GST</h2>
+  <p class="sec-desc">Cobertura completa — da estratégia ao relatório — para as 5 unidades do Portal.</p>
+
+  <div class="servicos-grid">
+    <div class="servico"><span class="s-ico">🎯</span><h4>Estratégia e Planejamento</h4><ul><li>Diagnóstico das campanhas atuais</li><li>Reestruturação da conta de anúncios</li><li>Calendário comercial mensal integrado</li><li>Planejamento por loja e por setor</li></ul></div>
+    <div class="servico"><span class="s-ico">📡</span><h4>Meta Ads — 5 Lojas</h4><ul><li>Campanhas por objetivo correto</li><li>Segmentação por raio de cada loja</li><li>Remarketing e lookalike ativos</li><li>Otimização semanal de cada conta</li></ul></div>
+    <div class="servico"><span class="s-ico">🎨</span><h4>Criativos</h4><ul><li>Artes de oferta semanais</li><li>Vídeos humanizados das lojas</li><li>Criativos por setor (açougue, FLV)</li><li>Peças para datas comemorativas</li></ul></div>
+    <div class="servico"><span class="s-ico">💬</span><h4>WhatsApp</h4><ul><li>Grupos VIP por loja</li><li>Crescimento de base de contatos</li><li>Rotina de mensagens semanais</li><li>Integração com campanhas pagas</li></ul></div>
+    <div class="servico"><span class="s-ico">📊</span><h4>Relatórios</h4><ul><li>Relatório mensal consolidado</li><li>KPIs por loja e por objetivo</li><li>Reunião mensal de alinhamento</li><li>Comparativo vs período anterior</li></ul></div>
+    <div class="servico"><span class="s-ico">🗓️</span><h4>Calendário Comercial</h4><ul><li>Todas as datas mapeadas</li><li>Campanhas sazonais antecipadas</li><li>Semana do Açougue, FLV, Padaria</li><li>Datas regionais do RS</li></ul></div>
+  </div>
+</section>
+
+<!-- 05 - ESTRATÉGIA -->
+<section class="section">
+  <div class="sec-lbl">05 · Plano de Reversão</div>
+  <h2>Como vamos reverter os -7% em 90 dias</h2>
+  <p class="sec-desc">Três fases claras com entregas definidas — diagnóstico, reestruturação e escala.</p>
+
+  <div class="est-grid">
+    <div class="est-card">
+      <div class="est-head">Mês 1 — Diagnóstico e Fundação</div>
+      <div class="est-body">
+        <div class="est-item">Auditoria completa das campanhas atuais</div>
+        <div class="est-item">Identificar o que está gerando a queda</div>
+        <div class="est-item">Reestruturar conta e públicos das 5 lojas</div>
+        <div class="est-item">Lançar calendário comercial integrado</div>
+        <div class="est-item">Iniciar grupos VIP por unidade</div>
+        <div class="est-item">Primeiros criativos novos no ar</div>
+      </div>
+    </div>
+    <div class="est-card">
+      <div class="est-head">Mês 2 — Otimização e Aprendizado</div>
+      <div class="est-body">
+        <div class="est-item">Remarketing ativo em todas as lojas</div>
+        <div class="est-item">Públicos vencedores identificados</div>
+        <div class="est-item">Criativos de maior CTR escalados</div>
+        <div class="est-item">WhatsApp com primeiros resultados</div>
+        <div class="est-item">Custo por conversa em queda</div>
+        <div class="est-item">Relatório comparativo com período anterior</div>
+      </div>
+    </div>
+    <div class="est-card">
+      <div class="est-head">Mês 3 — Escala e Consolidação</div>
+      <div class="est-body">
+        <div class="est-item">Campanhas por setor (açougue, FLV, padaria)</div>
+        <div class="est-item">Lookalike de compradores das 5 lojas</div>
+        <div class="est-item">Grupos VIP com 100+ membros por loja</div>
+        <div class="est-item">Frequência consolidada regionalmente</div>
+        <div class="est-item">Tendência de reversão visível nos dados</div>
+        <div class="est-item">Planejamento do próximo trimestre</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula">Diagnóstico certo + <em>Estrutura consolidada</em> + <em>Frequência constante</em> = <em>Reversão da queda</em></div>
+</section>
+
+<!-- 06 - DIFERENCIAIS -->
+<section class="section">
+  <div class="sec-lbl">06 · Por que a GST</div>
+  <h2>O que nos diferencia de outras agências</h2>
+  <p class="sec-desc">Não somos uma agência genérica. Somos especialistas exclusivos em supermercados — com experiência real de operação no varejo alimentar.</p>
+
+  <div class="callout s">
+    <span class="c-lbl">// diferencial GST</span>
+    <h3>Nascemos dentro de supermercado — não em agência</h3>
+    <p>O fundador da GST participou diretamente do crescimento de um supermercado de bairro de R$400 mil para mais de R$2 milhões de faturamento mensal. Entendemos de açougue, de hortifruti, de encarte, de sazonalidade gaúcha e do comportamento do consumidor local. Para o Portal, isso faz toda a diferença.</p>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Critério</th><th>Agência genérica</th><th>GST Marketing</th></tr></thead>
+      <tbody>
+        <tr><td>Foco</td><td>Todos os segmentos</td><td><span class="badge badge-g">100% supermercados</span></td></tr>
+        <tr><td>Experiência em varejo</td><td>Teórica</td><td><span class="badge badge-g">Operação real</span></td></tr>
+        <tr><td>Estratégia por setor</td><td>Genérica</td><td><span class="badge badge-g">Açougue, FLV, Padaria</span></td></tr>
+        <tr><td>Gestão multi-loja</td><td>Rara</td><td><span class="badge badge-g">Especialidade</span></td></tr>
+        <tr><td>WhatsApp integrado</td><td>Opcional</td><td><span class="badge badge-g">Sempre incluso</span></td></tr>
+        <tr><td>KPI correto</td><td>Curtidas e alcance</td><td><span class="badge badge-g">Conversas e resultado</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 07 - PRÓXIMOS PASSOS -->
+<section class="section">
+  <div class="sec-lbl">07 · Próximos Passos</div>
+  <h2>Como começamos</h2>
+  <p class="sec-desc">Processo de entrada simples, rápido e sem burocracia.</p>
+
+  <div class="rm-grid">
+    <div class="rm-card">
+      <div class="rm-head">Semana 1 — Início</div>
+      <div class="rm-body">
+        <div class="rm-item">Reunião de onboarding GST</div>
+        <div class="rm-item">Acesso às contas de anúncios</div>
+        <div class="rm-item">Auditoria das campanhas atuais</div>
+        <div class="rm-item">Briefing das 5 lojas preenchido</div>
+      </div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-head">Semana 2 — Lançamento</div>
+      <div class="rm-body">
+        <div class="rm-item">Reestruturação das campanhas</div>
+        <div class="rm-item">Calendário do 1º mês entregue</div>
+        <div class="rm-item">Primeiros criativos aprovados</div>
+        <div class="rm-item">Grupos VIP criados nas 5 lojas</div>
+      </div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-head">Mês 1 — Consolidação</div>
+      <div class="rm-body">
+        <div class="rm-item">Campanhas otimizadas semanalmente</div>
+        <div class="rm-item">Primeiros dados comparativos</div>
+        <div class="rm-item">Relatório do 1º mês entregue</div>
+        <div class="rm-item">Planejamento do mês 2</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>O Portal tem tudo para<br>voltar a <em>crescer.</em><br>Falta a estratégia certa.</h2>
+  <p>19 anos de história, 51 mil seguidores, 5 lojas ativas e R$10k de mídia. Com a GST, esse ativo vai trabalhar do jeito certo.</p>
+  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Vi%20a%20proposta%20da%20GST%20para%20o%20Portal%20Supermercados%20e%20quero%20conversar." class="cta-btn" target="_blank">💬 Fechar com a GST agora</a>
+  <small>Resposta em até 2 horas · agenciagst.com.br</small>
+</section>
+
+<footer class="page-footer">
+  <p>Proposta Comercial — Portal Supermercados · GST Marketing · Mai 2026</p>
+  <p><strong>agenciagst.com.br</strong> · Especialistas em crescimento para supermercados</p>
+</footer>
+
+</body>
+</html>
