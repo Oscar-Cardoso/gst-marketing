@@ -1,0 +1,505 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico de Mercado — Dra. Paloma | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:1.7}
+
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 60%,#0a1520 100%);padding:72px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;position:relative}
+.hero-logo{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff}
+.hero-logo span{color:var(--green)}
+.hero-badge{background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.hero-pre{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,50px);font-weight:900;line-height:1.08;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.45);max-width:560px;margin-bottom:36px;line-height:1.7;position:relative}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day)}
+.section:nth-child(even){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+/* GAP CARDS */
+.gap-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin:24px 0}
+.gap-card{border-radius:14px;overflow:hidden;border:1px solid var(--border-day)}
+.gap-head{padding:14px 18px}
+.gap-card.nao .gap-head{background:#fff5f5;border-bottom:1px solid rgba(229,57,53,.1)}
+.gap-card.sim .gap-head{background:rgba(0,196,106,.06);border-bottom:1px solid var(--green-line)}
+.gap-card.oport .gap-head{background:var(--yellow-dim);border-bottom:1px solid rgba(245,180,0,.15)}
+.gap-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:5px;display:block;font-family:var(--font-head)}
+.gap-card.nao .gap-label{color:var(--red)}
+.gap-card.sim .gap-label{color:var(--green-dark)}
+.gap-card.oport .gap-label{color:#b07500}
+.gap-head h4{font-family:var(--font-head);font-size:13px;font-weight:700}
+.gap-card.nao .gap-head h4{color:#7f1d1d}
+.gap-card.sim .gap-head h4{color:var(--navy)}
+.gap-card.oport .gap-head h4{color:#6d4700}
+.gap-body{padding:14px 18px;background:#fff}
+.gap-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.gap-item:last-child{border-bottom:none}
+.gap-card.nao .gap-item::before{content:'✗';color:var(--red);font-weight:700;min-width:14px}
+.gap-card.sim .gap-item::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+.gap-card.oport .gap-item::before{content:'→';color:var(--yellow);font-weight:700;min-width:14px}
+
+/* MERCADO TABLE */
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-g{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-r{background:rgba(229,57,53,.08);color:var(--red)}
+.badge-y{background:rgba(245,180,0,.1);color:#b07500}
+.badge-n{background:rgba(13,27,42,.07);color:var(--navy)}
+
+/* PLANO DE AÇÃO */
+.plano-grid{display:flex;flex-direction:column;gap:0;margin:24px 0}
+.plano-item{display:flex;gap:20px;padding:22px 0;border-bottom:1px solid var(--border-day)}
+.plano-item:last-child{border-bottom:none}
+.plano-num{font-family:var(--font-head);font-size:32px;font-weight:900;color:var(--green);opacity:.18;min-width:48px;line-height:1}
+.plano-body{flex:1}
+.plano-body h4{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.plano-body p{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:8px}
+.plano-tags{display:flex;flex-wrap:wrap;gap:6px}
+.plano-tag{font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;font-family:var(--font-head)}
+.plano-tag.rapido{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.plano-tag.medio{background:rgba(245,180,0,.1);color:#b07500}
+.plano-tag.longo{background:rgba(13,27,42,.07);color:var(--navy)}
+.plano-tag.critico{background:rgba(229,57,53,.08);color:var(--red)}
+
+/* CALLOUT */
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.callout.r{background:rgba(229,57,53,.05);border:1px solid rgba(229,57,53,.15)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}.callout.r .c-lbl{color:var(--red)}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}.callout.r h3{color:#7f1d1d}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}.callout.r p{color:#7f1d1d}
+
+/* FUNIL */
+.funil{display:flex;flex-direction:column;gap:0;margin:24px 0;max-width:560px}
+.funil-step{display:flex;align-items:center;gap:14px;padding:14px 20px;border-radius:10px;margin-bottom:4px;position:relative}
+.funil-step:nth-child(1){background:var(--navy);width:100%}
+.funil-step:nth-child(2){background:var(--navy2);width:88%;margin-left:auto}
+.funil-step:nth-child(3){background:var(--navy3);width:75%;margin-left:auto}
+.funil-step:nth-child(4){background:#1a3020;width:60%;margin-left:auto;border:1px solid rgba(0,196,106,.2)}
+.funil-step:nth-child(5){background:linear-gradient(135deg,#0a2015,#0d2a1a);width:45%;margin-left:auto;border:1px solid var(--green-line)}
+.funil-ico{font-size:18px;min-width:26px}
+.funil-info h5{font-family:var(--font-head);font-size:12px;font-weight:700;color:#fff;margin-bottom:2px}
+.funil-info p{font-size:11px;color:rgba(255,255,255,.38)}
+.funil-kpi{margin-left:auto;font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--green);white-space:nowrap}
+
+/* INDICADORES */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.kpi-card{background:var(--navy);border-radius:12px;padding:18px;border:1px solid var(--border);text-align:center}
+.kpi-ico{font-size:20px;margin-bottom:8px}
+.kpi-card h4{font-family:var(--font-head);font-size:11px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:6px;text-transform:uppercase;letter-spacing:.5px}
+.kpi-val{font-family:var(--font-head);font-size:20px;font-weight:900;color:var(--green)}
+.kpi-sub{font-size:11px;color:rgba(255,255,255,.25);margin-top:3px}
+
+/* CTA */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a);padding:72px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(22px,4vw,36px);font-weight:900;color:#fff;margin-bottom:12px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px)}
+.page-footer{background:var(--navy2);padding:22px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:768px){
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+  .funil-step{width:100%!important;margin-left:0!important}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">GST <span>Marketing</span></div>
+    <span class="hero-badge">🔍 Diagnóstico de Mercado</span>
+  </div>
+  <div class="hero-pre">Preparado para a reunião com</div>
+  <h1>Dra. Paloma —<br>O que o mercado <em>faz</em>,<br>o que você ainda <em>não faz.</em></h1>
+  <p class="hero-sub">Um diagnóstico objetivo baseado no que funciona na odontologia local: o que clínicas que crescem estão fazendo, onde estão os gaps da sua operação e quais são as oportunidades imediatas.</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>5</strong><span>Gaps identificados</span></div>
+    <div class="hero-stat"><strong>10</strong><span>Ações no plano</span></div>
+    <div class="hero-stat"><strong>10</strong><span>Dias para o 1º resultado</span></div>
+    <div class="hero-stat"><strong>90</strong><span>Dias para o sistema completo</span></div>
+  </div>
+</section>
+
+<!-- 01 - O QUE O MERCADO FAZ -->
+<section class="section">
+  <div class="sec-lbl">01 · O que o mercado faz — e funciona</div>
+  <h2>O padrão das clínicas odontológicas que mais crescem hoje</h2>
+  <p class="sec-desc">Clínicas que crescem de forma consistente não dependem apenas de indicação ou de uma boa localização. Elas constroem um sistema com frentes claras e mensuráveis.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Frente</th><th>O que as clínicas líderes fazem</th><th>Resultado observado</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Tráfego pago</strong></td>
+          <td>Meta Ads com foco em WhatsApp, segmentação local por raio, teste contínuo de criativos com a profissional falando</td>
+          <td><span class="badge badge-g">Fluxo previsível de contatos</span></td>
+        </tr>
+        <tr>
+          <td><strong>Conteúdo de autoridade</strong></td>
+          <td>A profissional aparece falando sobre os tratamentos, explicando dúvidas comuns e mostrando casos (com autorização)</td>
+          <td><span class="badge badge-g">Paciente chega pré-convencido</span></td>
+        </tr>
+        <tr>
+          <td><strong>Atendimento comercial</strong></td>
+          <td>WhatsApp com roteiro claro, qualificação rápida, oferta de horário em até 2 respostas, confirmação e lembrete</td>
+          <td><span class="badge badge-g">Taxa de agendamento acima de 40%</span></td>
+        </tr>
+        <tr>
+          <td><strong>Google Maps</strong></td>
+          <td>Perfil atualizado, fotos profissionais, avaliações solicitadas ativamente, posts regulares</td>
+          <td><span class="badge badge-g">Visibilidade orgânica local</span></td>
+        </tr>
+        <tr>
+          <td><strong>Funil documentado</strong></td>
+          <td>Controle de leads, agendamentos, comparecimentos e tratamentos iniciados — com origem de cada contato registrada</td>
+          <td><span class="badge badge-g">Sabe onde está perdendo pacientes</span></td>
+        </tr>
+        <tr>
+          <td><strong>Oferta de entrada</strong></td>
+          <td>Um ou dois tratamentos com comunicação clara e apelo emocional — não lista de procedimentos</td>
+          <td><span class="badge badge-g">Menor custo por conversa</span></td>
+        </tr>
+        <tr>
+          <td><strong>Reativação</strong></td>
+          <td>Contatos antigos reativados mensalmente, pacientes que não compareceram recuperados</td>
+          <td><span class="badge badge-g">Resultado sem aumentar verba</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 02 - GAPS -->
+<section class="section">
+  <div class="sec-lbl">02 · Diagnóstico — Gaps da Operação Atual</div>
+  <h2>O que você ainda não está fazendo — e está custando pacientes</h2>
+  <p class="sec-desc">Baseado no levantamento da operação atual, esses são os principais gaps identificados em relação ao padrão do mercado que cresce.</p>
+
+  <div class="gap-grid">
+    <div class="gap-card nao">
+      <div class="gap-head"><span class="gap-label">❌ Não está fazendo</span><h4>Tráfego pago estruturado</h4></div>
+      <div class="gap-body">
+        <div class="gap-item">Sem campanhas ativas no Meta Ads</div>
+        <div class="gap-item">Sem segmentação por raio local de Arujá</div>
+        <div class="gap-item">Sem teste de criativos com a profissional</div>
+        <div class="gap-item">Sem controle de custo por contato</div>
+      </div>
+    </div>
+    <div class="gap-card nao">
+      <div class="gap-head"><span class="gap-label">❌ Não está fazendo</span><h4>Atendimento comercial no WhatsApp</h4></div>
+      <div class="gap-body">
+        <div class="gap-item">Sem roteiro de qualificação definido</div>
+        <div class="gap-item">Sem controle de leads e origem</div>
+        <div class="gap-item">Sem mensagens prontas para objeções</div>
+        <div class="gap-item">Sem recuperação de contatos não agendados</div>
+      </div>
+    </div>
+    <div class="gap-card nao">
+      <div class="gap-head"><span class="gap-label">❌ Não está fazendo</span><h4>Conteúdo de autoridade</h4></div>
+      <div class="gap-body">
+        <div class="gap-item">A Dra. Paloma não aparece falando</div>
+        <div class="gap-item">Sem vídeos explicando os tratamentos</div>
+        <div class="gap-item">Sem conteúdo que gera confiança antes do contato</div>
+        <div class="gap-item">Paciente chega sem referência da profissional</div>
+      </div>
+    </div>
+    <div class="gap-card nao">
+      <div class="gap-head"><span class="gap-label">❌ Não está fazendo</span><h4>Google Maps otimizado</h4></div>
+      <div class="gap-body">
+        <div class="gap-item">Perfil incompleto ou desatualizado</div>
+        <div class="gap-item">Poucas avaliações e sem estratégia</div>
+        <div class="gap-item">Sem fotos profissionais da clínica</div>
+        <div class="gap-item">Invisível para quem busca no Google local</div>
+      </div>
+    </div>
+    <div class="gap-card nao">
+      <div class="gap-head"><span class="gap-label">❌ Não está fazendo</span><h4>Mensuração e funil documentado</h4></div>
+      <div class="gap-body">
+        <div class="gap-item">Sem registro de onde vêm os pacientes</div>
+        <div class="gap-item">Sem controle de taxa de agendamento</div>
+        <div class="gap-item">Sem dados de comparecimento</div>
+        <div class="gap-item">Impossível saber onde está perdendo</div>
+      </div>
+    </div>
+    <div class="gap-card oport">
+      <div class="gap-head"><span class="gap-label">⚡ Oportunidade imediata</span><h4>Base de contatos existente</h4></div>
+      <div class="gap-body">
+        <div class="gap-item">Pacientes antigos que pararam de ir</div>
+        <div class="gap-item">Contatos que nunca agendaram</div>
+        <div class="gap-item">Indicações que nunca foram ativadas</div>
+        <div class="gap-item">Resultado possível sem investir em mídia</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout r">
+    <span class="c-lbl">// ponto crítico</span>
+    <h3>Sem funil documentado, é impossível crescer com previsibilidade</h3>
+    <p>Clínicas que não registram de onde vêm seus pacientes, quantos entram em contato, quantos agendam e quantos aparecem não conseguem identificar onde estão perdendo — e repetem os mesmos erros todos os meses sem saber.</p>
+  </div>
+</section>
+
+<!-- 03 - FUNIL -->
+<section class="section">
+  <div class="sec-lbl">03 · O Funil de Pacientes</div>
+  <h2>Como funciona o caminho do clique ao tratamento</h2>
+  <p class="sec-desc">Clínicas que crescem entendem onde estão perdendo pacientes em cada etapa. Cada nível do funil tem um indicador — e uma causa quando o número cai.</p>
+
+  <div class="funil">
+    <div class="funil-step">
+      <div class="funil-ico">📡</div>
+      <div class="funil-info"><h5>Alcance</h5><p>Pessoas que viram o anúncio ou o conteúdo</p></div>
+      <div class="funil-kpi">100%</div>
+    </div>
+    <div class="funil-step">
+      <div class="funil-ico">💬</div>
+      <div class="funil-info"><h5>Contatos no WhatsApp</h5><p>Pessoas que clicaram e iniciaram conversa</p></div>
+      <div class="funil-kpi">~15–25%</div>
+    </div>
+    <div class="funil-step">
+      <div class="funil-ico">✅</div>
+      <div class="funil-info"><h5>Leads qualificados</h5><p>Contatos com real interesse e perfil para atendimento</p></div>
+      <div class="funil-kpi">~50–70%</div>
+    </div>
+    <div class="funil-step">
+      <div class="funil-ico">📅</div>
+      <div class="funil-info"><h5>Agendamentos</h5><p>Leads que marcaram avaliação</p></div>
+      <div class="funil-kpi">~40–60%</div>
+    </div>
+    <div class="funil-step">
+      <div class="funil-ico">🦷</div>
+      <div class="funil-info"><h5>Tratamentos iniciados</h5><p>Pacientes que compareceram e fecharam</p></div>
+      <div class="funil-kpi">~50–70%</div>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// o que isso significa na prática</span>
+    <h3>Para iniciar 5 tratamentos por mês, a clínica precisa de aproximadamente 60 a 80 contatos</h3>
+    <p>Com uma verba de R$2.500/mês e custo por conversa entre R$30 e R$50 (referência de mercado para odontologia local), são entre 50 e 80 contatos mensais. Com um atendimento bem estruturado, entre 20 e 35 agendamentos — e entre 10 e 20 tratamentos iniciados.</p>
+  </div>
+</section>
+
+<!-- 04 - O QUE O MERCADO USA -->
+<section class="section">
+  <div class="sec-lbl">04 · O que funciona — Canais e Criativos</div>
+  <h2>Formatos e abordagens com melhor performance em odontologia local</h2>
+  <p class="sec-desc">Baseado em padrões do mercado de clínicas odontológicas no interior de SP com perfil similar ao de Arujá.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Formato</th><th>Por que funciona</th><th>Performance</th></tr></thead>
+      <tbody>
+        <tr>
+          <td><strong>Vídeo vertical — a profissional falando</strong></td>
+          <td>Gera confiança antes do contato. O paciente já conhece quem vai atendê-lo.</td>
+          <td><span class="badge badge-g">Alta retenção e conversão</span></td>
+        </tr>
+        <tr>
+          <td><strong>Vídeo de dor ou problema</strong></td>
+          <td>"Você tem vergonha de sorrir?" — ativa a dor e o desejo antes de apresentar a solução.</td>
+          <td><span class="badge badge-g">Maior CTR</span></td>
+        </tr>
+        <tr>
+          <td><strong>Arte estática com oferta direta</strong></td>
+          <td>Boa para remarketing e para quem já conhece a clínica. Menos eficiente para topo de funil.</td>
+          <td><span class="badge badge-y">Médio — depende do público</span></td>
+        </tr>
+        <tr>
+          <td><strong>Depoimento de paciente (vídeo)</strong></td>
+          <td>Prova social poderosa — mas exige autorização e produção cuidadosa conforme CFO.</td>
+          <td><span class="badge badge-g">Alta conversão em remarketing</span></td>
+        </tr>
+        <tr>
+          <td><strong>Vídeo de bastidor da clínica</strong></td>
+          <td>Mostra estrutura, equipamentos e cuidado — reduz objeção de medo e desconfiança.</td>
+          <td><span class="badge badge-g">Reduz custo por conversa</span></td>
+        </tr>
+        <tr>
+          <td><strong>Conteúdo educativo no feed</strong></td>
+          <td>"Como funciona o clareamento" — gera salvar, compartilhar e visitas ao perfil.</td>
+          <td><span class="badge badge-y">Orgânico — baixo custo</span></td>
+        </tr>
+        <tr>
+          <td><strong>Stories com CTA direto</strong></td>
+          <td>Alta frequência, contato diário com a base — ideal para manter presença top of mind.</td>
+          <td><span class="badge badge-g">Consistência e lembrança</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 05 - PLANO DE AÇÃO -->
+<section class="section">
+  <div class="sec-lbl">05 · Plano de Ação</div>
+  <h2>10 ações prioritárias — do mais urgente ao estrutural</h2>
+  <p class="sec-desc">Cada ação é classificada por prazo de implementação e impacto esperado. As ações rápidas podem gerar resultado ainda nos primeiros 15 dias.</p>
+
+  <div class="plano-grid">
+    <div class="plano-item">
+      <div class="plano-num">01</div>
+      <div class="plano-body">
+        <h4>Estruturar o atendimento no WhatsApp</h4>
+        <p>Criar roteiro de qualificação, mensagens prontas para objeções e planilha de controle de leads. Sem isso, qualquer investimento em mídia gera contatos que se perdem sem registro.</p>
+        <div class="plano-tags"><span class="plano-tag critico">🔴 Crítico</span><span class="plano-tag rapido">⚡ Esta semana</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">02</div>
+      <div class="plano-body">
+        <h4>Lançar as primeiras campanhas no Meta Ads</h4>
+        <p>Escolher um tratamento com comunicação clara, produzir 3 criativos com a Dra. Paloma e subir a campanha com segmentação por raio em Arujá e região. O objetivo inicial é custo por conversa, não curtidas.</p>
+        <div class="plano-tags"><span class="plano-tag critico">🔴 Crítico</span><span class="plano-tag rapido">⚡ 10 dias</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">03</div>
+      <div class="plano-body">
+        <h4>Gravar os primeiros vídeos com a profissional</h4>
+        <p>Uma diária de captação na clínica: apresentação da Dra. Paloma, explicação do tratamento principal, bastidores da clínica e dúvidas frequentes. Esses vídeos alimentam tanto os anúncios quanto o conteúdo orgânico.</p>
+        <div class="plano-tags"><span class="plano-tag critico">🔴 Crítico</span><span class="plano-tag rapido">⚡ 10 dias</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">04</div>
+      <div class="plano-body">
+        <h4>Otimizar o Google Maps</h4>
+        <p>Atualizar fotos, serviços, horários e descrição. Iniciar estratégia ativa de solicitação de avaliações. O Google Maps é o canal mais subutilizado em clínicas locais — e um dos mais baratos para gerar visibilidade.</p>
+        <div class="plano-tags"><span class="plano-tag medio">🟡 Importante</span><span class="plano-tag rapido">⚡ Primeiros 15 dias</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">05</div>
+      <div class="plano-body">
+        <h4>Reativar a base de contatos existente</h4>
+        <p>Pacientes antigos, contatos que nunca agendaram e indicações paradas. Uma ação de reativação bem feita pode gerar agendamentos sem investimento em mídia — aproveitando relacionamentos que já existem.</p>
+        <div class="plano-tags"><span class="plano-tag medio">🟡 Importante</span><span class="plano-tag rapido">⚡ Primeiros 15 dias</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">06</div>
+      <div class="plano-body">
+        <h4>Definir o posicionamento da Dra. Paloma</h4>
+        <p>Qual tratamento ela quer ser reconhecida? Qual é o perfil de paciente ideal? Qual é o diferencial da clínica em Arujá? Essas respostas guiam toda a comunicação e definem os criativos com maior potencial de conversão.</p>
+        <div class="plano-tags"><span class="plano-tag medio">🟡 Importante</span><span class="plano-tag medio">📅 Primeiro mês</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">07</div>
+      <div class="plano-body">
+        <h4>Criar conteúdo educativo recorrente</h4>
+        <p>Publicações semanais com a Dra. Paloma respondendo dúvidas comuns, explicando procedimentos e mostrando resultados possíveis. Esse conteúdo reduz o custo por conversa dos anúncios e constrói autoridade ao longo do tempo.</p>
+        <div class="plano-tags"><span class="plano-tag medio">🟡 Importante</span><span class="plano-tag medio">📅 Primeiro mês</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">08</div>
+      <div class="plano-body">
+        <h4>Implantar confirmação e lembrete de consultas</h4>
+        <p>A taxa de não comparecimento em clínicas sem confirmação ativa é alta. Uma mensagem de confirmação 24h antes e um lembrete no dia reduzem faltas e aumentam o aproveitamento da agenda.</p>
+        <div class="plano-tags"><span class="plano-tag medio">🟡 Importante</span><span class="plano-tag medio">📅 Primeiro mês</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">09</div>
+      <div class="plano-body">
+        <h4>Estruturar o remarketing</h4>
+        <p>Criar campanhas específicas para pessoas que já interagiram com o perfil, assistiram aos vídeos ou iniciaram conversa mas não agendaram. O remarketing tem custo menor e conversão maior que campanhas de topo.</p>
+        <div class="plano-tags"><span class="plano-tag longo">🔵 Estrutural</span><span class="plano-tag medio">📅 45–60 dias</span></div>
+      </div>
+    </div>
+    <div class="plano-item">
+      <div class="plano-num">10</div>
+      <div class="plano-body">
+        <h4>Criar campanha de indicação</h4>
+        <p>Ativar pacientes satisfeitos como canal de indicação — com uma abordagem simples e direta. Indicação continua sendo um dos canais com maior taxa de conversão e menor custo por paciente iniciado.</p>
+        <div class="plano-tags"><span class="plano-tag longo">🔵 Estrutural</span><span class="plano-tag longo">📅 60–90 dias</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 06 - INDICADORES -->
+<section class="section">
+  <div class="sec-lbl">06 · Indicadores que vamos acompanhar</div>
+  <h2>O que medir desde o primeiro dia</h2>
+  <p class="sec-desc">Não adianta gerar contatos sem medir o que acontece com eles. Esses são os indicadores que definem se o projeto está no caminho certo.</p>
+
+  <div class="kpi-grid">
+    <div class="kpi-card"><div class="kpi-ico">💰</div><h4>Investimento</h4><div class="kpi-val">R$/mês</div><div class="kpi-sub">Verba + gestão</div></div>
+    <div class="kpi-card"><div class="kpi-ico">💬</div><h4>Contatos</h4><div class="kpi-val">Qtd</div><div class="kpi-sub">Conversas iniciadas</div></div>
+    <div class="kpi-card"><div class="kpi-ico">🎯</div><h4>Custo/Conversa</h4><div class="kpi-val">R$</div><div class="kpi-sub">Meta: abaixo de R$50</div></div>
+    <div class="kpi-card"><div class="kpi-ico">✅</div><h4>Leads Qualif.</h4><div class="kpi-val">%</div><div class="kpi-sub">Meta: acima de 50%</div></div>
+    <div class="kpi-card"><div class="kpi-ico">📅</div><h4>Agendamentos</h4><div class="kpi-val">%</div><div class="kpi-sub">Meta: acima de 40%</div></div>
+    <div class="kpi-card"><div class="kpi-ico">🏥</div><h4>Comparecimentos</h4><div class="kpi-val">%</div><div class="kpi-sub">Meta: acima de 70%</div></div>
+    <div class="kpi-card"><div class="kpi-ico">🦷</div><h4>Tratamentos</h4><div class="kpi-val">Qtd</div><div class="kpi-sub">Iniciados no mês</div></div>
+    <div class="kpi-card"><div class="kpi-ico">📈</div><h4>Custo/Paciente</h4><div class="kpi-val">R$</div><div class="kpi-sub">Indicador principal</div></div>
+  </div>
+
+  <div class="callout s">
+    <span class="c-lbl">// o indicador que mais importa</span>
+    <h3>Custo por paciente que iniciou tratamento — não custo por mensagem</h3>
+    <p>Muitas agências entregam relatório de curtidas, alcance e mensagens. A GST acompanha o funil completo. O único número que prova se o investimento está funcionando é: quanto custou cada paciente que sentou na cadeira e iniciou o tratamento.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>O diagnóstico está feito.<br>O plano está claro.<br>Falta <em>executar.</em></h2>
+  <p>A Dra. Paloma tem o perfil, a clínica e a capacidade. O que falta é um sistema que gere pacientes de forma previsível — e a GST sabe como construir isso.</p>
+  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Quero%20avançar%20com%20o%20projeto." class="cta-btn" target="_blank">💬 Avançar com o projeto</a>
+</section>
+
+<footer class="page-footer">
+  <p>Diagnóstico de Mercado — Dra. Paloma · Clínica Odontológica · GST Marketing · 2026</p>
+  <p><strong>agenciagst.com.br</strong> · Especialistas em crescimento para negócios locais</p>
+</footer>
+
+</body>
+</html>
