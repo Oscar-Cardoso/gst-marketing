@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Comercial — Dra. Paloma | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:1.7}
+
+/* HERO */
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 60%,#0a1520 100%);padding:72px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;left:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,196,106,.05),transparent 65%);border-radius:50%;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;position:relative}
+.hero-logo{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff}
+.hero-logo span{color:var(--green)}
+.hero-badge{background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.hero-pre{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,52px);font-weight:900;line-height:1.08;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.45);max-width:560px;margin-bottom:36px;line-height:1.7;position:relative}
+.hero-cliente h3{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:4px;position:relative}
+.hero-cliente p{font-size:13px;color:rgba(255,255,255,.35);position:relative}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* SEÇÕES */
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day)}
+.section:nth-child(even){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+/* ROADMAP VISUAL */
+.roadmap{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:24px 0}
+.rm-card{border-radius:14px;overflow:hidden;border:1px solid var(--border-day)}
+.rm-head{padding:16px 18px;position:relative;overflow:hidden}
+.rm-head::before{content:'';position:absolute;bottom:-20px;right:-20px;width:80px;height:80px;background:radial-gradient(circle,rgba(255,255,255,.06),transparent);border-radius:50%}
+.rm-card:nth-child(1) .rm-head{background:var(--navy)}
+.rm-card:nth-child(2) .rm-head{background:var(--navy2)}
+.rm-card:nth-child(3) .rm-head{background:var(--navy3)}
+.rm-card:nth-child(4) .rm-head{background:linear-gradient(135deg,#0a2040,var(--navy))}
+.rm-card:nth-child(5) .rm-head{background:linear-gradient(135deg,#0a1a2a,#0d2535)}
+.rm-janela{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;display:block;font-family:var(--font-head);position:relative}
+.rm-estagio{font-family:var(--font-head);font-size:14px;font-weight:800;color:#fff;margin-bottom:4px;position:relative}
+.rm-obj{font-size:12px;color:rgba(255,255,255,.4);line-height:1.4;position:relative}
+.rm-body{padding:14px 18px;background:#fff}
+.rm-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.rm-item:last-child{border-bottom:none}
+.rm-item::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+
+/* CRONOGRAMA 10 DIAS */
+.dias-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin:24px 0}
+.dia-card{border-radius:14px;overflow:hidden;border:1px solid var(--border-day)}
+.dia-head{padding:14px 18px;background:var(--navy);display:flex;align-items:center;gap:12px}
+.dia-num{font-family:var(--font-head);font-size:22px;font-weight:900;color:var(--green);min-width:36px}
+.dia-info h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.dia-info span{font-size:11px;color:rgba(255,255,255,.35)}
+.dia-body{padding:14px 18px;background:#fff}
+.dia-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.dia-item:last-child{border-bottom:none}
+.dia-item::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+
+/* INVESTIMENTO */
+.invest-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.invest-card{border-radius:14px;padding:24px;border:1px solid var(--border-day);text-align:center}
+.invest-card.recomendado{background:var(--navy);border-color:var(--green-line);position:relative}
+.invest-card.recomendado::before{content:'Recomendado';position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:3px 12px;border-radius:20px;font-family:var(--font-head);white-space:nowrap}
+.invest-lbl{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:10px;display:block;font-family:var(--font-head)}
+.invest-card.recomendado .invest-lbl{color:rgba(255,255,255,.4)}
+.invest-valor{font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--navy);margin-bottom:4px}
+.invest-card.recomendado .invest-valor{color:var(--green)}
+.invest-sub{font-size:12px;color:var(--gray);margin-bottom:14px}
+.invest-card.recomendado .invest-sub{color:rgba(255,255,255,.4)}
+.invest-items{list-style:none;padding:0;text-align:left}
+.invest-items li{font-size:12px;color:var(--gray);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.invest-items li:last-child{border-bottom:none}
+.invest-items li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+.invest-card.recomendado .invest-items li{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.05)}
+
+/* SERVIÇOS GRID */
+.servicos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:24px 0}
+.servico{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green)}
+.s-ico{font-size:22px;margin-bottom:9px;display:block}
+.servico h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.servico ul{list-style:none;padding:0}
+.servico li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.servico li:last-child{border-bottom:none}
+.servico li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+
+/* SEMANAS */
+.semanas{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;margin:24px 0}
+.semana-card{border-radius:14px;overflow:hidden;border:1px solid var(--border-day)}
+.semana-head{padding:14px 20px;background:var(--navy)}
+.semana-head h4{font-family:var(--font-head);font-size:13px;font-weight:800;color:var(--green);margin-bottom:2px}
+.semana-head p{font-size:11px;color:rgba(255,255,255,.35)}
+.semana-body{padding:14px 20px;background:#fff}
+.semana-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.semana-item:last-child{border-bottom:none}
+.semana-item::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.semana-resultado{background:rgba(0,196,106,.07);border-top:1px solid var(--green-line);padding:10px 20px;font-size:12px;color:var(--navy);font-weight:600}
+
+/* RESPONSABILIDADES */
+.resp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.resp-card{border-radius:14px;padding:24px}
+.resp-gst{background:var(--navy);border:1px solid var(--border)}
+.resp-cliente{background:var(--gray-light);border:1px solid var(--border-day)}
+.resp-card h3{font-family:var(--font-head);font-size:15px;font-weight:800;margin-bottom:14px}
+.resp-gst h3{color:var(--green)}
+.resp-cliente h3{color:var(--navy)}
+.resp-card ul{list-style:none;padding:0}
+.resp-card li{font-size:12px;padding:5px 0;display:flex;gap:8px;border-bottom:1px solid rgba(0,0,0,.04)}
+.resp-card li:last-child{border-bottom:none}
+.resp-gst li{color:rgba(255,255,255,.6);border-color:rgba(255,255,255,.05)}
+.resp-cliente li{color:var(--text)}
+.resp-gst li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+.resp-cliente li::before{content:'✓';color:var(--navy);font-weight:700;min-width:14px}
+
+/* CALLOUT */
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}
+
+/* TABELA */
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-g{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-y{background:rgba(245,180,0,.1);color:#b07500}
+.badge-n{background:rgba(13,27,42,.07);color:var(--navy)}
+
+/* CRITÉRIO DE SUCESSO */
+.sucesso-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:24px 0}
+.sucesso-item{background:#fff;border-radius:12px;padding:16px;border:1px solid var(--border-day);border-left:3px solid var(--green);display:flex;gap:10px;align-items:flex-start}
+.sucesso-ico{color:var(--green);font-size:16px;min-width:20px;margin-top:2px}
+.sucesso-item p{font-size:12px;color:var(--text);line-height:1.5}
+
+/* FORMULA */
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:14px;padding:18px 26px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.5}
+.formula em{color:var(--green);font-style:normal}
+
+/* CTA */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#071520);padding:72px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:12px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,196,106,.25)}
+.cta-sec small{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.25);position:relative}
+.page-footer{background:var(--navy2);padding:22px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:768px){
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+  .invest-grid,.resp-grid,.semanas{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">GST <span>Marketing</span></div>
+    <span class="hero-badge">⚡ Proposta Comercial</span>
+  </div>
+  <div class="hero-pre">Apresentado para</div>
+  <h1>Dra. Paloma —<br>Da agenda <em>vazia</em><br>ao fluxo <em>previsível.</em></h1>
+  <p class="hero-sub">Um sistema completo de aquisição, posicionamento e conversão de pacientes para a sua clínica — construído em 90 dias, com resultado desde a primeira semana.</p>
+  <div class="hero-cliente">
+    <h3>Dra. Paloma · Clínica Odontológica · Arujá — SP</h3>
+    <p>Proposta personalizada · GST Marketing · 2026</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>10</strong><span>Dias para o 1º lançamento</span></div>
+    <div class="hero-stat"><strong>90</strong><span>Dias para o sistema completo</span></div>
+    <div class="hero-stat"><strong>5</strong><span>Estágios de crescimento</span></div>
+    <div class="hero-stat"><strong>1</strong><span>Sistema previsível</span></div>
+  </div>
+</section>
+
+<!-- 01 - OBJETIVO -->
+<section class="section">
+  <div class="sec-lbl">01 · Objetivo do Projeto</div>
+  <h2>Construir um sistema previsível de geração e conversão de pacientes</h2>
+  <p class="sec-desc">Não se trata apenas de anunciar. Trata-se de construir uma operação que combina marca, conteúdo, tráfego e atendimento — funcionando de forma integrada e mensurável.</p>
+
+  <div class="servicos-grid">
+    <div class="servico"><span class="s-ico">🎯</span><h4>Posicionamento de Marca</h4><ul><li>Identidade profissional clara</li><li>Tratamentos prioritários definidos</li><li>Comunicação alinhada ao público local</li></ul></div>
+    <div class="servico"><span class="s-ico">📡</span><h4>Tráfego Pago</h4><ul><li>Meta Ads com foco em WhatsApp</li><li>Google Ads para busca local</li><li>Testes e otimização contínua</li></ul></div>
+    <div class="servico"><span class="s-ico">📹</span><h4>Produção de Conteúdo</h4><ul><li>Vídeos educativos e institucionais</li><li>Criativos para anúncios</li><li>Banco de conteúdo organizado</li></ul></div>
+    <div class="servico"><span class="s-ico">💬</span><h4>Atendimento Comercial</h4><ul><li>Roteiro de qualificação no WhatsApp</li><li>Controle de leads e agendamentos</li><li>Recuperação de contatos perdidos</li></ul></div>
+    <div class="servico"><span class="s-ico">📍</span><h4>Presença Local</h4><ul><li>Google Maps otimizado</li><li>Avaliações e autoridade local</li><li>SEO local progressivo</li></ul></div>
+    <div class="servico"><span class="s-ico">📊</span><h4>Mensuração</h4><ul><li>Dashboard de indicadores</li><li>Relatório mensal completo</li><li>Reunião estratégica mensal</li></ul></div>
+  </div>
+
+  <div class="formula"><em>Posicionamento</em> + <em>Tráfego</em> + <em>Atendimento</em> + <em>Conteúdo</em> = <em>Pacientes previsíveis</em></div>
+</section>
+
+<!-- 02 - ROADMAP -->
+<section class="section">
+  <div class="sec-lbl">02 · Roadmap — 90 Dias</div>
+  <h2>Cinco estágios com foco definido em cada janela</h2>
+  <p class="sec-desc">Cada fase tem um objetivo principal. O crescimento não interrompe a geração de demanda — as duas frentes andam juntas desde o início.</p>
+
+  <div class="roadmap">
+    <div class="rm-card">
+      <div class="rm-head">
+        <span class="rm-janela">Dias 1 a 15</span>
+        <div class="rm-estagio">Estágio 1 — Diagnóstico</div>
+        <div class="rm-obj">Entender o negócio e organizar a estrutura mínima</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item">Entrevista de posicionamento</div>
+        <div class="rm-item">Diagnóstico do atendimento</div>
+        <div class="rm-item">Análise da concorrência</div>
+        <div class="rm-item">Definição dos tratamentos prioritários</div>
+        <div class="rm-item">Plano de campanhas e conteúdo</div>
+      </div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-head">
+        <span class="rm-janela">Dias 16 a 30</span>
+        <div class="rm-estagio">Estágio 2 — Lançamento</div>
+        <div class="rm-obj">Primeiras campanhas no ar e validação inicial</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item">Meta Ads e Google Ads ativos</div>
+        <div class="rm-item">Teste de criativos e públicos</div>
+        <div class="rm-item">Google Maps otimizado</div>
+        <div class="rm-item">Roteiro de atendimento implantado</div>
+        <div class="rm-item">Primeiros dados de custo por conversa</div>
+      </div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-head">
+        <span class="rm-janela">Dias 31 a 60</span>
+        <div class="rm-estagio">Estágio 3 — Autoridade</div>
+        <div class="rm-obj">Construir a autoridade da Dra. Paloma</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item">Diária presencial de captação</div>
+        <div class="rm-item">Banco de vídeos educativos</div>
+        <div class="rm-item">Conteúdo de autoridade publicado</div>
+        <div class="rm-item">Campanha de reativação</div>
+        <div class="rm-item">Treinamento do atendimento</div>
+      </div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-head">
+        <span class="rm-janela">Dias 61 a 90</span>
+        <div class="rm-estagio">Estágio 4 — Escala</div>
+        <div class="rm-obj">Ampliar o que funciona e consolidar o sistema</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item">Campanhas vencedoras escaladas</div>
+        <div class="rm-item">Remarketing estruturado</div>
+        <div class="rm-item">Campanha de indicação</div>
+        <div class="rm-item">Relatório consolidado de 90 dias</div>
+        <div class="rm-item">Planejamento do próximo trimestre</div>
+      </div>
+    </div>
+    <div class="rm-card">
+      <div class="rm-head">
+        <span class="rm-janela">Após 90 dias</span>
+        <div class="rm-estagio">Estágio 5 — Crescimento</div>
+        <div class="rm-obj">Operação previsível e escalável</div>
+      </div>
+      <div class="rm-body">
+        <div class="rm-item">Campanhas por especialidade</div>
+        <div class="rm-item">SEO local e novas páginas</div>
+        <div class="rm-item">Programa de indicação</div>
+        <div class="rm-item">Automação de atendimento</div>
+        <div class="rm-item">Reputação consolidada</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 - PLANO 10 DIAS -->
+<section class="section">
+  <div class="sec-lbl">03 · Plano de Start — 10 Dias</div>
+  <h2>Do zero às primeiras campanhas no ar</h2>
+  <p class="sec-desc">Para quem quer começar rápido: um plano enxuto e direto para colocar a captação funcionando em 10 dias, sem abrir mão da estrutura necessária para converter os contatos em pacientes.</p>
+
+  <div class="dias-grid">
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">01</div><div class="dia-info"><h4>Reunião de Diagnóstico</h4><span>Entender o negócio e definir o foco</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Faturamento, ticket e capacidade da agenda</div>
+        <div class="dia-item">Tratamentos mais rentáveis e disponíveis</div>
+        <div class="dia-item">Escolha do tratamento principal</div>
+        <div class="dia-item">Definição de verba e meta de contatos</div>
+        <div class="dia-item">Documento de oferta, público e região</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">02</div><div class="dia-info"><h4>Auditoria e Acessos</h4><span>Organizar toda estrutura técnica</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Gerenciador de Negócios e conta de anúncios</div>
+        <div class="dia-item">Pixel e API de Conversões</div>
+        <div class="dia-item">WhatsApp e forma de pagamento</div>
+        <div class="dia-item">Verificar políticas e restrições</div>
+        <div class="dia-item">Checklist técnico entregue</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">03</div><div class="dia-info"><h4>Oferta e Mensagens</h4><span>Criar a comunicação da campanha</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Problema, sintoma e desejo do paciente</div>
+        <div class="dia-item">Três ângulos de comunicação</div>
+        <div class="dia-item">Três chamadas para ação</div>
+        <div class="dia-item">Respostas para as principais objeções</div>
+        <div class="dia-item">Mensagem aprovada pela clínica</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">04</div><div class="dia-info"><h4>Planejamento dos Criativos</h4><span>Roteiro da diária de captação</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">3 vídeos verticais (dor, explicação, clínica)</div>
+        <div class="dia-item">2 artes estáticas (oferta + autoridade)</div>
+        <div class="dia-item">3 textos principais para os anúncios</div>
+        <div class="dia-item">Roteiro completo da gravação</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">05</div><div class="dia-info"><h4>Captação de Fotos e Vídeos</h4><span>Diária presencial na clínica</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Apresentação da Dra. Paloma</div>
+        <div class="dia-item">Apresentação da clínica e estrutura</div>
+        <div class="dia-item">Explicação dos tratamentos</div>
+        <div class="dia-item">Bastidores do atendimento</div>
+        <div class="dia-item">Banco inicial no Google Drive</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">06</div><div class="dia-info"><h4>Edição e Produção</h4><span>Finalizar peças para o lançamento</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Edição dos vídeos com legendas</div>
+        <div class="dia-item">Criação das artes com identidade visual</div>
+        <div class="dia-item">Revisão de nome e CRO</div>
+        <div class="dia-item">Aprovação clínica dos materiais</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">07</div><div class="dia-info"><h4>Estrutura do Atendimento</h4><span>Nenhum contato perdido no WhatsApp</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Roteiro completo de qualificação</div>
+        <div class="dia-item">Planilha de controle de leads</div>
+        <div class="dia-item">Mensagens prontas (resposta, objeção, confirmação)</div>
+        <div class="dia-item">Lembretes e recuperação de faltas</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">08</div><div class="dia-info"><h4>Configuração das Campanhas</h4><span>Estrutura de testes no Meta Ads</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Campanha 1 — Tratamento principal</div>
+        <div class="dia-item">Segmentação por raio e perfil de Arujá</div>
+        <div class="dia-item">3 a 5 criativos em teste</div>
+        <div class="dia-item">Campanha de reconhecimento de apoio</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">09</div><div class="dia-info"><h4>Revisão e Teste Completo</h4><span>Simular o caminho do paciente</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Teste do anúncio → clique → WhatsApp</div>
+        <div class="dia-item">Verificar mensagem automática e tempo de resposta</div>
+        <div class="dia-item">Conferir orçamento, região e datas</div>
+        <div class="dia-item">Checklist final de lançamento</div>
+      </div>
+    </div>
+    <div class="dia-card">
+      <div class="dia-head"><div class="dia-num">10</div><div class="dia-info"><h4>Lançamento</h4><span>Campanhas no ar e acompanhamento diário</span></div></div>
+      <div class="dia-body">
+        <div class="dia-item">Ativação e monitoramento das campanhas</div>
+        <div class="dia-item">Verificação dos primeiros contatos</div>
+        <div class="dia-item">Correções técnicas imediatas</div>
+        <div class="dia-item">Registro dos primeiros indicadores</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// critério de start</span>
+    <h3>A campanha só sobe quando tudo estiver pronto</h3>
+    <p>Tratamento definido, oferta aprovada, criativos finalizados, WhatsApp funcionando, responsável pelo atendimento definido e planilha criada. Sem esses elementos, o investimento em anúncios gera contatos que a clínica não consegue converter.</p>
+  </div>
+</section>
+
+<!-- 04 - DISTRIBUIÇÃO MENSAL -->
+<section class="section">
+  <div class="sec-lbl">04 · Distribuição Mensal do Trabalho</div>
+  <h2>Como cada semana do mês é organizada</h2>
+  <p class="sec-desc">Uma rotina clara que garante análise, produção, otimização e consolidação — sem improvisar mês a mês.</p>
+
+  <div class="semanas">
+    <div class="semana-card">
+      <div class="semana-head"><h4>Semana 1 — Análise e Planejamento</h4><p>Olhar para os dados antes de agir</p></div>
+      <div class="semana-body">
+        <div class="semana-item">Fechamento dos dados do mês anterior</div>
+        <div class="semana-item">Análise de investimento e contatos</div>
+        <div class="semana-item">Avaliação dos criativos</div>
+        <div class="semana-item">Definição dos tratamentos prioritários</div>
+        <div class="semana-item">Reunião estratégica mensal</div>
+      </div>
+      <div class="semana-resultado">✓ O que manter, corrigir, interromper e testar</div>
+    </div>
+    <div class="semana-card">
+      <div class="semana-head"><h4>Semana 2 — Produção e Lançamento</h4><p>Novos ativos no ar</p></div>
+      <div class="semana-body">
+        <div class="semana-item">Produção presencial ou captação interna</div>
+        <div class="semana-item">Criação e edição dos conteúdos</div>
+        <div class="semana-item">Lançamento de novos testes</div>
+        <div class="semana-item">Atualização das campanhas</div>
+        <div class="semana-item">Atualização do Google Maps</div>
+      </div>
+      <div class="semana-resultado">✓ Novos criativos e campanhas em circulação</div>
+    </div>
+    <div class="semana-card">
+      <div class="semana-head"><h4>Semana 3 — Otimização Comercial</h4><p>Transformar investimento em pacientes</p></div>
+      <div class="semana-body">
+        <div class="semana-item">Análise dos primeiros resultados</div>
+        <div class="semana-item">Ajustes de orçamento e criativos</div>
+        <div class="semana-item">Revisão das conversas no WhatsApp</div>
+        <div class="semana-item">Recuperação de contatos não respondidos</div>
+        <div class="semana-item">Acompanhamento de agendamentos e faltas</div>
+      </div>
+      <div class="semana-resultado">✓ Mais conversas → agendamentos → comparecimentos</div>
+    </div>
+    <div class="semana-card">
+      <div class="semana-head"><h4>Semana 4 — Consolidação</h4><p>Preparar o próximo ciclo</p></div>
+      <div class="semana-body">
+        <div class="semana-item">Consolidação dos resultados do mês</div>
+        <div class="semana-item">Identificação dos melhores anúncios e conteúdos</div>
+        <div class="semana-item">Levantamento de objeções e dúvidas</div>
+        <div class="semana-item">Solicitação de avaliações no Google</div>
+        <div class="semana-item">Reativação de contatos e organização do calendário</div>
+      </div>
+      <div class="semana-resultado">✓ Próximo mês começa com mais clareza</div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 - ENTREGAS MENSAIS -->
+<section class="section">
+  <div class="sec-lbl">05 · Entregas Mensais</div>
+  <h2>O que a GST entrega todo mês</h2>
+  <p class="sec-desc">Entregas consistentes, sem depender de improvisos ou de um mês para o outro.</p>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Frente</th><th>Entrega mensal</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Planejamento</strong></td><td>1 planejamento estratégico mensal</td></tr>
+        <tr><td><strong>Reunião</strong></td><td>1 reunião principal de resultados</td></tr>
+        <tr><td><strong>Tráfego pago</strong></td><td>Gestão contínua de Meta Ads e Google Ads</td></tr>
+        <tr><td><strong>Campanhas</strong></td><td>Novos testes e otimizações semanais</td></tr>
+        <tr><td><strong>Produção</strong></td><td>1 diária presencial ou captação concentrada</td></tr>
+        <tr><td><strong>Vídeos</strong></td><td>8 a 12 vídeos editados</td></tr>
+        <tr><td><strong>Conteúdos</strong></td><td>4 a 8 peças educativas ou institucionais</td></tr>
+        <tr><td><strong>Google Maps</strong></td><td>Atualizações, fotos, serviços e avaliações</td></tr>
+        <tr><td><strong>WhatsApp</strong></td><td>Análise e melhoria do atendimento</td></tr>
+        <tr><td><strong>Reativação</strong></td><td>1 ação mensal com contatos antigos</td></tr>
+        <tr><td><strong>Dashboard</strong></td><td>Atualização mensal dos indicadores</td></tr>
+        <tr><td><strong>Relatório</strong></td><td>Análise de tráfego, funil e receita</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<!-- 06 - INVESTIMENTO -->
+<section class="section">
+  <div class="sec-lbl">06 · Plano de Investimento</div>
+  <h2>Três cenários para começar</h2>
+  <p class="sec-desc">A verba de mídia é paga diretamente pela clínica às plataformas e não se confunde com o valor da gestão.</p>
+
+  <div class="invest-grid">
+    <div class="invest-card">
+      <span class="invest-lbl">Cenário Enxuto</span>
+      <div class="invest-valor">R$1.500</div>
+      <div class="invest-sub">verba de mídia/mês</div>
+      <ul class="invest-items">
+        <li>Meta Ads como canal principal</li>
+        <li>Foco em 1 tratamento</li>
+        <li>Média de R$50/dia</li>
+        <li>Ideal para validação inicial</li>
+      </ul>
+    </div>
+    <div class="invest-card recomendado">
+      <span class="invest-lbl">Cenário Recomendado</span>
+      <div class="invest-valor">R$2.500 – R$3.000</div>
+      <div class="invest-sub">verba de mídia/mês</div>
+      <ul class="invest-items">
+        <li>Meta Ads principal</li>
+        <li>1 tratamento principal + 1 secundário</li>
+        <li>Maior capacidade de teste</li>
+        <li>Média de R$83 a R$100/dia</li>
+      </ul>
+    </div>
+    <div class="invest-card">
+      <span class="invest-lbl">Validação Ampliada</span>
+      <div class="invest-valor">R$4.000 – R$5.000</div>
+      <div class="invest-sub">verba de mídia/mês</div>
+      <ul class="invest-items">
+        <li>Meta Ads + Google Ads</li>
+        <li>2 tratamentos simultâneos</li>
+        <li>Remarketing ativo</li>
+        <li>Maior velocidade de aprendizado</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// indicador mais importante</span>
+    <h3>O principal KPI não é o custo por mensagem — é o custo por paciente que iniciou tratamento</h3>
+    <p>Muitas agências entregam volume de contatos. A GST acompanha o funil completo: do clique ao paciente sentado na cadeira. Só assim é possível calcular o retorno real sobre o investimento em mídia.</p>
+  </div>
+</section>
+
+<!-- 07 - RESPONSABILIDADES -->
+<section class="section">
+  <div class="sec-lbl">07 · Divisão de Responsabilidades</div>
+  <h2>O que cada lado do projeto faz</h2>
+  <p class="sec-desc">Um projeto de tráfego e marketing depende da parceria. A GST cuida da estratégia e execução — a clínica garante a conversão e os dados.</p>
+
+  <div class="resp-grid">
+    <div class="resp-card resp-gst">
+      <h3>🎯 Responsabilidades da GST</h3>
+      <ul>
+        <li>Estratégia e planejamento de marketing</li>
+        <li>Gestão das campanhas de tráfego pago</li>
+        <li>Planejamento e roteiros de conteúdo</li>
+        <li>Produção e edição dos materiais</li>
+        <li>Análise do funil e otimizações</li>
+        <li>Relatórios e reuniões mensais</li>
+        <li>Orientação comercial e de atendimento</li>
+        <li>Monitoramento dos indicadores</li>
+        <li>Organização do banco de conteúdo</li>
+      </ul>
+    </div>
+    <div class="resp-card resp-cliente">
+      <h3>🏥 Responsabilidades da Clínica</h3>
+      <ul>
+        <li>Participar das entrevistas e gravações</li>
+        <li>Aprovar conteúdos dentro do prazo</li>
+        <li>Validar informações clínicas</li>
+        <li>Responder o WhatsApp com agilidade</li>
+        <li>Registrar contatos, agendamentos e comparecimentos</li>
+        <li>Informar tratamentos iniciados</li>
+        <li>Compartilhar dados de faturamento</li>
+        <li>Garantir cumprimento das normas do CFO</li>
+        <li>Participar das reuniões estratégicas</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 08 - CRITÉRIO DE SUCESSO -->
+<section class="section">
+  <div class="sec-lbl">08 · Critério de Sucesso — 90 Dias</div>
+  <h2>O que a clínica terá ao final do primeiro ciclo</h2>
+  <p class="sec-desc">O sucesso não é medido apenas pela quantidade de mensagens recebidas. Ao final de 90 dias, a clínica terá um sistema funcionando — não apenas resultados pontuais.</p>
+
+  <div class="sucesso-grid">
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Posicionamento claro e tratamentos prioritários definidos</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Banco de conteúdo organizado e em uso</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Campanhas validadas com dados reais</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Processo de atendimento organizado</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Controle da origem dos pacientes</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Indicadores de agendamento e comparecimento</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Dados sobre tratamentos iniciados</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Maior presença e avaliações no Google</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Conhecimento sobre o público local de Arujá</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Clareza sobre os canais mais eficientes</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Base sólida para escalar o investimento</p></div>
+    <div class="sucesso-item"><div class="sucesso-ico">✓</div><p>Método documentado para os próximos ciclos</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>A agenda da Dra. Paloma<br>pode estar <em>cheia em 90 dias.</em><br>Começa com 10.</h2>
+  <p>A estrutura está planejada. Os primeiros passos estão definidos. Falta apenas iniciar.</p>
+  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Vi%20a%20proposta%20da%20GST%20e%20quero%20conversar%20sobre%20o%20projeto." class="cta-btn" target="_blank">💬 Fechar com a GST agora</a>
+  <small>Resposta em até 2 horas · agenciagst.com.br</small>
+</section>
+
+<footer class="page-footer">
+  <p>Proposta Comercial — Dra. Paloma · Clínica Odontológica · GST Marketing · 2026</p>
+  <p><strong>agenciagst.com.br</strong> · Especialistas em crescimento para negócios locais</p>
+</footer>
+
+</body>
+</html>
