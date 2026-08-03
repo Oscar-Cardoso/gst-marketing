@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Documentar para Vender — GST System</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:264px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:26px 24px 18px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,.65);font-weight:600}
+.sb-prog{padding:13px 24px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:6px}
+.sb-prog-lbl strong{color:var(--green);font-weight:700}
+.sb-bar{height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.sb-fill{height:100%;background:var(--green);border-radius:10px;transition:width .4s;width:0%}
+.sb-nav{padding:12px 0;flex:1}
+.sb-nav-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.18);text-transform:uppercase;letter-spacing:2px;padding:5px 24px 2px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:8px 24px;font-size:12px;font-weight:500;color:rgba(255,255,255,.42);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.04)}
+.sb-link.active{color:#fff;background:rgba(0,196,106,.1);border-left-color:var(--green)}
+.sb-num{font-family:monospace;font-size:10px;color:var(--green);min-width:22px;opacity:.55}
+.sb-link.active .sb-num{opacity:1}
+.sb-foot{padding:16px 24px;border-top:1px solid var(--border)}
+.sb-tag{display:inline-flex;align-items:center;gap:6px;background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a1a0d 100%);padding:80px 64px 72px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-tags{display:flex;align-items:center;gap:8px;margin-bottom:20px;flex-wrap:wrap}
+.htag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.htag-sys{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.htag-cat{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,180,0,.2)}
+.htag-ver{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07)}
+.hero-origem{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:2px;margin-bottom:14px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(30px,5vw,56px);font-weight:900;line-height:1.05;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.48);max-width:560px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-tese{background:rgba(0,196,106,.08);border:1px solid rgba(0,196,106,.18);border-radius:14px;padding:20px 24px;max-width:620px;margin-bottom:40px;position:relative}
+.hero-tese-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;font-family:var(--font-head)}
+.hero-tese p{font-size:15px;font-weight:600;color:#fff;line-height:1.6;font-style:italic}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day);background:#fff}
+.section:nth-child(odd){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(20px,3vw,30px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+.pilares{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin:22px 0}
+.pilar{background:var(--navy);border-radius:14px;padding:22px 18px;border:1px solid var(--border);position:relative;overflow:hidden}
+.pilar::after{content:'';position:absolute;bottom:-28px;right:-28px;width:85px;height:85px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.pilar-n{font-size:10px;font-weight:700;color:var(--green);margin-bottom:9px;display:block;font-family:var(--font-head);letter-spacing:1px}
+.pilar h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;margin-bottom:5px;line-height:1.3}
+.pilar p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.5}
+.op-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:22px 0}
+.op-card{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green);transition:all .2s}
+.op-card:hover{box-shadow:0 6px 24px rgba(0,0,0,.07);transform:translateY(-2px)}
+.op-card.navy{background:var(--navy);border:1px solid var(--border);border-top:3px solid var(--green)}
+.op-ico{font-size:22px;margin-bottom:9px;display:block}
+.op-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.op-card.navy h4{color:var(--green)}
+.op-card ul{list-style:none;padding:0}
+.op-card li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.op-card li:last-child{border-bottom:none}
+.op-card li::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.op-card.navy li{color:rgba(255,255,255,.55);border-color:rgba(255,255,255,.04)}
+.versus{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.vs-card{border-radius:14px;padding:24px}
+.vs-antes{background:#fff5f5;border:1px solid rgba(229,57,53,.15);border-top:3px solid var(--red)}
+.vs-depois{background:rgba(0,196,106,.06);border:1px solid var(--green-line);border-top:3px solid var(--green)}
+.vs-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:block;font-family:var(--font-head)}
+.vs-antes .vs-label{color:var(--red)}
+.vs-depois .vs-label{color:var(--green-dark)}
+.vs-card ul{list-style:none;padding:0}
+.vs-card li{font-size:13px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.04);display:flex;gap:8px;line-height:1.4}
+.vs-card li:last-child{border-bottom:none}
+.vs-antes li{color:#7f1d1d}
+.vs-depois li{color:var(--navy)}
+.vs-antes li::before{content:'✗';color:var(--red);font-weight:700;min-width:16px}
+.vs-depois li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+.insights{display:flex;flex-direction:column;gap:0;margin:24px 0}
+.insight{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--border-day)}
+.insight:last-child{border-bottom:none}
+.insight-num{font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green);opacity:.2;min-width:44px;line-height:1}
+.insight-body{flex:1;padding-top:2px}
+.insight-body h4{font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);margin-bottom:6px}
+.insight-body p{font-size:13px;color:var(--gray);line-height:1.6}
+.insight-body .ex{background:var(--gray-light);border-left:3px solid var(--green);border-radius:0 8px 8px 0;padding:10px 14px;font-size:12px;color:var(--text);margin-top:10px;font-style:italic}
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.strategy{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.strategy::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.tip{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.warning{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.strategy .c-lbl{color:var(--green)}.callout.tip .c-lbl{color:var(--green-dark)}.callout.warning .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.strategy h3{color:#fff}.callout.tip h3{color:var(--navy)}.callout.warning h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.strategy p{color:rgba(255,255,255,.65)}.callout.tip p{color:var(--navy)}.callout.warning p{color:#5a3b00}
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:14px;padding:18px 26px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:15px;font-weight:700;color:var(--navy);line-height:1.5}
+.formula em{color:var(--green);font-style:normal}
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day)}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-green{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-yellow{background:rgba(245,180,0,.1);color:#b07500}
+.badge-red{background:rgba(229,57,53,.08);color:var(--red)}
+.cl-wrap{background:#fff;border-radius:16px;padding:26px;border:1px solid var(--border-day);margin:26px 0;box-shadow:0 2px 12px rgba(0,0,0,.04)}
+.cl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:16px;flex-wrap:wrap;gap:10px}
+.cl-head h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy)}
+.cl-prog{display:flex;align-items:center;gap:8px}
+.cl-track{width:80px;height:4px;background:var(--border-day);border-radius:10px;overflow:hidden}
+.cl-fill{height:100%;background:var(--green);border-radius:10px;transition:width .3s}
+.cl-count{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--green)}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:11px;padding:9px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:6px}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:20px;height:20px;border:2px solid var(--border-day);border-radius:5px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:11px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.5}
+.cl-sub{font-size:11px;color:var(--text-dim);margin-top:1px}
+.cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin:24px 0}
+.cal-day{border-radius:12px;overflow:hidden;text-align:center}
+.cal-head{padding:10px 8px;font-family:var(--font-head);font-size:11px;font-weight:800;color:#fff}
+.cal-day:nth-child(1) .cal-head{background:#3b4d61}
+.cal-day:nth-child(2) .cal-head{background:var(--navy2)}
+.cal-day:nth-child(3) .cal-head{background:var(--navy)}
+.cal-day:nth-child(4) .cal-head{background:var(--navy3)}
+.cal-day:nth-child(5) .cal-head{background:#1a3a20}
+.cal-day:nth-child(6) .cal-head{background:#1a2c14}
+.cal-day:nth-child(7) .cal-head{background:var(--navy2)}
+.cal-body{padding:10px 8px;background:#fff;border:1px solid var(--border-day);border-top:none;font-size:11px;color:var(--gray);line-height:1.4}
+.cal-body strong{display:block;font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.ihg-wrap{background:var(--navy);border-radius:16px;padding:28px;margin:24px 0;border:1px solid var(--border)}
+.ihg-title{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-bottom:6px}
+.ihg-sub{font-size:13px;color:rgba(255,255,255,.4);margin-bottom:22px}
+.ihg-bars{display:flex;flex-direction:column;gap:14px}
+.ihg-row{display:flex;align-items:center;gap:14px}
+.ihg-lbl{font-size:12px;color:rgba(255,255,255,.6);min-width:130px;font-weight:500}
+.ihg-bar-wrap{flex:1;height:10px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.ihg-bar{height:100%;border-radius:10px}
+.ihg-bar.ofertas{background:var(--green)}.ihg-bar.humano{background:var(--yellow)}.ihg-bar.educativo{background:#3b82f6}
+.ihg-pct{font-family:var(--font-head);font-size:12px;font-weight:700;min-width:36px;text-align:right}
+.ihg-pct.g{color:var(--green)}.ihg-pct.y{color:var(--yellow)}.ihg-pct.b{color:#3b82f6}
+.produtos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:24px 0}
+.produto-card{background:var(--navy);border-radius:16px;padding:26px;border:1px solid var(--border);position:relative;overflow:hidden}
+.produto-card::before{content:'';position:absolute;bottom:-40px;right:-40px;width:120px;height:120px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.produto-num{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;display:block;font-family:var(--font-head)}
+.produto-card h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-bottom:8px;position:relative}
+.produto-card p{font-size:13px;color:rgba(255,255,255,.45);line-height:1.6;position:relative}
+.slide-section{background:var(--navy);border-bottom:2px solid var(--green)}
+.slide-wrap{padding:60px 64px}
+.slide-label{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:3px;margin-bottom:16px;font-family:var(--font-head)}
+.slide-num{font-family:var(--font-head);font-size:80px;font-weight:900;color:rgba(255,255,255,.04);line-height:1;margin-bottom:-20px}
+.slide-title{font-family:var(--font-head);font-size:clamp(22px,3.5vw,36px);font-weight:900;color:#fff;line-height:1.2;margin-bottom:12px}
+.slide-title em{color:var(--green);font-style:normal}
+.slide-body{font-size:15px;color:rgba(255,255,255,.55);max-width:640px;line-height:1.7;margin-bottom:20px}
+.slide-quote{background:rgba(0,196,106,.08);border-left:3px solid var(--green);border-radius:0 12px 12px 0;padding:16px 20px;font-size:17px;font-weight:700;color:#fff;font-style:italic;line-height:1.5;max-width:600px;margin:16px 0}
+.slide-pontos{display:flex;flex-direction:column;gap:10px;margin:16px 0}
+.slide-ponto{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:10px}
+.slide-ponto-num{font-family:var(--font-head);font-size:13px;font-weight:900;color:var(--green);min-width:24px}
+.slide-ponto p{font-size:14px;color:rgba(255,255,255,.7);line-height:1.5}
+.slide-ponto p strong{color:#fff}
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a1a0d);padding:72px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:12px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,196,106,.25)}
+.page-footer{background:var(--navy2);padding:20px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.hero>*{animation:fadeUp .5s ease both}
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}.main{margin-left:0}
+  .hero,.section,.slide-wrap,.cta-sec,.page-footer{padding:44px 24px}
+  .versus,.cal-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo">GST <span>System</span></div><div class="sb-sub">Sistema Operacional GST</div></div>
+  <div class="sb-meta">
+    <div class="sb-row">📂 Categoria: <span>Conteúdo · Marca</span></div>
+    <div class="sb-row">🏷️ Nível: <span>Estratégico</span></div>
+    <div class="sb-row">🔖 Versão: <span>v1.0 · Mai 2026</span></div>
+    <div class="sb-row">🔒 Uso: <span>Equipe + Cliente</span></div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Progresso <strong id="pct">0%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" id="sbfill"></div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-nav-lbl">Playbook</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span>Capa</a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span>O Problema Central</a>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span>Filosofia — Documentar</a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span>Os 27 Princípios</a>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span>Antes vs Depois</a>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span>Conteúdos Escondidos</a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span>Calendário de Humanização</a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span>Índice de Humanização GST</a>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span>6 Produtos GST</a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span>Checklist Operacional</a>
+    <div class="sb-nav-lbl" style="margin-top:8px">Apresentação</div>
+    <a class="sb-link" href="#a1"><span class="sb-num">A1</span>Todo mundo anuncia</a>
+    <a class="sb-link" href="#a2"><span class="sb-num">A2</span>O conteúdo está dentro</a>
+    <a class="sb-link" href="#a3"><span class="sb-num">A3</span>O Método GST</a>
+    <a class="sb-link" href="#a4"><span class="sb-num">A4</span>O que a GST entrega</a>
+    <a class="sb-link" href="#a5"><span class="sb-num">A5</span>O supermercado do futuro</a>
+  </nav>
+  <div class="sb-foot"><div class="sb-tag">⚡ GST System v1.0</div></div>
+</aside>
+
+<main class="main">
+
+<section class="hero" id="s0">
+  <div class="hero-tags">
+    <span class="htag htag-sys">⚡ GST System</span>
+    <span class="htag htag-cat">📹 Conteúdo · Humanização · Marca</span>
+    <span class="htag htag-ver">v1.0 · Mai 2026</span>
+  </div>
+  <div class="hero-origem">Baseado em: O Novo Mercado Ao Vivo · Ícaro de Carvalho</div>
+  <h1>Documentar<br>para <em>Vender.</em></h1>
+  <p class="hero-sub">O supermercado do futuro não será o que tiver o menor preço. Será o que construir o maior relacionamento com a comunidade. Este playbook ensina como fazer isso — com celular, todo dia.</p>
+  <div class="hero-tese">
+    <span class="hero-tese-lbl">// tese central</span>
+    <p>"Preço cria comparação. Pessoas criam conexão. O supermercado que documenta sua vida cotidiana constrói algo que nenhuma promoção consegue copiar: confiança."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>27</strong><span>Princípios de humanização</span></div>
+    <div class="hero-stat"><strong>6</strong><span>Produtos GST gerados</span></div>
+    <div class="hero-stat"><strong>1</strong><span>Celular é suficiente</span></div>
+    <div class="hero-stat"><strong>∞</strong><span>Histórias dentro da loja</span></div>
+  </div>
+</section>
+
+<section class="section" id="s1">
+  <div class="sec-lbl">01 · O Problema Central</div>
+  <h2>Todo supermercado comunica preço. Poucos comunicam pessoas.</h2>
+  <p class="sec-desc">O erro não é anunciar promoção. O erro é anunciar APENAS promoção. Quando o único diferencial é o preço, o cliente sempre vai encontrar alguém mais barato.</p>
+  <div class="callout strategy">
+    <span class="c-lbl">// diagnóstico GST</span>
+    <h3>Preço atrai. Confiança faz voltar.</h3>
+    <p>Todo supermercado tem promoção. O que poucos têm é uma marca que as pessoas lembram, reconhecem e escolhem antes de comparar preço. Esse é o gap que o Método Documentar para Vender preenche.</p>
+  </div>
+  <div class="versus">
+    <div class="vs-card vs-antes">
+      <span class="vs-label">❌ Como a maioria comunica</span>
+      <ul>
+        <li>Picanha R$49,90/kg</li>
+        <li>Promoção só hoje</li>
+        <li>Leve 3 pague 2</li>
+        <li>Oferta imperdível</li>
+        <li>Desconto especial</li>
+        <li>Só esse fim de semana</li>
+      </ul>
+    </div>
+    <div class="vs-card vs-depois">
+      <span class="vs-label">✓ Como líderes comunicam</span>
+      <ul>
+        <li>O seu Antônio escolhendo carne há 22 anos</li>
+        <li>O churrasco do domingo começa aqui</li>
+        <li>O pão que o padeiro faz desde às 4h</li>
+        <li>A fruta que chegou hoje de manhã</li>
+        <li>O repositor que trabalha aqui há 12 anos</li>
+        <li>A família que sempre vai na sua loja</li>
+      </ul>
+    </div>
+  </div>
+  <div class="formula"><em>Oferta</em> gera fluxo · <em>Humanização</em> gera fidelidade · <em>Marca forte</em> gera escolha antes do preço</div>
+</section>
+
+<section class="section" id="s2">
+  <div class="sec-lbl">02 · Filosofia — Documentar</div>
+  <h2>Não criar. Documentar.</h2>
+  <p class="sec-desc">O maior aprendizado do evento: o conteúdo não precisa ser inventado. Ele já existe dentro da loja — só precisa ser registrado.</p>
+  <div class="callout tip">
+    <span class="c-lbl">// princípio fundador</span>
+    <h3>O supermercado é um palco diário. Todo dia existem dezenas de histórias acontecendo.</h3>
+    <p>Quem aprende a enxergar isso nunca fica sem conteúdo. A câmera não precisa criar situações — precisa acompanhar as situações reais que já acontecem toda hora dentro da operação.</p>
+  </div>
+  <div class="pilares">
+    <div class="pilar"><span class="pilar-n">01 //</span><h4>Registrar o cotidiano</h4><p>O dia a dia da operação é o conteúdo. Chegada, reposição, produção, entrega — tudo é história.</p></div>
+    <div class="pilar"><span class="pilar-n">02 //</span><h4>Mostrar processo</h4><p>O cérebro valoriza processo mais que resultado. "Estamos preparando" vale mais que "temos promoção".</p></div>
+    <div class="pilar"><span class="pilar-n">03 //</span><h4>Colocar pessoas em cena</h4><p>Clientes seguem pessoas — não empresas. Todo supermercado precisa de um rosto reconhecível.</p></div>
+    <div class="pilar"><span class="pilar-n">04 //</span><h4>Frequência antes de perfeição</h4><p>1 vídeo por dia vence 1 vídeo perfeito por semana. Consistência constrói lembrança.</p></div>
+    <div class="pilar"><span class="pilar-n">05 //</span><h4>Imperfeição aproxima</h4><p>Vídeo de celular, barulho, equipe rindo — quanto menos parecer comercial, mais gera confiança.</p></div>
+    <div class="pilar"><span class="pilar-n">06 //</span><h4>Significado vende mais</h4><p>Não é carne. É churrasco em família. Não é pão. É café da manhã. O contexto vende mais que o produto.</p></div>
+  </div>
+</section>
+
+<section class="section" id="s3">
+  <div class="sec-lbl">03 · Os 27 Princípios</div>
+  <h2>Os aprendizados do evento — aplicados ao varejo</h2>
+  <p class="sec-desc">Compilação dos insights do Novo Mercado Ao Vivo filtrados pela ótica GST para supermercados.</p>
+  <div class="insights">
+    <div class="insight"><div class="insight-num">01</div><div class="insight-body"><h4>As pessoas compram de pessoas</h4><p>Praticamente todo supermercado comunica preço. Poucos comunicam pessoas. Preço cria comparação — pessoas criam conexão.</p></div></div>
+    <div class="insight"><div class="insight-num">02</div><div class="insight-body"><h4>Humanização é mostrar a vida acontecendo</h4><p>Não significa gravar vídeo falando. Significa mostrar bastidores, equipe trabalhando, chegada de mercadorias, preparo do açougue, pão saindo do forno.</p></div></div>
+    <div class="insight"><div class="insight-num">03</div><div class="insight-body"><h4>Processo vale mais que resultado</h4><p>Em vez de "promoção hoje", mostrar "estamos preparando", "acabou de chegar", "o padeiro começou às 4h da manhã".</p><div class="ex">"O hortifruti acabou de ser abastecido." Isso vende mais que qualquer tabela de preço.</div></div></div>
+    <div class="insight"><div class="insight-num">04</div><div class="insight-body"><h4>Conteúdo precisa gerar proximidade</h4><p>Fazer o cliente sentir que conhece quem trabalha ali. "O João trabalha aqui há 18 anos." "A Dona Maria faz os bolos desde 2009." Essas histórias são memoráveis.</p></div></div>
+    <div class="insight"><div class="insight-num">05</div><div class="insight-body"><h4>Toda empresa precisa de um rosto</h4><p>Pode ser o proprietário, o gerente, o açougueiro, o padeiro ou um atendente carismático. As pessoas seguem pessoas — não empresas.</p></div></div>
+    <div class="insight"><div class="insight-num">06</div><div class="insight-body"><h4>O melhor conteúdo está dentro da empresa</h4><p>Todo supermercado possui centenas de conteúdos escondidos. Chegada do caminhão, reposição, conferência, produção — tudo é conteúdo.</p></div></div>
+    <div class="insight"><div class="insight-num">07</div><div class="insight-body"><h4>Mostrar imperfeições aumenta confiança</h4><p>Nem tudo precisa parecer comercial. Vídeos feitos no celular, barulho, equipe rindo, cliente falando — isso aproxima.</p></div></div>
+    <div class="insight"><div class="insight-num">08</div><div class="insight-body"><h4>O excesso de produção afasta</h4><p>Vídeos extremamente produzidos parecem propaganda. O algoritmo recompensa naturalidade. Quanto mais espontâneo, maior retenção.</p></div></div>
+    <div class="insight"><div class="insight-num">09</div><div class="insight-body"><h4>Frequência vence perfeição</h4><p>É melhor publicar 1 vídeo por dia do que 1 vídeo perfeito por semana. Consistência constrói lembrança.</p></div></div>
+    <div class="insight"><div class="insight-num">10</div><div class="insight-body"><h4>A câmera acompanha o cotidiano</h4><p>Ao invés de criar situações, mostrar situações reais: repositor abastecendo, cliente escolhendo frutas, pão saindo, açougue trabalhando.</p></div></div>
+    <div class="insight"><div class="insight-num">11</div><div class="insight-body"><h4>Histórias vendem mais que argumentos</h4><p>Em vez de "temos carne boa", mostrar "o seu Antônio trabalha há 22 anos escolhendo carne". Isso é irrefutável.</p></div></div>
+    <div class="insight"><div class="insight-num">12</div><div class="insight-body"><h4>O cliente gosta de participar</h4><p>Perguntas, enquetes, escolhas. "Qual carne entra na promoção? Qual sabor volta?" Isso gera pertencimento.</p></div></div>
+    <div class="insight"><div class="insight-num">13</div><div class="insight-body"><h4>A marca precisa ter personalidade</h4><p>Não basta postar ofertas. A loja precisa transmitir alegria, família, economia, tradição, qualidade ou confiança.</p></div></div>
+    <div class="insight"><div class="insight-num">14</div><div class="insight-body"><h4>Bastidores geram autoridade</h4><p>O cliente entende que existe trabalho. Ele passa a valorizar mais a empresa — e o preço deixa de ser o único critério.</p></div></div>
+    <div class="insight"><div class="insight-num">15</div><div class="insight-body"><h4>Conteúdo educativo também vende</h4><p>Como escolher carne. Como conservar frutas. Como congelar. Como fazer churrasco. Como economizar. Isso gera compartilhamento e alcance orgânico.</p></div></div>
+    <div class="insight"><div class="insight-num">16</div><div class="insight-body"><h4>O algoritmo recompensa retenção</h4><p>O início do vídeo precisa prender. "Olha o que acabou de chegar." "Você nunca viu isso." Ganchos fortes = mais alcance.</p></div></div>
+    <div class="insight"><div class="insight-num">17</div><div class="insight-body"><h4>O celular é suficiente</h4><p>Não esperar equipamento. Não esperar condição perfeita. Quem cria conteúdo vence quem espera o momento ideal.</p></div></div>
+    <div class="insight"><div class="insight-num">18</div><div class="insight-body"><h4>Empresas precisam documentar — não criar</h4><p>Registrar. Mostrar. O conteúdo já existe. Falta alguém com câmera na mão.</p></div></div>
+    <div class="insight"><div class="insight-num">19</div><div class="insight-body"><h4>Clientes querem autenticidade</h4><p>Quanto menos parecer propaganda, melhor. Quanto mais parecer vida real, melhor.</p></div></div>
+    <div class="insight"><div class="insight-num">20</div><div class="insight-body"><h4>Marca forte gera confiança antes da oferta</h4><p>Quando a marca é lembrada diariamente, o cliente procura a loja antes mesmo de pesquisar preço.</p></div></div>
+    <div class="insight"><div class="insight-num">21</div><div class="insight-body"><h4>Todo vídeo responde pelo menos uma dessas perguntas</h4><p>Quem somos? Como fazemos? Por que fazemos? Um conteúdo que responde a qualquer uma dessas já tem propósito.</p></div></div>
+    <div class="insight"><div class="insight-num">22</div><div class="insight-body"><h4>Mostrar cultura interna fortalece a marca</h4><p>Funcionários felizes, treinamentos, aniversários, conquistas, tempo de casa — isso fortalece equipe e imagem.</p></div></div>
+    <div class="insight"><div class="insight-num">23</div><div class="insight-body"><h4>O supermercado é um palco diário</h4><p>Todo dia existem dezenas de histórias acontecendo. Quem aprende a enxergar isso nunca fica sem conteúdo.</p></div></div>
+    <div class="insight"><div class="insight-num">24</div><div class="insight-body"><h4>As pessoas compram significado</h4><p>Não é carne. É churrasco em família. Não é pão. É café da manhã. O conteúdo deve mostrar o contexto — não apenas o produto.</p></div></div>
+    <div class="insight"><div class="insight-num">25</div><div class="insight-body"><h4>Toda oferta precisa ter emoção</h4><p>Ao invés de "Picanha R$49,90", mostrar "O churrasco do domingo começa aqui." A emoção fecha a venda que o preço abriu.</p></div></div>
+    <div class="insight"><div class="insight-num">26</div><div class="insight-body"><h4>Conteúdo recorrente cria hábito</h4><p>Criar quadros fixos: Segunda do Hortifruti, Terça do Açougue, Sexta do Churrasco. O cliente aprende a esperar.</p></div></div>
+    <div class="insight"><div class="insight-num">27</div><div class="insight-body"><h4>O maior ativo do supermercado é a confiança</h4><p>Preço atrai. Confiança faz voltar. Conteúdo é construção de confiança — e confiança é o único ativo que a concorrência não consegue copiar da noite para o dia.</p></div></div>
+  </div>
+</section>
+
+<section class="section" id="s4">
+  <div class="sec-lbl">04 · Antes vs Depois</div>
+  <h2>Como o conteúdo muda com o método</h2>
+  <p class="sec-desc">A oferta continua — mas o contexto emocional transforma a percepção do cliente.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Setor</th><th>❌ Antes — só preço</th><th>✓ Depois — com emoção</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Açougue</strong></td><td>"Picanha R$49,90/kg"</td><td>"O seu Antônio escolhe cada peça há 22 anos — o churrasco do domingo começa aqui"</td></tr>
+        <tr><td><strong>Padaria</strong></td><td>"Pão francês 10 un R$4,50"</td><td>"O padeiro começa às 4h da manhã pra o pão estar quentinho quando você chegar"</td></tr>
+        <tr><td><strong>Hortifruti</strong></td><td>"Tomate R$3,99/kg"</td><td>"Acabou de chegar direto do produtor — olha como está fresquinho"</td></tr>
+        <tr><td><strong>Equipe</strong></td><td>Não aparece</td><td>"O João trabalha aqui há 18 anos e conhece cada produto pelo nome"</td></tr>
+        <tr><td><strong>Bastidores</strong></td><td>Não existe</td><td>"Olha como organizamos as gôndolas todo dia antes de abrir"</td></tr>
+        <tr><td><strong>Cliente</strong></td><td>Não aparece</td><td>"A dona Maria vem aqui toda semana há 15 anos — esse é o nosso orgulho"</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s5">
+  <div class="sec-lbl">05 · Conteúdos Escondidos</div>
+  <h2>O que existe dentro de qualquer loja — e ninguém grava</h2>
+  <p class="sec-desc">Todo supermercado tem centenas de histórias escondidas. Falta alguém com câmera na mão para registrá-las.</p>
+  <div class="op-grid">
+    <div class="op-card"><span class="op-ico">🚚</span><h4>Operação e Logística</h4><ul><li>Chegada do caminhão de fornecedor</li><li>Descarga e conferência das mercadorias</li><li>Organização das câmaras frias</li><li>Reposição nas gôndolas</li><li>Separação do delivery</li></ul></div>
+    <div class="op-card"><span class="op-ico">🥩</span><h4>Açougue</h4><ul><li>Seleção e corte das peças</li><li>Processo de tempero e marinada</li><li>Organização do balcão</li><li>Conversa com o açougueiro</li><li>Dica de como escolher carne</li></ul></div>
+    <div class="op-card"><span class="op-ico">🍞</span><h4>Padaria</h4><ul><li>Produção antes do amanhecer</li><li>Pão saindo do forno</li><li>Preparo de bolos e doces</li><li>A história do padeiro</li><li>Receita rápida com produto da loja</li></ul></div>
+    <div class="op-card"><span class="op-ico">🥦</span><h4>Hortifruti</h4><ul><li>Chegada das frutas e legumes</li><li>Seleção por qualidade</li><li>Organização visual do setor</li><li>Dica de conservação</li><li>Receita com produto da semana</li></ul></div>
+    <div class="op-card"><span class="op-ico">👥</span><h4>Pessoas</h4><ul><li>Tempo de casa dos colaboradores</li><li>Histórias de clientes fiéis</li><li>Aniversários e conquistas da equipe</li><li>Treinamentos internos</li><li>Bastidor de reuniões</li></ul></div>
+    <div class="op-card navy"><span class="op-ico">🎯</span><h4>Conteúdo Educativo</h4><ul><li>Como escolher a melhor fruta</li><li>Como conservar carnes no freezer</li><li>Como montar um churrasco</li><li>Como economizar na feira</li><li>Receitas rápidas e baratas</li></ul></div>
+  </div>
+</section>
+
+<section class="section" id="s6">
+  <div class="sec-lbl">06 · Calendário de Humanização</div>
+  <h2>Uma estrutura semanal de conteúdo humano</h2>
+  <p class="sec-desc">Além do calendário de ofertas, cada semana precisa de um ritmo fixo de conteúdo de relacionamento.</p>
+  <div class="cal-grid">
+    <div class="cal-day"><div class="cal-head">SEG</div><div class="cal-body"><strong>Segunda do Hortifruti</strong>Chegada das frutas + bastidores da organização</div></div>
+    <div class="cal-day"><div class="cal-head">TER</div><div class="cal-body"><strong>Terça de Pessoas</strong>Apresentar um colaborador, história, tempo de casa</div></div>
+    <div class="cal-day"><div class="cal-head">QUA</div><div class="cal-body"><strong>Quarta da Padaria</strong>Bastidores, produção, pão saindo, o padeiro</div></div>
+    <div class="cal-day"><div class="cal-head">QUI</div><div class="cal-body"><strong>Quinta da Economia</strong>Dica de como economizar, combo da semana</div></div>
+    <div class="cal-day"><div class="cal-head">SEX</div><div class="cal-body"><strong>Sexta do Açougue</strong>Cortes, seleção, bastidores, o açougueiro</div></div>
+    <div class="cal-day"><div class="cal-head">SÁB</div><div class="cal-body"><strong>Sábado do Churrasco</strong>Dica de churrasco, corte do fim de semana</div></div>
+    <div class="cal-day"><div class="cal-head">DOM</div><div class="cal-body"><strong>Domingo da Família</strong>Cliente, comunidade, bastidor afetivo</div></div>
+  </div>
+  <div class="callout tip">
+    <span class="c-lbl">// dica de implementação</span>
+    <h3>Comece com 2 conteúdos humanos por semana — não precisa ser todo dia de uma vez</h3>
+    <p>Dois vídeos de bastidor por semana já mudam a percepção do cliente em 30 dias. Em 90 dias, a marca começa a ser reconhecida como parte da comunidade.</p>
+  </div>
+</section>
+
+<section class="section" id="s7">
+  <div class="sec-lbl">07 · Índice de Humanização GST</div>
+  <h2>Como medir o equilíbrio entre oferta e relacionamento</h2>
+  <p class="sec-desc">Um indicador simples para acompanhar a maturidade de marca de cada cliente.</p>
+  <div class="ihg-wrap">
+    <div class="ihg-title">Índice de Humanização GST — IH Score</div>
+    <div class="ihg-sub">Proporção ideal de conteúdos publicados por semana</div>
+    <div class="ihg-bars">
+      <div class="ihg-row"><span class="ihg-lbl">🛒 Ofertas e preço</span><div class="ihg-bar-wrap"><div class="ihg-bar ofertas" style="width:60%"></div></div><span class="ihg-pct g">60%</span></div>
+      <div class="ihg-row"><span class="ihg-lbl">❤️ Humano e bastidores</span><div class="ihg-bar-wrap"><div class="ihg-bar humano" style="width:30%"></div></div><span class="ihg-pct y">30%</span></div>
+      <div class="ihg-row"><span class="ihg-lbl">📚 Educativo / dicas</span><div class="ihg-bar-wrap"><div class="ihg-bar educativo" style="width:10%"></div></div><span class="ihg-pct b">10%</span></div>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Fase</th><th>Ofertas</th><th>Humano</th><th>Educativo</th><th>Resultado esperado</th></tr></thead>
+      <tbody>
+        <tr><td><span class="badge badge-red">Iniciante</span></td><td>100%</td><td>0%</td><td>0%</td><td>Reconhecido só por preço</td></tr>
+        <tr><td><span class="badge badge-yellow">Em evolução</span></td><td>80%</td><td>15%</td><td>5%</td><td>Começa a ter personalidade</td></tr>
+        <tr><td><span class="badge badge-green">Meta GST</span></td><td>60%</td><td>30%</td><td>10%</td><td>Marca local reconhecida</td></tr>
+        <tr><td><span class="badge badge-green">Referência</span></td><td>50%</td><td>35%</td><td>15%</td><td>Eleito pela comunidade</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="section" id="s8">
+  <div class="sec-lbl">08 · 6 Produtos GST Gerados</div>
+  <h2>Como esses aprendizados viram diferenciais comerciais da agência</h2>
+  <p class="sec-desc">Cada insight do evento pode se tornar um serviço, um processo ou um produto da GST.</p>
+  <div class="produtos-grid">
+    <div class="produto-card"><span class="produto-num">Produto 01 //</span><h4>Método Documentar para Vender</h4><p>Rotina para que cada supermercado registre o dia a dia da operação, transformando processos reais em conteúdo de alta conexão. Entregue como manual + treinamento.</p></div>
+    <div class="produto-card"><span class="produto-num">Produto 02 //</span><h4>Calendário de Humanização</h4><p>Além do calendário de ofertas, um calendário fixo de conteúdos institucionais: colaboradores, bastidores, clientes, fornecedores e histórias da empresa.</p></div>
+    <div class="produto-card"><span class="produto-num">Produto 03 //</span><h4>Banco de Histórias da Loja</h4><p>Mapeamento de histórias de colaboradores antigos, clientes fiéis, fornecedores e marcos do supermercado — para gerar conteúdos autênticos ao longo do ano.</p></div>
+    <div class="produto-card"><span class="produto-num">Produto 04 //</span><h4>Manual de Captação para Equipes</h4><p>Treinar gerentes e funcionários para gravar vídeos espontâneos com o celular, reduzindo dependência de equipes externas e aumentando frequência de publicação.</p></div>
+    <div class="produto-card"><span class="produto-num">Produto 05 //</span><h4>Índice de Humanização GST</h4><p>Indicador para acompanhar a proporção entre conteúdos de oferta e conteúdos de relacionamento — com meta de evolução por fase de maturidade.</p></div>
+    <div class="produto-card"><span class="produto-num">Produto 06 //</span><h4>Diagnóstico de Marca Local</h4><p>Avaliar se a loja tem rosto conhecido, histórias sendo contadas, participação da equipe e interação com clientes — e gerar plano de ação.</p></div>
+  </div>
+</section>
+
+<section class="section" id="s9">
+  <div class="sec-lbl">09 · Checklist Operacional</div>
+  <h2>O que implementar essa semana</h2>
+  <p class="sec-desc">Ações práticas para começar imediatamente — sem precisar de equipamento ou orçamento extra.</p>
+  <div class="cl-wrap" id="cl-ini">
+    <div class="cl-head"><h3>📱 Primeiros Passos — Esta Semana</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-ini" style="width:0%"></div></div><span class="cl-count" id="pc-ini">0/8</span></div></div>
+    <div class="cl-items" id="ci-ini">
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Identificar o "rosto" da loja — dono, gerente ou colaborador carismático</div><div class="cl-sub">Essa pessoa vai aparecer com frequência no conteúdo</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Gravar 1 vídeo de bastidor hoje — sem roteiro, com celular</div><div class="cl-sub">Chegada de mercadoria, açougue trabalhando, padaria produzindo</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Mapear 3 histórias de colaboradores com tempo de casa</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Definir os quadros fixos da semana (ex: Sexta do Açougue)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Criar pasta no celular para salvar vídeos do cotidiano</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Calcular o IH Score atual — qual % do conteúdo é humano?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Orientar a equipe: "quando ver algo interessante, grave"</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Publicar 1 conteúdo de bastidor ainda essa semana</div></div></div>
+    </div>
+  </div>
+  <div class="cl-wrap" id="cl-mes">
+    <div class="cl-head"><h3>📅 Primeiros 30 Dias</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-mes" style="width:0%"></div></div><span class="cl-count" id="pc-mes">0/8</span></div></div>
+    <div class="cl-items" id="ci-mes">
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">Calendário de humanização do mês montado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">Banco de histórias com 5+ colaboradores mapeados</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">2 conteúdos de bastidor publicados por semana</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">1 vídeo de apresentação de colaborador publicado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">1 conteúdo educativo publicado (dica, receita ou tutorial)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">IH Score medido ao final do mês</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">Equipe treinada para gravar espontaneamente</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-mes')"><div class="cl-box"></div><div><div class="cl-text">Análise: conteúdo humano vs oferta — qual performou melhor?</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- APRESENTAÇÃO -->
+<section class="slide-section" id="a1">
+  <div class="slide-wrap">
+    <div class="slide-label">// Apresentação para o cliente · Slide 01</div>
+    <div class="slide-num">01</div>
+    <div class="slide-title">Todo mundo anuncia.<br>Poucos <em>constroem marca.</em></div>
+    <p class="slide-body">Quando a GST analisa os supermercados que mais crescem, encontramos um padrão claro: eles não dependem apenas de promoção para atrair cliente. Eles construíram algo muito mais poderoso — uma marca que a comunidade reconhece, confia e escolhe antes de comparar preço.</p>
+    <div class="slide-quote">"Preço cria comparação. Pessoas criam conexão."</div>
+    <div class="slide-pontos">
+      <div class="slide-ponto"><div class="slide-ponto-num">01</div><p><strong>Todo supermercado tem promoção.</strong> A promoção sozinha não diferencia mais.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">02</div><p><strong>O cliente escolhe onde comprar</strong> muito antes de ver o preço — ele escolhe onde se sente bem.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">03</div><p><strong>Marca forte</strong> é o único diferencial que a concorrência não copia da noite para o dia.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide-section" id="a2">
+  <div class="slide-wrap">
+    <div class="slide-label">// Apresentação para o cliente · Slide 02</div>
+    <div class="slide-num">02</div>
+    <div class="slide-title">O conteúdo que mais vende<br>já está <em>dentro da sua loja.</em></div>
+    <p class="slide-body">Não precisa inventar. Não precisa de câmera profissional. Todo supermercado tem centenas de histórias acontecendo todo dia — e a maioria nunca é gravada.</p>
+    <div class="slide-pontos">
+      <div class="slide-ponto"><div class="slide-ponto-num">📹</div><p><strong>O açougueiro que corta carne há 20 anos</strong> é mais poderoso que qualquer tabela de preço.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">🍞</div><p><strong>O padeiro que começa às 4h da manhã</strong> gera mais conexão que qualquer anúncio de pão.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">🥦</div><p><strong>O hortifruti sendo abastecido</strong> vende mais frescor que qualquer foto de produto.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">👥</div><p><strong>A equipe que está há anos na loja</strong> é a prova de confiança que nenhuma promoção oferece.</p></div>
+    </div>
+    <div class="slide-quote">"O supermercado é um palco diário. Quem aprende a enxergar isso nunca fica sem conteúdo."</div>
+  </div>
+</section>
+
+<section class="slide-section" id="a3">
+  <div class="slide-wrap">
+    <div class="slide-label">// Apresentação para o cliente · Slide 03</div>
+    <div class="slide-num">03</div>
+    <div class="slide-title">O Método GST:<br><em>Documentar para Vender.</em></div>
+    <p class="slide-body">A GST desenvolveu uma metodologia para transformar o cotidiano da sua loja em conteúdo de alta conexão — sem precisar criar nada do zero, sem precisar de equipe de vídeo, sem precisar de orçamento extra.</p>
+    <div class="slide-pontos">
+      <div class="slide-ponto"><div class="slide-ponto-num">01</div><p><strong>Documentar o dia a dia</strong> — chegada, produção, equipe, bastidores, clientes.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">02</div><p><strong>Criar quadros fixos</strong> — Segunda do Hortifruti, Sexta do Açougue, Domingo da Família.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">03</div><p><strong>Mostrar as pessoas</strong> — um rosto reconhecível que a comunidade passa a seguir e confiar.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">04</div><p><strong>Medir o Índice de Humanização</strong> — equilibrar oferta, bastidores e conteúdo educativo.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">05</div><p><strong>Frequência antes de perfeição</strong> — 1 vídeo espontâneo por dia vence 1 vídeo perfeito por semana.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="slide-section" id="a4">
+  <div class="slide-wrap">
+    <div class="slide-label">// Apresentação para o cliente · Slide 04</div>
+    <div class="slide-num">04</div>
+    <div class="slide-title">O que a GST entrega<br>com esse <em>método.</em></div>
+    <p class="slide-body">Além das campanhas de Meta Ads e WhatsApp, a GST implanta o Método Documentar para Vender em cada cliente — como parte do processo de construção de marca local.</p>
+    <div class="slide-pontos">
+      <div class="slide-ponto"><div class="slide-ponto-num">📋</div><p><strong>Calendário de Humanização Mensal</strong> — além do calendário de ofertas, um calendário de bastidores e histórias.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">📖</div><p><strong>Banco de Histórias da Loja</strong> — mapeamento de colaboradores, clientes e marcos para conteúdo anual.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">📱</div><p><strong>Manual de Captação para Equipe</strong> — como qualquer funcionário pode gravar conteúdo com o celular.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">📊</div><p><strong>IH Score mensal</strong> — indicador de equilíbrio entre oferta e relacionamento, com meta de evolução.</p></div>
+    </div>
+    <div class="slide-quote">"Supermercados que documentam sua história constroem algo que a concorrência não consegue copiar: a confiança da comunidade."</div>
+  </div>
+</section>
+
+<section class="slide-section" id="a5">
+  <div class="slide-wrap">
+    <div class="slide-label">// Apresentação para o cliente · Slide 05</div>
+    <div class="slide-num">05</div>
+    <div class="slide-title">O supermercado do futuro<br>não será o mais barato.<br>Será o mais <em>lembrado.</em></div>
+    <p class="slide-body">Promoções continuam sendo fundamentais. Mas o que vai separar os supermercados que crescem dos que estacionam nos próximos anos é a construção de marca local — humana, presente e memorável.</p>
+    <div class="slide-quote">"Quando a marca é lembrada diariamente, o cliente procura a loja antes mesmo de pesquisar preço."</div>
+    <div class="slide-pontos">
+      <div class="slide-ponto"><div class="slide-ponto-num">✓</div><p>A GST já trabalha com Meta Ads, WhatsApp e calendário comercial.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">✓</div><p>Agora também implanta o método de humanização e construção de marca local.</p></div>
+      <div class="slide-ponto"><div class="slide-ponto-num">✓</div><p>Resultado: mais confiança, mais recorrência, mais fidelidade — e mais vendas.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="cta-sec">
+  <h2>Seu supermercado tem histórias<br>que ninguém está<br><em>contando ainda.</em></h2>
+  <p>A GST vai ajudar a encontrar, registrar e transformar essas histórias em conteúdo que constrói marca, gera confiança e faz o cliente escolher você — antes de comparar preço.</p>
+  <a href="https://wa.me/5511983912170?text=Olá!%20Quero%20saber%20mais%20sobre%20o%20Método%20Documentar%20para%20Vender%20da%20GST." class="cta-btn" target="_blank">💬 Falar com a equipe GST</a>
+</section>
+
+<footer class="page-footer">
+  <p>Documentar para Vender · GST System v1.0 · Mai 2026 · Baseado em: O Novo Mercado Ao Vivo</p>
+  <p><strong>GST Marketing</strong> · agenciagst.com.br · Especialistas em supermercados</p>
+</footer>
+
+</main>
+<script>
+function ck(row,wrapId){row.classList.toggle('done');const wrap=document.getElementById(wrapId);const total=wrap.querySelectorAll('.cl-row').length;const done=wrap.querySelectorAll('.cl-row.done').length;const pct=total?Math.round(done/total*100):0;const id=wrapId.replace('cl-','');const pf=document.getElementById('pf-'+id);const pc=document.getElementById('pc-'+id);if(pf)pf.style.width=pct+'%';if(pc)pc.textContent=done+'/'+total;const all=document.querySelectorAll('.cl-row').length;const alld=document.querySelectorAll('.cl-row.done').length;const gp=all?Math.round(alld/all*100):0;const sb=document.getElementById('sbfill');const sp=document.getElementById('pct');if(sb)sb.style.width=gp+'%';if(sp)sp.textContent=gp+'%';}
+const sections=document.querySelectorAll('section[id]');const links=document.querySelectorAll('.sb-link');const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.sb-link[href="#${e.target.id}"]`);if(a)a.classList.add('active');}});},{threshold:0.2});sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
