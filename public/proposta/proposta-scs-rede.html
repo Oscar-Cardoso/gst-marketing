@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta SCS — Sistema Crescimento Supermercado | Rede</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:1.7}
+
+/* HERO */
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a2010 100%);padding:72px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero::after{content:'';position:absolute;bottom:-80px;left:10%;width:400px;height:400px;background:radial-gradient(circle,rgba(0,196,106,.05),transparent 65%);border-radius:50%;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;position:relative}
+.hero-logo{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff}
+.hero-logo span{color:var(--green)}
+.hero-badge{background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.hero-pre{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,52px);font-weight:900;line-height:1.08;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.45);max-width:580px;margin-bottom:36px;line-height:1.7;position:relative}
+.hero-tese{background:rgba(0,196,106,.08);border:1px solid rgba(0,196,106,.18);border-radius:14px;padding:18px 24px;max-width:620px;margin-bottom:36px;position:relative}
+.hero-tese p{font-size:14px;font-weight:600;color:#fff;line-height:1.6;font-style:italic}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* SEÇÕES */
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day)}
+.section:nth-child(even){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+/* FASES */
+.fases{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.fase-card{border-radius:14px;overflow:hidden;border:1px solid var(--border-day)}
+.fase-head{padding:18px 22px;background:var(--navy)}
+.fase-head .fase-tag{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:6px;font-family:var(--font-head)}
+.fase-head h3{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-bottom:3px}
+.fase-head .fase-period{font-size:12px;color:rgba(255,255,255,.35)}
+.fase-body{padding:18px 22px;background:#fff}
+.fase-body li{font-size:13px;color:var(--text);padding:5px 0;display:flex;gap:8px;border-bottom:1px solid #f8fafc;list-style:none}
+.fase-body li:last-child{border-bottom:none}
+.fase-body li::before{content:'→';color:var(--green);font-weight:700;min-width:16px}
+
+/* SERVIÇOS */
+.servicos-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:24px 0}
+.servico{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green)}
+.s-ico{font-size:22px;margin-bottom:9px;display:block}
+.servico h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.servico ul{list-style:none;padding:0}
+.servico li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.servico li:last-child{border-bottom:none}
+.servico li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+
+/* PLANOS */
+.planos{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:24px 0}
+.plano-card{border-radius:16px;overflow:hidden;border:1px solid var(--border-day);position:relative}
+.plano-card.destaque{border-color:var(--green-line);box-shadow:0 0 0 1px rgba(0,196,106,.2)}
+.plano-card.destaque::before{content:'Recomendado';position:absolute;top:-1px;right:20px;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:4px 14px;border-radius:0 0 10px 10px;font-family:var(--font-head);letter-spacing:.5px}
+.plano-head{padding:28px 26px;background:var(--navy)}
+.plano-card.destaque .plano-head{background:linear-gradient(135deg,var(--navy),#0a2818)}
+.plano-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.4);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px;display:block;font-family:var(--font-head)}
+.plano-head h3{font-family:var(--font-head);font-size:18px;font-weight:800;color:#fff;margin-bottom:16px}
+.plano-valor{font-family:var(--font-head);font-size:38px;font-weight:900;color:var(--green);line-height:1}
+.plano-valor small{font-size:14px;color:rgba(255,255,255,.35);font-weight:400}
+.plano-sub{font-size:12px;color:rgba(255,255,255,.3);margin-top:5px}
+.plano-body{padding:22px 26px;background:#fff}
+.plano-body li{font-size:13px;color:var(--text);padding:6px 0;display:flex;gap:8px;border-bottom:1px solid #f8fafc;list-style:none}
+.plano-body li:last-child{border-bottom:none}
+.plano-body li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+
+/* REDE — destaque numérico */
+.rede-box{background:var(--navy);border-radius:20px;padding:40px;border:1px solid rgba(0,196,106,.2);position:relative;overflow:hidden;margin:24px 0}
+.rede-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.rede-box-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;font-family:var(--font-head);position:relative}
+.rede-box h3{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff;margin-bottom:6px;position:relative}
+.rede-box p{font-size:13px;color:rgba(255,255,255,.45);position:relative;margin-bottom:28px;line-height:1.6}
+.rede-nums{display:flex;gap:20px;flex-wrap:wrap;position:relative}
+.rede-num{flex:1;min-width:140px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px;text-align:center}
+.rede-num strong{display:block;font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green)}
+.rede-num span{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;display:block}
+.rede-num.total{background:rgba(0,196,106,.12);border-color:var(--green-line)}
+.rede-num.total strong{font-size:34px}
+.rede-num.total span{color:var(--green)}
+
+/* TABELA */
+.table-wrap{overflow-x:auto;margin:22px 0;border-radius:14px;box-shadow:0 2px 14px rgba(0,0,0,.06)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+thead{background:var(--navy)}
+th{padding:12px 16px;text-align:left;font-family:var(--font-head);font-size:10px;font-weight:700;color:rgba(255,255,255,.5);letter-spacing:1px;text-transform:uppercase}
+td{padding:11px 16px;border-bottom:1px solid var(--border-day);vertical-align:top}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#f8fafc}
+.badge{display:inline-flex;align-items:center;padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-g{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-y{background:rgba(245,180,0,.1);color:#b07500}
+
+/* INDICADORES */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:24px 0}
+.kpi{background:var(--navy);border-radius:12px;padding:16px;border:1px solid var(--border);font-size:13px;color:rgba(255,255,255,.6);display:flex;gap:8px;align-items:flex-start}
+.kpi::before{content:'◆';color:var(--green);font-size:10px;min-width:12px;margin-top:4px}
+
+/* CALLOUT */
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}
+
+/* META */
+.meta-box{background:linear-gradient(135deg,rgba(0,196,106,.08),rgba(0,196,106,.03));border:1px solid var(--green-line);border-radius:16px;padding:32px;margin:24px 0;text-align:center}
+.meta-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;font-family:var(--font-head)}
+.meta-valor{font-family:var(--font-head);font-size:52px;font-weight:900;color:var(--navy);line-height:1}
+.meta-valor em{color:var(--green);font-style:normal}
+.meta-ctx{font-size:13px;color:var(--gray);margin-top:8px}
+
+/* EXCLUÍDO */
+.excluido-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:10px;margin:22px 0}
+.excl-item{background:#fff;border-radius:10px;padding:12px 16px;border:1px solid var(--border-day);font-size:13px;color:var(--gray);display:flex;gap:8px;align-items:center}
+.excl-item::before{content:'×';color:var(--red);font-weight:700;font-size:14px;min-width:14px}
+
+/* PRÓXIMOS PASSOS */
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.passo{background:var(--navy);border-radius:13px;padding:20px;border:1px solid var(--border);text-align:center}
+.passo-num{font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green);display:block;margin-bottom:8px}
+.passo h4{font-family:var(--font-head);font-size:12px;font-weight:700;color:#fff;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.passo p{font-size:12px;color:rgba(255,255,255,.35);line-height:1.4}
+
+/* CTA */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a1a0a);padding:72px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(24px,4vw,38px);font-weight:900;color:#fff;margin-bottom:12px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,196,106,.25)}
+.cta-sec small{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.25);position:relative}
+.page-footer{background:var(--navy2);padding:22px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:768px){
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+  .fases,.planos,.passos{grid-template-columns:1fr}
+  .rede-nums{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">SCS <span>Sistema Crescimento Supermercado</span></div>
+    <span class="hero-badge">⚡ Proposta Comercial</span>
+  </div>
+  <div class="hero-pre">Apresentado para</div>
+  <h1>Mais clientes na loja.<br>Mais <em>cupons</em> no caixa.<br>Mais mercadoria <em>girando.</em></h1>
+  <p class="hero-sub">Consultoria de marketing integrada à operação comercial da sua rede — com meta mínima de 10% de crescimento em clientes e cupons ano versus ano a partir do quarto mês.</p>
+  <div class="hero-tese">
+    <p>"Marketing de supermercado não é post bonito. É cliente entrando na loja, cupom saindo no caixa e mercadoria girando antes do vencimento."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>17</strong><span>Frentes de trabalho</span></div>
+    <div class="hero-stat"><strong>+10%</strong><span>Meta mínima de cupons</span></div>
+    <div class="hero-stat"><strong>2</strong><span>Planos disponíveis</span></div>
+    <div class="hero-stat"><strong>90</strong><span>Dias para a primeira meta</span></div>
+  </div>
+</section>
+
+<!-- 01 - OBJETIVO -->
+<section class="section">
+  <div class="sec-lbl">01 · Objetivo do projeto</div>
+  <h2>Não produção de conteúdo — movimentação de clientes, mercadorias e resultados</h2>
+  <p class="sec-desc">O SCS implanta uma estratégia integrada de marketing orientada por indicadores reais da operação. O objetivo não é encher o feed — é aumentar o fluxo de clientes, a quantidade de cupons, o giro das mercadorias e o fortalecimento da marca na comunidade.</p>
+
+  <div class="callout s">
+    <span class="c-lbl">// lógica do projeto</span>
+    <h3>Cada ação de marketing precisa gerar um resultado mensurável na operação</h3>
+    <p>A consultoria será orientada por dados reais da loja: cupons, ticket médio, frequência de compra e giro de estoque. Não por métricas de vaidade como curtidas e seguidores. O que não move caixa, é revisado ou pausado.</p>
+  </div>
+</section>
+
+<!-- 02 - FASES -->
+<section class="section">
+  <div class="sec-lbl">02 · Fases do projeto</div>
+  <h2>Duas fases com objetivos distintos e entregas claras</h2>
+  <p class="sec-desc">A primeira fase constrói a base — diagnóstico, estrutura e calendário. A segunda fase opera para crescer com os dados em mãos.</p>
+
+  <div class="fases">
+    <div class="fase-card">
+      <div class="fase-head">
+        <span class="fase-tag">Fase 1</span>
+        <h3>Diagnóstico e implantação</h3>
+        <div class="fase-period">Primeiros 3 meses</div>
+      </div>
+      <div class="fase-body">
+        <ul>
+          <li>Levantamento dos indicadores atuais da rede</li>
+          <li>Definição da linha de base de clientes e cupons</li>
+          <li>Análise das redes sociais e comunicação da loja</li>
+          <li>Avaliação do tráfego pago atual</li>
+          <li>Estruturação das campanhas de WhatsApp</li>
+          <li>Implantação das pesquisas de assertividade no caixa</li>
+          <li>Seleção das melhores ferramentas para a operação</li>
+          <li>Construção do calendário comercial mensal</li>
+          <li>Definição de metas e indicadores por loja</li>
+        </ul>
+      </div>
+    </div>
+    <div class="fase-card">
+      <div class="fase-head">
+        <span class="fase-tag">Fase 2</span>
+        <h3>Crescimento e otimização</h3>
+        <div class="fase-period">A partir do 4º mês</div>
+      </div>
+      <div class="fase-body">
+        <ul>
+          <li>Execução das estratégias definidas na Fase 1</li>
+          <li>Crescimento da quantidade de clientes por loja</li>
+          <li>Acompanhamento de cupons ano versus ano</li>
+          <li>Otimização contínua das campanhas</li>
+          <li>Avaliação de investimento versus retorno</li>
+          <li>Correção mensal da estratégia com base em dados</li>
+          <li>BRG mensal com toda a equipe da rede</li>
+          <li>Meta de crescimento de 10% em clientes/cupons a.a.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 - SERVIÇOS -->
+<section class="section">
+  <div class="sec-lbl">03 · Escopo completo de serviços</div>
+  <h2>O que o SCS entrega para cada loja da rede</h2>
+  <p class="sec-desc">Cada frente de trabalho integrada ao calendário comercial e aos indicadores da operação.</p>
+
+  <div class="servicos-grid">
+    <div class="servico"><span class="s-ico">📱</span><h4>Redes Sociais</h4><ul><li>Linha editorial institucional + comercial</li><li>Conteúdo por setor: açougue, FLV, padaria</li><li>Campanhas de marca e comunidade</li><li>Calendário mensal de publicações</li></ul></div>
+    <div class="servico"><span class="s-ico">📡</span><h4>Tráfego Pago</h4><ul><li>Planejamento e gestão de campanhas</li><li>Segmentação por público e raio de influência</li><li>Campanhas de oferta, marca e datas</li><li>Comparativo investimento vs crescimento de cupons</li></ul></div>
+    <div class="servico"><span class="s-ico">💬</span><h4>WhatsApp</h4><ul><li>Calendário de comunicação da base</li><li>Formação e segmentação de clientes</li><li>Campanhas de oferta e relacionamento</li><li>Integração com calendário comercial</li></ul></div>
+    <div class="servico"><span class="s-ico">🛒</span><h4>Pesquisa no Caixa</h4><ul><li>Rotina de pesquisa com o cliente na compra</li><li>Origem do cliente por canal e campanha</li><li>Assertividade das ofertas e campanhas</li><li>Dados para orientar próximos investimentos</li></ul></div>
+    <div class="servico"><span class="s-ico">📦</span><h4>Baixo Giro</h4><ul><li>Identificação de produtos com baixa saída</li><li>Campanhas específicas por produto e setor</li><li>Kits, combos e vendas conjugadas</li><li>Acompanhamento antes, durante e depois</li></ul></div>
+    <div class="servico"><span class="s-ico">🏪</span><h4>Área Comercial</h4><ul><li>Integração marketing + compras + loja</li><li>Produtos de atração vs geradores de margem</li><li>Calendário comercial mensal e semanal</li><li>Aumento de ticket médio e frequência</li></ul></div>
+    <div class="servico"><span class="s-ico">🏆</span><h4>Marca e Experiência</h4><ul><li>Campanhas que não dependem só de preço</li><li>Ações de relacionamento com a comunidade</li><li>Campanhas proprietárias da rede</li><li>Ativações dentro das lojas</li></ul></div>
+    <div class="servico"><span class="s-ico">📊</span><h4>BRG Mensal</h4><ul><li>Balanço de Resultados e Gestão</li><li>Investimento vs crescimento de cupons</li><li>Desempenho por canal e campanha</li><li>Plano de ação para o mês seguinte</li></ul></div>
+  </div>
+</section>
+
+<!-- 04 - PLANOS -->
+<section class="section">
+  <div class="sec-lbl">04 · Planos — por loja</div>
+  <h2>Dois planos, dois níveis de profundidade</h2>
+  <p class="sec-desc">Ambos incluem gestão completa de tráfego pago e estratégia de marketing. A verba de mídia é definida com a rede e paga diretamente às plataformas — não está incluída na mensalidade.</p>
+
+  <div class="planos">
+    <div class="plano-card">
+      <div class="plano-head">
+        <span class="plano-lbl">Plano Tráfego</span>
+        <h3>Gestão de mídia paga + estratégia</h3>
+        <div class="plano-valor">R$1.200 <small>/loja/mês</small></div>
+        <div class="plano-sub">Verba de mídia à parte · definida com a rede</div>
+      </div>
+      <div class="plano-body">
+        <ul>
+          <li>Planejamento estratégico de campanhas</li>
+          <li>Gestão completa de Meta Ads</li>
+          <li>Segmentação por raio de cada loja</li>
+          <li>Teste e otimização de criativos</li>
+          <li>Calendário comercial mensal</li>
+          <li>Relatório mensal de resultados</li>
+          <li>BRG mensal com a gestão</li>
+        </ul>
+      </div>
+    </div>
+    <div class="plano-card destaque">
+      <div class="plano-head">
+        <span class="plano-lbl">Plano Crescimento</span>
+        <h3>Consultoria completa de marketing</h3>
+        <div class="plano-valor">R$2.000 <small>/loja/mês</small></div>
+        <div class="plano-sub">Verba de mídia à parte · definida com a rede</div>
+      </div>
+      <div class="plano-body">
+        <ul>
+          <li>Tudo do Plano Tráfego</li>
+          <li>Estratégia de redes sociais</li>
+          <li>Campanhas de WhatsApp</li>
+          <li>Pesquisa de assertividade no caixa</li>
+          <li>Estratégia de baixo giro e estoque</li>
+          <li>Integração marketing + comercial + compras</li>
+          <li>Campanhas de marca e experiência</li>
+          <li>Seleção e orientação de ferramentas</li>
+          <li>BRG mensal completo</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// importante</span>
+    <h3>A verba de mídia não está incluída na mensalidade</h3>
+    <p>O investimento em tráfego pago (Meta Ads, Google Ads) é definido em conjunto com a rede e pago diretamente às plataformas. Licenças de ferramentas, disparos de WhatsApp e materiais físicos também ficam por conta da rede.</p>
+  </div>
+</section>
+
+<!-- 05 - POTENCIAL DA REDE -->
+<section class="section">
+  <div class="sec-lbl">05 · Potencial da rede</div>
+  <h2>O que representa trazer a rede toda para o SCS</h2>
+  <p class="sec-desc">A escala de uma rede gera eficiência de operação, calendário integrado e aprendizado compartilhado entre as lojas — o que reduz custo por resultado e acelera o crescimento.</p>
+
+  <div class="rede-box">
+    <div class="rede-box-lbl">// simulação — 15 lojas</div>
+    <h3>Plano Tráfego — R$1.200/loja</h3>
+    <p>Gestão integrada de mídia paga para toda a rede com estratégia centralizada e execução local por unidade.</p>
+    <div class="rede-nums">
+      <div class="rede-num"><strong>15</strong><span>Lojas na rede</span></div>
+      <div class="rede-num"><strong>R$1.200</strong><span>Por loja/mês</span></div>
+      <div class="rede-num total"><strong>R$18.000</strong><span>MRR total da rede</span></div>
+    </div>
+  </div>
+
+  <div class="rede-box" style="margin-top:14px">
+    <div class="rede-box-lbl">// simulação — 15 lojas</div>
+    <h3>Plano Crescimento — R$2.000/loja</h3>
+    <p>Consultoria completa com todas as frentes integradas: tráfego, redes, WhatsApp, pesquisa no caixa e comercial.</p>
+    <div class="rede-nums">
+      <div class="rede-num"><strong>15</strong><span>Lojas na rede</span></div>
+      <div class="rede-num"><strong>R$2.000</strong><span>Por loja/mês</span></div>
+      <div class="rede-num total"><strong>R$30.000</strong><span>MRR total da rede</span></div>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// negociação de rede</span>
+    <h3>Redes com 10 ou mais lojas podem negociar condições especiais de pacote</h3>
+    <p>Volume de lojas, prazo de contrato e escopo combinado são variáveis que permitem estruturar um acordo personalizado para a rede — com valor por loja diferenciado e suporte centralizado. Vamos conversar sobre isso na reunião de alinhamento.</p>
+  </div>
+</section>
+
+<!-- 06 - INDICADORES -->
+<section class="section">
+  <div class="sec-lbl">06 · Indicadores acompanhados</div>
+  <h2>O que medimos — toda semana, todo mês</h2>
+  <p class="sec-desc">Toda a operação gira em torno desses números. São eles que sustentam o BRG, a correção de rota e a prestação de contas para a gestão da rede.</p>
+
+  <div class="kpi-grid">
+    <div class="kpi">Clientes e cupons emitidos por loja</div>
+    <div class="kpi">Crescimento ano versus ano</div>
+    <div class="kpi">Faturamento por unidade</div>
+    <div class="kpi">Ticket médio</div>
+    <div class="kpi">Tamanho da cesta</div>
+    <div class="kpi">Frequência de compra</div>
+    <div class="kpi">Venda dos produtos promovidos</div>
+    <div class="kpi">Giro e cobertura de estoque</div>
+    <div class="kpi">Alcance e engajamento</div>
+    <div class="kpi">Investimento em mídia paga</div>
+    <div class="kpi">Custo por resultado</div>
+    <div class="kpi">Origem dos clientes por canal</div>
+    <div class="kpi">Retorno por campanha</div>
+    <div class="kpi">Assertividade das ofertas no caixa</div>
+  </div>
+</section>
+
+<!-- 07 - META -->
+<section class="section">
+  <div class="sec-lbl">07 · Meta do projeto</div>
+  <h2>Um número que guia tudo</h2>
+  <p class="sec-desc">A meta é simples, mensurável e comparável com o histórico da própria rede — sem depender de métricas subjetivas.</p>
+
+  <div class="meta-box">
+    <div class="meta-lbl">Meta mínima · a partir do 4º mês</div>
+    <div class="meta-valor"><em>+10%</em> em clientes/cupons</div>
+    <div class="meta-ctx">ano versus ano · por loja · este é o nosso alvo de partida</div>
+  </div>
+
+  <p style="font-size:14px;color:var(--gray);max-width:640px;line-height:1.7">A meta depende da execução das ações propostas, da disponibilidade de investimento em mídia, da competitividade comercial local e do cumprimento do calendário. O plano é construído e corrigido mensalmente para chegar lá — e a partir dali, continuar crescendo.</p>
+</section>
+
+<!-- 08 - O QUE NÃO INCLUI -->
+<section class="section">
+  <div class="sec-lbl">08 · O que não está incluído</div>
+  <h2>Transparência total desde o início</h2>
+  <p class="sec-desc">Estes itens ficam por conta da rede — definidos e pagos diretamente pela operação.</p>
+
+  <div class="excluido-grid">
+    <div class="excl-item">Investimento em tráfego pago</div>
+    <div class="excl-item">Contratação de influenciadores</div>
+    <div class="excl-item">Impressões e materiais físicos</div>
+    <div class="excl-item">Licenças e mensalidades de ferramentas</div>
+    <div class="excl-item">Disparos pagos de WhatsApp</div>
+    <div class="excl-item">Produção de vídeos e fotografias</div>
+    <div class="excl-item">Artes de ofertas sem pacote adicional</div>
+  </div>
+</section>
+
+<!-- 09 - PRÓXIMOS PASSOS -->
+<section class="section">
+  <div class="sec-lbl">09 · Próximos passos</div>
+  <h2>Como avançar a partir daqui</h2>
+  <p class="sec-desc">Quatro etapas simples do primeiro contato ao kick-off.</p>
+
+  <div class="passos">
+    <div class="passo"><span class="passo-num">1</span><h4>Alinhamento</h4><p>Reunião de 60 min para entender operação, gargalos e ambição da rede</p></div>
+    <div class="passo"><span class="passo-num">2</span><h4>Diagnóstico</h4><p>Análise inicial das lojas, presença digital e oportunidades imediatas</p></div>
+    <div class="passo"><span class="passo-num">3</span><h4>Proposta calibrada</h4><p>Escopo, investimento e cronograma definitivos para a rede</p></div>
+    <div class="passo"><span class="passo-num">4</span><h4>Kick-off</h4><p>Início em até 7 dias após aceite — todas as lojas no mesmo ciclo</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>15 lojas.<br>Um sistema.<br><em>Crescimento previsível.</em></h2>
+  <p>O SCS foi desenhado para redes que querem crescer com método — não com improviso. Vamos conversar sobre como estruturar isso para a sua rede.</p>
+  <a href="https://wa.me/5511983912170" class="cta-btn" target="_blank">💬 Agendar reunião de alinhamento</a>
+  <small>SCS — Sistema Crescimento Supermercado</small>
+</section>
+
+<footer class="page-footer">
+  <p>SCS — Sistema Crescimento Supermercado · Proposta Comercial · 2026</p>
+  <p><strong>Consultoria especializada em marketing para redes de supermercados</strong></p>
+</footer>
+
+</body>
+</html>
