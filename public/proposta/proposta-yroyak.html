@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Proposta Estratégica — Yroyak Supermercados | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:1.7}
+
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a2010 100%);padding:72px 64px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:16px;position:relative}
+.hero-logo{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff}
+.hero-logo span{color:var(--green)}
+.hero-badge{background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.hero-pre{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:3px;margin-bottom:14px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,50px);font-weight:900;line-height:1.08;color:#fff;margin-bottom:16px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:15px;color:rgba(255,255,255,.45);max-width:580px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-tese{background:rgba(0,196,106,.08);border:1px solid rgba(0,196,106,.18);border-radius:14px;padding:18px 24px;max-width:620px;margin-bottom:36px;position:relative}
+.hero-tese-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;display:block;font-family:var(--font-head)}
+.hero-tese p{font-size:14px;font-weight:600;color:#fff;line-height:1.6;font-style:italic}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;padding-top:32px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+.section{padding:60px 64px;border-bottom:1px solid var(--border-day)}
+.section:nth-child(even){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(20px,3vw,28px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:28px;max-width:640px;line-height:1.6}
+
+/* DIAGNÓSTICO */
+.diag-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin:24px 0}
+.diag-card{border-radius:14px;padding:22px;border-left:4px solid}
+.diag-card.p{background:#fff5f5;border-color:var(--red)}
+.diag-card.o{background:rgba(0,196,106,.06);border-color:var(--green)}
+.diag-card.a{background:var(--yellow-dim);border-color:var(--yellow)}
+.diag-card h4{font-family:var(--font-head);font-size:13px;font-weight:700;margin-bottom:8px}
+.diag-card.p h4{color:var(--red)}
+.diag-card.o h4{color:var(--green-dark)}
+.diag-card.a h4{color:#b07500}
+.diag-card ul{list-style:none;padding:0}
+.diag-card li{font-size:12px;color:var(--text);padding:3px 0;display:flex;gap:7px;border-bottom:1px solid rgba(0,0,0,.04)}
+.diag-card li:last-child{border-bottom:none}
+.diag-card.p li::before{content:'✗';color:var(--red);font-weight:700;min-width:14px}
+.diag-card.o li::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+.diag-card.a li::before{content:'!';color:#b07500;font-weight:700;min-width:14px}
+
+/* DADOS */
+.dados-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.dados-card{background:var(--navy);border-radius:16px;padding:28px;border:1px solid var(--border)}
+.dados-card h3{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;margin-bottom:16px}
+.dados-item{display:flex;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.dados-item:last-child{border-bottom:none}
+.di-lbl{font-size:11px;color:rgba(255,255,255,.35);min-width:120px}
+.di-val{font-size:13px;color:#fff;font-weight:600}
+.di-val.g{color:var(--green)}
+.di-val.y{color:var(--yellow)}
+.di-val.r{color:var(--red)}
+
+/* FASES */
+.fases{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.fase{border-radius:13px;overflow:hidden;border:1px solid var(--border-day)}
+.fase-head{padding:14px 16px;background:var(--navy)}
+.fase-tag{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;font-family:var(--font-head)}
+.fase-head h4{font-family:var(--font-head);font-size:12px;font-weight:800;color:#fff;margin-bottom:2px}
+.fase-head span{font-size:10px;color:rgba(255,255,255,.3)}
+.fase-body{padding:12px 16px;background:#fff}
+.fase-item{font-size:11px;color:var(--text);padding:3px 0;display:flex;gap:6px;border-bottom:1px solid #f8fafc}
+.fase-item:last-child{border-bottom:none}
+.fase-item::before{content:'→';color:var(--green);font-weight:700;min-width:12px}
+
+/* PROJETO SÁBADO */
+.sabado-box{background:var(--navy);border-radius:20px;padding:36px;border:1px solid rgba(0,196,106,.2);position:relative;overflow:hidden;margin:24px 0}
+.sabado-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.sb-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:block;font-family:var(--font-head);position:relative}
+.sabado-box h3{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff;margin-bottom:8px;position:relative}
+.sabado-box p{font-size:13px;color:rgba(255,255,255,.5);margin-bottom:22px;line-height:1.6;position:relative}
+.sb-steps{display:flex;gap:0;flex-wrap:wrap;position:relative}
+.sb-step{display:flex;align-items:center;gap:6px;font-size:11px;font-weight:600;color:#fff;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.08);padding:7px 12px;border-radius:20px;margin:4px}
+.sb-step span{color:var(--green)}
+
+/* ENTREGÁVEIS */
+.entreg-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:14px;margin:24px 0}
+.entreg{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green)}
+.e-ico{font-size:22px;margin-bottom:9px;display:block}
+.entreg h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:var(--navy);margin-bottom:9px}
+.entreg ul{list-style:none;padding:0}
+.entreg li{font-size:12px;color:var(--gray);padding:4px 0;border-bottom:1px solid #f8fafc;display:flex;gap:7px}
+.entreg li:last-child{border-bottom:none}
+.entreg li::before{content:'✓';color:var(--green);font-weight:700;min-width:14px}
+
+/* INVESTIMENTO */
+.invest-box{background:linear-gradient(135deg,var(--navy),#0a2818);border-radius:20px;padding:40px;border:1px solid rgba(0,196,106,.2);position:relative;overflow:hidden;margin:24px 0}
+.invest-box::before{content:'';position:absolute;top:-60px;right:-60px;width:200px;height:200px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.ib-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:10px;display:block;font-family:var(--font-head);position:relative}
+.invest-box h3{font-family:var(--font-head);font-size:20px;font-weight:900;color:#fff;margin-bottom:6px;position:relative}
+.invest-box p{font-size:13px;color:rgba(255,255,255,.45);margin-bottom:28px;line-height:1.6;position:relative}
+.ib-nums{display:flex;gap:16px;flex-wrap:wrap;position:relative}
+.ib-num{flex:1;min-width:140px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:12px;padding:18px;text-align:center}
+.ib-num strong{display:block;font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green)}
+.ib-num span{font-size:11px;color:rgba(255,255,255,.35);margin-top:4px;display:block;line-height:1.4}
+.ib-num.total{background:rgba(0,196,106,.12);border-color:var(--green-line)}
+.ib-num.total strong{font-size:34px}
+.ib-num.total span{color:var(--green)}
+
+/* COMPARATIVO */
+.comp-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.comp-card{border-radius:14px;padding:24px}
+.comp-antes{background:#fff5f5;border:1px solid rgba(229,57,53,.12);border-top:3px solid var(--red)}
+.comp-depois{background:rgba(0,196,106,.06);border:1px solid var(--green-line);border-top:3px solid var(--green)}
+.comp-label{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:12px;display:block;font-family:var(--font-head)}
+.comp-antes .comp-label{color:var(--red)}
+.comp-depois .comp-label{color:var(--green-dark)}
+.comp-card ul{list-style:none;padding:0}
+.comp-card li{font-size:13px;padding:6px 0;border-bottom:1px solid rgba(0,0,0,.04);display:flex;gap:8px;line-height:1.4}
+.comp-card li:last-child{border-bottom:none}
+.comp-antes li{color:#7f1d1d}
+.comp-depois li{color:var(--navy)}
+.comp-antes li::before{content:'✗';color:var(--red);font-weight:700;min-width:16px}
+.comp-depois li::before{content:'✓';color:var(--green);font-weight:700;min-width:16px}
+
+/* CALLOUT */
+.callout{border-radius:14px;padding:24px 28px;margin:18px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:16px;font-weight:800;margin-bottom:8px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}
+
+/* FORMULA */
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:14px;padding:18px 26px;margin:18px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.6}
+.formula em{color:var(--green);font-style:normal}
+
+/* OPORTUNIDADE APP */
+.oport-box{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.25);border-radius:14px;padding:24px 28px;margin:18px 0}
+.oport-box h3{font-family:var(--font-head);font-size:15px;font-weight:800;color:#6d4700;margin-bottom:8px}
+.oport-box p{font-size:13px;color:#5a3b00;line-height:1.7}
+.oport-num{font-family:var(--font-head);font-size:28px;font-weight:900;color:#b07500;display:inline}
+
+/* KPI */
+.kpi-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px;margin:22px 0}
+.kpi{background:var(--navy);border-radius:11px;padding:14px 16px;border:1px solid var(--border);font-size:12px;color:rgba(255,255,255,.6);display:flex;gap:8px;align-items:flex-start}
+.kpi::before{content:'◆';color:var(--green);font-size:9px;min-width:12px;margin-top:4px}
+
+/* PASSOS */
+.passos{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:24px 0}
+.passo{background:var(--navy);border-radius:13px;padding:18px;border:1px solid var(--border);text-align:center}
+.passo-num{font-family:var(--font-head);font-size:24px;font-weight:900;color:var(--green);display:block;margin-bottom:7px}
+.passo h4{font-family:var(--font-head);font-size:11px;font-weight:700;color:#fff;margin-bottom:4px;text-transform:uppercase;letter-spacing:.5px}
+.passo p{font-size:11px;color:rgba(255,255,255,.32);line-height:1.4}
+
+/* CTA */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a1a0a);padding:72px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:600px;height:400px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(22px,4vw,36px);font-weight:900;color:#fff;margin-bottom:12px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:14px;color:rgba(255,255,255,.42);max-width:480px;margin:0 auto 28px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:16px 36px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:15px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px);box-shadow:0 12px 30px rgba(0,196,106,.25)}
+.cta-sec small{display:block;margin-top:14px;font-size:12px;color:rgba(255,255,255,.25);position:relative}
+.page-footer{background:var(--navy2);padding:22px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:768px){
+  .hero,.section,.cta-sec,.page-footer{padding:44px 24px}
+  .fases,.passos,.comp-grid,.dados-grid{grid-template-columns:1fr}
+  .ib-nums{flex-direction:column}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">GST <span>Marketing</span></div>
+    <span class="hero-badge">⚡ Proposta Estratégica</span>
+  </div>
+  <div class="hero-pre">Apresentado para</div>
+  <h1>Yroyak Supermercados —<br>Marketing conectado<br>ao <em>caixa.</em></h1>
+  <p class="hero-sub">Uma estratégia integrada para transformar comunicação em clientes reais dentro das lojas — com dados, calendário comercial, conteúdo humano e tráfego pago orientado por resultado.</p>
+  <div class="hero-tese">
+    <span class="hero-tese-lbl">// tese da proposta</span>
+    <p>"Marketing de supermercado não é post bonito. É cliente entrando na loja, cupom saindo no caixa e mercadoria girando. Tudo o que não move caixa é revisado ou pausado."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>3</strong><span>Lojas da rede</span></div>
+    <div class="hero-stat"><strong>72k</strong><span>Cupons/mês (linha de base)</span></div>
+    <div class="hero-stat"><strong>+10%</strong><span>Meta de crescimento</span></div>
+    <div class="hero-stat"><strong>R$4.000</strong><span>Mensalidade GST</span></div>
+  </div>
+</section>
+
+<!-- 01 - O QUE IDENTIFICAMOS -->
+<section class="section">
+  <div class="sec-lbl">01 · O que identificamos</div>
+  <h2>Diagnóstico baseado na operação real do Yroyak</h2>
+  <p class="sec-desc">Antes de qualquer proposta, entendemos o cenário atual. Yroyak tem ativos reais — 3 lojas, 72 mil cupons mensais, base de clientes e histórico de marketing. O problema não é falta de investimento. É falta de estratégia conectada ao resultado comercial.</p>
+
+  <div class="diag-grid">
+    <div class="diag-card p">
+      <h4>⚠️ O que está travando o crescimento</h4>
+      <ul>
+        <li>Comunicação 90% promocional, 10% humanização</li>
+        <li>Sem pessoa interna treinada para conteúdo</li>
+        <li>WhatsApp com 5.800 clientes e apenas 30–50 pedidos/mês</li>
+        <li>Atendimento inconsistente entre as 3 lojas</li>
+        <li>Marketing caro sem clareza de retorno</li>
+        <li>Sábado com movimento abaixo do potencial</li>
+      </ul>
+    </div>
+    <div class="diag-card o">
+      <h4>💡 Oportunidades imediatas</h4>
+      <ul>
+        <li>Base de 5.800 clientes no app — praticamente inativa</li>
+        <li>72k cupons como linha de base mensurável</li>
+        <li>Yroyak tem história e reconhecimento local</li>
+        <li>Sábado como laboratório de crescimento</li>
+        <li>Equipe interna com potencial para criar conteúdo</li>
+        <li>Estrutura física de 3 lojas como ativo de conteúdo</li>
+      </ul>
+    </div>
+    <div class="diag-card a">
+      <h4>🔍 O que precisa de atenção</h4>
+      <ul>
+        <li>Custo atual próximo de R$10k/mês sem mensuração clara</li>
+        <li>Promoções vencidas ainda no ar — imagem prejudicada</li>
+        <li>3 lojas com padrões de atendimento diferentes</li>
+        <li>WhatsApp tratado de forma diferente em cada unidade</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout s">
+    <span class="c-lbl">// ponto central</span>
+    <h3>O Yroyak não precisa de mais marketing. Precisa de marketing mais inteligente.</h3>
+    <p>Eles já têm agência, produção e tráfego — e ainda assim não sabem com precisão se o marketing está gerando mais clientes nas lojas. A GST não entra para substituir tudo. Entra para colocar inteligência comercial por trás do que já existe — conectando marketing, comercial, compras, loja e caixa.</p>
+  </div>
+</section>
+
+<!-- 02 - DADOS DA OPERAÇÃO -->
+<section class="section">
+  <div class="sec-lbl">02 · Dados da operação</div>
+  <h2>A linha de base que vai orientar tudo</h2>
+  <p class="sec-desc">O crescimento só pode ser medido a partir de uma base sólida. Esses são os números que conhecemos — e os que precisamos levantar para calibrar o plano.</p>
+
+  <div class="dados-grid">
+    <div class="dados-card">
+      <h3>📊 O que já sabemos</h3>
+      <div class="dados-item"><span class="di-lbl">Lojas</span><span class="di-val g">3 unidades</span></div>
+      <div class="dados-item"><span class="di-lbl">Cupons/mês</span><span class="di-val g">~72.000</span></div>
+      <div class="dados-item"><span class="di-lbl">Faturamento</span><span class="di-val y">~R$4M/mês (rede)</span></div>
+      <div class="dados-item"><span class="di-lbl">Investimento atual</span><span class="di-val y">~R$10k/mês total</span></div>
+      <div class="dados-item"><span class="di-lbl">Verba de mídia</span><span class="di-val">~R$2k/mês (Meta Ads)</span></div>
+      <div class="dados-item"><span class="di-lbl">Base no app</span><span class="di-val y">~5.800 clientes</span></div>
+      <div class="dados-item"><span class="di-lbl">Pedidos app/mês</span><span class="di-val r">30–50 pedidos</span></div>
+    </div>
+    <div class="dados-card">
+      <h3>🔍 O que precisamos levantar</h3>
+      <div class="dados-item"><span class="di-lbl">Cupons por loja</span><span class="di-val y">A definir por unidade</span></div>
+      <div class="dados-item"><span class="di-lbl">Faturamento/loja</span><span class="di-val y">A definir por unidade</span></div>
+      <div class="dados-item"><span class="di-lbl">Ticket médio</span><span class="di-val y">A levantar no período</span></div>
+      <div class="dados-item"><span class="di-lbl">Cupons no sábado</span><span class="di-val y">Antes vs depois</span></div>
+      <div class="dados-item"><span class="di-lbl">Origem dos clientes</span><span class="di-val y">Por canal e campanha</span></div>
+      <div class="dados-item"><span class="di-lbl">Histórico a.a.</span><span class="di-val y">Mesmo período 2025</span></div>
+      <div class="dados-item"><span class="di-lbl">Giro por setor</span><span class="di-val y">Baixo giro mapeado</span></div>
+    </div>
+  </div>
+
+  <div class="oport-box">
+    <h3>⚡ Ativo subutilizado — base de <span class="oport-num">5.800</span> clientes no app</h3>
+    <p>Yroyak tem 5.800 clientes que já interagiram com o aplicativo — e apenas 30 a 50 pedidos ativos por mês. Isso é uma base quase inteiramente dormente. Antes de investir em aquisição de novos clientes, vamos entender por que esse canal perdeu força e como reativar esse relacionamento — seja pelo próprio app ou por WhatsApp. Isso pode gerar resultado imediato sem aumento de verba.</p>
+  </div>
+</section>
+
+<!-- 03 - PLANO 90 DIAS -->
+<section class="section">
+  <div class="sec-lbl">03 · Plano de 90 dias</div>
+  <h2>Quatro fases com objetivo definido em cada janela</h2>
+  <p class="sec-desc">Cada fase tem uma entrega clara — sem queimar etapas e sem prometer resultado antes de ter a base organizada.</p>
+
+  <div class="fases">
+    <div class="fase">
+      <div class="fase-head">
+        <span class="fase-tag">Fase 1 · 0–30 dias</span>
+        <h4>Arrumar a casa</h4>
+        <span>Diagnóstico e estrutura</span>
+      </div>
+      <div class="fase-body">
+        <div class="fase-item">Auditoria das contas e campanhas</div>
+        <div class="fase-item">Arquivamento das promoções vencidas</div>
+        <div class="fase-item">Linha de base de cupons por loja</div>
+        <div class="fase-item">Mapeamento do WhatsApp das 3 lojas</div>
+        <div class="fase-item">Pilares editoriais definidos</div>
+        <div class="fase-item">Calendário comercial do 1º mês</div>
+        <div class="fase-item">Lançamento do Projeto Sábado</div>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fase-head">
+        <span class="fase-tag">Fase 2 · 30–60 dias</span>
+        <h4>Humanizar</h4>
+        <span>Conteúdo com rosto</span>
+      </div>
+      <div class="fase-body">
+        <div class="fase-item">Treinamento interno de conteúdo</div>
+        <div class="fase-item">Roteiro e checklist de gravação</div>
+        <div class="fase-item">Equipe da loja produzindo conteúdo</div>
+        <div class="fase-item">Vídeos de bastidor, setores, equipe</div>
+        <div class="fase-item">Primeiro mês com mix oferta + humano</div>
+        <div class="fase-item">Pesquisa de assertividade no caixa</div>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fase-head">
+        <span class="fase-tag">Fase 3 · 30–90 dias</span>
+        <h4>Distribuir</h4>
+        <span>Tráfego com inteligência</span>
+      </div>
+      <div class="fase-body">
+        <div class="fase-item">Campanhas reorganizadas no Meta Ads</div>
+        <div class="fase-item">Oferta + marca + setores + vídeos</div>
+        <div class="fase-item">WhatsApp integrado ao calendário</div>
+        <div class="fase-item">Campanha específica para o sábado</div>
+        <div class="fase-item">Reativação da base de 5.800 clientes</div>
+        <div class="fase-item">Crescimento de verba orientado por dado</div>
+      </div>
+    </div>
+    <div class="fase">
+      <div class="fase-head">
+        <span class="fase-tag">Fase 4 · Contínuo</span>
+        <h4>Medir e escalar</h4>
+        <span>Marketing = dado</span>
+      </div>
+      <div class="fase-body">
+        <div class="fase-item">Cupons por loja semana a semana</div>
+        <div class="fase-item">Campanhas vs crescimento de cupons</div>
+        <div class="fase-item">BRG mensal com toda a gestão</div>
+        <div class="fase-item">Correção de rota baseada em dados</div>
+        <div class="fase-item">Expansão das ações que funcionam</div>
+        <div class="fase-item">Meta +10% cupons a.a. como norte</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="formula">Marketing → Comercial → Compras → Loja → Caixa → <em>Dados</em> → Marketing</div>
+</section>
+
+<!-- 04 - PROJETO SÁBADO -->
+<section class="section">
+  <div class="sec-lbl">04 · Projeto Sábado</div>
+  <h2>O primeiro laboratório do método</h2>
+  <p class="sec-desc">Yroyak quer melhorar o movimento aos sábados. A GST transforma isso no primeiro teste do método — com antes, durante e depois medido em cupons reais.</p>
+
+  <div class="sabado-box">
+    <span class="sb-lbl">// projeto piloto</span>
+    <h3>Fazer o sábado crescer — semana a semana</h3>
+    <p>Em vez de medir curtidas e alcance, a pergunta passa a ser: quantos cupons a mais tivemos no sábado comparado com o mesmo sábado do ano anterior?</p>
+    <div class="sb-steps">
+      <div class="sb-step"><span>01</span> Linha de base dos sábados por loja</div>
+      <div class="sb-step"><span>02</span> Campanha comercial específica de sábado</div>
+      <div class="sb-step"><span>03</span> Oferta + conteúdo + Meta Ads + WhatsApp</div>
+      <div class="sb-step"><span>04</span> Pesquisa no caixa — de onde vieram?</div>
+      <div class="sb-step"><span>05</span> Comparativo sábado 2025 × 2026</div>
+      <div class="sb-step"><span>06</span> Resultado em cupons — não em curtidas</div>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// por que começar pelo sábado</span>
+    <h3>Resultado rápido com escopo pequeno — prova do método antes de escalar</h3>
+    <p>O Projeto Sábado é a prova de conceito da abordagem GST. Se funciona para aumentar cupons num dia específico, funciona para o restante da semana. E é muito mais fácil convencer a gestão a investir mais quando o resultado está no relatório do caixa — não numa apresentação de alcance.</p>
+  </div>
+</section>
+
+<!-- 05 - ENTREGÁVEIS -->
+<section class="section">
+  <div class="sec-lbl">05 · Entregáveis mensais</div>
+  <h2>O que a GST entrega todo mês para o Yroyak</h2>
+  <p class="sec-desc">Tudo incluído na mensalidade — sem módulos ocultos, sem cobranças extras por entrega que já deveria estar no escopo.</p>
+
+  <div class="entreg-grid">
+    <div class="entreg"><span class="e-ico">📅</span><h4>Calendário Comercial</h4><ul><li>Planejamento mensal integrado</li><li>Datas, ofertas e campanhas alinhadas</li><li>Calendário compartilhado com a gestão</li></ul></div>
+    <div class="entreg"><span class="e-ico">📡</span><h4>Meta Ads</h4><ul><li>Gestão completa das campanhas</li><li>Segmentação por loja e por raio</li><li>Testes e otimização contínua</li><li>Relatório de resultado por campanha</li></ul></div>
+    <div class="entreg"><span class="e-ico">🎨</span><h4>Design e Encartes</h4><ul><li>Artes de ofertas semanais</li><li>Encartes digitais das promoções</li><li>Peças para redes sociais e WhatsApp</li><li>Identidade visual consistente entre as lojas</li></ul></div>
+    <div class="entreg"><span class="e-ico">📱</span><h4>Redes Sociais</h4><ul><li>Estratégia editorial com mix oferta + humano</li><li>Publicações semanais planejadas</li><li>Conteúdo de bastidor e equipe</li><li>Orientação de pautas para a equipe interna</li></ul></div>
+    <div class="entreg"><span class="e-ico">💬</span><h4>WhatsApp</h4><ul><li>Estratégia integrada ao calendário</li><li>Campanhas para a base de clientes</li><li>Padronização entre as 3 lojas</li><li>Reativação de contatos inativos</li></ul></div>
+    <div class="entreg"><span class="e-ico">🎬</span><h4>Treinamento de Conteúdo</h4><ul><li>Capacitar pessoa interna para gravar</li><li>Roteiros, checklists e orientação</li><li>Reunião quinzenal de pauta</li><li>Equipe da loja gerando conteúdo</li></ul></div>
+    <div class="entreg"><span class="e-ico">🛒</span><h4>Pesquisa no Caixa</h4><ul><li>Rotina de pesquisa com o cliente</li><li>Origem por canal e por campanha</li><li>Assertividade das ofertas</li><li>Dados para corrigir o investimento</li></ul></div>
+    <div class="entreg"><span class="e-ico">📊</span><h4>BRG Mensal</h4><ul><li>Reunião mensal de resultados</li><li>Cupons, faturamento e campanhas</li><li>Investimento vs crescimento</li><li>Plano de ação para o mês seguinte</li></ul></div>
+  </div>
+</section>
+
+<!-- 06 - INVESTIMENTO -->
+<section class="section">
+  <div class="sec-lbl">06 · Investimento</div>
+  <h2>Mais resultado — com menos custo que a estrutura atual</h2>
+  <p class="sec-desc">O Yroyak gasta hoje aproximadamente R$10k/mês com marketing sem mensuração clara. A GST entrega mais integração, mais inteligência e mais controle — por menos.</p>
+
+  <div class="invest-box">
+    <span class="ib-lbl">// mensalidade GST · tudo incluído</span>
+    <h3>Gestão completa para as 3 lojas</h3>
+    <p>Estratégia, tráfego pago, design, encartes, redes sociais, WhatsApp, treinamento de conteúdo, pesquisa no caixa e BRG mensal. Tudo em um único pacote.</p>
+    <div class="ib-nums">
+      <div class="ib-num">
+        <strong>R$4.000</strong>
+        <span>Mensalidade GST<br>tudo incluído</span>
+      </div>
+      <div class="ib-num">
+        <strong>R$2–3k</strong>
+        <span>Verba de mídia<br>paga à Meta pela rede</span>
+      </div>
+      <div class="ib-num total">
+        <strong>~R$6–7k</strong>
+        <span>Investimento total/mês<br>vs R$10k atual</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// sobre a verba de mídia</span>
+    <h3>Manter a verba atual — e fazer ela trabalhar melhor</h3>
+    <p>Não propomos aumentar o investimento em mídia agora. Os R$2k a R$3k/mês que o Yroyak já investe em Meta Ads serão reorganizados com foco em resultado: oferta certa, público certo, campanha certa para cada loja. Se os dados mostrarem espaço para escalar, o aumento de verba vira consequência — não condição.</p>
+  </div>
+</section>
+
+<!-- 07 - COMPARATIVO -->
+<section class="section">
+  <div class="sec-lbl">07 · Antes vs depois</div>
+  <h2>Como o marketing do Yroyak muda com a GST</h2>
+  <p class="sec-desc">A diferença não está em produzir mais — está em produzir com propósito e medir o que importa.</p>
+
+  <div class="comp-grid">
+    <div class="comp-card comp-antes">
+      <span class="comp-label">❌ Como está hoje</span>
+      <ul>
+        <li>Comunicação quase toda promocional</li>
+        <li>Sem pessoa interna treinada para conteúdo</li>
+        <li>WhatsApp inconsistente entre as lojas</li>
+        <li>Base de 5.800 clientes inativa</li>
+        <li>Promoções vencidas ainda no ar</li>
+        <li>Marketing caro sem retorno claro</li>
+        <li>Sábado sem campanha específica</li>
+        <li>Decisões sem dados do caixa</li>
+      </ul>
+    </div>
+    <div class="comp-card comp-depois">
+      <span class="comp-label">✓ Como fica com a GST</span>
+      <ul>
+        <li>Mix equilibrado: oferta + humanização</li>
+        <li>Equipe interna capacitada para criar conteúdo</li>
+        <li>WhatsApp padronizado e ativo nas 3 lojas</li>
+        <li>Base de clientes reativada e segmentada</li>
+        <li>Calendário sempre atualizado e limpo</li>
+        <li>Custo menor com mensuração real</li>
+        <li>Projeto Sábado rodando e sendo medido</li>
+        <li>BRG mensal com cupons, faturamento e campanhas</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 08 - INDICADORES -->
+<section class="section">
+  <div class="sec-lbl">08 · Indicadores acompanhados</div>
+  <h2>O que a GST mede todo mês — e apresenta no BRG</h2>
+  <p class="sec-desc">A meta de +10% em cupons ano versus ano é o norte. Esses são os indicadores que mostram se estamos no caminho.</p>
+
+  <div class="kpi-grid">
+    <div class="kpi">Cupons por loja · semana a semana</div>
+    <div class="kpi">Crescimento ano versus ano</div>
+    <div class="kpi">Faturamento por unidade</div>
+    <div class="kpi">Ticket médio da rede</div>
+    <div class="kpi">Investimento em mídia vs crescimento</div>
+    <div class="kpi">Origem dos clientes por canal</div>
+    <div class="kpi">Assertividade das campanhas no caixa</div>
+    <div class="kpi">Cupons específicos do sábado</div>
+    <div class="kpi">Engajamento no WhatsApp</div>
+    <div class="kpi">Reativação da base de clientes</div>
+    <div class="kpi">Alcance e resultado do Meta Ads</div>
+    <div class="kpi">Custo por resultado por campanha</div>
+  </div>
+</section>
+
+<!-- 09 - PRÓXIMOS PASSOS -->
+<section class="section">
+  <div class="sec-lbl">09 · Próximos passos</div>
+  <h2>Do aceite ao início — em menos de 7 dias</h2>
+
+  <div class="passos">
+    <div class="passo"><span class="passo-num">1</span><h4>Aceite</h4><p>Confirmação da proposta e definição do escopo final</p></div>
+    <div class="passo"><span class="passo-num">2</span><h4>Acessos</h4><p>Contas de anúncios, Instagram e WhatsApp das 3 lojas</p></div>
+    <div class="passo"><span class="passo-num">3</span><h4>Reunião de kick-off</h4><p>Alinhamento com a gestão e início da auditoria</p></div>
+    <div class="passo"><span class="passo-num">4</span><h4>Início</h4><p>Calendário do 1º mês e Projeto Sábado no ar</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>Yroyak já tem tudo<br>que precisa para <em>crescer.</em><br>Falta a estratégia certa.</h2>
+  <p>3 lojas, 72 mil cupons, 5.800 clientes e uma equipe que quer crescer. A GST conecta esses ativos e transforma marketing em resultado no caixa.</p>
+  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Vi%20a%20proposta%20da%20GST%20para%20o%20Yroyak%20e%20quero%20conversar." class="cta-btn" target="_blank">💬 Fechar com a GST agora</a>
+  <small>GST Marketing · Especialistas em supermercados · agenciagst.com.br</small>
+</section>
+
+<footer class="page-footer">
+  <p>Proposta Estratégica — Yroyak Supermercados · GST Marketing · 2026</p>
+  <p><strong>agenciagst.com.br</strong> · Marketing conectado ao caixa</p>
+</footer>
+
+</body>
+</html>
