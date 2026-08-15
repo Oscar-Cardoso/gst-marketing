@@ -395,21 +395,113 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   </div>
 </section>
 
-<!-- 05 - ENTREGÁVEIS -->
+<!-- 05 - PRODUTOS -->
 <section class="section">
-  <div class="sec-lbl">05 · Entregáveis mensais</div>
-  <h2>O que a GST entrega todo mês para o Yroyak</h2>
-  <p class="sec-desc">Tudo incluído na mensalidade — sem módulos ocultos, sem cobranças extras por entrega que já deveria estar no escopo.</p>
+  <div class="sec-lbl">05 · Produtos GST</div>
+  <h2>Três níveis — escolha o que faz sentido agora</h2>
+  <p class="sec-desc">Cada produto tem escopo, profundidade e investimento definidos. A verba de mídia não está incluída em nenhum dos planos — é paga diretamente pelo Yroyak às plataformas.</p>
 
-  <div class="entreg-grid">
-    <div class="entreg"><span class="e-ico">📅</span><h4>Calendário Comercial</h4><ul><li>Planejamento mensal integrado</li><li>Datas, ofertas e campanhas alinhadas</li><li>Calendário compartilhado com a gestão</li></ul></div>
-    <div class="entreg"><span class="e-ico">📡</span><h4>Meta Ads</h4><ul><li>Gestão completa das campanhas</li><li>Segmentação por loja e por raio</li><li>Testes e otimização contínua</li><li>Relatório de resultado por campanha</li></ul></div>
-    <div class="entreg"><span class="e-ico">🎨</span><h4>Design e Encartes</h4><ul><li>Artes de ofertas semanais</li><li>Encartes digitais das promoções</li><li>Peças para redes sociais e WhatsApp</li><li>Identidade visual consistente entre as lojas</li></ul></div>
-    <div class="entreg"><span class="e-ico">📱</span><h4>Redes Sociais</h4><ul><li>Estratégia editorial com mix oferta + humano</li><li>Publicações semanais planejadas</li><li>Conteúdo de bastidor e equipe</li><li>Orientação de pautas para a equipe interna</li></ul></div>
-    <div class="entreg"><span class="e-ico">💬</span><h4>WhatsApp</h4><ul><li>Estratégia integrada ao calendário</li><li>Campanhas para a base de clientes</li><li>Padronização entre as 3 lojas</li><li>Reativação de contatos inativos</li></ul></div>
-    <div class="entreg"><span class="e-ico">🎬</span><h4>Treinamento de Conteúdo</h4><ul><li>Capacitar pessoa interna para gravar</li><li>Roteiros, checklists e orientação</li><li>Reunião quinzenal de pauta</li><li>Equipe da loja gerando conteúdo</li></ul></div>
-    <div class="entreg"><span class="e-ico">🛒</span><h4>Pesquisa no Caixa</h4><ul><li>Rotina de pesquisa com o cliente</li><li>Origem por canal e por campanha</li><li>Assertividade das ofertas</li><li>Dados para corrigir o investimento</li></ul></div>
-    <div class="entreg"><span class="e-ico">📊</span><h4>BRG Mensal</h4><ul><li>Reunião mensal de resultados</li><li>Cupons, faturamento e campanhas</li><li>Investimento vs crescimento</li><li>Plano de ação para o mês seguinte</li></ul></div>
+  <style>
+  .produtos-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+  .produto{border-radius:16px;overflow:hidden;border:1px solid var(--border-day);position:relative}
+  .produto.destaque{border-color:var(--green-line);box-shadow:0 0 0 1px rgba(0,196,106,.15)}
+  .produto.destaque::before{content:'Mais contratado';position:absolute;top:-1px;right:16px;background:var(--green);color:#fff;font-size:10px;font-weight:700;padding:4px 12px;border-radius:0 0 10px 10px;font-family:var(--font-head)}
+  .prod-head{padding:24px 22px;background:var(--navy)}
+  .destaque .prod-head{background:linear-gradient(135deg,var(--navy),#0a2818)}
+  .prod-nivel{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;display:block;margin-bottom:6px;font-family:var(--font-head)}
+  .prod-head h3{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;margin-bottom:14px;line-height:1.3}
+  .prod-preco{display:flex;align-items:flex-end;gap:10px;flex-wrap:wrap}
+  .prod-val{font-family:var(--font-head);font-size:30px;font-weight:900;color:var(--green);line-height:1}
+  .prod-val-alt{font-size:12px;color:rgba(255,255,255,.35);line-height:1.5}
+  .prod-val-alt strong{color:rgba(255,255,255,.55);display:block}
+  .prod-body{padding:18px 22px;background:#fff}
+  .prod-ul{list-style:none;padding:0;margin:0}
+  .prod-item{font-size:12px;color:var(--text);padding:5px 0;display:flex;gap:8px;border-bottom:1px solid #f8fafc}
+  .prod-item:last-child{border-bottom:none}
+  .prod-item::before{content:"✓";color:var(--green);font-weight:700;min-width:14px}
+  .prod-tag{display:inline-flex;align-items:center;gap:5px;background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2);color:#b07500;font-size:10px;font-weight:700;padding:4px 10px;border-radius:20px;font-family:var(--font-head);margin-top:12px}
+  @media(max-width:900px){.produtos-wrap{grid-template-columns:1fr}}
+  </style>
+
+  <div class="produtos-wrap">
+
+    <div class="produto">
+      <div class="prod-head">
+        <span class="prod-nivel">Produto 01 · Entrada</span>
+        <h3>Gestão de Tráfego Pago</h3>
+        <div class="prod-preco">
+          <div class="prod-val">R$1.500</div>
+          <div class="prod-val-alt"><strong>R$2.000 com arte</strong>inclui artes e encartes</div>
+        </div>
+      </div>
+      <div class="prod-body">
+        <ul class="prod-ul">
+          <li class="prod-item">Planejamento estratégico de campanhas</li>
+          <li class="prod-item">Gestão completa de Meta Ads</li>
+          <li class="prod-item">Segmentação por raio de cada loja</li>
+          <li class="prod-item">Teste e otimização de criativos</li>
+          <li class="prod-item">Calendário de campanhas mensais</li>
+          <li class="prod-item">Relatório mensal de resultados</li>
+          <li class="prod-item">Reunião mensal de alinhamento</li>
+        </ul>
+        <div class="prod-tag">🎨 +R$500 com artes e encartes</div>
+      </div>
+    </div>
+
+    <div class="produto destaque">
+      <div class="prod-head">
+        <span class="prod-nivel">Produto 02 · Consultoria Marketing</span>
+        <h3>Consultoria em Marketing</h3>
+        <div class="prod-preco">
+          <div class="prod-val">R$3.000</div>
+          <div class="prod-val-alt"><strong>R$3.500 com arte</strong>inclui artes e encartes</div>
+        </div>
+      </div>
+      <div class="prod-body">
+        <ul class="prod-ul">
+          <li class="prod-item">Tudo do Produto 01</li>
+          <li class="prod-item">Estratégia editorial de redes sociais</li>
+          <li class="prod-item">Calendário comercial mensal integrado</li>
+          <li class="prod-item">Estratégia de WhatsApp para a base</li>
+          <li class="prod-item">Campanhas de reativação de clientes</li>
+          <li class="prod-item">Treinamento interno de conteúdo</li>
+          <li class="prod-item">Roteiros e checklists para a equipe</li>
+          <li class="prod-item">BRG mensal com indicadores</li>
+        </ul>
+        <div class="prod-tag">🎨 +R$500 com artes e encartes</div>
+      </div>
+    </div>
+
+    <div class="produto">
+      <div class="prod-head">
+        <span class="prod-nivel">Produto 03 · Consultoria Completa</span>
+        <h3>Consultoria em Gestão e Marketing</h3>
+        <div class="prod-preco">
+          <div class="prod-val">R$5.000</div>
+          <div class="prod-val-alt"><strong>Arte Luiz inclusa</strong>designer dedicado</div>
+        </div>
+      </div>
+      <div class="prod-body">
+        <ul class="prod-ul">
+          <li class="prod-item">Tudo do Produto 02</li>
+          <li class="prod-item">Integração marketing + comercial + compras</li>
+          <li class="prod-item">Estratégia de baixo giro e estoque</li>
+          <li class="prod-item">Pesquisa de assertividade no caixa</li>
+          <li class="prod-item">Projeto Sábado — cupons antes vs depois</li>
+          <li class="prod-item">Mapeamento de indicadores por loja</li>
+          <li class="prod-item">Campanhas por setor: açougue, FLV, padaria</li>
+          <li class="prod-item">Designer dedicado (Luiz) incluso</li>
+          <li class="prod-item">BRG mensal completo com toda a gestão</li>
+        </ul>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// verba de mídia</span>
+    <h3>O investimento em anúncios não está incluído em nenhum dos planos</h3>
+    <p>A verba do Meta Ads é paga diretamente pelo Yroyak às plataformas. Para a operação atual de 3 lojas, recomendamos manter os R$2k a R$3k/mês já investidos — e crescer a verba conforme os dados mostrarem retorno.</p>
   </div>
 </section>
 
