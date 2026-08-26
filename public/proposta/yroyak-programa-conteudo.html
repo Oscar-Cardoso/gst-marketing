@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Programa de Marketing Interno — Yroyak | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:1.7}
+
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a2010 100%);padding:64px 64px 56px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:-180px;right:-180px;width:600px;height:600px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px;position:relative}
+.hero-logo{font-family:var(--font-head);font-size:18px;font-weight:900;color:#fff}
+.hero-logo span{color:var(--green)}
+.hero-badge{background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:11px;font-weight:700;padding:5px 14px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.hero-pre{font-size:11px;font-weight:600;color:rgba(255,255,255,.3);text-transform:uppercase;letter-spacing:3px;margin-bottom:12px;font-family:var(--font-head);position:relative}
+.hero h1{font-family:var(--font-head);font-size:clamp(26px,4vw,44px);font-weight:900;line-height:1.1;color:#fff;margin-bottom:14px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:560px;line-height:1.7;position:relative}
+
+.section{padding:52px 64px;border-bottom:1px solid var(--border-day)}
+.section:nth-child(even){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:9px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(18px,2.5vw,24px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:24px;max-width:640px;line-height:1.6}
+
+/* CALLOUT */
+.callout{border-radius:14px;padding:22px 26px;margin:18px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:7px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}
+.callout h3{font-family:var(--font-head);font-size:15px;font-weight:800;margin-bottom:7px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}
+
+/* PROCESSO SEMANAL */
+.processo{display:flex;flex-direction:column;gap:0;margin:24px 0}
+.proc-item{display:flex;gap:20px;padding:20px 0;border-bottom:1px solid var(--border-day)}
+.proc-item:last-child{border-bottom:none}
+.proc-ico{font-size:24px;min-width:36px;text-align:center;padding-top:2px}
+.proc-body h4{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:5px}
+.proc-body p{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* FASES DE EVOLUÇÃO */
+.evolucao{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:24px 0}
+.ev-card{border-radius:13px;overflow:hidden;border:1px solid var(--border-day)}
+.ev-head{padding:14px 18px;background:var(--navy)}
+.ev-card:nth-child(1) .ev-head{background:var(--navy)}
+.ev-card:nth-child(2) .ev-head{background:var(--navy2)}
+.ev-card:nth-child(3) .ev-head{background:linear-gradient(135deg,var(--navy),#0a2818)}
+.ev-tag{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;font-family:var(--font-head)}
+.ev-head h4{font-family:var(--font-head);font-size:13px;font-weight:800;color:#fff;margin-bottom:2px}
+.ev-head span{font-size:11px;color:rgba(255,255,255,.3)}
+.ev-body{padding:14px 18px;background:#fff}
+.ev-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.ev-item:last-child{border-bottom:none}
+.ev-item::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+
+/* CHECKLIST */
+.cl-wrap{background:#fff;border-radius:14px;padding:24px;border:1px solid var(--border-day);margin:22px 0}
+.cl-wrap h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy);margin-bottom:14px}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:11px;padding:8px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:6px}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:18px;height:18px;border:2px solid var(--border-day);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:10px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.5}
+
+/* RESULTADO ESPERADO */
+.res-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:22px 0}
+.res-card{background:var(--navy);border-radius:12px;padding:18px;border:1px solid var(--border);text-align:center}
+.res-ico{font-size:22px;margin-bottom:8px}
+.res-card h4{font-family:var(--font-head);font-size:11px;font-weight:600;color:rgba(255,255,255,.4);margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px}
+.res-val{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--green);line-height:1.3}
+
+/* CTA */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a1a0a);padding:56px 64px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(20px,3.5vw,32px);font-weight:900;color:#fff;margin-bottom:10px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:13px;color:rgba(255,255,255,.42);max-width:440px;margin:0 auto 24px;position:relative}
+.cta-btn{display:inline-flex;align-items:center;gap:8px;background:var(--green);color:#fff;padding:14px 32px;border-radius:12px;font-family:var(--font-head);font-weight:800;font-size:14px;text-decoration:none;transition:all .2s;position:relative}
+.cta-btn:hover{background:var(--green-dark);transform:translateY(-2px)}
+.page-footer{background:var(--navy2);padding:20px 64px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:768px){
+  .hero,.section,.cta-sec,.page-footer{padding:40px 24px}
+  .evolucao{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">GST <span>Marketing</span></div>
+    <span class="hero-badge">📱 Programa de Conteúdo Interno</span>
+  </div>
+  <div class="hero-pre">Para o Yroyak Supermercados</div>
+  <h1>Ninguém precisa<br>aparecer antes de<br>estar <em>pronto.</em></h1>
+  <p class="hero-sub">O Yroyak já tem o ativo mais valioso do marketing de supermercado: uma operação real acontecendo todo dia. A GST treina sua equipe para documentar isso — no ritmo certo, sem pressão de exposição.</p>
+</section>
+
+<!-- 01 - A VIRADA -->
+<section class="section">
+  <div class="sec-lbl">01 · A virada de chave</div>
+  <h2>Não é sobre colocar o rosto — é sobre mostrar a operação</h2>
+  <p class="sec-desc">O maior erro do marketing de supermercado é achar que precisa de um influenciador ou de alguém "treinado para câmera". O conteúdo que mais converte é o que já acontece todos os dias dentro da loja.</p>
+
+  <div class="callout s">
+    <span class="c-lbl">// reposicionamento</span>
+    <h3>A câmera não precisa de um rosto. Precisa de uma história.</h3>
+    <p>Chegada do caminhão de carne. Pão saindo do forno. Repositor abastecendo o corredor. Açougueiro selecionando as peças. Isso é conteúdo. Isso é o que o cliente quer ver. E isso não exige que ninguém "apareça" — exige que alguém esteja com o celular na mão.</p>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// proposta GST</span>
+    <h3>A GST treina um colaborador do Yroyak para fazer isso — semanalmente, com método</h3>
+    <p>Não terceirizamos a produção de conteúdo. Construímos a capacidade interna do Yroyak para produzir. Isso reduz custo, aumenta frequência, gera autenticidade — e cria uma máquina de conteúdo que pertence à empresa, não à agência.</p>
+  </div>
+</section>
+
+<!-- 02 - COMO FUNCIONA -->
+<section class="section">
+  <div class="sec-lbl">02 · Como funciona o programa</div>
+  <h2>Um encontro semanal — do planejamento à publicação</h2>
+  <p class="sec-desc">A GST acompanha o colaborador escolhido pelo Yroyak em cada etapa do processo. Não jogamos uma câmera na mão de alguém e esperamos resultado — construímos junto.</p>
+
+  <div class="processo">
+    <div class="proc-item">
+      <div class="proc-ico">📋</div>
+      <div class="proc-body">
+        <h4>Reunião semanal de pauta</h4>
+        <p>Toda semana a GST define com o colaborador o que vai ser gravado: quais setores, quais momentos, quais histórias. O calendário comercial orienta o conteúdo — oferta da semana, produto em destaque, data especial.</p>
+      </div>
+    </div>
+    <div class="proc-item">
+      <div class="proc-ico">🎬</div>
+      <div class="proc-body">
+        <h4>Roteiro e checklist de captação</h4>
+        <p>O colaborador recebe um checklist simples com o que gravar, como gravar e o que falar — quando precisar falar. Nada de roteiro engessado. Orientações práticas para que o vídeo pareça natural porque é natural.</p>
+      </div>
+    </div>
+    <div class="proc-item">
+      <div class="proc-ico">✂️</div>
+      <div class="proc-body">
+        <h4>A GST edita, formata e publica</h4>
+        <p>O colaborador grava. A GST cuida do resto: edição, legenda, música, formato correto para cada canal — Reels, Stories, WhatsApp. O colaborador não precisa saber editar. Só precisa apertar o play e sair gravando.</p>
+      </div>
+    </div>
+    <div class="proc-item">
+      <div class="proc-ico">📊</div>
+      <div class="proc-body">
+        <h4>Análise e ajuste no BRG mensal</h4>
+        <p>Todo mês a GST apresenta o que funcionou: quais vídeos geraram mais alcance, mais mensagens, mais visitas. O programa evolui com base em dados reais — não em achismo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 03 - FASES DE EVOLUÇÃO -->
+<section class="section">
+  <div class="sec-lbl">03 · Fases de evolução</div>
+  <h2>Do bastidor ao rosto — no ritmo do Yroyak</h2>
+  <p class="sec-desc">Ninguém precisa aparecer no primeiro dia. O processo tem fases — e cada fase gera resultado antes de avançar para a próxima.</p>
+
+  <div class="evolucao">
+    <div class="ev-card">
+      <div class="ev-head">
+        <span class="ev-tag">Fase 1 · Meses 1–2</span>
+        <h4>Sem rosto — só operação</h4>
+        <span>Conteúdo de bastidor</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-item">Chegada de mercadorias</div>
+        <div class="ev-item">Açougue trabalhando</div>
+        <div class="ev-item">Padaria produzindo</div>
+        <div class="ev-item">Reposição e organização</div>
+        <div class="ev-item">Detalhe de produto em oferta</div>
+        <div class="ev-item">Câmera na operação — sem apresentador</div>
+      </div>
+    </div>
+    <div class="ev-card">
+      <div class="ev-head">
+        <span class="ev-tag">Fase 2 · Meses 3–4</span>
+        <h4>Voz sem rosto</h4>
+        <span>Narração sobre imagem</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-item">Colaborador fala off-camera</div>
+        <div class="ev-item">"Olha o que chegou hoje..."</div>
+        <div class="ev-item">"Esse aqui é o melhor corte da semana"</div>
+        <div class="ev-item">A voz personaliza sem expor</div>
+        <div class="ev-item">Público começa a reconhecer o tom</div>
+        <div class="ev-item">Confiança do colaborador cresce</div>
+      </div>
+    </div>
+    <div class="ev-card">
+      <div class="ev-head">
+        <span class="ev-tag">Fase 3 · A partir do mês 5</span>
+        <h4>Rosto quando estiver pronto</h4>
+        <span>Decisão do Yroyak</span>
+      </div>
+      <div class="ev-body">
+        <div class="ev-item">Colaborador já sabe gravar</div>
+        <div class="ev-item">Já tem naturalidade na câmera</div>
+        <div class="ev-item">Público já conhece a voz e o estilo</div>
+        <div class="ev-item">Aparecer vira consequência — não obrigação</div>
+        <div class="ev-item">Resultado já prova o método</div>
+        <div class="ev-item">Escala o que funciona</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 04 - CHECKLIST DO COLABORADOR -->
+<section class="section">
+  <div class="sec-lbl">04 · O que o colaborador recebe</div>
+  <h2>Ferramentas que transformam qualquer pessoa em criador de conteúdo</h2>
+  <p class="sec-desc">Não exigimos talento. Exigimos disposição. O método faz o resto.</p>
+
+  <div class="cl-wrap">
+    <h3>📱 Kit do Criador Interno — Yroyak</h3>
+    <div class="cl-items">
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Checklist semanal de captação — o que gravar, quando e como</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Roteiros simples por tipo de conteúdo (bastidor, oferta, educativo)</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Guia de configuração de câmera no celular</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Orientações de enquadramento, luz e áudio</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Pasta compartilhada para envio dos vídeos brutos</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Reunião quinzenal de feedback e pauta com a GST</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Banco de referências — exemplos do que funciona em supermercado</div></div>
+      <div class="cl-row" onclick="this.classList.toggle('done')"><div class="cl-box"></div><div class="cl-text">Calendário mensal de conteúdo integrado com o comercial</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 - RESULTADO ESPERADO -->
+<section class="section">
+  <div class="sec-lbl">05 · Resultado esperado</div>
+  <h2>O que muda na operação de marketing do Yroyak</h2>
+  <p class="sec-desc">Em 90 dias, o Yroyak terá uma máquina de conteúdo interna — com menos custo, mais frequência e mais autenticidade do que qualquer produção terceirizada.</p>
+
+  <div class="res-grid">
+    <div class="res-card">
+      <div class="res-ico">📹</div>
+      <h4>Frequência</h4>
+      <div class="res-val">3–5 vídeos por semana produzidos internamente</div>
+    </div>
+    <div class="res-card">
+      <div class="res-ico">💰</div>
+      <h4>Custo</h4>
+      <div class="res-val">Redução do custo total de marketing vs estrutura atual</div>
+    </div>
+    <div class="res-card">
+      <div class="res-ico">🎯</div>
+      <h4>Autenticidade</h4>
+      <div class="res-val">Conteúdo real da operação — impossível de copiar</div>
+    </div>
+    <div class="res-card">
+      <div class="res-ico">📊</div>
+      <h4>Mensuração</h4>
+      <div class="res-val">Cupons cruzados com campanhas todo mês no BRG</div>
+    </div>
+    <div class="res-card">
+      <div class="res-ico">👥</div>
+      <h4>Equipe</h4>
+      <div class="res-val">Colaborador treinado e capacitado — ativo da empresa</div>
+    </div>
+    <div class="res-card">
+      <div class="res-ico">🏪</div>
+      <h4>Marca local</h4>
+      <div class="res-val">Yroyak reconhecido como referência de supermercado em Manaus</div>
+    </div>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// o diferencial real</span>
+    <h3>A produção interna vira um ativo do Yroyak — não uma dependência da agência</h3>
+    <p>Quando o Yroyak desenvolve a capacidade interna de criar conteúdo, a empresa para de depender de terceiros para se comunicar. A GST orienta, edita e estrategiza — mas o conteúdo nasce de dentro. Isso é mais barato, mais rápido e muito mais autêntico.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>O Yroyak não precisa<br>de influenciador.<br>Precisa de <em>método.</em></h2>
+  <p>A GST traz o método. O Yroyak traz a operação. Juntos, construímos o marketing mais eficiente que a rede já teve.</p>
+  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Quero%20avançar%20com%20o%20programa%20de%20conteúdo%20do%20Yroyak." class="cta-btn" target="_blank">💬 Vamos começar</a>
+</section>
+
+<footer class="page-footer">
+  <p>Programa de Marketing Interno — Yroyak Supermercados · GST Marketing · 2026</p>
+  <p><strong>agenciagst.com.br</strong> · Marketing conectado ao caixa</p>
+</footer>
+
+</body>
+</html>
