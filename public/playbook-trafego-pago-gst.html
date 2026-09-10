@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Playbook de Tráfego Pago — GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:272px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:24px 24px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:12px 24px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,.65);font-weight:600}
+.sb-prog{padding:12px 24px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:5px}
+.sb-prog-lbl strong{color:var(--green)}
+.sb-bar{height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.sb-fill{height:100%;background:var(--green);border-radius:10px;transition:width .4s;width:0%}
+.sb-nav{padding:10px 0;flex:1}
+.sb-nav-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.18);text-transform:uppercase;letter-spacing:2px;padding:6px 24px 2px}
+.sb-link{display:flex;align-items:center;gap:10px;padding:7px 24px;font-size:12px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.04)}
+.sb-link.active{color:#fff;background:rgba(0,196,106,.1);border-left-color:var(--green)}
+.sb-num{font-family:monospace;font-size:10px;color:var(--green);min-width:22px;opacity:.5}
+.sb-link.active .sb-num{opacity:1}
+.sb-foot{padding:14px 24px;border-top:1px solid var(--border)}
+.sb-tag{display:inline-flex;align-items:center;gap:5px;background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+
+/* HERO */
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#0a1a0d 100%);padding:72px 60px 64px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-200px;right:-200px;width:700px;height:700px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-tags{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap}
+.htag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.htag-sys{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.htag-cat{background:var(--yellow-dim);color:var(--yellow);border:1px solid rgba(245,180,0,.2)}
+.htag-ver{background:rgba(255,255,255,.05);color:rgba(255,255,255,.3);border:1px solid rgba(255,255,255,.07)}
+.hero h1{font-family:var(--font-head);font-size:clamp(28px,4.5vw,52px);font-weight:900;line-height:1.05;color:#fff;margin-bottom:14px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.45);max-width:560px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-destaque{background:rgba(0,196,106,.08);border:1px solid rgba(0,196,106,.18);border-radius:14px;padding:18px 22px;max-width:620px;margin-bottom:36px;position:relative}
+.hero-destaque-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;display:block;font-family:var(--font-head)}
+.hero-destaque p{font-size:14px;font-weight:700;color:#fff;line-height:1.6;font-style:italic}
+.hero-stats{display:flex;gap:32px;flex-wrap:wrap;padding-top:28px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:24px;font-weight:900;color:var(--green)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* SEÇÕES */
+.section{padding:52px 60px;border-bottom:1px solid var(--border-day);background:#fff}
+.section:nth-child(odd){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(18px,2.8vw,26px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:24px;max-width:640px;line-height:1.6}
+
+/* CALLOUT */
+.callout{border-radius:13px;padding:22px 26px;margin:16px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.callout.r{background:rgba(229,57,53,.05);border:1px solid rgba(229,57,53,.15)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}.callout.r .c-lbl{color:var(--red)}
+.callout h3{font-family:var(--font-head);font-size:15px;font-weight:800;margin-bottom:6px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}.callout.r h3{color:#7f1d1d}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}.callout.r p{color:#7f1d1d}
+
+/* PILARES */
+.pilares{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin:20px 0}
+.pilar{background:var(--navy);border-radius:13px;padding:20px 16px;border:1px solid var(--border);position:relative;overflow:hidden}
+.pilar::after{content:'';position:absolute;bottom:-24px;right:-24px;width:70px;height:70px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.pilar-n{font-size:10px;font-weight:700;color:var(--green);margin-bottom:8px;display:block;font-family:var(--font-head)}
+.pilar h4{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;margin-bottom:4px}
+.pilar p{font-size:11px;color:rgba(255,255,255,.38);line-height:1.5}
+
+/* FLUXO / ETAPAS */
+.fluxo{display:flex;flex-direction:column;gap:0;margin:22px 0}
+.fluxo-step{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid var(--border-day);align-items:flex-start}
+.fluxo-step:last-child{border-bottom:none}
+.fluxo-num{font-family:var(--font-head);font-size:22px;font-weight:900;color:var(--green);opacity:.25;min-width:36px;line-height:1}
+.fluxo-body h4{font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);margin-bottom:4px}
+.fluxo-body p{font-size:13px;color:var(--gray);line-height:1.6}
+.fluxo-seta{text-align:center;font-size:16px;color:var(--green);padding:4px 0;margin-left:18px}
+
+/* LISTAS SIMPLES */
+.lista{list-style:none;padding:0;margin:16px 0;display:flex;flex-direction:column;gap:0}
+.lista li{font-size:13px;color:var(--text);padding:6px 0;display:flex;gap:10px;border-bottom:1px solid var(--border-day)}
+.lista li:last-child{border-bottom:none}
+.lista li::before{content:'→';color:var(--green);font-weight:700;min-width:16px}
+.lista.x li::before{content:'✗';color:var(--red)}
+.lista.check li::before{content:'✓';color:var(--green)}
+
+/* SEMÁFORO */
+.semaforo{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+.sem-card{border-radius:13px;padding:22px;border:1px solid}
+.sem-card.verde{background:rgba(0,196,106,.06);border-color:var(--green-line)}
+.sem-card.amarelo{background:var(--yellow-dim);border-color:rgba(245,180,0,.25)}
+.sem-card.vermelho{background:rgba(229,57,53,.05);border-color:rgba(229,57,53,.2)}
+.sem-ico{font-size:22px;margin-bottom:8px;display:block}
+.sem-card h4{font-family:var(--font-head);font-size:13px;font-weight:800;margin-bottom:10px}
+.sem-card.verde h4{color:var(--green-dark)}
+.sem-card.amarelo h4{color:#b07500}
+.sem-card.vermelho h4{color:var(--red)}
+.sem-card ul{list-style:none;padding:0}
+.sem-card li{font-size:12px;padding:3px 0;border-bottom:1px solid rgba(0,0,0,.04);display:flex;gap:6px}
+.sem-card li:last-child{border-bottom:none}
+.sem-card.verde li{color:#064e3b}
+.sem-card.amarelo li{color:#6d4700}
+.sem-card.vermelho li{color:#7f1d1d}
+.sem-card.verde li::before{content:'●';color:var(--green);font-size:8px;min-width:12px;margin-top:5px}
+.sem-card.amarelo li::before{content:'●';color:var(--yellow);font-size:8px;min-width:12px;margin-top:5px}
+.sem-card.vermelho li::before{content:'●';color:var(--red);font-size:8px;min-width:12px;margin-top:5px}
+
+/* CHECKLIST INTERATIVO */
+.cl-wrap{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);margin:20px 0;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.cl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap;gap:10px}
+.cl-head h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy)}
+.cl-prog{display:flex;align-items:center;gap:8px}
+.cl-track{width:80px;height:4px;background:var(--border-day);border-radius:10px;overflow:hidden}
+.cl-fill{height:100%;background:var(--green);border-radius:10px;transition:width .3s}
+.cl-count{font-family:var(--font-head);font-size:12px;font-weight:700;color:var(--green)}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:11px;padding:8px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:6px}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:18px;height:18px;border:2px solid var(--border-day);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:10px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.4}
+.cl-sub{font-size:11px;color:var(--text-dim)}
+.cl-critico{font-size:10px;font-weight:700;color:var(--red);background:rgba(229,57,53,.08);padding:2px 7px;border-radius:10px;margin-left:6px;font-family:var(--font-head)}
+
+/* ESCALONAMENTO */
+.esc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:22px 0}
+.esc-card{border-radius:13px;overflow:hidden;border:1px solid var(--border-day)}
+.esc-head{padding:14px 18px;background:var(--navy)}
+.esc-card:nth-child(2) .esc-head{background:var(--navy2)}
+.esc-card:nth-child(3) .esc-head{background:var(--navy3)}
+.esc-head span{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;display:block;margin-bottom:4px;font-family:var(--font-head)}
+.esc-head h4{font-family:var(--font-head);font-size:14px;font-weight:800;color:#fff}
+.esc-body{padding:14px 18px;background:#fff}
+.esc-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.esc-item:last-child{border-bottom:none}
+.esc-item::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+
+/* FASES FORMAÇÃO */
+.fases-form{display:flex;flex-direction:column;gap:14px;margin:22px 0}
+.fase-form{border-radius:13px;overflow:hidden;border:1px solid var(--border-day)}
+.ff-head{padding:14px 20px;background:var(--navy);display:flex;align-items:center;gap:14px}
+.ff-num{font-family:var(--font-head);font-size:24px;font-weight:900;color:var(--green);min-width:32px}
+.ff-info h4{font-family:var(--font-head);font-size:13px;font-weight:800;color:#fff;margin-bottom:2px}
+.ff-info span{font-size:11px;color:rgba(255,255,255,.35)}
+.ff-body{padding:14px 20px;background:#fff}
+.ff-item{font-size:12px;color:var(--text);padding:4px 0;display:flex;gap:7px;border-bottom:1px solid #f8fafc}
+.ff-item:last-child{border-bottom:none}
+.ff-item::before{content:'→';color:var(--green);font-weight:700;min-width:14px}
+
+/* 5 PERGUNTAS */
+.perguntas{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin:22px 0}
+.pergunta{background:var(--navy);border-radius:13px;padding:20px;border:1px solid var(--border);text-align:center}
+.pergunta-num{font-family:var(--font-head);font-size:26px;font-weight:900;color:var(--green);display:block;margin-bottom:8px;opacity:.6}
+.pergunta p{font-family:var(--font-head);font-size:13px;font-weight:700;color:#fff;line-height:1.4}
+.pergunta.obrg p{color:rgba(255,255,255,.5);font-weight:500;font-size:11px;margin-top:4px;font-family:var(--font-body)}
+
+/* FORMULA */
+.formula{background:linear-gradient(135deg,rgba(0,196,106,.06),rgba(0,196,106,.02));border:1px solid var(--green-line);border-radius:13px;padding:16px 24px;margin:16px 0;text-align:center;font-family:var(--font-head);font-size:14px;font-weight:700;color:var(--navy);line-height:1.6}
+.formula em{color:var(--green);font-style:normal}
+
+/* NOMENCLATURA */
+.nomen-ex{background:var(--navy);border-radius:13px;padding:22px;margin:18px 0;border:1px solid var(--border)}
+.nomen-modelo{font-family:monospace;font-size:15px;color:var(--green);background:rgba(0,196,106,.1);padding:10px 16px;border-radius:8px;display:inline-block;margin-bottom:14px;border:1px solid var(--green-line)}
+.nomen-exemplos{display:flex;flex-direction:column;gap:6px}
+.nomen-ex-item{font-family:monospace;font-size:13px;color:rgba(255,255,255,.7);padding:8px 12px;background:rgba(255,255,255,.04);border-radius:8px;border:1px solid rgba(255,255,255,.06)}
+.nomen-ex-item.ruim{color:rgba(229,57,53,.7);background:rgba(229,57,53,.05);border-color:rgba(229,57,53,.1);text-decoration:line-through}
+
+/* FOOTER */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a,#0a1a0d);padding:60px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(20px,3.5vw,30px);font-weight:900;color:#fff;margin-bottom:10px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:13px;color:rgba(255,255,255,.42);max-width:440px;margin:0 auto;position:relative}
+.page-footer{background:var(--navy2);padding:20px 60px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}.main{margin-left:0}
+  .hero,.section,.cta-sec,.page-footer{padding:40px 24px}
+  .semaforo,.esc-grid,.perguntas{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo">GST <span>System</span></div><div class="sb-sub">Manual Operacional Interno</div></div>
+  <div class="sb-meta">
+    <div class="sb-row">📂 Área: <span>Tráfego Pago</span></div>
+    <div class="sb-row">🔒 Uso: <span>Equipe Interna</span></div>
+    <div class="sb-row">🔖 Versão: <span>v1.0 · Set/2026</span></div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Progresso <strong id="pct">0%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" id="sbfill"></div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-nav-lbl">Fundamentos</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span>Capa</a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span>Propósito</a>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span>Quem atendemos</a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span>Como a GST enxerga tráfego</a>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span>A particularidade do super</a>
+    <div class="sb-nav-lbl">Operação</div>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span>Esteira GST</a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span>Responsabilidades</a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span>O que não é aceitável</a>
+    <div class="sb-nav-lbl">Campanhas</div>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span>Distribuição</a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span>WhatsApp</a>
+    <a class="sb-link" href="#s10"><span class="sb-num">10</span>Remarketing</a>
+    <a class="sb-link" href="#s11"><span class="sb-num">11</span>Orçamento</a>
+    <a class="sb-link" href="#s12"><span class="sb-num">12</span>Criativos</a>
+    <a class="sb-link" href="#s13"><span class="sb-num">13</span>Google Ads</a>
+    <div class="sb-nav-lbl">Rotina</div>
+    <a class="sb-link" href="#s14"><span class="sb-num">14</span>Rotina diária</a>
+    <a class="sb-link" href="#s15"><span class="sb-num">15</span>Checklist pré-publicação</a>
+    <a class="sb-link" href="#s16"><span class="sb-num">16</span>Nomenclatura</a>
+    <a class="sb-link" href="#s17"><span class="sb-num">17</span>Indicadores</a>
+    <div class="sb-nav-lbl">Gestão</div>
+    <a class="sb-link" href="#s18"><span class="sb-num">18</span>Semáforo operacional</a>
+    <a class="sb-link" href="#s19"><span class="sb-num">19</span>Escalonamento</a>
+    <a class="sb-link" href="#s20"><span class="sb-num">20</span>Reuniões internas</a>
+    <a class="sb-link" href="#s21"><span class="sb-num">21</span>Formação de gestores</a>
+    <a class="sb-link" href="#s22"><span class="sb-num">22</span>Padrão GST</a>
+  </nav>
+  <div class="sb-foot"><div class="sb-tag">⚡ Uso interno GST</div></div>
+</aside>
+
+<main class="main">
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hero-tags">
+    <span class="htag htag-sys">⚡ GST System</span>
+    <span class="htag htag-cat">📡 Tráfego Pago · Operação</span>
+    <span class="htag htag-ver">v1.0 · Set/2026 · Interno</span>
+  </div>
+  <h1>Playbook Oficial de<br><em>Tráfego Pago</em><br>GST Marketing</h1>
+  <p class="hero-sub">Manual de operação, qualidade e formação de gestores. O método pertence à GST — não ao profissional. Este documento transforma conhecimento individual em processo de empresa.</p>
+  <div class="hero-destaque">
+    <span class="hero-destaque-lbl">// regra central</span>
+    <p>"A operação não pode depender de uma pessoa específica saber como fazer. Pessoas entram, evoluem e saem. O padrão operacional precisa permanecer."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>15</strong><span>Partes do manual</span></div>
+    <div class="hero-stat"><strong>40</strong><span>Seções operacionais</span></div>
+    <div class="hero-stat"><strong>22</strong><span>Itens no checklist</span></div>
+    <div class="hero-stat"><strong>4</strong><span>Fases de formação</span></div>
+  </div>
+</section>
+
+<!-- 01 - PROPÓSITO -->
+<section class="section" id="s1">
+  <div class="sec-lbl">01 · Propósito</div>
+  <h2>Por que este playbook existe</h2>
+  <p class="sec-desc">Este documento foi criado para que qualquer profissional que entre na área de mídia paga consiga compreender não apenas como criar campanhas — mas principalmente como a GST pensa e opera.</p>
+
+  <div class="callout t">
+    <span class="c-lbl">// objetivo</span>
+    <h3>Transformar conhecimento individual em processo de empresa</h3>
+    <p>O gestor precisa entender como criar campanhas, como a operação de supermercados funciona, quais critérios utilizamos para tomar decisões, qual padrão de qualidade esperamos, como identificar problemas, quando escalar e como um novo gestor evolui até conquistar autonomia.</p>
+  </div>
+
+  <div class="formula">GST não vende impressão · Vende <em>percepção de crescimento</em></div>
+</section>
+
+<!-- 02 - QUEM ATENDEMOS -->
+<section class="section" id="s2">
+  <div class="sec-lbl">02 · Quem atendemos</div>
+  <h2>Supermercados e varejo alimentar — isso muda tudo</h2>
+  <p class="sec-desc">Não tratamos uma conta de supermercado como uma clínica, e-commerce, infoproduto, restaurante ou empresa de serviços. O supermercado tem rotina comercial própria — e o gestor precisa entender o negócio antes de entender a ferramenta.</p>
+
+  <div class="callout s">
+    <span class="c-lbl">// diferença central</span>
+    <h3>Supermercados têm alto volume de ofertas, alterações frequentes e necessidade de comunicação local constante</h3>
+    <p>Isso exige velocidade, organização e compreensão do calendário comercial da loja. O gestor que não entende como funciona uma gôndola, um açougue e uma sexta-feira de oferta não consegue operar bem uma conta de varejo alimentar.</p>
+  </div>
+</section>
+
+<!-- 03 - COMO A GST ENXERGA TRÁFEGO -->
+<section class="section" id="s3">
+  <div class="sec-lbl">03 · Como a GST enxerga tráfego</div>
+  <h2>Tráfego não é criar campanha e esperar resultado</h2>
+  <p class="sec-desc">Nosso trabalho é parte da operação comercial do cliente. Para a maioria dos supermercados, o tráfego pago precisa cumprir cinco funções simultaneamente.</p>
+
+  <div class="pilares">
+    <div class="pilar"><span class="pilar-n">01 //</span><h4>Distribuir</h4><p>Fazer ofertas e campanhas chegarem à população da região.</p></div>
+    <div class="pilar"><span class="pilar-n">02 //</span><h4>Gerar frequência</h4><p>Manter o supermercado constantemente presente para o consumidor.</p></div>
+    <div class="pilar"><span class="pilar-n">03 //</span><h4>Gerar ação</h4><p>Levar pessoas para WhatsApp, loja, Clube VIP ou outra ação desejada.</p></div>
+    <div class="pilar"><span class="pilar-n">04 //</span><h4>Construir audiência</h4><p>Transformar alcance em públicos que poderão ser impactados novamente.</p></div>
+    <div class="pilar"><span class="pilar-n">05 //</span><h4>Ajudar a vender</h4><p>Sempre que possível, conectar mídia com movimento comercial da loja.</p></div>
+  </div>
+</section>
+
+<!-- 04 - PARTICULARIDADE DO SUPER -->
+<section class="section" id="s4">
+  <div class="sec-lbl">04 · A particularidade do supermercado</div>
+  <h2>A palavra é: velocidade</h2>
+  <p class="sec-desc">Grande parte das campanhas tem validade curta — um dia, dois dias, fim de semana, uma ação específica. A janela de execução é muito menor que em outros mercados.</p>
+
+  <div class="callout w">
+    <span class="c-lbl">// realidade da operação</span>
+    <h3>Em muitos casos tudo acontece no mesmo dia</h3>
+    <p>Lista chega → design produz → cliente aprova → social publica → tráfego anuncia. Tudo em questão de horas. Por isso: <strong>velocidade também é qualidade</strong>. Uma campanha perfeita publicada depois da oferta começar perdeu parte do seu valor.</p>
+  </div>
+</section>
+
+<!-- 05 - ESTEIRA -->
+<section class="section" id="s5">
+  <div class="sec-lbl">05 · Esteira padrão GST</div>
+  <h2>O fluxo completo — do cliente ao aprendizado</h2>
+  <p class="sec-desc">Cada etapa tem um responsável. O gestor de tráfego entra na Etapa 5 — mas precisa conhecer todo o fluxo para saber quando agir antes.</p>
+
+  <div class="fluxo">
+    <div class="fluxo-step"><div class="fluxo-num">1</div><div class="fluxo-body"><h4>Cliente</h4><p>Envia produtos, preços, ofertas ou campanha comercial.</p></div></div>
+    <div class="fluxo-step"><div class="fluxo-num">2</div><div class="fluxo-body"><h4>Design</h4><p>Transforma a informação em peça publicitária.</p></div></div>
+    <div class="fluxo-step"><div class="fluxo-num">3</div><div class="fluxo-body"><h4>Aprovação</h4><p>Cliente valida preços, produtos, datas e comunicação.</p></div></div>
+    <div class="fluxo-step"><div class="fluxo-num">4</div><div class="fluxo-body"><h4>Publicação</h4><p>Social media publica no canal correto.</p></div></div>
+    <div class="fluxo-step"><div class="fluxo-num">5</div><div class="fluxo-body"><h4>Tráfego</h4><p>Gestor cria ou atualiza campanha com base na publicação aprovada.</p></div></div>
+    <div class="fluxo-step"><div class="fluxo-num">6</div><div class="fluxo-body"><h4>Monitoramento</h4><p>Verifica entrega, verba, erros e performance ao longo do dia.</p></div></div>
+    <div class="fluxo-step"><div class="fluxo-num">7</div><div class="fluxo-body"><h4>Aprendizado</h4><p>Utiliza os dados para melhorar as próximas campanhas.</p></div></div>
+  </div>
+</section>
+
+<!-- 06 - RESPONSABILIDADES -->
+<section class="section" id="s6">
+  <div class="sec-lbl">06 · Responsabilidades do gestor</div>
+  <h2>O gestor não é quem recebe arte e aperta publicar</h2>
+  <p class="sec-desc">É esperado que o gestor de tráfego GST consiga realizar tudo abaixo com autonomia crescente.</p>
+
+  <ul class="lista">
+    <li>Compreender o objetivo da campanha antes de criá-la</li>
+    <li>Conferir o material antes da publicação</li>
+    <li>Estruturar públicos adequados à campanha</li>
+    <li>Definir orçamento dentro do planejamento mensal</li>
+    <li>Criar e nomear campanhas corretamente</li>
+    <li>Acompanhar gasto diário e projeção mensal</li>
+    <li>Identificar anomalias de entrega e performance</li>
+    <li>Otimizar campanhas com base em dados</li>
+    <li>Sugerir melhorias de criativo e segmentação</li>
+    <li>Registrar problemas e comunicar situações críticas</li>
+    <li>Aprender com o histórico das contas</li>
+  </ul>
+</section>
+
+<!-- 07 - O QUE NÃO É ACEITÁVEL -->
+<section class="section" id="s7">
+  <div class="sec-lbl">07 · O que não é aceitável</div>
+  <h2>Erros que não existem na GST</h2>
+  <p class="sec-desc">Estes são erros críticos — não apenas técnicos. Cada um deles pode gerar prejuízo real ao cliente e dano à reputação da agência.</p>
+
+  <ul class="lista x">
+    <li>Campanha criada na conta errada</li>
+    <li>WhatsApp incorreto no anúncio</li>
+    <li>Cidade ou raio errado</li>
+    <li>Preço ou produto errado anunciado</li>
+    <li>Validade incorreta — oferta expirada ainda no ar</li>
+    <li>Campanha importante não publicada no prazo</li>
+    <li>Orçamento muito acima ou muito abaixo do definido</li>
+    <li>Campanha encerrada antes da hora</li>
+    <li>Erro identificado e não comunicado</li>
+    <li>Gestor esperando alguém perguntar para perceber o problema</li>
+  </ul>
+</section>
+
+<!-- 08 - DISTRIBUIÇÃO -->
+<section class="section" id="s8">
+  <div class="sec-lbl">08 · Campanha de distribuição</div>
+  <h2>Um dos pilares da operação</h2>
+  <p class="sec-desc">Fazer a comunicação do supermercado alcançar consumidores relevantes da sua região. Pode ser utilizada para encartes, ofertas, hortifruti, açougue, fim de semana, datas comemorativas e campanhas especiais.</p>
+
+  <div class="callout t">
+    <span class="c-lbl">// localização</span>
+    <h3>Referência de partida: 3 a 5 km — mas não é regra fixa</h3>
+    <p>A decisão deve considerar: tamanho da cidade, região, concorrência, porte do supermercado, histórico de clientes, força da marca e capacidade de deslocamento do consumidor. <strong>Nunca aumentar distância apenas para conseguir mídia mais barata.</strong></p>
+  </div>
+</section>
+
+<!-- 09 - WHATSAPP -->
+<section class="section" id="s9">
+  <div class="sec-lbl">09 · WhatsApp</div>
+  <h2>O canal que o supermercadista mais percebe</h2>
+  <p class="sec-desc">O cliente nem sempre acompanha CPM ou frequência — mas percebe claramente quando o WhatsApp está ou não movimentando. Por isso, campanhas de mensagens têm importância relevante em várias contas.</p>
+
+  <div class="callout s">
+    <span class="c-lbl">// meta operacional de referência</span>
+    <h3>10 a 15 conversas por dia — referência, não promessa</h3>
+    <p>O número varia conforme investimento, oferta, cidade, público, atendimento, criativo e maturidade da conta. O objetivo de médio prazo é avançar o funil: <strong>conversa → cadastro → compra → faturamento.</strong></p>
+  </div>
+
+  <p style="font-size:13px;color:var(--gray);margin-top:8px">Acompanhar sempre: número de conversas, custo por conversa, volume diário, qualidade do contato, tempo de resposta e tema das conversas.</p>
+</section>
+
+<!-- 10 - REMARKETING -->
+<section class="section" id="s10">
+  <div class="sec-lbl">10 · Remarketing</div>
+  <h2>Toda conta deve construir audiência própria</h2>
+  <p class="sec-desc">Campanhas atuais também alimentam campanhas futuras. O gestor precisa pensar em audiência desde o primeiro dia.</p>
+
+  <ul class="lista">
+    <li>Pessoas que engajaram com Instagram ou Facebook</li>
+    <li>Visualizadores de vídeos (janela sugerida: até 90 dias)</li>
+    <li>Pessoas que enviaram mensagens para o WhatsApp</li>
+    <li>Visitantes do site ou landing page</li>
+    <li>Base de clientes e listas próprias do supermercado</li>
+    <li>Usuários que interagiram com campanhas anteriores</li>
+  </ul>
+
+  <div class="callout t">
+    <span class="c-lbl">// publicação existente</span>
+    <h3>Sempre que estrategicamente adequado, usar anúncio baseado em publicação existente</h3>
+    <p>Isso permite acumular curtidas, comentários, compartilhamentos e prova social. Não é obrigatório — criativos independentes fazem sentido quando isso for mais adequado à campanha.</p>
+  </div>
+</section>
+
+<!-- 11 - ORÇAMENTO -->
+<section class="section" id="s11">
+  <div class="sec-lbl">11 · Orçamento</div>
+  <h2>Verba não é dividida por quantidade de campanhas</h2>
+  <p class="sec-desc">Cada cliente tem uma realidade diferente. A pergunta certa não é "como divido a verba?" — é "onde o dinheiro tem mais chance de gerar impacto agora?"</p>
+
+  <div class="callout w">
+    <span class="c-lbl">// controle obrigatório</span>
+    <h3>O gestor deve saber em tempo real o estado da verba</h3>
+    <p>Orçamento mensal, gasto acumulado, média diária, previsão até o fim do mês, campanhas consumindo mais e menos. Não é aceitável descobrir no final do mês que a verba acabou cedo ou que sobrou sem utilizar.</p>
+  </div>
+
+  <p style="font-size:13px;color:var(--gray);margin-top:8px">Campanhas com oferta mais forte, maior urgência, maior importância comercial ou melhor resposta podem receber maior pressão de verba.</p>
+</section>
+
+<!-- 12 - CRIATIVOS -->
+<section class="section" id="s12">
+  <div class="sec-lbl">12 · Criativos</div>
+  <h2>O gestor também analisa a peça — sempre</h2>
+  <p class="sec-desc">O fato de um design ter sido aprovado pelo cliente não significa que o gestor deve desligar o pensamento crítico.</p>
+
+  <div class="cl-wrap" id="cl-cri">
+    <div class="cl-head"><h3>✅ Análise antes de anunciar</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-cri" style="width:0%"></div></div><span class="cl-count" id="pc-cri">0/7</span></div></div>
+    <div class="cl-items">
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">Oferta — o preço chama atenção?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">Produto — está fácil identificar?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">Texto — a mensagem está clara?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">Data — a validade está correta?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">Formato — é adequado para o posicionamento?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">CTA — está claro o que o consumidor deve fazer?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-cri')"><div class="cl-box"></div><div><div class="cl-text">Se percebeu problema — sugeriu melhoria antes de anunciar?</div></div></div>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// humanização</span>
+    <h3>Um supermercado não é apenas produto e preço</h3>
+    <p>Quando o cliente possui dono disponível, gerente, colaborador ou influenciador interno, podemos desenvolver essa pessoa como rosto da marca. Conteúdos humanos ajudam em relacionamento, confiança, seguidores, retenção, engajamento e remarketing.</p>
+  </div>
+</section>
+
+<!-- 13 - GOOGLE -->
+<section class="section" id="s13">
+  <div class="sec-lbl">13 · Google Ads</div>
+  <h2>Google não precisa estar em toda operação</h2>
+  <p class="sec-desc">Antes de iniciar mídia no Google, verificar a estrutura do cliente. A ferramenta deve entrar quando houver lógica estratégica — não apenas porque está disponível.</p>
+
+  <ul class="lista">
+    <li>Verificar Perfil da Empresa no Google (completo, atualizado, com fotos)</li>
+    <li>Confirmar telefone, endereço, horário e avaliações</li>
+    <li>Verificar site ou landing page disponível</li>
+    <li>Estratégias possíveis: pesquisa, marca, categoria, produtos, Performance Max, YouTube</li>
+  </ul>
+</section>
+
+<!-- 14 - ROTINA DIÁRIA -->
+<section class="section" id="s14">
+  <div class="sec-lbl">14 · Rotina operacional</div>
+  <h2>O que o gestor faz todos os dias</h2>
+  <p class="sec-desc">Três momentos fixos — início, durante e final do dia. A pergunta obrigatória ao final: tudo que precisa estar anunciado amanhã está rodando hoje?</p>
+
+  <div class="cl-wrap" id="cl-ini">
+    <div class="cl-head"><h3>🌅 Início do dia — abertura da carteira</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-ini" style="width:0%"></div></div><span class="cl-count" id="pc-ini">0/9</span></div></div>
+    <div class="cl-items">
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Contas ativas — todas funcionando?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Reprovações — existe algum anúncio reprovado?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Erros de pagamento — conta com problema financeiro?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Campanhas encerradas ontem — tudo pausado corretamente?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Campanhas que deveriam ter começado hoje — estão ativas?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Orçamento — gasto dentro do planejado?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Alertas Meta — existe algum alerta crítico?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Gasto fora do padrão — alguma conta acelerando demais?</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-ini')"><div class="cl-box"></div><div><div class="cl-text">Problemas de entrega — algum anúncio sem impressões?</div></div></div>
+    </div>
+  </div>
+
+  <div class="cl-wrap" id="cl-fim">
+    <div class="cl-head"><h3>🌙 Final do dia — conferência de amanhã</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-fim" style="width:0%"></div></div><span class="cl-count" id="pc-fim">0/8</span></div></div>
+    <div class="cl-items">
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Campanha criada para amanhã</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Público correto configurado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Orçamento correto definido</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Datas corretas — início e fim</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Criativo correto vinculado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">WhatsApp correto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Localização correta</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-fim')"><div class="cl-box"></div><div><div class="cl-text">Anúncio aprovado pela Meta</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 15 - CHECKLIST PRÉ-PUBLICAÇÃO -->
+<section class="section" id="s15">
+  <div class="sec-lbl">15 · Checklist pré-publicação</div>
+  <h2>Obrigatório antes de qualquer campanha ir ao ar</h2>
+  <p class="sec-desc">Itens marcados em vermelho são críticos — erro nesses campos pode gerar prejuízo direto ao cliente.</p>
+
+  <div class="cl-wrap" id="cl-pub">
+    <div class="cl-head"><h3>🚀 Checklist pré-publicação completo</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-pub" style="width:0%"></div></div><span class="cl-count" id="pc-pub">0/22</span></div></div>
+    <div class="cl-items">
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Cliente correto <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Conta de anúncios correta <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Página correta</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Instagram correto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Objetivo correto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Orçamento correto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Data inicial correta</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Data final correta <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Cidade e localização correta <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Raio adequado à operação</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Público correto configurado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Criativo correto vinculado</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Produto anunciado correto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Preço correto no criativo <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Validade da oferta correta <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">CTA claro e correto</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">WhatsApp correto <span class="cl-critico">crítico</span></div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Link correto (quando houver)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Publicação existente correta (quando aplicável)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Rastreamento configurado (quando necessário)</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Nomenclatura da campanha no padrão GST</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pub')"><div class="cl-box"></div><div><div class="cl-text">Anúncio aprovado pela Meta antes do horário crítico</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 16 - NOMENCLATURA -->
+<section class="section" id="s16">
+  <div class="sec-lbl">16 · Nomenclatura de campanhas</div>
+  <h2>Campanhas precisam ser compreensíveis para qualquer pessoa</h2>
+  <p class="sec-desc">Qualquer profissional que acessar a conta deve entender imediatamente o que é cada campanha — sem precisar abrir para descobrir.</p>
+
+  <div class="nomen-ex">
+    <div class="nomen-modelo">OBJETIVO | CAMPANHA/AÇÃO | PERÍODO</div>
+    <div class="nomen-exemplos">
+      <div class="nomen-ex-item">ALCANCE | QUARTA MALUCA | 10-09</div>
+      <div class="nomen-ex-item">WHATSAPP | FIM DE SEMANA | 11-13 SET</div>
+      <div class="nomen-ex-item">ENGAJAMENTO | INSTITUCIONAL | SET26</div>
+      <div class="nomen-ex-item">ALCANCE | HORTIFRUTI | 15-09</div>
+      <div class="nomen-ex-item ruim">campanha nova</div>
+      <div class="nomen-ex-item ruim">campanha 2</div>
+      <div class="nomen-ex-item ruim">teste</div>
+      <div class="nomen-ex-item ruim">duplicada</div>
+    </div>
+  </div>
+</section>
+
+<!-- 17 - INDICADORES -->
+<section class="section" id="s17">
+  <div class="sec-lbl">17 · Indicadores</div>
+  <h2>O que monitorar — e o que realmente importa</h2>
+  <p class="sec-desc">Métricas de vaidade existem. Mas o indicador mais importante sempre será: o que aconteceu com o negócio?</p>
+
+  <div class="pilares">
+    <div class="pilar"><span class="pilar-n">Distribuição //</span><h4>CPM, alcance, impressões, frequência, valor gasto</h4><p>Referência de eficiência: CPM abaixo de R$4 quando possível sem prejudicar qualidade de público.</p></div>
+    <div class="pilar"><span class="pilar-n">WhatsApp //</span><h4>Conversas, custo/conversa, volume diário, qualidade</h4><p>Acompanhar evolução histórica — o número precisa melhorar ao longo do tempo.</p></div>
+    <div class="pilar"><span class="pilar-n">Conteúdo //</span><h4>Visualizações, retenção, engajamento, seguidores</h4><p>Compartilhamentos e comentários como sinais de alcance orgânico.</p></div>
+    <div class="pilar"><span class="pilar-n">Negócio //</span><h4>Faturamento, cupons, fluxo, vendas de categoria</h4><p>Cruzar campanha com dado da loja sempre que possível. Esse é o indicador mais importante.</p></div>
+  </div>
+</section>
+
+<!-- 18 - SEMÁFORO -->
+<section class="section" id="s18">
+  <div class="sec-lbl">18 · Semáforo operacional</div>
+  <h2>Cada conta tem uma classificação — toda semana</h2>
+  <p class="sec-desc">O semáforo é a ferramenta de saúde da carteira. Toda reunião semanal começa com cada gestor apresentando o status de cada conta.</p>
+
+  <div class="semaforo">
+    <div class="sem-card verde">
+      <span class="sem-ico">🟢</span>
+      <h4>Verde — Tudo certo</h4>
+      <ul>
+        <li>Campanhas corretas e ativas</li>
+        <li>Investimento dentro do planejado</li>
+        <li>Nenhuma pendência crítica</li>
+        <li>Resultado dentro da expectativa</li>
+        <li>Cliente sem sinal de problema</li>
+      </ul>
+    </div>
+    <div class="sem-card amarelo">
+      <span class="sem-ico">🟡</span>
+      <h4>Amarelo — Atenção</h4>
+      <ul>
+        <li>CPM subindo acima do normal</li>
+        <li>Campanha com baixa entrega</li>
+        <li>Aumento de custo sem explicação</li>
+        <li>Problemas recorrentes de aprovação</li>
+        <li>Criativo fraco ou desatualizado</li>
+        <li>Cliente reclamando ou questionando</li>
+        <li>Queda de resultado sem ação corretiva</li>
+      </ul>
+    </div>
+    <div class="sem-card vermelho">
+      <span class="sem-ico">🔴</span>
+      <h4>Vermelho — Crítico</h4>
+      <ul>
+        <li>Conta bloqueada</li>
+        <li>Pagamento recusado</li>
+        <li>Campanha importante fora do ar</li>
+        <li>Erro de preço anunciado</li>
+        <li>WhatsApp errado no anúncio</li>
+        <li>Campanha na conta errada</li>
+        <li>Localização incorreta</li>
+        <li>Problema que pode gerar prejuízo</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- 19 - ESCALONAMENTO -->
+<section class="section" id="s19">
+  <div class="sec-lbl">19 · Escalonamento</div>
+  <h2>Quem resolve o quê — e quando acionar a direção</h2>
+  <p class="sec-desc">O fundador não deve funcionar como suporte técnico da área. Cada nível tem sua responsabilidade.</p>
+
+  <div class="esc-grid">
+    <div class="esc-card">
+      <div class="esc-head"><span>Nível 1</span><h4>Gestor</h4></div>
+      <div class="esc-body">
+        <div class="esc-item">Identifica o problema</div>
+        <div class="esc-item">Analisa com o playbook</div>
+        <div class="esc-item">Tenta resolver com seu repertório</div>
+        <div class="esc-item">Documenta o que foi feito</div>
+      </div>
+    </div>
+    <div class="esc-card">
+      <div class="esc-head"><span>Nível 2</span><h4>Responsável Sênior</h4></div>
+      <div class="esc-body">
+        <div class="esc-item">Acionado quando gestor não resolve</div>
+        <div class="esc-item">Decisões estratégicas de campanha</div>
+        <div class="esc-item">Problemas que exigem experiência</div>
+        <div class="esc-item">Orienta e supervisiona a solução</div>
+      </div>
+    </div>
+    <div class="esc-card">
+      <div class="esc-head"><span>Nível 3</span><h4>Direção</h4></div>
+      <div class="esc-body">
+        <div class="esc-item">Decisão comercial ou de relacionamento</div>
+        <div class="esc-item">Orçamento extraordinário</div>
+        <div class="esc-item">Risco relevante para o cliente</div>
+        <div class="esc-item">Mudança estratégica significativa</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 20 - REUNIÕES -->
+<section class="section" id="s20">
+  <div class="sec-lbl">20 · Reuniões internas</div>
+  <h2>Reunião não é para descobrir o que aconteceu — é para decidir o que fazer</h2>
+  <p class="sec-desc">Cada profissional chega preparado. Sem isso, o tempo vira relato — e não decisão.</p>
+
+  <div class="callout t">
+    <span class="c-lbl">// reunião semanal · 30 minutos</span>
+    <h3>Cada gestor chega sabendo o semáforo de cada conta</h3>
+    <p>Quais estão verdes, amarelas, vermelhas. Principais erros e problemas. Melhores e piores campanhas. Próximos testes. Clientes que precisam de atenção.</p>
+  </div>
+
+  <div class="callout s">
+    <span class="c-lbl">// revisão mensal — por cliente</span>
+    <h3>9 perguntas para cada conta</h3>
+    <p>Quanto investimos? Qual alcance? Quantas conversas? Melhor campanha? Pior campanha? O que aprendemos? Que audiência construímos? O que testar no próximo mês? Existe oportunidade de ampliar o serviço — Google, WhatsApp, automação, vídeo, remarketing?</p>
+  </div>
+</section>
+
+<!-- 21 - FORMAÇÃO -->
+<section class="section" id="s21">
+  <div class="sec-lbl">21 · Formação de novos gestores</div>
+  <h2>Autonomia é conquistada — não entregue no primeiro dia</h2>
+  <p class="sec-desc">Nenhum novo gestor recebe uma carteira grande no início. O processo tem quatro fases com critérios claros de avanço.</p>
+
+  <div class="fases-form">
+    <div class="fase-form">
+      <div class="ff-head"><div class="ff-num">1</div><div class="ff-info"><h4>Imersão</h4><span>Primeira semana — acompanhamento</span></div></div>
+      <div class="ff-body">
+        <div class="ff-item">Ler e compreender este playbook completo</div>
+        <div class="ff-item">Conhecer clientes, acessos e estrutura Meta</div>
+        <div class="ff-item">Entender a rotina de ofertas e grupos</div>
+        <div class="ff-item">Acompanhar gestor mais experiente em execução real</div>
+        <div class="ff-item">Assimilar padrão de nomenclatura e checklist</div>
+      </div>
+    </div>
+    <div class="fase-form">
+      <div class="ff-head"><div class="ff-num">2</div><div class="ff-info"><h4>Execução Assistida</h4><span>3 a 5 contas com revisão de tudo</span></div></div>
+      <div class="ff-body">
+        <div class="ff-item">Carteira pequena — máximo 5 contas</div>
+        <div class="ff-item">Toda execução relevante passa por revisão</div>
+        <div class="ff-item">Objetivo: reduzir erro e desenvolver padrão mental</div>
+        <div class="ff-item">Erros são aprendizado — mas não se repetem</div>
+      </div>
+    </div>
+    <div class="fase-form">
+      <div class="ff-head"><div class="ff-num">3</div><div class="ff-info"><h4>Autonomia Parcial</h4><span>7 a 8 contas — diagnóstico próprio</span></div></div>
+      <div class="ff-body">
+        <div class="ff-item">Carteira aumentando progressivamente</div>
+        <div class="ff-item">Não traz apenas problemas — traz diagnóstico e proposta</div>
+        <div class="ff-item">"Encontrei isso, a causa é essa, proponho fazer isso"</div>
+        <div class="ff-item">Supervisão diminui conforme confiança cresce</div>
+      </div>
+    </div>
+    <div class="fase-form">
+      <div class="ff-head"><div class="ff-num">4</div><div class="ff-info"><h4>Carteira Própria</h4><span>Até ~10 contas com autonomia</span></div></div>
+      <div class="ff-body">
+        <div class="ff-item">Carteira compatível com capacidade e nível</div>
+        <div class="ff-item">Liderança supervisiona, orienta e revisa — não executa por</div>
+        <div class="ff-item">Critérios cumpridos: organização, prazo, técnica, diagnóstico</div>
+        <div class="ff-item">Escala possível quando padrão está consolidado</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 22 - PADRÃO GST -->
+<section class="section" id="s22">
+  <div class="sec-lbl">22 · Padrão GST</div>
+  <h2>As cinco perguntas — antes de considerar uma conta bem administrada</h2>
+  <p class="sec-desc">As quatro primeiras são obrigação operacional. A quinta é onde começamos a gerar valor estratégico real.</p>
+
+  <div class="perguntas">
+    <div class="pergunta"><span class="pergunta-num">1</span><p>Está no ar?</p></div>
+    <div class="pergunta"><span class="pergunta-num">2</span><p>Está correto?</p></div>
+    <div class="pergunta"><span class="pergunta-num">3</span><p>Está chegando às pessoas certas?</p></div>
+    <div class="pergunta"><span class="pergunta-num">4</span><p>Está dentro do orçamento?</p></div>
+    <div class="pergunta" style="background:linear-gradient(135deg,var(--navy),#0a2818);border-color:rgba(0,196,106,.2)"><span class="pergunta-num">5</span><p style="color:var(--green)">Está ajudando o cliente?</p><p class="obrg" style="color:rgba(255,255,255,.4)">Aqui começa o valor estratégico</p></div>
+  </div>
+
+  <div class="callout s">
+    <span class="c-lbl">// o objetivo final deste playbook</span>
+    <h3>De "Fulano sabe operar nossas campanhas" para "A GST possui um sistema de operação"</h3>
+    <p>O profissional entra no sistema. O sistema não nasce toda vez que entra um novo profissional. Isso permite que a GST contrate, treine, delegue, supervisione e escale — mantendo padrão de qualidade independente de quem estiver operando.</p>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// playbook vivo</span>
+    <h3>Este documento não é definitivo — é atualizado a cada aprendizado</h3>
+    <p>Toda vez que a operação descobrir um erro recorrente, criar uma nova solução, desenvolver um novo padrão ou encontrar um teste vencedor — o playbook deve ser atualizado. Se aprendemos algo importante duas vezes, provavelmente isso precisa virar processo.</p>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-sec">
+  <h2>O método pertence à GST.<br>Não ao <em>profissional.</em></h2>
+  <p>Versão 1.0 · Setembro de 2026 · GST Marketing — Tráfego Pago</p>
+</section>
+
+<footer class="page-footer">
+  <p>Playbook Oficial de Tráfego Pago · GST Marketing · v1.0 · Set/2026</p>
+  <p><strong>Uso interno — equipe GST</strong></p>
+</footer>
+
+</main>
+
+<script>
+function ck(row,wrapId){row.classList.toggle('done');const wrap=document.getElementById(wrapId);const total=wrap.querySelectorAll('.cl-row').length;const done=wrap.querySelectorAll('.cl-row.done').length;const pct=total?Math.round(done/total*100):0;const id=wrapId.replace('cl-','');const pf=document.getElementById('pf-'+id);const pc=document.getElementById('pc-'+id);if(pf)pf.style.width=pct+'%';if(pc)pc.textContent=done+'/'+total;const all=document.querySelectorAll('.cl-row').length;const alld=document.querySelectorAll('.cl-row.done').length;const gp=all?Math.round(alld/all*100):0;const sb=document.getElementById('sbfill');const sp=document.getElementById('pct');if(sb)sb.style.width=gp+'%';if(sp)sp.textContent=gp+'%';}
+const sections=document.querySelectorAll('section[id]');const links=document.querySelectorAll('.sb-link');const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.sb-link[href="#${e.target.id}"]`);if(a)a.classList.add('active');}});},{threshold:0.2});sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
