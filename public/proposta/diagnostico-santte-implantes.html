@@ -1,0 +1,636 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diagnóstico Digital — Santte Implantes | GST Marketing</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0d1b2a;--navy2:#162032;--navy3:#1e2d40;
+  --green:#00c46a;--green-dark:#009f56;
+  --green-glow:rgba(0,196,106,0.12);--green-line:rgba(0,196,106,0.25);
+  --yellow:#f5b400;--yellow-dim:rgba(245,180,0,0.1);
+  --red:#e53935;--gray:#64748b;--gray-light:#f4f7fb;
+  --border:rgba(255,255,255,0.07);--border-day:#e2e8f0;
+  --text:#1e293b;--text-dim:#94a3b8;
+  --font-head:'Poppins',sans-serif;--font-body:'Inter',sans-serif;
+  --sidebar-w:268px;
+}
+html{scroll-behavior:smooth}
+body{font-family:var(--font-body);background:var(--gray-light);color:var(--text);line-height:1.7}
+
+/* SIDEBAR */
+.sidebar{position:fixed;top:0;left:0;bottom:0;width:var(--sidebar-w);background:var(--navy);z-index:100;display:flex;flex-direction:column;border-right:1px solid var(--border);overflow-y:auto}
+.sb-brand{padding:24px 22px 16px;border-bottom:1px solid var(--border)}
+.sb-logo{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-bottom:3px}
+.sb-logo span{color:var(--green)}
+.sb-sub{font-size:10px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:1.5px}
+.sb-meta{padding:12px 22px;border-bottom:1px solid var(--border)}
+.sb-row{display:flex;gap:6px;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:3px}
+.sb-row span{color:rgba(255,255,255,.65);font-weight:600}
+.sb-prog{padding:12px 22px;border-bottom:1px solid var(--border)}
+.sb-prog-lbl{display:flex;justify-content:space-between;font-size:11px;color:rgba(255,255,255,.3);margin-bottom:5px}
+.sb-prog-lbl strong{color:var(--green)}
+.sb-bar{height:3px;background:rgba(255,255,255,.06);border-radius:10px;overflow:hidden}
+.sb-fill{height:100%;background:var(--green);border-radius:10px;transition:width .4s;width:0%}
+.sb-nav{padding:10px 0;flex:1}
+.sb-nav-lbl{font-size:10px;font-weight:700;color:rgba(255,255,255,.18);text-transform:uppercase;letter-spacing:2px;padding:6px 22px 2px}
+.sb-link{display:flex;align-items:center;gap:9px;padding:7px 22px;font-size:12px;font-weight:500;color:rgba(255,255,255,.4);cursor:pointer;transition:all .2s;border:none;background:none;width:100%;text-align:left;border-left:2px solid transparent;text-decoration:none}
+.sb-link:hover{color:#fff;background:rgba(255,255,255,.04)}
+.sb-link.active{color:#fff;background:rgba(0,196,106,.1);border-left-color:var(--green)}
+.sb-num{font-family:monospace;font-size:10px;color:var(--green);min-width:20px;opacity:.5}
+.sb-link.active .sb-num{opacity:1}
+.sb-foot{padding:14px 22px;border-top:1px solid var(--border)}
+.sb-tag{display:inline-flex;align-items:center;gap:5px;background:var(--green-glow);border:1px solid var(--green-line);color:var(--green);font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+
+/* MAIN */
+.main{margin-left:var(--sidebar-w);min-height:100vh}
+
+/* HERO */
+.hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 55%,#091520 100%);padding:64px 56px;position:relative;overflow:hidden;border-bottom:1px solid var(--border)}
+.hero::before{content:'';position:absolute;top:-160px;right:-160px;width:550px;height:550px;background:radial-gradient(circle,rgba(0,196,106,.1),transparent 60%);border-radius:50%;pointer-events:none}
+.hero-tags{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.htag{display:inline-flex;align-items:center;font-size:10px;font-weight:700;padding:4px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:1px;font-family:var(--font-head)}
+.htag-sys{background:var(--green-glow);color:var(--green);border:1px solid var(--green-line)}
+.htag-cat{background:rgba(255,255,255,.05);color:rgba(255,255,255,.4);border:1px solid rgba(255,255,255,.08)}
+.hero h1{font-family:var(--font-head);font-size:clamp(26px,4vw,46px);font-weight:900;line-height:1.08;color:#fff;margin-bottom:10px;position:relative}
+.hero h1 em{color:var(--green);font-style:normal}
+.hero-sub{font-size:14px;color:rgba(255,255,255,.42);max-width:540px;margin-bottom:28px;line-height:1.7;position:relative}
+.hero-stats{display:flex;gap:28px;flex-wrap:wrap;padding-top:24px;border-top:1px solid var(--border);position:relative}
+.hero-stat strong{display:block;font-family:var(--font-head);font-size:22px;font-weight:900}
+.hero-stat.g strong{color:var(--green)}
+.hero-stat.y strong{color:var(--yellow)}
+.hero-stat.r strong{color:var(--red)}
+.hero-stat span{font-size:11px;color:rgba(255,255,255,.28);text-transform:uppercase;letter-spacing:.5px}
+
+/* ALERTA CRÍTICO */
+.alert-critico{background:rgba(229,57,53,.08);border:1px solid rgba(229,57,53,.25);border-left:4px solid var(--red);border-radius:13px;padding:20px 22px;margin:22px 0;display:flex;gap:14px;align-items:flex-start}
+.alert-critico-ico{font-size:20px;min-width:24px}
+.alert-critico h3{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--red);margin-bottom:5px}
+.alert-critico p{font-size:13px;color:#7f1d1d;line-height:1.6}
+
+/* SEÇÕES */
+.section{padding:48px 56px;border-bottom:1px solid var(--border-day);background:#fff}
+.section:nth-child(odd){background:var(--gray-light)}
+.sec-lbl{display:inline-flex;align-items:center;gap:5px;font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;font-family:var(--font-head)}
+.sec-lbl::before{content:'//';opacity:.35}
+.section h2{font-family:var(--font-head);font-size:clamp(18px,2.5vw,24px);font-weight:800;color:var(--navy);margin-bottom:8px;line-height:1.2}
+.sec-desc{font-size:14px;color:var(--gray);margin-bottom:22px;max-width:620px;line-height:1.6}
+
+/* SCORES */
+.scores{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:12px;margin:20px 0}
+.score{border-radius:13px;padding:18px;text-align:center;border:1px solid}
+.score.verde{background:rgba(0,196,106,.06);border-color:var(--green-line)}
+.score.amarelo{background:var(--yellow-dim);border-color:rgba(245,180,0,.25)}
+.score.vermelho{background:rgba(229,57,53,.05);border-color:rgba(229,57,53,.2)}
+.score-val{font-family:var(--font-head);font-size:22px;font-weight:900;margin-bottom:4px}
+.score.verde .score-val{color:var(--green-dark)}
+.score.amarelo .score-val{color:#b07500}
+.score.vermelho .score-val{color:var(--red)}
+.score-lbl{font-size:11px;color:var(--gray)}
+
+/* TABELA DE DADOS */
+.data-table{background:#fff;border-radius:13px;overflow:hidden;border:1px solid var(--border-day);margin:18px 0;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.data-row{display:flex;gap:0;border-bottom:1px solid var(--border-day)}
+.data-row:last-child{border-bottom:none}
+.data-key{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;min-width:140px;padding:11px 14px;background:var(--gray-light);flex-shrink:0;display:flex;align-items:center}
+.data-val{font-size:13px;color:var(--text);padding:11px 14px;line-height:1.5;flex:1}
+.data-val.mono{font-family:monospace}
+
+/* FINDINGS */
+.findings{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:12px;margin:18px 0}
+.finding{border-radius:12px;padding:16px 18px;border-left:3px solid}
+.finding.verde{background:rgba(0,196,106,.06);border-color:var(--green)}
+.finding.amarelo{background:var(--yellow-dim);border-color:var(--yellow)}
+.finding.vermelho{background:rgba(229,57,53,.05);border-color:var(--red)}
+.finding h4{font-family:var(--font-head);font-size:12px;font-weight:700;margin-bottom:5px;display:flex;align-items:center;gap:6px}
+.finding.verde h4{color:var(--green-dark)}
+.finding.amarelo h4{color:#b07500}
+.finding.vermelho h4{color:var(--red)}
+.finding p{font-size:12px;line-height:1.5}
+.finding.verde p{color:#064e3b}
+.finding.amarelo p{color:#5a3b00}
+.finding.vermelho p{color:#7f1d1d}
+
+/* CALLOUT */
+.callout{border-radius:13px;padding:20px 24px;margin:16px 0;position:relative;overflow:hidden}
+.callout.s{background:linear-gradient(135deg,var(--navy),var(--navy3));border:1px solid var(--border)}
+.callout.s::before{content:'';position:absolute;top:-50px;right:-50px;width:140px;height:140px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.callout.t{background:rgba(0,196,106,.07);border:1px solid var(--green-line)}
+.callout.w{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.2)}
+.callout.r{background:rgba(229,57,53,.05);border:1px solid rgba(229,57,53,.15)}
+.c-lbl{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:6px;display:block;font-family:var(--font-head)}
+.callout.s .c-lbl{color:var(--green)}.callout.t .c-lbl{color:var(--green-dark)}.callout.w .c-lbl{color:#b07500}.callout.r .c-lbl{color:var(--red)}
+.callout h3{font-family:var(--font-head);font-size:15px;font-weight:800;margin-bottom:6px;position:relative}
+.callout.s h3{color:#fff}.callout.t h3{color:var(--navy)}.callout.w h3{color:#6d4700}.callout.r h3{color:#7f1d1d}
+.callout p{font-size:13px;line-height:1.7;position:relative}
+.callout.s p{color:rgba(255,255,255,.65)}.callout.t p{color:var(--navy)}.callout.w p{color:#5a3b00}.callout.r p{color:#7f1d1d}
+
+/* CAMPANHAS */
+.camp-list{display:flex;flex-direction:column;gap:14px;margin:20px 0}
+.camp-card{background:#fff;border-radius:14px;padding:22px;border:1px solid var(--border-day);border-top:3px solid var(--green)}
+.camp-card:nth-child(2){border-top-color:var(--yellow)}
+.camp-card:nth-child(3){border-top-color:var(--gray)}
+.camp-card:nth-child(4){border-top-color:var(--navy)}
+.camp-prior{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:5px;font-family:var(--font-head)}
+.camp-card:nth-child(2) .camp-prior{color:#b07500}
+.camp-card:nth-child(3) .camp-prior{color:var(--gray)}
+.camp-card:nth-child(4) .camp-prior{color:var(--navy)}
+.camp-nome{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy);margin-bottom:8px}
+.camp-desc{font-size:13px;color:var(--gray);line-height:1.6;margin-bottom:12px}
+.camp-kws{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px}
+.kw{background:var(--gray-light);border:1px solid var(--border-day);color:var(--navy);font-size:11px;padding:3px 10px;border-radius:20px;font-family:monospace}
+.camp-metrics{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
+.metric{background:var(--gray-light);border:1px solid var(--border-day);border-radius:10px;padding:10px 14px;text-align:center}
+.metric strong{display:block;font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy)}
+.metric span{font-size:11px;color:var(--gray)}
+
+/* TABELA INVESTIMENTO */
+.invest-table{border-radius:13px;overflow:hidden;border:1px solid var(--border-day);margin:20px 0;box-shadow:0 2px 10px rgba(0,0,0,.04)}
+.invest-row{display:grid;grid-template-columns:1fr repeat(3,100px);gap:0;border-bottom:1px solid var(--border-day)}
+.invest-row:last-child{border-bottom:none}
+.invest-row.header{background:var(--navy)}
+.invest-row.header div{font-size:10px;font-weight:700;color:rgba(255,255,255,.5);text-transform:uppercase;letter-spacing:1px;padding:10px 14px;font-family:var(--font-head)}
+.invest-row div{padding:11px 14px;font-size:13px;color:var(--text)}
+.invest-row div.num{text-align:right;font-family:var(--font-head);font-weight:600}
+.invest-row div.total{color:var(--green);font-size:15px;font-weight:800}
+.invest-row.total-row{background:var(--gray-light)}
+.invest-row.total-row div{font-weight:700;border-top:2px solid var(--border-day)}
+
+/* ROADMAP */
+.roadmap{display:flex;flex-direction:column;gap:0;margin:20px 0}
+.rm-step{display:flex;gap:16px;padding:18px 0;border-bottom:1px solid var(--border-day)}
+.rm-step:last-child{border-bottom:none}
+.rm-dot{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-family:var(--font-head);font-size:13px;font-weight:900;flex-shrink:0;margin-top:2px}
+.rm-dot.blocker{background:rgba(229,57,53,.15);color:var(--red);border:2px solid var(--red)}
+.rm-dot.active{background:var(--green-glow);color:var(--green);border:2px solid var(--green-line)}
+.rm-body{}
+.rm-fase{font-size:10px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:1px;margin-bottom:3px;font-family:var(--font-head)}
+.rm-titulo{font-family:var(--font-head);font-size:14px;font-weight:800;color:var(--navy);margin-bottom:5px}
+.rm-desc{font-size:13px;color:var(--gray);line-height:1.6}
+
+/* CHECKLIST */
+.cl-wrap{background:#fff;border-radius:13px;padding:20px;border:1px solid var(--border-day);margin:18px 0;box-shadow:0 2px 8px rgba(0,0,0,.04)}
+.cl-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;flex-wrap:wrap;gap:8px}
+.cl-head h3{font-family:var(--font-head);font-size:13px;font-weight:800;color:var(--navy)}
+.cl-prog{display:flex;align-items:center;gap:8px}
+.cl-track{width:70px;height:4px;background:var(--border-day);border-radius:10px;overflow:hidden}
+.cl-fill{height:100%;background:var(--green);border-radius:10px;transition:width .3s}
+.cl-count{font-family:var(--font-head);font-size:11px;font-weight:700;color:var(--green)}
+.cl-items{display:flex;flex-direction:column}
+.cl-row{display:flex;align-items:flex-start;gap:10px;padding:8px 0;border-bottom:1px solid #f8fafc;cursor:pointer;transition:all .15s;border-radius:5px}
+.cl-row:last-child{border-bottom:none}
+.cl-row:hover{padding-left:4px}
+.cl-box{width:17px;height:17px;border:2px solid var(--border-day);border-radius:4px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .2s;margin-top:2px}
+.cl-row.done .cl-box{background:var(--green);border-color:var(--green)}
+.cl-row.done .cl-box::after{content:'✓';color:#fff;font-size:10px;font-weight:800}
+.cl-row.done .cl-text{color:var(--green-dark);text-decoration:line-through;opacity:.6}
+.cl-text{font-size:13px;color:var(--text);line-height:1.4}
+
+/* ROI BOX */
+.roi-box{background:linear-gradient(135deg,var(--navy),#0a2818);border-radius:14px;padding:28px;border:1px solid rgba(0,196,106,.2);position:relative;overflow:hidden;margin:18px 0}
+.roi-box::before{content:'';position:absolute;top:-50px;right:-50px;width:160px;height:160px;background:radial-gradient(circle,var(--green-glow),transparent);border-radius:50%}
+.roi-lbl{font-size:10px;font-weight:700;color:var(--green);text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;display:block;font-family:var(--font-head);position:relative}
+.roi-box h3{font-family:var(--font-head);font-size:18px;font-weight:900;color:#fff;margin-bottom:8px;position:relative}
+.roi-box p{font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;position:relative}
+.roi-nums{display:flex;gap:14px;flex-wrap:wrap;position:relative;margin-top:20px}
+.roi-num{flex:1;min-width:120px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.07);border-radius:10px;padding:14px;text-align:center}
+.roi-num strong{display:block;font-family:var(--font-head);font-size:22px;font-weight:900;color:var(--green)}
+.roi-num span{font-size:11px;color:rgba(255,255,255,.35);margin-top:3px;display:block;line-height:1.3}
+
+/* BADGE */
+.badge{display:inline-flex;align-items:center;padding:2px 9px;border-radius:20px;font-size:10px;font-weight:700;font-family:var(--font-head)}
+.badge-g{background:rgba(0,196,106,.1);color:var(--green-dark)}
+.badge-y{background:rgba(245,180,0,.1);color:#b07500}
+.badge-r{background:rgba(229,57,53,.08);color:var(--red)}
+.badge-n{background:rgba(13,27,42,.07);color:var(--navy)}
+
+/* RESUMO TAGS */
+.tag-row{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0}
+
+/* CTA / FOOTER */
+.cta-sec{background:linear-gradient(140deg,#040a12,#0d1b2a);padding:56px;text-align:center;position:relative;overflow:hidden}
+.cta-sec::before{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:500px;height:300px;background:radial-gradient(ellipse,rgba(0,196,106,.1),transparent 65%);pointer-events:none}
+.cta-sec h2{font-family:var(--font-head);font-size:clamp(20px,3.5vw,30px);font-weight:900;color:#fff;margin-bottom:10px;position:relative;line-height:1.2}
+.cta-sec h2 em{color:var(--green);font-style:normal}
+.cta-sec p{font-size:13px;color:rgba(255,255,255,.42);max-width:420px;margin:0 auto;position:relative}
+.page-footer{background:var(--navy2);padding:18px 56px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;border-top:1px solid var(--border)}
+.page-footer p{font-size:12px;color:rgba(255,255,255,.22)}
+.page-footer strong{color:var(--green)}
+
+@media(max-width:900px){
+  :root{--sidebar-w:0px}
+  .sidebar{display:none}.main{margin-left:0}
+  .hero,.section,.cta-sec,.page-footer{padding:36px 22px}
+  .invest-row{grid-template-columns:1fr repeat(3,80px)}
+}
+</style>
+</head>
+<body>
+
+<aside class="sidebar">
+  <div class="sb-brand"><div class="sb-logo">GST <span>Marketing</span></div><div class="sb-sub">Diagnóstico Digital</div></div>
+  <div class="sb-meta">
+    <div class="sb-row">🏥 Cliente: <span>Santte Implantes</span></div>
+    <div class="sb-row">📍 Cidade: <span>Taubaté / SP</span></div>
+    <div class="sb-row">📅 Data: <span>Setembro 2026</span></div>
+  </div>
+  <div class="sb-prog">
+    <div class="sb-prog-lbl">Leitura <strong id="pct">0%</strong></div>
+    <div class="sb-bar"><div class="sb-fill" id="sbfill"></div></div>
+  </div>
+  <nav class="sb-nav">
+    <div class="sb-nav-lbl">Diagnóstico</div>
+    <a class="sb-link active" href="#s0"><span class="sb-num">00</span>Visão geral</a>
+    <a class="sb-link" href="#s1"><span class="sb-num">01</span>Google Meu Negócio</a>
+    <a class="sb-link" href="#s2"><span class="sb-num">02</span>Instagram</a>
+    <a class="sb-link" href="#s3"><span class="sb-num">03</span>Facebook</a>
+    <div class="sb-nav-lbl">Proposta</div>
+    <a class="sb-link" href="#s4"><span class="sb-num">04</span>Pré-requisitos</a>
+    <a class="sb-link" href="#s5"><span class="sb-num">05</span>Campanhas Google Ads</a>
+    <a class="sb-link" href="#s6"><span class="sb-num">06</span>Investimento</a>
+    <a class="sb-link" href="#s7"><span class="sb-num">07</span>ROI esperado</a>
+    <a class="sb-link" href="#s8"><span class="sb-num">08</span>Roadmap</a>
+    <a class="sb-link" href="#s9"><span class="sb-num">09</span>Resumo executivo</a>
+  </nav>
+  <div class="sb-foot"><div class="sb-tag">⚡ GST Marketing</div></div>
+</aside>
+
+<main class="main">
+
+<!-- HERO -->
+<section class="hero" id="s0">
+  <div class="hero-tags">
+    <span class="htag htag-sys">⚡ GST Marketing</span>
+    <span class="htag htag-cat">📡 Google Ads · Diagnóstico Digital</span>
+    <span class="htag htag-cat">🏥 Odontologia · Taubaté/SP</span>
+  </div>
+  <h1>Santte Implantes<br><em>Diagnóstico</em> Digital<br>e Proposta Google Ads</h1>
+  <p class="hero-sub">Dra. Renata Mattos · 26 anos de experiência · 4 especializações · Implantes, Cirurgia Bucomaxilofacial e ATM. A clínica tem o ativo mais valioso do segmento — reputação 5.0★. Falta conectar isso a um sistema de captação.</p>
+
+  <div class="alert-critico">
+    <div class="alert-critico-ico">🚫</div>
+    <div>
+      <h3>Bloqueador crítico — Sem website</h3>
+      <p>O GMB da clínica não possui website cadastrado. <strong>Google Ads Search padrão exige uma landing page.</strong> Antes de qualquer campanha ativa, é necessário criar ao menos uma página de destino funcional. Este diagnóstico considera esse pré-requisito em todas as recomendações.</p>
+    </div>
+  </div>
+
+  <div class="scores">
+    <div class="score verde"><div class="score-val">5.0 ★</div><div class="score-lbl">Avaliação GMB</div></div>
+    <div class="score verde"><div class="score-val">42</div><div class="score-lbl">Reviews Google</div></div>
+    <div class="score amarelo"><div class="score-val">463</div><div class="score-lbl">Seguidores IG</div></div>
+    <div class="score vermelho"><div class="score-val">0</div><div class="score-lbl">Website / LP</div></div>
+    <div class="score amarelo"><div class="score-val">~120</div><div class="score-lbl">Curtidas FB</div></div>
+    <div class="score amarelo"><div class="score-val">2,5 anos</div><div class="score-lbl">Existência</div></div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="hero-stat g"><strong>5.0★</strong><span>Reputação Google</span></div>
+    <div class="hero-stat r"><strong>0</strong><span>Website ativo</span></div>
+    <div class="hero-stat g"><strong>&lt;3 sem</strong><span>Para campanhas no ar</span></div>
+    <div class="hero-stat g"><strong>8×</strong><span>ROI potencial mês 2-3</span></div>
+  </div>
+</section>
+
+<!-- 01 - GMB -->
+<section class="section" id="s1">
+  <div class="sec-lbl">01 · Google Meu Negócio</div>
+  <h2>Diagnóstico do perfil local</h2>
+  <p class="sec-desc">O GMB é o canal mais importante para captação local em odontologia. A Santte tem uma base excelente — com gaps corrigíveis em menos de uma semana.</p>
+
+  <div class="data-table">
+    <div class="data-row"><div class="data-key">Nome oficial</div><div class="data-val">SANTTE IMPLANTES TRATAMENTOS ODONTOLOGICOS LTDA - ME</div></div>
+    <div class="data-row"><div class="data-key">CNPJ</div><div class="data-val mono">53.825.198/0001-09</div></div>
+    <div class="data-row"><div class="data-key">Endereço</div><div class="data-val">Av. Tiradentes, 297, Sala 12 · Edifício Blue Offices · Centro / Jardim das Nações · Taubaté/SP · CEP 12030-180</div></div>
+    <div class="data-row"><div class="data-key">Telefone</div><div class="data-val mono">(12) 3622-7200</div></div>
+    <div class="data-row"><div class="data-key">Categoria GMB</div><div class="data-val"><span class="badge badge-g">✓ Clínica de implante dentário</span> &nbsp;Categoria principal correta</div></div>
+    <div class="data-row"><div class="data-key">Avaliações</div><div class="data-val"><span class="badge badge-g">★ 5.0 · 42 reviews</span> &nbsp;Excelente autoridade local</div></div>
+    <div class="data-row"><div class="data-key">Website</div><div class="data-val"><span class="badge badge-r">❌ Não cadastrado</span> &nbsp;Campo "Adicionar website" em aberto</div></div>
+    <div class="data-row"><div class="data-key">Horário</div><div class="data-val"><span class="badge badge-y">⚠ Verificar</span> &nbsp;GMB exibe "Fechado · Abre qui." com salto de dias — provável erro de cadastro</div></div>
+    <div class="data-row"><div class="data-key">CTA principal</div><div class="data-val">WhatsApp via <span style="font-family:monospace">wa.me/551236227200</span> — único ponto de contato visível</div></div>
+    <div class="data-row"><div class="data-key">Profissionais</div><div class="data-val">Dra. Renata Mattos (26 anos de experiência, 4 especializações) · Dr. João Carlos</div></div>
+  </div>
+
+  <div class="findings">
+    <div class="finding verde"><h4>✓ Reputação impecável</h4><p>5.0★ com 42 avaliações é um diferencial real no segmento de implantes em Taubaté. Gera confiança imediata para novos pacientes.</p></div>
+    <div class="finding verde"><h4>✓ Especialidade bem definida</h4><p>Categoria correta no GMB. Foco em implante + bucomaxilofacial é raro e posiciona a clínica acima de odontologias gerais.</p></div>
+    <div class="finding vermelho"><h4>✗ Sem website — bloqueador #1</h4><p>Inviabiliza Google Ads padrão e penaliza o SEO local: o Google ranqueia melhor perfis com website associado.</p></div>
+    <div class="finding amarelo"><h4>! Horário inconsistente</h4><p>O horário exibido tem gaps — pacientes que consultam antes de ligar podem desistir achando que está fechado.</p></div>
+    <div class="finding amarelo"><h4>! Serviços não listados</h4><p>ATM, Cirurgia Ortognática, Facetas e Próteses não aparecem. Perda de visibilidade em buscas específicas.</p></div>
+    <div class="finding amarelo"><h4>! Único CTA = WhatsApp</h4><p>Sem LP ou formulário, não é possível rastrear a origem dos leads para otimizar campanhas.</p></div>
+  </div>
+</section>
+
+<!-- 02 - INSTAGRAM -->
+<section class="section" id="s2">
+  <div class="sec-lbl">02 · Instagram · @santteimplantes</div>
+  <h2>Presença orgânica em redes sociais</h2>
+  <p class="sec-desc">O Instagram não é um bloqueador para Google Ads — mas o desempenho atual reforça a necessidade de um trabalho de conteúdo paralelo.</p>
+
+  <div class="data-table">
+    <div class="data-row"><div class="data-key">Perfil</div><div class="data-val">@santteimplantes · Conta pública aberta</div></div>
+    <div class="data-row"><div class="data-key">Posts</div><div class="data-val mono">197 publicações</div></div>
+    <div class="data-row"><div class="data-key">Seguidores</div><div class="data-val"><span class="badge badge-y">463 seguidores</span> · Seguindo 541 — ratio invertido</div></div>
+    <div class="data-row"><div class="data-key">Bio</div><div class="data-val">"Implantes e Reabilitação · Cirurgia Bucomaxilofacial/Ortognática · ATM · Facetas · Próteses · Taubaté/SP · Agende sua avaliação."</div></div>
+    <div class="data-row"><div class="data-key">Link na bio</div><div class="data-val mono">wa.me/551236227200 (WhatsApp direto)</div></div>
+    <div class="data-row"><div class="data-key">Highlights</div><div class="data-val">Clínica · Procedimentos · Equipe · Feedbacks — estrutura básica presente</div></div>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// alerta</span>
+    <h3>197 posts com 463 seguidores — conteúdo não está sendo distribuído</h3>
+    <p>Crescimento médio de ~2,4 seguidores por post indica falta de estratégia de hashtags, frequência irregular ou ausência de Reels (formato com maior alcance orgânico em 2025/2026). O perfil segue mais contas (541) do que tem seguidores — sinal negativo de posicionamento.</p>
+  </div>
+
+  <div class="findings">
+    <div class="finding verde"><h4>✓ Bio clara e completa</h4><p>Especialidades listadas, CTA presente, localização informada. Bio bem estruturada para o segmento odontológico.</p></div>
+    <div class="finding verde"><h4>✓ Highlights organizados</h4><p>Clínica, Procedimentos, Equipe e Feedbacks servem como portfólio para quem chega via anúncios.</p></div>
+    <div class="finding vermelho"><h4>✗ Baixíssimo alcance orgânico</h4><p>463 seguidores com 197 posts. Estratégia de conteúdo precisa ser completamente revisada.</p></div>
+    <div class="finding vermelho"><h4>✗ Sem pixel ou rastreio</h4><p>Sem site, impossível instalar pixel. Bloqueia retargeting tanto via Meta Ads quanto Google Ads.</p></div>
+  </div>
+</section>
+
+<!-- 03 - FACEBOOK -->
+<section class="section" id="s3">
+  <div class="sec-lbl">03 · Facebook</div>
+  <h2>Página da clínica — não priorizar agora</h2>
+  <p class="sec-desc">A página do Facebook tem aproximadamente 120 curtidas e engajamento mínimo. O esforço deve ir para GMB, website e Google Ads primeiro.</p>
+
+  <div class="callout w">
+    <span class="c-lbl">// recomendação</span>
+    <h3>Manter a página ativa — mas não investir aqui no primeiro momento</h3>
+    <p>O Facebook odontológico em Taubaté ainda gera algum tráfego local, mas a plataforma não deve ser prioridade neste momento. Com 1–2 reações por post, o alcance orgânico é irrisório. Após GMB e Google Ads estarem funcionando, avaliamos Meta Ads como canal complementar.</p>
+  </div>
+</section>
+
+<!-- 04 - PRÉ-REQUISITOS -->
+<section class="section" id="s4">
+  <div class="sec-lbl">04 · Pré-requisitos obrigatórios</div>
+  <h2>O que precisa estar pronto antes de ativar campanhas</h2>
+  <p class="sec-desc">Sem esses itens, as campanhas não podem rodar — ou rodam sem capacidade de mensurar resultado.</p>
+
+  <div class="cl-wrap" id="cl-pre">
+    <div class="cl-head"><h3>⚠ Checklist de pré-requisitos</h3><div class="cl-prog"><div class="cl-track"><div class="cl-fill" id="pf-pre" style="width:0%"></div></div><span class="cl-count" id="pc-pre">0/4</span></div></div>
+    <div class="cl-items">
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text"><strong>Landing page</strong> — ao menos 1 página funcional com: nome da clínica, serviços, localização, formulário/WhatsApp e SSL ativo. Pode ser uma one-page simples.</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text"><strong>Horário no GMB</strong> — corrigir os gaps no horário de funcionamento para não perder leads que consultam antes de ligar.</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text"><strong>Tag de conversão</strong> — instalar a tag do Google Ads no site para rastrear cliques no WhatsApp e envios de formulário.</div></div></div>
+      <div class="cl-row" onclick="ck(this,'cl-pre')"><div class="cl-box"></div><div><div class="cl-text"><strong>Serviços no GMB</strong> — adicionar ATM, Facetas, Próteses e Ortognática como serviços para fortalecer o sinal de relevância local.</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- 05 - CAMPANHAS -->
+<section class="section" id="s5">
+  <div class="sec-lbl">05 · Campanhas Google Ads</div>
+  <h2>Estrutura recomendada — 4 campanhas em 3 fases</h2>
+  <p class="sec-desc">Campanhas ordenadas por prioridade, potencial de retorno e fase de implementação.</p>
+
+  <div class="camp-list">
+    <div class="camp-card">
+      <div class="camp-prior">🥇 Prioridade 1 · Alta intenção de compra</div>
+      <div class="camp-nome">Implante Dentário — Captação de Avaliação</div>
+      <div class="camp-desc">Campanha principal para o serviço âncora da clínica. Palavras de alta intenção para quem já pesquisa preço e local. Meta de conversão: agendamento de avaliação gratuita. A copy usa a credencial da Dra. Renata (26 anos, 4 especializações) como diferencial imediato.</div>
+      <div class="camp-kws">
+        <span class="kw">implante dentário taubaté</span>
+        <span class="kw">preço implante dentário</span>
+        <span class="kw">implante dentário barato</span>
+        <span class="kw">clínica de implante</span>
+        <span class="kw">implante osseointegrado</span>
+        <span class="kw">dentista implante sp</span>
+      </div>
+      <div class="camp-metrics">
+        <div class="metric"><strong>R$40–80</strong><span>CPC estimado</span></div>
+        <div class="metric"><strong>8–15</strong><span>leads/mês*</span></div>
+        <span class="badge badge-g">Alta prioridade</span>
+      </div>
+    </div>
+
+    <div class="camp-card">
+      <div class="camp-prior">🥈 Prioridade 2 · Urgência e volume</div>
+      <div class="camp-nome">Cirurgia do Siso</div>
+      <div class="camp-desc">Alto volume de busca, urgência natural e ticket mais acessível. Facilita entrada de pacientes que depois convertem em tratamentos maiores. Funciona bem com extensões de localização e ligação direta.</div>
+      <div class="camp-kws">
+        <span class="kw">cirurgia do siso taubaté</span>
+        <span class="kw">extração do siso preço</span>
+        <span class="kw">siso incluso cirurgia</span>
+        <span class="kw">dentista siso urgência</span>
+      </div>
+      <div class="camp-metrics">
+        <div class="metric"><strong>R$15–35</strong><span>CPC estimado</span></div>
+        <div class="metric"><strong>10–25</strong><span>leads/mês*</span></div>
+        <span class="badge badge-y">Recomendado</span>
+      </div>
+    </div>
+
+    <div class="camp-card">
+      <div class="camp-prior">🥉 Prioridade 3 · Nicho especializado</div>
+      <div class="camp-nome">ATM e Disfunção Temporomandibular</div>
+      <div class="camp-desc">Concorrência baixa e CPL atrativo. Dra. Renata tem especialização em ATM — usar credencial na copy. Pacientes com dor crônica buscam o assunto por muito tempo antes de agendar — alta qualidade de lead.</div>
+      <div class="camp-kws">
+        <span class="kw">tratamento ATM taubaté</span>
+        <span class="kw">disfunção temporomandibular</span>
+        <span class="kw">dor na mandíbula tratamento</span>
+        <span class="kw">ranger dentes tratamento</span>
+      </div>
+      <div class="camp-metrics">
+        <div class="metric"><strong>R$8–20</strong><span>CPC estimado</span></div>
+        <div class="metric"><strong>5–12</strong><span>leads/mês*</span></div>
+        <span class="badge badge-n">Mês 2+</span>
+      </div>
+    </div>
+
+    <div class="camp-card">
+      <div class="camp-prior">🔒 Suporte · Proteção de marca</div>
+      <div class="camp-nome">Santte Implantes — Marca</div>
+      <div class="camp-desc">Campanha de marca para proteger o nome da clínica nas buscas e garantir que quem já conhece a Santte encontre o site diretamente — sem ser capturado por concorrentes que anunciam termos de marca.</div>
+      <div class="camp-kws">
+        <span class="kw">santte implantes</span>
+        <span class="kw">santte taubaté</span>
+        <span class="kw">dra renata implantes</span>
+      </div>
+      <div class="camp-metrics">
+        <div class="metric"><strong>R$2–8</strong><span>CPC estimado</span></div>
+        <div class="metric"><strong>Baixo</strong><span>volume</span></div>
+        <span class="badge badge-g">Sempre ativo</span>
+      </div>
+    </div>
+  </div>
+
+  <p style="font-size:11px;color:var(--gray);margin-top:8px">* Estimativas baseadas em CPC médio do segmento em Taubaté/SP. Resultados reais variam conforme copy, LP e qualidade do atendimento.</p>
+</section>
+
+<!-- 06 - INVESTIMENTO -->
+<section class="section" id="s6">
+  <div class="sec-lbl">06 · Investimento em mídia</div>
+  <h2>Três cenários — de conservador a agressivo</h2>
+  <p class="sec-desc">A verba de mídia é paga diretamente pelo cliente ao Google. O valor de gestão GST não está incluído nesta tabela.</p>
+
+  <div class="invest-table">
+    <div class="invest-row header">
+      <div>Campanha</div>
+      <div class="num">Mínimo</div>
+      <div class="num">Recomendado</div>
+      <div class="num">Agressivo</div>
+    </div>
+    <div class="invest-row">
+      <div>Implante Dentário</div>
+      <div class="num">R$600</div>
+      <div class="num">R$1.200</div>
+      <div class="num">R$2.000</div>
+    </div>
+    <div class="invest-row">
+      <div>Cirurgia do Siso</div>
+      <div class="num">R$300</div>
+      <div class="num">R$500</div>
+      <div class="num">R$800</div>
+    </div>
+    <div class="invest-row">
+      <div>ATM / Especialidades</div>
+      <div class="num">—</div>
+      <div class="num">R$200</div>
+      <div class="num">R$400</div>
+    </div>
+    <div class="invest-row">
+      <div>Marca / Brand</div>
+      <div class="num">R$100</div>
+      <div class="num">R$100</div>
+      <div class="num">R$200</div>
+    </div>
+    <div class="invest-row total-row">
+      <div><strong>Total de mídia / mês</strong></div>
+      <div class="num total"><strong>R$1.000</strong></div>
+      <div class="num total"><strong>R$2.000</strong></div>
+      <div class="num total"><strong>R$3.400</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- 07 - ROI -->
+<section class="section" id="s7">
+  <div class="sec-lbl">07 · ROI esperado</div>
+  <h2>O retorno financeiro do investimento</h2>
+  <p class="sec-desc">Um único implante completo (implante + coroa) tem ticket médio entre R$3.000 e R$6.000. O argumento de venda praticamente se escreve sozinho na copy — 26 anos de experiência, 4 especializações e 5.0★.</p>
+
+  <div class="roi-box">
+    <span class="roi-lbl">// simulação cenário recomendado · mês 2–3</span>
+    <h3>20 leads/mês × 20% de fechamento = 4 pacientes</h3>
+    <p>Com R$2.000 de mídia, taxa de fechamento de 20% e ticket médio de R$4.000 por implante: 4 pacientes × R$4.000 = R$16.000 em receita. ROI de 8× já no segundo ou terceiro mês, após a curva de aprendizado das campanhas.</p>
+    <div class="roi-nums">
+      <div class="roi-num"><strong>R$2.000</strong><span>Verba de mídia/mês</span></div>
+      <div class="roi-num"><strong>20</strong><span>Leads estimados/mês</span></div>
+      <div class="roi-num"><strong>4</strong><span>Pacientes fechados</span></div>
+      <div class="roi-num"><strong>R$16.000</strong><span>Receita potencial</span></div>
+      <div class="roi-num" style="background:rgba(0,196,106,.12);border-color:var(--green-line)"><strong>8×</strong><span>ROI estimado · mês 2-3</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- 08 - ROADMAP -->
+<section class="section" id="s8">
+  <div class="sec-lbl">08 · Roadmap de implementação</div>
+  <h2>Do diagnóstico às campanhas no ar — em menos de 3 semanas</h2>
+  <p class="sec-desc">Sequência recomendada com pré-requisitos obrigatórios antes do lançamento.</p>
+
+  <div class="roadmap">
+    <div class="rm-step">
+      <div class="rm-dot blocker">1</div>
+      <div class="rm-body">
+        <div class="rm-fase">Semana 1–2 · Pré-requisito obrigatório</div>
+        <div class="rm-titulo">Criar landing page ou site simples</div>
+        <div class="rm-desc">One-page com: nome, foto da clínica, especialidades, Dra. Renata + Dr. João, endereço com mapa, avaliações Google, botão WhatsApp e formulário simples. Pode usar Wix, WordPress ou página estática. URL vinculada ao GMB imediatamente após.</div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot blocker">2</div>
+      <div class="rm-body">
+        <div class="rm-fase">Semana 1 · Em paralelo</div>
+        <div class="rm-titulo">Corrigir o GMB</div>
+        <div class="rm-desc">Ajustar horários (eliminar gaps), adicionar serviços faltantes (ATM, Facetas, Próteses, Ortognática, Siso), vincular website quando disponível e preencher seção de acessibilidade.</div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot active">3</div>
+      <div class="rm-body">
+        <div class="rm-fase">Semana 2–3 · Setup técnico</div>
+        <div class="rm-titulo">Criar conta Google Ads e instalar rastreio</div>
+        <div class="rm-desc">Criar conta Google Ads, instalar tag de conversão no site, definir conversões (clique no WhatsApp, envio de formulário) e vincular GMB à conta de Ads para extensões de local.</div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot active">4</div>
+      <div class="rm-body">
+        <div class="rm-fase">Semana 3 · Lançamento</div>
+        <div class="rm-titulo">Ativar Campanha 1: Implante + Marca</div>
+        <div class="rm-desc">Lançar a campanha principal com conjunto de anúncios responsivos. Ativar campanha de marca em paralelo. Orçamento inicial conservador por 2 semanas para coletar dados.</div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot active">5</div>
+      <div class="rm-body">
+        <div class="rm-fase">Mês 2 · Expansão</div>
+        <div class="rm-titulo">Adicionar Siso + ATM · Otimizar Implante</div>
+        <div class="rm-desc">Com 3–4 semanas de dados, ajustar lances, pausar palavras de baixo desempenho e lançar as campanhas de Siso e ATM. Revisar copy com base em CTR real.</div>
+      </div>
+    </div>
+    <div class="rm-step">
+      <div class="rm-dot active">6</div>
+      <div class="rm-body">
+        <div class="rm-fase">Mês 3 em diante · Crescimento</div>
+        <div class="rm-titulo">Escalar verba e explorar Google Performance Max</div>
+        <div class="rm-desc">Com histórico de conversões suficiente, ativar estratégias de lance automático (Maximizar Conversões → tCPA). Avaliar Performance Max para maior cobertura. KPI semanal: impressões → cliques → leads → agendamentos → receita.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- 09 - RESUMO -->
+<section class="section" id="s9">
+  <div class="sec-lbl">09 · Resumo executivo</div>
+  <h2>O que temos, o que falta, o que fazer</h2>
+
+  <p style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:14px">A Santte Implantes possui um ativo digital <strong>subutilizado mas valioso</strong>: uma reputação 5.0★ com 42 avaliações é, na prática, o melhor anúncio que a clínica poderia ter. O problema é que essa reputação não está sendo convertida em volume de pacientes porque faltam os conectores — o website que transforma um visitante em lead, e os anúncios que amplificam o alcance.</p>
+
+  <p style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:14px">O Instagram e o Facebook funcionam como vitrine de suporte, mas não como canais de captação com 463 seguidores. Esses canais devem ser mantidos, mas não são onde o investimento de performance deve ir primeiro.</p>
+
+  <p style="font-size:14px;color:var(--text);line-height:1.7;margin-bottom:20px"><strong>A oportunidade real está no Google Ads Search</strong>: termos como "implante dentário Taubaté", "cirurgia do siso" e "tratamento ATM" têm demanda ativa, baixa concorrência local organizada, e a clínica tem as credenciais certas (especialização, experiência, 5.0★) para converter bem. A barreira é apenas técnica — com uma landing page simples, é possível estar captando leads em menos de 3 semanas.</p>
+
+  <div class="tag-row">
+    <span class="badge badge-r">🚫 Bloqueador: Sem Website</span>
+    <span class="badge badge-g">✓ Reputação 5.0★</span>
+    <span class="badge badge-g">✓ Especialidade diferenciada</span>
+    <span class="badge badge-g">✓ 26 anos de experiência</span>
+    <span class="badge badge-y">⚠ GMB incompleto</span>
+    <span class="badge badge-y">⚠ Instagram fraco</span>
+    <span class="badge badge-n">→ Alta oportunidade Google Ads</span>
+  </div>
+
+  <div class="callout t" style="margin-top:20px">
+    <span class="c-lbl">// próximo passo</span>
+    <h3>A landing page é o único obstáculo entre o Santte e as primeiras campanhas no ar</h3>
+    <p>Com uma one-page simples criada na semana 1, o GMB corrigido em paralelo e a conta Google Ads configurada na semana 2, a Santte Implantes pode estar captando leads ativamente em menos de 3 semanas. A GST cuida de tudo a partir do acesso às contas.</p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-sec">
+  <h2>A Santte tem tudo para<br>atrair mais pacientes.<br>Falta o <em>sistema.</em></h2>
+  <p>Diagnóstico por Oscar · GST Marketing · Setembro de 2026 · Taubaté/SP</p>
+</section>
+
+<footer class="page-footer">
+  <p>Diagnóstico Digital — Santte Implantes · Dra. Renata Mattos · GST Marketing · Set/2026</p>
+  <p><strong>agenciagst.com.br</strong> · Dados: GMB público · Instagram · Google Search</p>
+</footer>
+
+</main>
+
+<script>
+function ck(row,wrapId){row.classList.toggle('done');const wrap=document.getElementById(wrapId);const total=wrap.querySelectorAll('.cl-row').length;const done=wrap.querySelectorAll('.cl-row.done').length;const pct=total?Math.round(done/total*100):0;const id=wrapId.replace('cl-','');const pf=document.getElementById('pf-'+id);const pc=document.getElementById('pc-'+id);if(pf)pf.style.width=pct+'%';if(pc)pc.textContent=done+'/'+total;const all=document.querySelectorAll('.cl-row').length;const alld=document.querySelectorAll('.cl-row.done').length;const gp=all?Math.round(alld/all*100):0;const sb=document.getElementById('sbfill');const sp=document.getElementById('pct');if(sb)sb.style.width=gp+'%';if(sp)sp.textContent=gp+'%';}
+const sections=document.querySelectorAll('section[id]');const links=document.querySelectorAll('.sb-link');const obs=new IntersectionObserver(entries=>{entries.forEach(e=>{if(e.isIntersecting){links.forEach(l=>l.classList.remove('active'));const a=document.querySelector(`.sb-link[href="#${e.target.id}"]`);if(a)a.classList.add('active');}});},{threshold:0.2});sections.forEach(s=>obs.observe(s));
+</script>
+</body>
+</html>
