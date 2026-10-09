@@ -1,8 +1,4 @@
 {
   "cleanUrls": true,
-  "trailingSlash": false,
-  "redirects": [
-    { "source": "/aniversariog2", "destination": "/AniversarioG2", "permanent": false },
-    { "source": "/aniversarioG2", "destination": "/AniversarioG2", "permanent": false }
-  ]
+  "trailingSlash": false
 }
