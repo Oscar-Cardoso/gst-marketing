@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow">
+<title>GST Marketing — Campanhas</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--navy:#0d1b2a;--navy2:#162032;--green:#00c46a;--green-l:#e6fff4;--yellow:#f5b400;
+--gray:#64748b;--bg:#f4f7fb;--text:#1e293b;--line:#e2e8f0}
+body{font-family:Inter,system-ui,sans-serif;background:var(--bg);color:var(--text);line-height:1.45}
+h1,h2,h3{font-family:Poppins,sans-serif}
+.wrap{max-width:1100px;margin:0 auto;padding:0 16px}
+.top{background:linear-gradient(135deg,var(--navy) 0%,#0a1f14 100%);color:#fff;padding:28px 0 32px}
+.logo{font-family:Poppins,sans-serif;font-weight:800;font-size:18px}.logo span{color:var(--green)}
+.top h1{font-size:clamp(22px,5vw,34px);font-weight:800;margin-top:14px;line-height:1.1}
+.top p{color:rgba(255,255,255,.6);font-size:13px;margin-top:6px}
+.tot{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin-top:22px}
+.tot div{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:12px 14px}
+.tot b{display:block;font-family:Poppins,sans-serif;font-size:clamp(17px,4.5vw,24px);font-weight:700}
+.tot div:first-child b{color:var(--green)}
+.tot small{color:rgba(255,255,255,.6);font-size:12px}
+@media(min-width:760px){.tot{grid-template-columns:repeat(4,1fr)}}
+main{padding:22px 0 40px}
+.sec-t{font-size:16px;font-weight:700;margin-bottom:12px;color:var(--navy)}
+.grid{display:grid;gap:12px}
+@media(min-width:700px){.grid{grid-template-columns:repeat(2,1fr)}}
+@media(min-width:1020px){.grid{grid-template-columns:repeat(3,1fr)}}
+.card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px}
+.card-top{display:flex;align-items:center;gap:10px}
+.pos{flex:none;width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;
+font:600 12px/26px Poppins,sans-serif;text-align:center}
+.card h3{font-size:15px;font-weight:600;line-height:1.25}
+.inv{font-family:Poppins,sans-serif;font-size:24px;font-weight:700;margin-top:10px;color:var(--navy)}
+.inv small{font:500 12px Inter,sans-serif;color:var(--gray);margin-left:6px}
+.bar{height:6px;background:var(--bg);border-radius:6px;margin:8px 0 12px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--green);border-radius:6px}
+.kpis{display:grid;grid-template-columns:repeat(2,1fr);gap:8px 12px}
+.kpis dt{font-size:11px;color:var(--gray);text-transform:uppercase;letter-spacing:.03em}
+.kpis dd{font-weight:600;font-size:14px}
+details{margin-top:12px;border-top:1px solid var(--line);padding-top:10px}
+summary{cursor:pointer;font-size:13px;font-weight:600;color:#047a44;list-style:none;
+display:flex;align-items:center;gap:8px;min-height:32px}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";margin-left:auto;font-size:18px;color:var(--gray)}
+details[open] summary::after{content:"−"}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--green);box-shadow:0 0 0 3px var(--green-l)}
+details ul{list-style:none;margin-top:6px}
+details li{display:flex;flex-direction:column;padding:7px 0;border-bottom:1px dashed var(--line);font-size:13px}
+details li:last-child{border:0}
+.camp{word-break:break-word}.camp-num{color:var(--gray);font-size:12px}
+.off{margin-top:12px;border-top:1px solid var(--line);padding-top:10px;font-size:13px;color:var(--gray)}
+.extra{background:#fff;border:1px solid var(--line);border-radius:14px;padding:16px;margin-top:16px}
+.extra h2{font-size:15px;font-weight:700;color:var(--navy)}
+.extra h2 span{font:600 12px Inter,sans-serif;background:var(--bg);border-radius:10px;padding:2px 8px;margin-left:4px}
+.extra p{font-size:13px;color:var(--gray);margin:4px 0 10px}
+.chips{list-style:none;display:flex;flex-wrap:wrap;gap:6px}
+.chips li{font-size:12px;background:var(--bg);border:1px solid var(--line);border-radius:20px;padding:4px 10px}
+.aguardando{border-color:#fde7a8}.aguardando h2 span{background:#fff6dc}
+.vazio{color:var(--gray)}
+footer{text-align:center;font-size:12px;color:var(--gray);padding:0 16px 32px}
+</style>
+</head>
+<body>
+<div class="top"><div class="wrap">
+  <div class="logo">GST<span>.</span> Marketing</div>
+  <h1>Investimento em Meta Ads · outubro</h1>
+  <p>Período 01/10 a 16/10 · atualizado em 16/10 às 07h04</p>
+  <div class="tot">
+    <div><b>R$ 11.970,90</b><small>investido no mês</small></div>
+    <div><b>R$ 801,42</b><small>ontem (15/10)</small></div>
+    <div><b>1.277</b><small>conversas · R$ 3,97 cada</small></div>
+    <div><b>23 · 16</b><small>clientes ativos · campanhas no ar</small></div>
+  </div>
+</div></div>
+<main class="wrap">
+  <h2 class="sec-t">Clientes por investimento no mês</h2>
+  <div class="grid">
+<article class="card">
+  <header class="card-top">
+    <span class="pos">1</span>
+    <h3>G2 Atacadista</h3>
+  </header>
+  <div class="inv">R$ 1.489,89<small>no mês</small></div>
+  <div class="bar"><i style="width:100%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 116,18</dd></div>
+    <div><dt>Campanhas</dt><dd>11</dd></div>
+    <div><dt>Conversas</dt><dd>408</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 2,25</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>2 campanhas no ar agora</summary><ul><li><span class="camp">[GST][ G2 ]• [ TRAFEGO ] • [ ESPECIAL ANIVERSARIO] • [ 2026 ] • [ 15-18/10 ] — site</span><span class="camp-num">R$ 53,59</span></li><li><span class="camp">[GST][ G2 ]• [ TRAFEGO ] • [ ESPECIAL ANIVERSARIO+DIA DAS CRIANÇAS] • [ 2026 ] • [ 06-18/10 ]</span><span class="camp-num">R$ 175,10 · 78 conv.</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">2</span>
+    <h3>Super Rede Piraquara</h3>
+  </header>
+  <div class="inv">R$ 1.074,06<small>no mês</small></div>
+  <div class="bar"><i style="width:72%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 0,00</dd></div>
+    <div><dt>Campanhas</dt><dd>25</dd></div>
+    <div><dt>Conversas</dt><dd>241</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 3,47</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">3</span>
+    <h3>Santa Clara Supermercados</h3>
+  </header>
+  <div class="inv">R$ 951,81<small>no mês</small></div>
+  <div class="bar"><i style="width:64%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 41,18</dd></div>
+    <div><dt>Campanhas</dt><dd>26</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">4</span>
+    <h3>Supermercados Bom Dia</h3>
+  </header>
+  <div class="inv">R$ 942,56<small>no mês</small></div>
+  <div class="bar"><i style="width:63%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 65,20</dd></div>
+    <div><dt>Campanhas</dt><dd>24</dd></div>
+    <div><dt>Conversas</dt><dd>171</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 3,88</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>2 campanhas no ar agora</summary><ul><li><span class="camp">[2026]-[GST]-[FDS]-[ALCANCE]-[16-18/10]</span><span class="camp-num">R$ 2,02</span></li><li><span class="camp">[2026]-[GST]-[FDS]-[TRAFEGO]-[16-18/10]</span><span class="camp-num">R$ 5,04 · 2 conv.</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">5</span>
+    <h3>Supermercado Parobé</h3>
+  </header>
+  <div class="inv">R$ 749,87<small>no mês</small></div>
+  <div class="bar"><i style="width:50%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 76,51</dd></div>
+    <div><dt>Campanhas</dt><dd>18</dd></div>
+    <div><dt>Conversas</dt><dd>24</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 10,18</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>2 campanhas no ar agora</summary><ul><li><span class="camp">[GST][ SEXTA ] -[2026]- [ ALCANCE ]-  [ 16/10 ]</span><span class="camp-num">R$ 10,19</span></li><li><span class="camp">[GST][ SEXTA ] -[2026]- [ TRAFEGO ]-  [ 16/10 ]</span><span class="camp-num">R$ 31,45</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">6</span>
+    <h3>Super Maccari</h3>
+  </header>
+  <div class="inv">R$ 594,35<small>no mês</small></div>
+  <div class="bar"><i style="width:40%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 44,57</dd></div>
+    <div><dt>Campanhas</dt><dd>23</dd></div>
+    <div><dt>Conversas</dt><dd>48</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 7,23</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">7</span>
+    <h3>Supermercado Santana</h3>
+  </header>
+  <div class="inv">R$ 586,61<small>no mês</small></div>
+  <div class="bar"><i style="width:39%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 45,26</dd></div>
+    <div><dt>Campanhas</dt><dd>6</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>1 campanha no ar agora</summary><ul><li><span class="camp">[GST]-[2026]-[ALCANCE]-[FDS]-[16-17/10]</span><span class="camp-num">R$ 7,98</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">8</span>
+    <h3>Mais Supermercado</h3>
+  </header>
+  <div class="inv">R$ 567,77<small>no mês</small></div>
+  <div class="bar"><i style="width:38%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 47,11</dd></div>
+    <div><dt>Campanhas</dt><dd>14</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>2 campanhas no ar agora</summary><ul><li><span class="camp">[2026]-[GST]-[FDS]-[15-18/10]-[ALCANCE]</span><span class="camp-num">R$ 11,56</span></li><li><span class="camp">[2026]-[GST]-[SEMANA]-[15-21/10]-[ALCANCE]</span><span class="camp-num">R$ 10,98</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">9</span>
+    <h3>Super Poup Market</h3>
+  </header>
+  <div class="inv">R$ 565,02<small>no mês</small></div>
+  <div class="bar"><i style="width:38%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 44,59</dd></div>
+    <div><dt>Campanhas</dt><dd>18</dd></div>
+    <div><dt>Conversas</dt><dd>46</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 5,91</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">10</span>
+    <h3>Ledur · São Sebastião do Caí</h3>
+  </header>
+  <div class="inv">R$ 548,15<small>no mês</small></div>
+  <div class="bar"><i style="width:37%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 57,60</dd></div>
+    <div><dt>Campanhas</dt><dd>12</dd></div>
+    <div><dt>Conversas</dt><dd>34</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 9,42</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>2 campanhas no ar agora</summary><ul><li><span class="camp">[N]-[2026]-[GST]-[TRAFEGO]-[FDS]-[16-18/10]-[CAI]</span><span class="camp-num">R$ 9,32 · 1 conv.</span></li><li><span class="camp">[N]-[2026]-[GST]-[ALCANCE]-[FDS]-[16-18/10]-[CAI]</span><span class="camp-num">R$ 5,95</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">11</span>
+    <h3>Sup São José Caiçara</h3>
+  </header>
+  <div class="inv">R$ 519,93<small>no mês</small></div>
+  <div class="bar"><i style="width:35%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 48,77</dd></div>
+    <div><dt>Campanhas</dt><dd>17</dd></div>
+    <div><dt>Conversas</dt><dd>49</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 4,16</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">12</span>
+    <h3>Via Norte</h3>
+  </header>
+  <div class="inv">R$ 467,92<small>no mês</small></div>
+  <div class="bar"><i style="width:31%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 20,86</dd></div>
+    <div><dt>Campanhas</dt><dd>9</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">13</span>
+    <h3>Ledur · Bom Princípio</h3>
+  </header>
+  <div class="inv">R$ 440,98<small>no mês</small></div>
+  <div class="bar"><i style="width:30%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 35,33</dd></div>
+    <div><dt>Campanhas</dt><dd>12</dd></div>
+    <div><dt>Conversas</dt><dd>42</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 6,67</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>2 campanhas no ar agora</summary><ul><li><span class="camp">[N]-[2026]-[GST]-[TRAFEGO]-[FDS]-[16-18/10]-[PRINCIPIO]</span><span class="camp-num">R$ 11,04 · 2 conv.</span></li><li><span class="camp">[N]-[2026]-[GST]-[ALCANCE]-[FDS]-[16-18/10]-[PRINCIPIO]</span><span class="camp-num">R$ 3,42</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">14</span>
+    <h3>Supermercado Eldorado</h3>
+  </header>
+  <div class="inv">R$ 419,86<small>no mês</small></div>
+  <div class="bar"><i style="width:28%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 27,99</dd></div>
+    <div><dt>Campanhas</dt><dd>9</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">15</span>
+    <h3>Super Millenium Atacarejo</h3>
+  </header>
+  <div class="inv">R$ 380,95<small>no mês</small></div>
+  <div class="bar"><i style="width:26%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 29,32</dd></div>
+    <div><dt>Campanhas</dt><dd>19</dd></div>
+    <div><dt>Conversas</dt><dd>65</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 2,81</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">16</span>
+    <h3>Santa Maria Supermercado</h3>
+  </header>
+  <div class="inv">R$ 319,71<small>no mês</small></div>
+  <div class="bar"><i style="width:21%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 50,74</dd></div>
+    <div><dt>Campanhas</dt><dd>8</dd></div>
+    <div><dt>Conversas</dt><dd>48</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 6,66</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>1 campanha no ar agora</summary><ul><li><span class="camp">[2026]-[GST]-[TRAFEGO]-[FDS]-[16-18/10]</span><span class="camp-num">R$ 5,92 · 1 conv.</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">17</span>
+    <h3>Mini Bom Preço</h3>
+  </header>
+  <div class="inv">R$ 281,52<small>no mês</small></div>
+  <div class="bar"><i style="width:19%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 0,00</dd></div>
+    <div><dt>Campanhas</dt><dd>6</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">18</span>
+    <h3>Supermercado Cassiano</h3>
+  </header>
+  <div class="inv">R$ 262,80<small>no mês</small></div>
+  <div class="bar"><i style="width:18%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 27,85</dd></div>
+    <div><dt>Campanhas</dt><dd>8</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>1 campanha no ar agora</summary><ul><li><span class="camp">[2026]-[GST]-[ALCANCE]-[FDS]-[16-18/10]</span><span class="camp-num">R$ 6,54</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">19</span>
+    <h3>Dra. Paloma Oliveira</h3>
+  </header>
+  <div class="inv">R$ 244,25<small>no mês</small></div>
+  <div class="bar"><i style="width:16%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 22,36</dd></div>
+    <div><dt>Campanhas</dt><dd>1</dd></div>
+    <div><dt>Conversas</dt><dd>52</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 4,70</dd></div>
+  </dl>
+  <details><summary><span class="dot"></span>1 campanha no ar agora</summary><ul><li><span class="camp">[2026]-[GST]-[ENGAJAMENTO]-[WhatsApp]</span><span class="camp-num">R$ 244,25 · 52 conv.</span></li></ul></details>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">20</span>
+    <h3>Varejão Rei dos Legumes</h3>
+  </header>
+  <div class="inv">R$ 233,54<small>no mês</small></div>
+  <div class="bar"><i style="width:16%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 0,00</dd></div>
+    <div><dt>Campanhas</dt><dd>1</dd></div>
+    <div><dt>Conversas</dt><dd>0</dd></div>
+    <div><dt>Custo/conversa</dt><dd>—</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">21</span>
+    <h3>Casa de Carnes Goiano</h3>
+  </header>
+  <div class="inv">R$ 150,84<small>no mês</small></div>
+  <div class="bar"><i style="width:10%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 0,00</dd></div>
+    <div><dt>Campanhas</dt><dd>12</dd></div>
+    <div><dt>Conversas</dt><dd>3</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 26,78</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">22</span>
+    <h3>Empório Katira</h3>
+  </header>
+  <div class="inv">R$ 126,22<small>no mês</small></div>
+  <div class="bar"><i style="width:8%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 0,00</dd></div>
+    <div><dt>Campanhas</dt><dd>4</dd></div>
+    <div><dt>Conversas</dt><dd>35</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 3,61</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article>
+<article class="card">
+  <header class="card-top">
+    <span class="pos">23</span>
+    <h3>Supermercados Unidos</h3>
+  </header>
+  <div class="inv">R$ 52,29<small>no mês</small></div>
+  <div class="bar"><i style="width:4%"></i></div>
+  <dl class="kpis">
+    <div><dt>Ontem</dt><dd>R$ 0,00</dd></div>
+    <div><dt>Campanhas</dt><dd>4</dd></div>
+    <div><dt>Conversas</dt><dd>11</dd></div>
+    <div><dt>Custo/conversa</dt><dd>R$ 2,95</dd></div>
+  </dl>
+  <p class="off">Nenhuma campanha no ar agora</p>
+</article></div>
+  <section class="extra sem"><h2>Sem investimento no mês <span>4</span></h2><p>Contas acessíveis, mas sem gasto desde o dia 1.</p><ul class="chips"><li>Bold e Showtime</li><li>Júnior Supermercado</li><li>Mercado Brilhante</li><li>Sup Ramos</li></ul></section>
+  <section class="extra aguardando"><h2>Aguardando acesso na Meta <span>3</span></h2><p>O token ainda não lê estas contas (sem acesso ou conta desativada).</p><ul class="chips"><li>Kayky Supermercados</li><li>Supermercado Coletta</li><li>Supermercado Garcia</li></ul></section>
+</main>
+<footer>Atualização automática às 7h e às 18h · Dados da Meta Ads API · GST Marketing</footer>
+</body>
+</html>
