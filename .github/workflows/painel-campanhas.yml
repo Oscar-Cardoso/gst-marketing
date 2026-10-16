@@ -1,0 +1,29 @@
+name: Painel de campanhas
+on:
+  schedule:
+    - cron: "0 10 * * *"   # 7h em Brasília (UTC-3)
+    - cron: "0 21 * * *"   # 18h em Brasília
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: painel-campanhas
+jobs:
+  atualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: pip install requests
+      - run: python3 scripts/painel/atualizar.py public/campanhas/index.html
+        env:
+          META_TOKEN: ${{ secrets.META_TOKEN }}
+          DADOS_JSON: ${{ runner.temp }}/dados.json
+          TZ: America/Sao_Paulo
+      - name: Commit
+        run: |
+          git config user.name "painel-gst"
+          git config user.email "painel-gst@users.noreply.github.com"
+          git add public/campanhas/index.html
+          git diff --cached --quiet || git commit -m "Painel de campanhas: atualização automática"
+          git push
