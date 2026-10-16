@@ -22,8 +22,9 @@ jobs:
           TZ: America/Sao_Paulo
       - name: Commit
         run: |
-          git config user.name "painel-gst"
-          git config user.email "painel-gst@users.noreply.github.com"
+          # Autor = dono da conta, para o Vercel (Hobby) aceitar o deploy com repositório privado
+          git config user.name "Oscar-Cardoso"
+          git config user.email "259443316+Oscar-Cardoso@users.noreply.github.com"
           git add public/campanhas/index.html
           git diff --cached --quiet || git commit -m "Painel de campanhas: atualização automática"
           git push
