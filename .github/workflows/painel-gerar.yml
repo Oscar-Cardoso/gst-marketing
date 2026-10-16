@@ -1,0 +1,26 @@
+name: Painel de campanhas (gerar HTML)
+# Disparado quando a tarefa agendada do Claude (via Meta Ads MCP) sobe scripts/painel/dados-mcp.json
+on:
+  push:
+    branches: [main]
+    paths: ["scripts/painel/dados-mcp.json"]
+  workflow_dispatch: {}
+permissions:
+  contents: write
+concurrency: painel-campanhas
+jobs:
+  gerar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.11" }
+      - run: python3 scripts/painel/gerar_campanhas.py scripts/painel/dados-mcp.json public/campanhas/index.html
+      - name: Commit
+        run: |
+          # Autor = dono da conta, para o Vercel (Hobby) aceitar o deploy com repositório privado
+          git config user.name "Oscar-Cardoso"
+          git config user.email "259443316+Oscar-Cardoso@users.noreply.github.com"
+          git add public/campanhas/index.html
+          git diff --cached --quiet || git commit -m "Painel de campanhas: atualização automática"
+          git push

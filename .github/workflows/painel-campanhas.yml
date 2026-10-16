@@ -1,8 +1,11 @@
 name: Painel de campanhas
+# Caminho alternativo via token da Meta (META_TOKEN). Agendamento desligado:
+# hoje a atualização das 7h e 18h é feita pela tarefa agendada do Claude (painel-gerar.yml).
+# Para voltar a usar este caminho, reative o bloco "schedule".
 on:
-  schedule:
-    - cron: "0 10 * * *"   # 7h em Brasília (UTC-3)
-    - cron: "0 21 * * *"   # 18h em Brasília
+  # schedule:
+  #   - cron: "0 10 * * *"   # 7h em Brasília (UTC-3)
+  #   - cron: "0 21 * * *"   # 18h em Brasília
   workflow_dispatch: {}
 permissions:
   contents: write
