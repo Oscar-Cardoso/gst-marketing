@@ -4,3 +4,4 @@ public/uploads/
 .DS_Store
 *.log
 .env
+scripts/painel/dados.json
