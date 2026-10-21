@@ -427,14 +427,36 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
       <h3>Descubra o que está travando o crescimento da sua loja</h3>
       <p class="hero-card-sub">Preencha abaixo e nossa equipe entra em contato em até 24h para agendar sua reunião estratégica.</p>
       <form id="hero-form" onsubmit="submitForm(event, 'hero-form', 'hero-success')">
-        <div class="form-group">
-          <label class="form-label">Seu nome</label>
-          <input class="form-input" type="text" name="nome" autocomplete="name" placeholder="Ex: João Silva" required>
-        </div>
         <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Seu nome</label>
+            <input class="form-input" type="text" name="nome" autocomplete="name" placeholder="Ex: João Silva" required>
+          </div>
           <div class="form-group">
             <label class="form-label">WhatsApp</label>
             <input class="form-input" type="tel" name="whatsapp" autocomplete="tel" inputmode="tel" placeholder="(11) 99999-9999" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nome do supermercado</label>
+            <input class="form-input" type="text" name="supermercado" placeholder="Nome da loja" required>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Cidade / Estado</label>
+            <input class="form-input" type="text" name="cidade" placeholder="Ex: Taubaté — SP" required>
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Nº de lojas</label>
+            <select class="form-select" name="lojas" required>
+              <option value="" disabled selected>Selecione</option>
+              <option>1 loja</option>
+              <option>2 a 3 lojas</option>
+              <option>4 a 5 lojas</option>
+              <option>6 lojas ou mais</option>
+            </select>
           </div>
           <div class="form-group">
             <label class="form-label">Faturamento/mês</label>
@@ -449,8 +471,19 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
           </div>
         </div>
         <div class="form-group">
-          <label class="form-label">Nome do supermercado</label>
-          <input class="form-input" type="text" name="supermercado" placeholder="Nome da loja" required>
+          <label class="form-label">Quem cuida do marketing da loja hoje?</label>
+          <select class="form-select" name="marketing" required>
+            <option value="" disabled selected>Selecione</option>
+            <option>Equipe interna da loja</option>
+            <option>Agência ou empresa terceirizada</option>
+            <option>Freelancer</option>
+            <option>Eu mesmo (dono/gestor)</option>
+            <option>Ninguém no momento</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Maior desafio no marketing hoje <span style="opacity:.6;font-weight:500;text-transform:none;letter-spacing:0">(opcional)</span></label>
+          <textarea class="form-textarea" name="desafio" rows="2" placeholder="Ex: quero mais clientes na loja, não sei o retorno do que invisto..."></textarea>
         </div>
         <button class="form-submit" type="submit">Quero meu Diagnóstico Gratuito →</button>
         <p class="form-note">🔒 Seus dados estão seguros. Sem spam.</p>
@@ -759,7 +792,18 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
               </select>
             </div>
             <div class="form-group">
-              <label class="form-label">Maior desafio no marketing hoje</label>
+              <label class="form-label">Quem cuida do marketing da loja hoje?</label>
+              <select class="form-select" name="marketing" required>
+                <option value="" disabled selected>Selecione</option>
+                <option>Equipe interna da loja</option>
+                <option>Agência ou empresa terceirizada</option>
+                <option>Freelancer</option>
+                <option>Eu mesmo (dono/gestor)</option>
+                <option>Ninguém no momento</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label class="form-label">Maior desafio no marketing hoje <span style="opacity:.6;font-weight:500;text-transform:none;letter-spacing:0">(opcional)</span></label>
               <textarea class="form-textarea" name="desafio" placeholder="Ex: não sei o retorno do que estou investindo, quero mais clientes na loja..."></textarea>
             </div>
             <button class="form-submit" type="submit">Quero meu Diagnóstico Gratuito →</button>
@@ -847,7 +891,7 @@ function submitForm(e, formId, successId) {
   const lead = {
     formulario: formId === 'hero-form' ? 'Topo' : 'Agendar',
     nome: val('nome'), whatsapp: val('whatsapp'), supermercado: val('supermercado'),
-    cidade: val('cidade'), lojas: val('lojas'), faturamento: val('faturamento'), desafio: val('desafio'),
+    cidade: val('cidade'), lojas: val('lojas'), faturamento: val('faturamento'), marketing: val('marketing'), desafio: val('desafio'),
     utm_source: utms.utm_source || '', utm_medium: utms.utm_medium || '', utm_campaign: utms.utm_campaign || '',
     utm_term: utms.utm_term || '', utm_content: utms.utm_content || '', fbclid: utms.fbclid || '',
     pagina: location.href.split('?')[0], event_id: eventId
@@ -861,6 +905,7 @@ function submitForm(e, formId, successId) {
   if (lead.cidade) linhas.push('Cidade: ' + lead.cidade);
   if (lead.lojas) linhas.push('Nº de lojas: ' + lead.lojas);
   if (lead.faturamento) linhas.push('Faturamento: ' + lead.faturamento);
+  if (lead.marketing) linhas.push('Marketing hoje: ' + lead.marketing);
   if (lead.desafio) linhas.push('Maior desafio: ' + lead.desafio);
   linhas.push('', 'Gostaria de agendar o diagnóstico gratuito!');
   const waHref = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(linhas.join('\n'));
