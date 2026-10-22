@@ -26,19 +26,19 @@ src="https://www.facebook.com/tr?id=816387441305466&ev=PageView&noscript=1"
 <meta property="og:description" content="Sua concorrência não tem preços melhores. Ela só aparece mais. Agende um diagnóstico gratuito da sua loja.">
 <meta property="og:url" content="https://www.agenciagst.com.br/">
 <meta property="og:type" content="website">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Caveat:wght@600;700&family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --green: #00c46a;
-  --green-dark: #009f56;
-  --green-glow: rgba(0,196,106,0.25);
-  --navy: #0a1628;
-  --navy2: #0f1f38;
-  --navy3: #162540;
-  --text: #e8f0fe;
-  --text-muted: rgba(232,240,254,0.52);
-  --text-dim: rgba(232,240,254,0.28);
+  --green: #9a82ee;
+  --green-dark: #6447b1;
+  --green-glow: rgba(100,71,177,0.35);
+  --navy: #120d21;
+  --navy2: #1a1430;
+  --navy3: #241c42;
+  --text: #eae6f7;
+  --text-muted: rgba(234,230,247,0.52);
+  --text-dim: rgba(234,230,247,0.28);
   --border: rgba(255,255,255,0.08);
   --card-bg: rgba(255,255,255,0.04);
   --white: #ffffff;
@@ -66,7 +66,7 @@ body::before {
   position: fixed; top: 0; left: 0; right: 0; z-index: 100;
   display: flex; align-items: center; justify-content: space-between;
   padding: 0 60px; height: 70px;
-  background: rgba(10,22,40,0.85);
+  background: rgba(18,13,33,0.85);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border);
 }
@@ -98,9 +98,9 @@ body::before {
 .hero-bg {
   position: absolute; inset: 0; z-index: 0;
   background:
-    radial-gradient(ellipse 900px 700px at 70% 40%, rgba(0,196,106,0.10) 0%, transparent 60%),
-    radial-gradient(ellipse 600px 500px at 10% 80%, rgba(26,115,232,0.08) 0%, transparent 60%),
-    linear-gradient(180deg, var(--navy) 0%, #060e1a 100%);
+    radial-gradient(ellipse 900px 700px at 70% 40%, rgba(100,71,177,0.10) 0%, transparent 60%),
+    radial-gradient(ellipse 600px 500px at 10% 80%, rgba(154,130,238,0.08) 0%, transparent 60%),
+    linear-gradient(180deg, var(--navy) 0%, #0b0816 100%);
 }
 .hero-grid-lines {
   position: absolute; inset: 0; z-index: 0; opacity: 0.04;
@@ -142,7 +142,7 @@ body::before {
   display: inline-block; transition: all 0.2s;
 }
 .btn-green { background: var(--green); color: var(--navy); }
-.btn-green:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,196,106,0.3); }
+.btn-green:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(100,71,177,0.3); }
 .btn-outline { border: 1.5px solid var(--border); color: var(--text); background: transparent; }
 .btn-outline:hover { border-color: rgba(255,255,255,0.3); color: var(--white); transform: translateY(-2px); }
 .hero-stats { display: flex; gap: 32px; margin-top: 56px; padding-top: 40px; border-top: 1px solid var(--border); flex-wrap: wrap; }
@@ -182,7 +182,7 @@ body::before {
 }
 .form-input::placeholder, .form-textarea::placeholder { color: var(--text-dim); }
 .form-input:focus, .form-select:focus, .form-textarea:focus {
-  border-color: var(--green); background: rgba(0,196,106,0.05);
+  border-color: var(--green); background: rgba(100,71,177,0.05);
 }
 .form-select option { background: var(--navy2); color: var(--white); }
 .form-textarea { min-height: 90px; resize: vertical; }
@@ -194,7 +194,7 @@ body::before {
   padding: 16px; border-radius: 10px; border: none; cursor: pointer;
   transition: all 0.2s; margin-top: 8px; letter-spacing: 0.3px;
 }
-.form-submit:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(0,196,106,0.3); }
+.form-submit:hover { background: var(--green-dark); color: #fff; transform: translateY(-2px); box-shadow: 0 12px 32px rgba(100,71,177,0.3); }
 .form-note { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 12px; }
 
 /* ── SECTIONS ── */
@@ -229,7 +229,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
   .step:nth-child(3){border-radius:0 0 0 16px;}
   .step:last-child{border-radius:0 0 16px 0;}
 }
-.step:hover { background: rgba(0,196,106,0.06); }
+.step:hover { background: rgba(100,71,177,0.06); }
 .step-num {
   font-family: 'Poppins', sans-serif; font-size: 72px; font-weight: 900;
   color: var(--white); opacity: 0.04; position: absolute; right: 12px; top: 0; line-height: 1;
@@ -251,7 +251,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
   background: var(--card-bg); border: 1px solid var(--border);
   transition: all 0.25s;
 }
-.paraquem-card:hover { border-color: rgba(0,196,106,0.3); background: rgba(0,196,106,0.05); transform: translateY(-3px); }
+.paraquem-card:hover { border-color: rgba(100,71,177,0.3); background: rgba(100,71,177,0.05); transform: translateY(-3px); }
 .paraquem-card-icon { font-size: 36px; margin-bottom: 14px; }
 .paraquem-card h4 { font-size: 16px; font-weight: 700; color: var(--white); margin-bottom: 8px; }
 .paraquem-card p { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
@@ -268,7 +268,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
   background: var(--card-bg); border: 1px solid var(--border);
   position: relative; overflow: hidden; transition: all 0.25s;
 }
-.servico-card:hover { border-color: rgba(0,196,106,0.25); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.3); }
+.servico-card:hover { border-color: rgba(100,71,177,0.25); transform: translateY(-4px); box-shadow: 0 20px 48px rgba(0,0,0,0.3); }
 .servico-card::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, var(--green), transparent);
@@ -288,15 +288,15 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 
 /* ── GARANTIA ── */
 .garantia {
-  background: linear-gradient(135deg, rgba(0,196,106,0.08) 0%, rgba(0,196,106,0.03) 100%);
-  border: 1px solid rgba(0,196,106,0.2); border-radius: 28px;
+  background: linear-gradient(135deg, rgba(100,71,177,0.08) 0%, rgba(100,71,177,0.03) 100%);
+  border: 1px solid rgba(100,71,177,0.2); border-radius: 28px;
   padding: 64px; display: grid; grid-template-columns: auto 1fr; gap: 60px; align-items: center;
   max-width: 900px; margin: 0 auto;
 }
 @media(max-width:700px){.garantia{grid-template-columns:1fr;padding:40px 28px;text-align:center;}}
 .garantia-big { font-family: 'Poppins', sans-serif; font-size: 100px; font-weight: 900; color: var(--green); line-height: 1; }
 .garantia-big small { font-size: 40px; }
-.garantia-period { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(0,196,106,0.7); margin-top: 6px; }
+.garantia-period { font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: rgba(100,71,177,0.7); margin-top: 6px; }
 .garantia h3 { font-size: 28px; font-weight: 800; color: var(--white); margin-bottom: 14px; line-height: 1.2; }
 .garantia p { font-size: 15px; color: var(--text-muted); line-height: 1.75; margin-bottom: 24px; }
 .garantia-list { list-style: none; display: flex; flex-direction: column; gap: 10px; }
@@ -306,7 +306,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 /* ── CTA SEÇÃO ── */
 .cta-section {
   text-align: center; padding: 100px 60px;
-  background: linear-gradient(180deg, transparent 0%, rgba(0,196,106,0.04) 100%);
+  background: linear-gradient(180deg, transparent 0%, rgba(100,71,177,0.04) 100%);
 }
 .cta-section h2 { font-size: clamp(32px,5vw,60px); font-weight: 800; color: var(--white); letter-spacing: -1.5px; margin-bottom: 16px; line-height: 1.1; }
 .cta-section h2 em { font-style: normal; color: var(--green); }
@@ -320,7 +320,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 .form-left p { font-size: 16px; color: var(--text-muted); line-height: 1.75; margin-bottom: 40px; }
 .form-beneficios { display: flex; flex-direction: column; gap: 16px; }
 .form-beneficio { display: flex; gap: 16px; align-items: flex-start; }
-.form-beneficio-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(0,196,106,0.12); border: 1px solid rgba(0,196,106,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
+.form-beneficio-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(100,71,177,0.12); border: 1px solid rgba(100,71,177,0.2); display: flex; align-items: center; justify-content: center; font-size: 18px; flex-shrink: 0; }
 .form-beneficio-text h5 { font-size: 14px; font-weight: 700; color: var(--white); margin-bottom: 4px; }
 .form-beneficio-text p { font-size: 13px; color: var(--text-muted); margin-bottom: 0; line-height: 1.55; }
 .form-box {
@@ -330,7 +330,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 @media(max-width:480px){.form-box{padding:32px 24px;}}
 .form-box::before {
   content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
-  background: linear-gradient(90deg, var(--green), #1a73e8);
+  background: linear-gradient(90deg, var(--green), #eae6f7);
 }
 .form-box-title { font-size: 22px; font-weight: 700; color: var(--white); margin-bottom: 6px; }
 .form-box-sub { font-size: 13px; color: var(--text-muted); margin-bottom: 32px; }
@@ -362,6 +362,17 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 /* ── SCROLL REVEAL ── */
 .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal.visible { opacity: 1; transform: translateY(0); }
+
+/* ===== Paleta 2026: roxo GST ===== */
+.nav-btn,.btn-green,.form-submit{background:var(--green-dark)!important;color:#fff!important}
+.nav-btn:hover,.btn-green:hover,.form-submit:hover{background:#7a5cd0!important}
+.garantia-list li::before{background:var(--green-dark);color:#fff}
+.hero h1,.section-title,.cta-section h2,.form-left h2,.garantia h3{font-family:'Anton',sans-serif;font-weight:400;text-transform:uppercase;letter-spacing:.5px;line-height:1.02}
+.hero h1{font-size:clamp(48px,6.2vw,88px)}
+.hero h1 .accent{color:var(--green);-webkit-text-stroke:0;font-family:'Caveat',cursive;font-weight:700;text-transform:none;font-size:1.05em;line-height:1;margin:4px 0 2px}
+.cta-section h2 em,h2 em{font-family:'Caveat',cursive;font-weight:700;text-transform:none;color:var(--green);font-size:1.1em;letter-spacing:0}
+.hero-stat-num,.garantia-big{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px}
+@media(max-width:480px){.nav-logo{white-space:nowrap;font-size:18px}.nav-btn{padding:9px 14px;font-size:12px;white-space:nowrap}}
 </style>
 </head>
 <body>
