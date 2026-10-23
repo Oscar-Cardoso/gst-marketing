@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Proposta Estratégica — Mais Supermercado | GST Marketing</title>
+<title>Mais Supermercado × GST — Jornada do Cliente | GST Marketing</title>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
@@ -191,28 +191,377 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 </style>
 </head>
 <body>
+<style>
+.hub-nav{position:sticky;top:0;z-index:20;background:rgba(13,27,42,.96);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);display:flex;gap:6px;padding:12px 64px;overflow-x:auto}
+.hub-nav a{color:rgba(255,255,255,.7);text-decoration:none;font-family:var(--font-head);font-size:12px;font-weight:700;padding:7px 14px;border-radius:20px;white-space:nowrap;border:1px solid transparent}
+.hub-nav a:hover{color:#fff;border-color:var(--border)}
+.hub-nav a.cur{background:var(--green);color:#fff}
+.status-tag{display:inline-flex;align-items:center;gap:6px;font-family:var(--font-head);font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;text-transform:uppercase;letter-spacing:.5px}
+.st-ok{background:rgba(0,196,106,.14);color:var(--green-dark)}
+.st-now{background:var(--yellow-dim);color:#b07500;border:1px solid rgba(245,180,0,.35)}
+.st-next{background:#eef2f6;color:#64748b}
+/* timeline */
+.timeline{position:relative;margin:28px 0 8px;padding-left:28px}
+.timeline::before{content:'';position:absolute;left:9px;top:6px;bottom:6px;width:2px;background:var(--border-day)}
+.tl-item{position:relative;padding:0 0 22px 18px}
+.tl-item::before{content:'';position:absolute;left:-26px;top:4px;width:16px;height:16px;border-radius:50%;background:#fff;border:3px solid #cbd5e1}
+.tl-item.ok::before{background:var(--green);border-color:var(--green)}
+.tl-item.now::before{background:var(--yellow);border-color:var(--yellow);box-shadow:0 0 0 5px rgba(245,180,0,.18)}
+.tl-date{font-family:var(--font-head);font-size:11px;font-weight:800;color:var(--gray);letter-spacing:.5px;text-transform:uppercase}
+.tl-item h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy);margin:2px 0 4px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tl-item p{font-size:13.5px;color:var(--gray);line-height:1.6;max-width:760px}
+.tl-item a{color:var(--green-dark);font-weight:700}
+/* onboarding */
+.onb-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.onb{background:#fff;border:1px solid var(--border-day);border-radius:16px;padding:22px;position:relative}
+.onb-num{font-family:var(--font-head);font-size:28px;font-weight:900;color:var(--green);line-height:1}
+.onb h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--navy);margin:8px 0 4px}
+.onb .onb-when{font-size:11px;font-weight:700;color:var(--gray);text-transform:uppercase;letter-spacing:.5px;display:block;margin-bottom:10px}
+.onb ul{list-style:none;padding:0}
+.onb li{font-size:12.5px;color:var(--text);padding:5px 0;border-bottom:1px solid #f1f5f9;display:flex;gap:8px;line-height:1.5}
+.onb li:last-child{border-bottom:none}
+.onb li::before{content:'○';color:var(--green);font-weight:800;min-width:12px}
+.onb li.done::before{content:'✓'}
+.onb li.done{color:var(--gray);text-decoration:line-through}
+.who{font-size:10px;font-weight:800;padding:1px 7px;border-radius:10px;margin-left:auto;white-space:nowrap;align-self:flex-start}
+.who.g{background:rgba(0,196,106,.12);color:var(--green-dark)}
+.who.c{background:#e3eefb;color:#1f4d86}
+/* checklist */
+.chk-wrap{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.chk{background:#fff;border:1px solid var(--border-day);border-radius:16px;overflow:hidden}
+.chk-head{background:var(--navy);padding:18px 22px}
+.chk-head span{font-family:var(--font-head);font-size:10px;font-weight:800;color:var(--green);letter-spacing:1.5px;text-transform:uppercase}
+.chk-head h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:#fff;margin-top:4px}
+.chk ul{list-style:none;padding:14px 22px}
+.chk li{font-size:12.5px;color:var(--text);padding:6px 0;border-bottom:1px solid #f1f5f9;display:flex;gap:8px;line-height:1.5}
+.chk li:last-child{border-bottom:none}
+.chk li::before{content:'☐';color:var(--gray);min-width:14px}
+.chk li.done::before{content:'☑';color:var(--green)}
+.rotina{background:var(--navy);border-radius:16px;padding:24px 28px;margin:8px 0 0}
+.rotina h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;margin-bottom:12px}
+.rotina-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.rot{background:rgba(255,255,255,.05);border:1px solid var(--border);border-radius:12px;padding:14px}
+.rot b{display:block;font-family:var(--font-head);font-size:11px;color:var(--green);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.rot p{font-size:12.5px;color:rgba(255,255,255,.75);line-height:1.5}
+/* resultados */
+.eq{display:flex;align-items:center;justify-content:center;gap:18px;flex-wrap:wrap;background:var(--navy);border-radius:18px;padding:30px 24px;margin:24px 0}
+.eq-box{text-align:center;padding:16px 22px;border-radius:14px;min-width:180px}
+.eq-box strong{display:block;font-family:var(--font-head);font-size:22px;font-weight:900}
+.eq-box span{font-size:11px;text-transform:uppercase;letter-spacing:.8px;font-weight:700}
+.eq-box.gst{background:rgba(0,196,106,.14);border:1px solid var(--green-line)}.eq-box.gst strong{color:var(--green)}.eq-box.gst span{color:rgba(255,255,255,.7)}
+.eq-box.loja{background:rgba(255,255,255,.05);border:1px solid var(--border)}.eq-box.loja strong{color:#fff}.eq-box.loja span{color:rgba(255,255,255,.55)}
+.eq-box.fat{background:var(--yellow-dim);border:1px solid rgba(245,180,0,.3)}.eq-box.fat strong{color:var(--yellow)}.eq-box.fat span{color:rgba(255,255,255,.7)}
+.eq-op{font-family:var(--font-head);font-size:28px;font-weight:900;color:rgba(255,255,255,.4)}
+.res-table-wrap{overflow-x:auto;margin:24px 0;border:1px solid var(--border-day);border-radius:14px;background:#fff}
+.res-table{width:100%;border-collapse:collapse;font-size:13px;min-width:860px}
+.res-table th{background:var(--navy);color:#fff;text-align:left;padding:13px 14px;font-family:var(--font-head);font-size:11px;letter-spacing:.4px;text-transform:uppercase;white-space:nowrap}
+.res-table th.hl{color:var(--green)}
+.res-table td{padding:13px 14px;border-top:1px solid var(--border-day);color:var(--text);white-space:nowrap}
+.res-table td:first-child{font-weight:800;color:var(--navy);font-family:var(--font-head)}
+.res-table td.hl{font-weight:800;color:var(--green-dark)}
+.res-table tr.base td{background:#f8fafc}
+.tbd{color:#b07500;font-weight:700;font-size:12px}
+.prop-orig{margin:0;border-top:1px solid var(--border-day)}
+.prop-orig summary{cursor:pointer;list-style:none;padding:28px 64px;background:var(--gray-light);font-family:var(--font-head);font-weight:800;color:var(--navy);font-size:16px;display:flex;align-items:center;gap:10px}
+.prop-orig summary::-webkit-details-marker{display:none}
+.prop-orig summary::before{content:'▸';color:var(--green);font-size:18px;transition:transform .2s}
+.prop-orig[open] summary::before{transform:rotate(90deg)}
+.prop-orig summary small{font-family:var(--font-body);font-weight:500;color:var(--gray);font-size:13px}
+@media(max-width:900px){
+ .hub-nav{padding:10px 16px}
+ .onb-grid,.chk-wrap{grid-template-columns:1fr}
+ .rotina-grid{grid-template-columns:1fr 1fr}
+ .prop-orig summary{padding:22px 20px}
+ .hero,.section{padding-left:20px!important;padding-right:20px!important}
+}
+</style>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-top">
     <div class="hero-logo">GST <span>Marketing</span></div>
-    <span class="hero-badge">⚡ Proposta Estratégica</span>
+    <span class="hero-badge">✅ Cliente GST · Plano Essencial</span>
   </div>
-  <div class="hero-pre">Apresentado para Marcus Souza</div>
-  <h1>Mais Supermercado —<br>do digital zerado<br>ao <em>caixa girando.</em></h1>
-  <p class="hero-sub">Uma estratégia para as 2 lojas em Salvador: tráfego pago que aumenta a carteira de clientes no WhatsApp, conteúdo que mostra a loja além da oferta e uma transição planejada do panfleto para o digital — com números para acompanhar.</p>
+  <div class="hero-pre">Mais Supermercado · Salvador/BA · Marcus Souza</div>
+  <h1>Mais Supermercado —<br>a jornada para trazer<br><em>mais clientes à loja.</em></h1>
+  <p class="hero-sub">Tudo o que fizemos e vamos fazer juntos, em um só lugar: a jornada desde a primeira conversa, a trilha de início, o checklist de execução e os resultados da loja mês a mês.</p>
   <div class="hero-tese">
-    <span class="hero-tese-lbl">// tese da proposta</span>
-    <p>"O panfleto entrega a oferta na rua, mas não mostra número nenhum. O digital alcança mais gente, custa menos e diz exatamente quanto custou cada cliente. A gente constrói essa base com você — e você tira o pé do impresso no seu tempo."</p>
+    <span class="hero-tese-lbl">// nosso compromisso</span>
+    <p>"Faturamento = número de clientes × ticket médio. O ticket médio é a gestão da loja. O número de clientes é o nosso trabalho: impactar as pessoas da região e fazer elas irem até o supermercado."</p>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><strong>2</strong><span>Lojas em Salvador</span></div>
-    <div class="hero-stat"><strong>~25 mil</strong><span>Cupons/mês</span></div>
-    <div class="hero-stat"><strong>300</strong><span>Contatos no WhatsApp hoje</span></div>
-    <div class="hero-stat"><strong>R$1.500</strong><span>Planos a partir de</span></div>
+    <div class="hero-stat"><strong>Essencial</strong><span>Tráfego pago · R$1.500/mês</span></div>
+    <div class="hero-stat"><strong>3 meses</strong><span>Ciclo para provar resultado</span></div>
+    <div class="hero-stat"><strong>2 lojas</strong><span>Um perfil, uma verba</span></div>
+    <div class="hero-stat"><strong>Clientes/mês</strong><span>Indicador principal</span></div>
   </div>
 </section>
 
+<nav class="hub-nav">
+  <a href="#jornada" class="cur">Jornada</a>
+  <a href="#onboarding">Onboarding</a>
+  <a href="#checklist">Checklist</a>
+  <a href="#resultados">Resultados</a>
+  <a href="#proposta">Proposta original</a>
+</nav>
+
+<!-- JORNADA -->
+<section class="section" id="jornada">
+  <div class="sec-lbl">01 · Jornada</div>
+  <h2>Da primeira conversa ao primeiro resultado</h2>
+  <p class="sec-desc">Cada etapa registrada aqui. Esta página é atualizada a cada avanço.</p>
+
+  <div class="timeline">
+    <div class="tl-item ok">
+      <span class="tl-date">06/10/2026</span>
+      <h4>Primeira conversa <span class="status-tag st-ok">Concluído</span></h4>
+      <p>Ligação de apresentação e troca de mensagens no WhatsApp. Entendemos a operação: 2 lojas, ~25 mil cupons/mês, calendário da Rede Mais, panfleto de quinta a domingo e segunda e quarta como dias mais fracos.</p>
+    </div>
+    <div class="tl-item ok">
+      <span class="tl-date">06/10/2026</span>
+      <h4>Diagnóstico e proposta <span class="status-tag st-ok">Concluído</span></h4>
+      <p>Diagnóstico da presença digital e proposta com três caminhos (Essencial, Plus e Prime). <a href="#proposta">Ver proposta original ↓</a></p>
+    </div>
+    <div class="tl-item ok">
+      <span class="tl-date">21/10/2026</span>
+      <h4>Plano aprovado <span class="status-tag st-ok">Concluído</span></h4>
+      <p>Início pelo <b>Plano Essencial — tráfego pago</b>, com ciclo de 3 meses para medir o efeito na quantidade de clientes da loja.</p>
+    </div>
+    <div class="tl-item now">
+      <span class="tl-date">Agora</span>
+      <h4>Onboarding <span class="status-tag st-now">Em andamento</span></h4>
+      <p>Contrato, acessos, briefing e linha de base dos números da loja. <a href="#onboarding">Ver trilha ↓</a></p>
+    </div>
+    <div class="tl-item">
+      <span class="tl-date">Mês 1</span>
+      <h4>Estrutura e primeiras campanhas <span class="status-tag st-next">Próximo</span></h4>
+      <p>Anúncios no ar no raio das lojas, campanha de WhatsApp e calendário da Rede Mais rodando.</p>
+    </div>
+    <div class="tl-item">
+      <span class="tl-date">Mês 2</span>
+      <h4>Otimização e dias fracos <span class="status-tag st-next">Próximo</span></h4>
+      <p>Campanhas de setor (açougue, padaria) e ação dedicada para segunda e quarta.</p>
+    </div>
+    <div class="tl-item">
+      <span class="tl-date">Mês 3</span>
+      <h4>Balanço do ciclo <span class="status-tag st-next">Próximo</span></h4>
+      <p>Resultado de 3 meses em clientes, comparado com a linha de base, e definição dos próximos passos.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ONBOARDING -->
+<section class="section" id="onboarding">
+  <div class="sec-lbl">02 · Trilha de onboarding</div>
+  <h2>Seis passos até o primeiro anúncio no ar</h2>
+  <p class="sec-desc">Meta: primeiras campanhas rodando em até 7 dias depois de liberados os acessos. Cada item mostra quem é o responsável: <span class="who g">GST</span> ou <span class="who c">Loja</span>.</p>
+
+  <div class="onb-grid">
+    <div class="onb">
+      <span class="onb-num">01</span>
+      <h4>Boas-vindas e contrato</h4>
+      <span class="onb-when">Dia 1</span>
+      <ul>
+        <li>Envio e assinatura do contrato (3 meses) <span class="who g">GST</span></li>
+        <li>Pagamento da 1ª mensalidade <span class="who c">Loja</span></li>
+        <li>Grupo de WhatsApp Mais × GST criado <span class="who g">GST</span></li>
+        <li>Mensagem de boas-vindas com esta página <span class="who g">GST</span></li>
+      </ul>
+    </div>
+    <div class="onb">
+      <span class="onb-num">02</span>
+      <h4>Acessos</h4>
+      <span class="onb-when">Dias 1–3</span>
+      <ul>
+        <li>Gerenciador de Negócios (Business Manager) <span class="who c">Loja</span></li>
+        <li>Conta de anúncios com forma de pagamento em nome da loja <span class="who c">Loja</span></li>
+        <li>Instagram e Facebook das 2 lojas vinculados <span class="who c">Loja</span></li>
+        <li>WhatsApp de atendimento definido <span class="who c">Loja</span></li>
+        <li>Conferência de todos os acessos <span class="who g">GST</span></li>
+      </ul>
+    </div>
+    <div class="onb">
+      <span class="onb-num">03</span>
+      <h4>Briefing (kick-off)</h4>
+      <span class="onb-when">Dias 3–5</span>
+      <ul>
+        <li>Reunião de início com o Marcus <span class="who g">GST</span></li>
+        <li>Calendário da Rede Mais e ofertas do mês <span class="who c">Loja</span></li>
+        <li>Fotos dos setores (açougue, padaria, FLV) <span class="who c">Loja</span></li>
+        <li>Bairros e condomínios prioritários <span class="who c">Loja</span></li>
+        <li>Diferenciais: açougue (~30% da venda), padaria nova <span class="who g">GST</span></li>
+      </ul>
+    </div>
+    <div class="onb">
+      <span class="onb-num">04</span>
+      <h4>Linha de base</h4>
+      <span class="onb-when">Dias 3–7</span>
+      <ul>
+        <li>Clientes (cupons) por mês dos últimos 3 meses, por loja <span class="who c">Loja</span></li>
+        <li>Ticket médio do mesmo período <span class="who c">Loja</span></li>
+        <li>Cupons por dia da semana (seg e qua) <span class="who c">Loja</span></li>
+        <li>Mesmos meses do ano anterior <span class="who c">Loja</span></li>
+        <li>Custo mensal do panfleto <span class="who c">Loja</span></li>
+      </ul>
+    </div>
+    <div class="onb">
+      <span class="onb-num">05</span>
+      <h4>Estrutura de campanhas</h4>
+      <span class="onb-when">Dias 4–7</span>
+      <ul>
+        <li>Públicos por raio (3 a 5 km) das 2 lojas <span class="who g">GST</span></li>
+        <li>Campanha de crescimento do WhatsApp <span class="who g">GST</span></li>
+        <li>Campanha de ofertas do calendário <span class="who g">GST</span></li>
+        <li>Planejamento de verba (R$600–1.000/mês) <span class="who g">GST</span></li>
+        <li>Aprovação dos anúncios no grupo <span class="who c">Loja</span></li>
+      </ul>
+    </div>
+    <div class="onb">
+      <span class="onb-num">06</span>
+      <h4>Primeiras campanhas no ar</h4>
+      <span class="onb-when">Até o dia 7</span>
+      <ul>
+        <li>Campanhas publicadas <span class="who g">GST</span></li>
+        <li>Aviso no grupo com o que está rodando <span class="who g">GST</span></li>
+        <li>Primeira leitura de números (CPM, alcance) em 72h <span class="who g">GST</span></li>
+        <li>Datas fixas: relatório e reunião mensal <span class="who g">GST</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CHECKLIST -->
+<section class="section" id="checklist">
+  <div class="sec-lbl">03 · Checklist de execução</div>
+  <h2>O que a GST entrega em cada mês do ciclo</h2>
+  <p class="sec-desc">Escopo do Plano Essencial: gestão de tráfego pago (Instagram e Facebook), campanhas sem limite, planejamento de verba, públicos, relatório e reunião mensal. As artes são produzidas pela loja.</p>
+
+  <div class="chk-wrap">
+    <div class="chk">
+      <div class="chk-head"><span>Mês 1</span><h4>Ligar o digital</h4></div>
+      <ul>
+        <li>Campanhas no raio das 2 lojas</li>
+        <li>Campanha para crescer o WhatsApp</li>
+        <li>Ofertas do calendário da Rede Mais</li>
+        <li>Testes de públicos e criativos</li>
+        <li>Primeira linha de números (CPM, alcance, contatos)</li>
+        <li>Relatório e reunião de fechamento do mês</li>
+      </ul>
+    </div>
+    <div class="chk">
+      <div class="chk-head"><span>Mês 2</span><h4>Otimizar e mostrar a loja</h4></div>
+      <ul>
+        <li>Verba concentrada no que trouxe resultado</li>
+        <li>Campanhas de setor: açougue e padaria</li>
+        <li>Ação dedicada para segunda e quarta</li>
+        <li>Campanhas de fim de ano</li>
+        <li>Comparativo de clientes vs. linha de base</li>
+        <li>Relatório e reunião de fechamento do mês</li>
+      </ul>
+    </div>
+    <div class="chk">
+      <div class="chk-head"><span>Mês 3</span><h4>Consolidar e decidir</h4></div>
+      <ul>
+        <li>Escala das campanhas que mais trouxeram clientes</li>
+        <li>Análise: clientes, contatos e custo por resultado</li>
+        <li>Leitura sobre o panfleto: dá para reduzir?</li>
+        <li>Balanço do ciclo de 3 meses</li>
+        <li>Proposta dos próximos passos</li>
+        <li>Reunião de balanço com o Marcus</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rotina">
+    <h4>🔁 Rotina fixa durante todo o ciclo</h4>
+    <div class="rotina-grid">
+      <div class="rot"><b>Toda semana</b><p>Ofertas do calendário da Rede Mais no ar</p></div>
+      <div class="rot"><b>2× por semana</b><p>Revisão e otimização das campanhas</p></div>
+      <div class="rot"><b>Todo mês</b><p>Cupons e ticket médio enviados pela loja</p></div>
+      <div class="rot"><b>Fim do mês</b><p>Relatório + reunião de fechamento</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTADOS -->
+<section class="section" id="resultados">
+  <div class="sec-lbl">04 · Resultados da loja</div>
+  <h2>O número que importa: clientes na loja</h2>
+  <p class="sec-desc">Curtidas e alcance mostram se a mensagem chegou. Mas o resultado que acompanhamos é o da loja: quantos clientes passaram no caixa a cada mês.</p>
+
+  <div class="eq">
+    <div class="eq-box gst"><strong>Clientes</strong><span>Nº de cupons · trabalho da GST</span></div>
+    <span class="eq-op">×</span>
+    <div class="eq-box loja"><strong>Ticket médio</strong><span>Gestão da loja</span></div>
+    <span class="eq-op">=</span>
+    <div class="eq-box fat"><strong>Faturamento</strong><span>Resultado do Mais</span></div>
+  </div>
+
+  <div class="res-table-wrap">
+    <table class="res-table">
+      <tr>
+        <th>Período</th>
+        <th class="hl">Clientes (cupons)</th>
+        <th class="hl">Variação vs. base</th>
+        <th>Ticket médio</th>
+        <th>Faturamento</th>
+        <th>Verba Meta</th>
+        <th>Novos contatos WhatsApp</th>
+        <th>Custo por contato</th>
+      </tr>
+      <tr class="base">
+        <td>Linha de base</td>
+        <td class="hl"><span class="tbd">a preencher</span></td>
+        <td>—</td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td>—</td>
+        <td>—</td>
+        <td>—</td>
+      </tr>
+      <tr>
+        <td>Mês 1</td>
+        <td class="hl"><span class="tbd">a preencher</span></td>
+        <td class="hl">—</td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+      </tr>
+      <tr>
+        <td>Mês 2</td>
+        <td class="hl"><span class="tbd">a preencher</span></td>
+        <td class="hl">—</td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+      </tr>
+      <tr>
+        <td>Mês 3</td>
+        <td class="hl"><span class="tbd">a preencher</span></td>
+        <td class="hl">—</td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+        <td><span class="tbd">a preencher</span></td>
+      </tr>
+    </table>
+  </div>
+
+  <div class="callout w">
+    <span class="c-lbl">// como comparamos</span>
+    <h3>Mês contra o mesmo mês do ano anterior</h3>
+    <p>O ciclo passa pelo fim de ano, quando a loja naturalmente vende mais. Por isso cada mês é comparado com a linha de base e também com o mesmo mês de 2025 — assim sabemos o que é crescimento de verdade e o que é sazonalidade. Também acompanhamos os cupons de segunda e quarta, os dias sem panfleto.</p>
+  </div>
+</section>
+
+<!-- PROPOSTA ORIGINAL -->
+<details class="prop-orig" id="proposta">
+  <summary>Proposta original <small>· enviada em 06/10/2026 · clique para abrir</small></summary>
 <!-- 01 - O QUE IDENTIFICAMOS -->
 <section class="section">
   <div class="sec-lbl">01 · O que identificamos</div>
@@ -598,16 +947,18 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   </div>
 </section>
 
+</details>
+
 <!-- CTA -->
 <section class="cta-sec">
-  <h2>O Mais Supermercado<br>já tem movimento.<br>Agora falta o <em>digital.</em></h2>
-  <p>2 lojas, 25 mil cupons por mês, calendário da rede e uma loja completa para mostrar. A GST coloca tudo isso na frente do cliente — e mostra o resultado em números.</p>
-  <a href="https://wa.me/5511983912170?text=Olá%20Oscar!%20Vi%20a%20proposta%20da%20GST%20para%20o%20Mais%20Supermercado%20e%20quero%20conversar." class="cta-btn" target="_blank">💬 Fechar com a GST agora</a>
+  <h2>Bora construir<br>os resultados <em>juntos.</em></h2>
+  <p>Qualquer dúvida, ajuste ou novidade da loja, é só chamar no grupo. Esta página é atualizada a cada etapa e a cada fechamento de mês.</p>
+  <a href="https://wa.me/5511983912170?text=Ol%C3%A1%20Oscar!%20Sou%20o%20Marcus%20do%20Mais%20Supermercado." class="cta-btn" target="_blank">💬 Falar com a GST</a>
   <small>GST Marketing · Especialistas em supermercados · agenciagst.com.br</small>
 </section>
 
 <footer class="page-footer">
-  <p>Proposta Estratégica — Mais Supermercado · Salvador/BA · GST Marketing · Out 2026</p>
+  <p>Mais Supermercado × GST Marketing · Salvador/BA · Plano Essencial · Início out/2026</p>
   <p><strong>agenciagst.com.br</strong> · Marketing conectado ao caixa</p>
 </footer>
 
