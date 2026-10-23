@@ -1,148 +1,36 @@
 {
-  "gerado_em": "2026-10-16T00:00:00-03:00",
+  "gerado_em": "2026-10-23T11:45:41.899844-03:00",
   "mes": {
     "since": "2026-10-01",
-    "until": "2026-10-16"
+    "until": "2026-10-23"
   },
-  "ontem": "2026-10-15",
+  "ontem": "2026-10-22",
   "clientes": [
     {
-      "nome": "Super Millenium Atacarejo",
-      "investimento_mes": 890.25,
-      "investimento_ontem": 145.3,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "G2 Atacadista",
-      "investimento_mes": 831.25,
-      "investimento_ontem": 75.25,
-      "campanhas_total": 2,
-      "campanhas_ativas": 2,
-      "conversas": 0
-    },
-    {
-      "nome": "Supermercados Bom Dia",
-      "investimento_mes": 695.3,
-      "investimento_ontem": 110.5,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Santa Clara Supermercados",
-      "investimento_mes": 615.45,
-      "investimento_ontem": 95.7,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Supermercado Cassiano",
-      "investimento_mes": 600.8,
-      "investimento_ontem": 65.2,
-      "campanhas_total": 2,
-      "campanhas_ativas": 2,
-      "conversas": 0
-    },
-    {
-      "nome": "Super Rede Piraquara",
-      "investimento_mes": 550.8,
-      "investimento_ontem": 88.45,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Via Norte",
-      "investimento_mes": 540.2,
-      "investimento_ontem": 87.35,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Empório Katira",
-      "investimento_mes": 430.75,
-      "investimento_ontem": 45.0,
-      "campanhas_total": 2,
-      "campanhas_ativas": 2,
-      "conversas": 0
-    },
-    {
-      "nome": "Mini Bom Preço",
-      "investimento_mes": 425.3,
-      "investimento_ontem": 68.9,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Supermercado Eldorado",
-      "investimento_mes": 480.7,
-      "investimento_ontem": 75.6,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Supermercado Santana",
-      "investimento_mes": 410.85,
-      "investimento_ontem": 62.4,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Sup São José Caiçara",
-      "investimento_mes": 280.6,
-      "investimento_ontem": 45.1,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Mercado Brilhante",
-      "investimento_mes": 195.8,
-      "investimento_ontem": 32.5,
-      "campanhas_total": 2,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Supermercado Parobé",
-      "investimento_mes": 320.4,
-      "investimento_ontem": 0.0,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
-    },
-    {
-      "nome": "Varejão Rei dos Legumes",
-      "investimento_mes": 165.95,
-      "investimento_ontem": 28.3,
-      "campanhas_total": 1,
-      "campanhas_ativas": 1,
-      "conversas": 0
+      "id": "325385627582157",
+      "nome": "Santa Clara",
+      "mes": {
+        "investimento": 1369.47,
+        "campanhas": 38,
+        "conversas": 0,
+        "inv_conversas": 0,
+        "impressoes": 450967,
+        "cliques": 9046
+      },
+      "ontem": {
+        "investimento": 17.96,
+        "campanhas": 1,
+        "conversas": 0,
+        "inv_conversas": 0,
+        "impressoes": 4479,
+        "cliques": 116
+      },
+      "no_ar": [
+        "[2026]-[GST]-[SEXTA]-[TRAFEGO]-[18/10]",
+        "[2026]-[GST]-[SEXTA]-[ALCANCE]-[18/10]"
+      ]
     }
   ],
-  "sem_investimento": [
-    "Bold e Showtime",
-    "Dra. Paloma Oliveira"
-  ],
-  "aguardando_meta": [
-    "Mais Supermercado",
-    "Ledur · Bom Princípio",
-    "Ledur · São Sebastião do Caí",
-    "Supermercados Unidos",
-    "Super Poup Market",
-    "Sup Ramos",
-    "Super Maccari",
-    "Casa de Carnes Goiano",
-    "Júnior Supermercado",
-    "Supermercado Coletta",
-    "Kayky Supermercados",
-    "Supermercado Garcia"
-  ]
+  "sem_investimento": [],
+  "aguardando_meta": []
 }
