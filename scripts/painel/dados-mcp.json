@@ -26,8 +26,18 @@
         "cliques": 116
       },
       "no_ar": [
-        "[2026]-[GST]-[SEXTA]-[TRAFEGO]-[18/10]",
-        "[2026]-[GST]-[SEXTA]-[ALCANCE]-[18/10]"
+        {
+          "campanha": "[2026]-[GST]-[SEXTA]-[TRAFEGO]-[18/10]",
+          "investimento_mes": 689.74,
+          "resultados": 0,
+          "tipo": "trafego"
+        },
+        {
+          "campanha": "[2026]-[GST]-[SEXTA]-[ALCANCE]-[18/10]",
+          "investimento_mes": 679.73,
+          "resultados": 0,
+          "tipo": "alcance"
+        }
       ]
     }
   ],
