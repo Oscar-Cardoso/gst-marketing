@@ -373,6 +373,31 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 .cta-section h2 em,h2 em{font-family:'Caveat',cursive;font-weight:700;text-transform:none;color:var(--green);font-size:1.1em;letter-spacing:0}
 .hero-stat-num,.garantia-big{font-family:'Anton',sans-serif;font-weight:400;letter-spacing:.5px}
 @media(max-width:480px){.nav-logo{white-space:nowrap;font-size:18px}.nav-btn{padding:9px 14px;font-size:12px;white-space:nowrap}}
+
+/* Dobras alternadas: identidade roxa com áreas de leitura brancas. */
+:root { --text-muted: rgba(234,230,247,.76); --text-dim: rgba(234,230,247,.64); }
+html { scroll-padding-top: 90px; }
+.hero-bg { background: radial-gradient(ellipse at 80% 30%,rgba(154,130,238,.20),transparent 60%),linear-gradient(135deg,#281443,#120d21); }
+.paraquem { background: #352050; }
+#garantia { background: #1c112f; }
+.garantia { background: rgba(154,130,238,.07); border-color: rgba(154,130,238,.28); }
+.garantia-period { color: #bca9f5; }
+.section-light { --white: #261737; --text: #30233e; --text-muted: #655b70; --text-dim: #756a80; --green: #6447b1; --border: #e6dfef; --card-bg: #faf8fd; background: #fff; color: var(--text); }
+.section-light .step, .section-light .servico-card { border-color: var(--border); }
+.section-light .step:hover { background: #f2edf9; }
+.section-light .step-num, .section-light .servico-num { color: #6447b1; opacity: .09; }
+.section-light .servico-card:hover { border-color: #baa6df; box-shadow: 0 16px 40px rgba(67,38,106,.09); }
+.section-light .form-box { background: #faf8fd; border-color: var(--border); box-shadow: 0 20px 60px rgba(67,38,106,.08); }
+.section-light .form-input, .section-light .form-select, .section-light .form-textarea { background: #fff; border-color: #d8cee5; color: #30233e; }
+.section-light .form-select { color-scheme: light; }
+.section-light .form-select option { background: #fff; color: #30233e; }
+.section-light .form-input:focus, .section-light .form-select:focus, .section-light .form-textarea:focus { background: #fff; border-color: #6447b1; box-shadow: 0 0 0 3px rgba(100,71,177,.12); }
+.section-light .form-box::before { background: linear-gradient(90deg,#6447b1,#b7a0ec); }
+.form-section { border-top: 0; }
+.footer, .footer-bottom { background: #120d21; }
+a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offset: 4px; }
+@media(max-width:480px) { .steps-grid { grid-template-columns: 1fr; gap: 12px; } .step:first-child, .step:nth-child(2), .step:nth-child(3), .step:last-child { border-radius: 16px; } .step-line { display: none; } .hero-card { padding: 32px 24px; } .garantia-big { font-size: 80px; } }
+@media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } .reveal { opacity: 1; transform: none; transition: none; } .nav-logo-dot { animation: none; } }
 </style>
 </head>
 <body>
@@ -510,7 +535,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 </section>
 
 <!-- COMO FUNCIONA -->
-<section id="como-funciona">
+<section id="como-funciona" class="section-light">
   <div class="container">
     <div class="eyebrow reveal">Como funciona</div>
     <h2 class="section-title reveal">Do diagnóstico<br>ao crescimento.</h2>
@@ -599,7 +624,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 </section>
 
 <!-- SERVIÇOS -->
-<section id="servicos">
+<section id="servicos" class="section-light">
   <div class="container">
     <div class="eyebrow reveal">O que entregamos</div>
     <h2 class="section-title reveal">Serviços que<br>movem o ponteiro.</h2>
@@ -707,17 +732,8 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
   </div>
 </section>
 
-<!-- CTA -->
-<section class="cta-section">
-  <div class="container">
-    <h2 class="reveal">Seu concorrente não tem<br>preços melhores.<br><em>Ele só aparece mais.</em></h2>
-    <p class="reveal">Comece com um diagnóstico gratuito. Em 30 minutos você sabe exatamente o que está travando o crescimento da sua loja.</p>
-    <a href="#agendar" class="btn-lg btn-green reveal">Agendar Diagnóstico Gratuito</a>
-  </div>
-</section>
-
 <!-- FORMULÁRIO PRINCIPAL -->
-<section class="form-section" id="agendar">
+<section class="form-section section-light" id="agendar">
   <div class="container">
     <div class="form-layout">
       <div class="form-left reveal">
