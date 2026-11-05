@@ -227,6 +227,17 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 .bar{height:22px;border-radius:6px;background:var(--navy)}.bar.lo{background:#f5b400}
 .bar-row span{text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
 @media(max-width:900px){.res-tbl{font-size:12px}.res-tbl th,.res-tbl td{padding:10px 8px}.res-tbl .hide-m{display:none}}
+.mes-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:8px 0 28px}
+.mes{background:var(--navy);border-radius:14px;padding:20px;border:1px solid var(--border)}
+.mes.low{border:2px solid #f5b400}
+.mes span{font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);display:block;margin-bottom:6px}
+.mes.low span{color:#f5b400}
+.mes h4{font-family:var(--font-head);font-size:22px;font-weight:800;color:#fff;margin-bottom:12px}
+.mes dl{display:grid;grid-template-columns:1fr auto;gap:6px 10px;font-size:12px;margin:0}
+.mes dt{color:rgba(255,255,255,.55)}.mes dd{margin:0;color:#fff;text-align:right;font-variant-numeric:tabular-nums;font-weight:600}
+.mes .var{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
+@media(max-width:900px){.mes-grid{grid-template-columns:1fr 1fr}}
+@media(max-width:520px){.mes-grid{grid-template-columns:1fr}}
 </style>
 
 <!-- HERO -->
@@ -277,6 +288,14 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
     <tr><td>Setembro</td><td>R$ 523.559</td><td>11.308</td><td class="hide-m">377</td><td>R$ 46,30</td><td class="hide-m neg">−13,7%</td></tr>
     <tr class="last"><td>Outubro</td><td>R$ 505.799</td><td>11.374</td><td class="hide-m">367</td><td>R$ 44,47</td><td class="hide-m">+0,6%</td></tr>
   </table>
+
+  <p class="sec-desc" style="margin-bottom:8px"><b>Mês a mês</b></p>
+  <div class="mes-grid">
+    <div class="mes"><span>Julho/2026</span><h4>R$ 610.674,22</h4><dl><dt>Cupons (pedidos)</dt><dd>12.743</dd><dt>Clientes por dia</dt><dd>411</dd><dt>Ticket médio</dt><dd>R$ 47,92</dd><dt>À vista</dt><dd>R$ 590.142,67</dd><dt>A prazo</dt><dd>R$ 18.487,49</dd><dt>Descontos</dt><dd>R$ 0,00</dd></dl><p class="var">Primeiro mês completo após a inauguração.</p></div>
+    <div class="mes"><span>Agosto/2026</span><h4>R$ 626.633,73</h4><dl><dt>Cupons (pedidos)</dt><dd>13.100</dd><dt>Clientes por dia</dt><dd>423</dd><dt>Ticket médio</dt><dd>R$ 47,83</dd><dt>À vista</dt><dd>R$ 608.833,62</dd><dt>A prazo</dt><dd>R$ 17.777,57</dd><dt>Descontos</dt><dd>R$ 0,00</dd></dl><p class="var">Melhor mês: +2,8% de cupons e +2,6% de faturamento vs. julho.</p></div>
+    <div class="mes low"><span>Setembro/2026</span><h4>R$ 523.558,86</h4><dl><dt>Cupons (pedidos)</dt><dd>11.308</dd><dt>Clientes por dia</dt><dd>377</dd><dt>Ticket médio</dt><dd>R$ 46,30</dd><dt>À vista</dt><dd>R$ 511.100,00</dd><dt>A prazo</dt><dd>R$ 12.345,46</dd><dt>Descontos</dt><dd>R$ 0,00</dd></dl><p class="var">A maior queda: −13,7% de cupons e −16,4% de faturamento vs. agosto.</p></div>
+    <div class="mes low"><span>Outubro/2026</span><h4>R$ 505.799,27</h4><dl><dt>Cupons (pedidos)</dt><dd>11.374</dd><dt>Clientes por dia</dt><dd>367</dd><dt>Ticket médio</dt><dd>R$ 44,47</dd><dt>À vista</dt><dd>R$ 492.804,78</dd><dt>A prazo</dt><dd>R$ 12.346,75</dd><dt>Descontos</dt><dd>R$ 0,00</dd></dl><p class="var">Cupons estáveis (+0,6%), mas o ticket caiu 4%: −3,4% de faturamento vs. setembro.</p></div>
+  </div>
 
   <p class="sec-desc" style="margin-bottom:8px"><b>Clientes por dia no caixa</b></p>
   <div class="bars">
