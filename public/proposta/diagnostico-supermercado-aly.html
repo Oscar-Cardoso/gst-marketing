@@ -259,32 +259,129 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 @media(max-width:520px){.sem-grid{grid-template-columns:1fr}}
 </style>
 
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-top">
-    <div class="hero-logo">GST <span>Marketing</span></div>
-    <span class="hero-badge">🚀 Cliente GST · Onboarding</span>
+<style>
+/* ===== Sistema do cliente: menu lateral ===== */
+:root{--side:264px}
+body{padding-left:var(--side)}
+.side{position:fixed;left:0;top:0;bottom:0;width:var(--side);background:#08121e;border-right:1px solid rgba(255,255,255,.08);display:flex;flex-direction:column;z-index:50;overflow-y:auto}
+.side-brand{padding:26px 22px 18px;border-bottom:1px solid rgba(255,255,255,.08)}
+.side-brand b{font-family:var(--font-head);font-size:17px;color:#fff}.side-brand b span{color:var(--green)}
+.side-brand p{font-size:12px;color:rgba(255,255,255,.5);margin-top:6px;line-height:1.45}
+.side-grp{padding:18px 14px 6px;font-family:var(--font-head);font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:rgba(255,255,255,.35)}
+.side a.nav{display:flex;gap:12px;align-items:flex-start;margin:2px 10px;padding:12px;border-radius:10px;text-decoration:none;color:rgba(255,255,255,.75);border:1px solid transparent}
+.side a.nav:hover{background:rgba(255,255,255,.05)}
+.side a.nav.on{background:rgba(0,196,106,.12);border-color:rgba(0,196,106,.35);color:#fff}
+.side a.nav .dt{font-family:var(--font-head);font-size:11px;font-weight:800;color:var(--green);min-width:40px;padding-top:2px}
+.side a.nav .tt{font-size:13px;line-height:1.4;font-weight:600}.side a.nav .tt small{display:block;font-weight:400;font-size:11px;color:rgba(255,255,255,.45)}
+.side a.nav.next{opacity:.55;pointer-events:none}.side a.nav.next .dt{color:#f5b400}
+.side-sub{margin:0 10px 6px 62px;display:none;flex-direction:column}
+.side a.nav.on + .side-sub{display:flex}
+.side-sub a{font-size:12px;color:rgba(255,255,255,.5);text-decoration:none;padding:4px 0}.side-sub a:hover{color:#fff}
+.side-foot{margin-top:auto;padding:18px 22px;font-size:11px;color:rgba(255,255,255,.35);border-top:1px solid rgba(255,255,255,.08)}
+.mtop{display:none}
+.view{display:none}.view.on{display:block}
+.meet-hero{background:linear-gradient(140deg,#040a12 0%,#0d1b2a 60%,#0a2010 100%);padding:64px;color:#fff}
+.meet-hero .hero-pre{color:rgba(255,255,255,.45)}
+.meet-hero h1{font-family:var(--font-head);font-size:clamp(30px,4vw,46px);font-weight:900;line-height:1.1;margin:6px 0 14px}
+.meet-hero h1 em{font-style:normal;color:var(--green)}
+.meet-hero p{color:rgba(255,255,255,.7);max-width:760px;font-size:15px}
+.meet-meta{display:flex;flex-wrap:wrap;gap:10px;margin-top:22px}
+.meet-meta span{font-size:12px;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);padding:6px 12px;border-radius:20px;color:rgba(255,255,255,.85)}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.note{background:#fff;border:1px solid var(--border-day);border-radius:14px;padding:22px}
+.note h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--navy);margin-bottom:10px}
+.note ul{list-style:none;padding:0;margin:0}.note li{font-size:13.5px;line-height:1.6;padding:7px 0 7px 18px;border-top:1px solid #f0f3f7;position:relative;color:var(--text)}
+.note li:first-child{border-top:none}.note li::before{content:'•';position:absolute;left:2px;color:var(--green);font-weight:800}
+.qa{background:#fffaf0;border:1px solid #f0d99a;border-left:4px solid #f5b400;border-radius:14px;padding:22px 24px;margin:20px 0}
+.qa b{font-family:var(--font-head);color:#7a5200;font-size:12px;letter-spacing:1px;text-transform:uppercase}
+.qa p{font-size:14px;color:#3a3020;margin-top:6px}
+@media(max-width:900px){
+ body{padding-left:0}
+ .mtop{display:flex;position:sticky;top:0;z-index:60;background:#08121e;padding:12px 16px;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.08)}
+ .mtop b{font-family:var(--font-head);color:#fff;font-size:15px}.mtop b span{color:var(--green)}
+ .mtop button{background:var(--green);color:#08121e;border:0;border-radius:8px;padding:8px 14px;font-family:var(--font-head);font-weight:800;font-size:13px}
+ .side{transform:translateX(-100%);transition:transform .25s;width:86%;max-width:320px;top:57px}
+ .side.open{transform:none;box-shadow:0 0 0 100vmax rgba(0,0,0,.5)}
+ .two-col{grid-template-columns:1fr}.meet-hero{padding:40px 20px}
+}
+</style>
+<div class="mtop"><b>GST <span>·</span> Aly</b><button type="button" onclick="document.querySelector('.side').classList.toggle('open')">☰ Menu</button></div>
+<nav class="side" aria-label="Linha do tempo do cliente">
+  <div class="side-brand"><b>GST <span>Marketing</span></b><p>Supermercado Aly<br>Baixa Grande do Ribeiro/PI<br>Programa de Tração</p></div>
+  <div class="side-grp">Linha do tempo</div>
+  <a class="nav" href="#reuniao-0511" data-view="v-r0511"><span class="dt">05/11</span><span class="tt">Reunião de onboarding<small>Resumo, decisões e ações</small></span></a>
+  <div class="side-sub"><a href="#r-resumo">Resumo</a><a href="#r-loja">O que a loja contou</a><a href="#r-gst">O que a GST propôs</a><a href="#onboarding">Decisão e prioridade</a><a href="#tarefas">Ações da loja</a><a href="#semana">Calendário comercial</a><a href="#rotina">Rotina de execução</a></div>
+  <a class="nav" href="#diagnostico" data-view="v-diag"><span class="dt">04/11</span><span class="tt">Diagnóstico inicial<small>Instagram, públicos e resultados jul–out</small></span></a>
+  <div class="side-grp">Próximos</div>
+  <a class="nav next"><span class="dt">09/11</span><span class="tt">Reunião de estratégia<small>Análise da loja e do estoque · a confirmar</small></span></a>
+  <a class="nav next"><span class="dt">Dez</span><span class="tt">Resultado de novembro<small>Cupons, ticket e faturamento</small></span></a>
+  <div class="side-foot">Atualizado em 05/11/2026<br>agenciagst.com.br</div>
+</nav>
+<div class="view" id="v-r0511">
+<section class="meet-hero">
+  <div class="hero-pre">Reunião · 05/11/2026 · 60 min · Onboarding</div>
+  <h1>Primeiro arrumar a casa,<br><em>depois chamar o cliente.</em></h1>
+  <p>Primeira reunião do Programa de Tração: entender o cenário da loja, confirmar os números, apresentar o calendário comercial e combinar a rotina de trabalho entre a loja e a GST.</p>
+  <div class="meet-meta"><span>👤 Milton (loja)</span><span>👤 Kalliany (loja · conteúdo)</span><span>👤 Eduardo (loja · sistema e compras)</span><span>👤 Oscar (GST)</span></div>
+</section>
+
+<section class="section" id="r-resumo">
+  <div class="sec-lbl">01 · Resumo</div>
+  <h2>Resumo da reunião</h2>
+  <div class="callout t">
+    <span class="c-lbl">// em uma frase</span>
+    <h3>A loja perdeu cerca de 2 mil clientes por mês desde agosto e hoje tem falta de produtos na prateleira. Antes de soltar ofertas, vamos olhar a loja e o estoque e fazer o estoque parado virar dinheiro no caixa.</h3>
+    <p>A loja manda vídeo, fotos e relatórios no grupo. A GST analisa tudo até o fim de semana e, na reunião de segunda-feira (09/11), apresenta a estratégia comercial antes de começarem as ofertas.</p>
   </div>
-  <div class="hero-pre">Supermercado Aly · Baixa Grande do Ribeiro/PI · Programa de Tração · Onboarding em 05/11/2026</div>
-  <h1>Loja nova é a chance de<br><em>virar o hábito da cidade.</em></h1>
-  <p class="hero-sub">Inaugurado em junho de 2026 com a promessa de ser "Referência em preços baixos", o Aly já tem os eventos certos rodando. Este diagnóstico mostra como transformar Rasga Preço, Quarta do Hortifrúti e encartes em cliente que volta toda semana — medido em cupons no caixa.</p>
-  <span class="ig-handle">📸 @supermercadoaly · Av. Ari Rocha, 3589 — Centro</span>
-  <div class="hero-tese">
-    <span class="hero-tese-lbl">// leitura central</span>
-    <p>"Nos primeiros meses de uma loja, a cidade inteira está decidindo onde vai fazer a compra do mês. Quem ganha essa decisão agora, ganha por anos."</p>
+</section>
+
+<section class="section" id="r-loja">
+  <div class="sec-lbl">02 · O que a loja contou</div>
+  <h2>O cenário pelo olhar da loja</h2>
+  <div class="two-col">
+    <div class="note"><h4>🏪 História e números</h4><ul>
+      <li>6 anos na cidade, com dois mercadinhos que juntos faturavam cerca de R$ 400 mil/mês</li>
+      <li>Os dois viraram um supermercado só, inaugurado em 6 de junho</li>
+      <li>Primeiro mês: cerca de R$ 700 mil; julho e agosto ainda fortes</li>
+      <li>Queda a partir de setembro, que a loja atribui a desafios de organização interna e de equipe</li>
+      <li>Falta de produtos (ruptura): hoje a loja compra só o prioritário</li>
+    </ul></div>
+    <div class="note"><h4>📣 Marketing hoje</h4><ul>
+      <li>1 oferta por semana, 2 grandes por mês (início e fim) e o dia da verdura</li>
+      <li>Instagram com vídeos (Kalliany na frente; videomaker parceiro grava 2 vídeos/semana)</li>
+      <li>Rádio na loja e impulsionamento pelo botão do Instagram</li>
+      <li>Grupo de ofertas no WhatsApp, ainda pequeno para cerca de 11 mil cupons/mês</li>
+      <li>Reclamações frequentes sobre o atendimento no WhatsApp</li>
+      <li>Aberto de segunda a domingo; domingo até 20h</li>
+    </ul></div>
   </div>
-  <div class="hero-stats">
-    <div class="hero-stat"><strong>Jun/26</strong><span>Inauguração</span></div>
-    <div class="hero-stat"><strong>4</strong><span>Setores completos</span></div>
-    <div class="hero-stat"><strong>−13%</strong><span>Cupons de ago a out</span></div>
-    <div class="hero-stat"><strong>90 dias</strong><span>Plano inicial</span></div>
+  <div class="qa"><b>Pergunta do Milton</b><p>"Vale começar pelo tráfego pago ou pela parte interna de compras? Não adianta chamar o cliente e ele não encontrar o produto."</p><p><b style="text-transform:none;letter-spacing:0">Resposta:</b> concordamos. Primeiro vemos a loja (vídeo e fotos das prateleiras) e o estoque. O tráfego entra depois que as ofertas estiverem montadas com o que a loja tem para vender.</p></div>
+</section>
+
+<section class="section" id="r-gst">
+  <div class="sec-lbl">03 · O que a GST propôs</div>
+  <h2>Como vamos trabalhar</h2>
+  <div class="two-col">
+    <div class="note"><h4>🛒 Ofertas e estoque</h4><ul>
+      <li>Calendário comercial com uma ação por dia e um festival por semana</li>
+      <li>Priorizar nas ofertas os produtos parados há mais de 30 dias: venda de produto já pago é dinheiro novo no caixa</li>
+      <li>Curva A não pode faltar; comprar fracionado, por semana</li>
+      <li>Listar os fornecedores e os prazos para escalonar os boletos (acompanhamento da consultoria)</li>
+    </ul></div>
+    <div class="note"><h4>📱 Divulgação</h4><ul>
+      <li>Tráfego pago pelo Gerenciador de Anúncios, em conta no CNPJ da loja, com verba mínima de R$ 1.500/mês</li>
+      <li>Anúncios no Instagram e no Facebook, onde está o público de 40+</li>
+      <li>Campanhas para crescer o grupo de WhatsApp</li>
+      <li>Roteiros de vídeo da GST: a loja grava no tripé e a GST edita</li>
+      <li>10 posts por mês de conteúdo institucional</li>
+      <li>Aulão de humanização a cada 15–20 dias; automação do WhatsApp em uma fase seguinte</li>
+    </ul></div>
   </div>
 </section>
 
 <!-- ONBOARDING -->
 <section class="section" id="onboarding">
-  <span class="onb-tag">Atualizado em 05/11 · após a reunião de onboarding</span>
-  <div class="sec-lbl">Onboarding · Onde estamos</div>
+    <div class="sec-lbl">04 · Decisão e prioridade</div>
   <h2>Primeiro arrumar a casa, depois chamar o cliente</h2>
   <p class="sec-desc">Na reunião de 05/11 confirmamos o cenário: a loja perdeu clientes desde agosto e hoje tem falta de produtos nas prateleiras. Por isso a ordem é esta: primeiro vemos a loja e o estoque, depois montamos as ofertas, e só então ligamos os anúncios. Não adianta chamar o cliente para a festa e não ter o que servir.</p>
 
@@ -295,9 +392,10 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   </div>
 </section>
 
+
 <!-- TAREFAS -->
 <section class="section" id="tarefas">
-  <div class="sec-lbl">Passo 1 · Tarefas da loja</div>
+  <div class="sec-lbl">05 · Ações · Tarefas da loja</div>
   <h2>O que a loja manda no grupo antes de começarmos</h2>
   <p class="sec-desc">Com esse material em mãos, a GST e a consultoria analisam a loja até o fim de semana e, na segunda-feira, apresentamos a estratégia antes de soltar as primeiras ofertas.</p>
 
@@ -343,7 +441,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 
 <!-- CALENDÁRIO DA SEMANA -->
 <section class="section" id="semana">
-  <div class="sec-lbl">Passo 2 · Calendário comercial</div>
+  <div class="sec-lbl">06 · Calendário comercial</div>
   <h2>Uma razão para vir à loja todo dia</h2>
   <p class="sec-desc">Hoje a loja faz uma oferta por semana, duas grandes por mês e o dia da verdura. Com o calendário, cada dia ganha uma ação fixa, para o cliente associar o dia ao setor. Os dias podem ser trocados se a operação da loja pedir.</p>
 
@@ -362,7 +460,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 
 <!-- ROTINA -->
 <section class="section" id="rotina">
-  <div class="sec-lbl">Passo 3 · Rotina de execução</div>
+  <div class="sec-lbl">07 · Rotina de execução</div>
   <h2>Como cada oferta vai para a rua</h2>
 
   <table class="rot-tbl">
@@ -382,6 +480,30 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   </div>
 
   <div class="formula">Lista até 15h → Lâmina da GST → Aprovação até 20h → Post + anúncio → Cliente na loja → <em>Cupons medidos</em></div>
+</section>
+
+</div>
+<div class="view" id="v-diag">
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-top">
+    <div class="hero-logo">GST <span>Marketing</span></div>
+    <span class="hero-badge">🔍 Diagnóstico · 04/11</span>
+  </div>
+  <div class="hero-pre">Supermercado Aly · Baixa Grande do Ribeiro/PI · Diagnóstico de 04/11/2026</div>
+  <h1>Loja nova é a chance de<br><em>virar o hábito da cidade.</em></h1>
+  <p class="hero-sub">Inaugurado em junho de 2026 com a promessa de ser "Referência em preços baixos", o Aly já tem os eventos certos rodando. Este diagnóstico mostra como transformar Rasga Preço, Quarta do Hortifrúti e encartes em cliente que volta toda semana — medido em cupons no caixa.</p>
+  <span class="ig-handle">📸 @supermercadoaly · Av. Ari Rocha, 3589 — Centro</span>
+  <div class="hero-tese">
+    <span class="hero-tese-lbl">// leitura central</span>
+    <p>"Nos primeiros meses de uma loja, a cidade inteira está decidindo onde vai fazer a compra do mês. Quem ganha essa decisão agora, ganha por anos."</p>
+  </div>
+  <div class="hero-stats">
+    <div class="hero-stat"><strong>Jun/26</strong><span>Inauguração</span></div>
+    <div class="hero-stat"><strong>4</strong><span>Setores completos</span></div>
+    <div class="hero-stat"><strong>−13%</strong><span>Cupons de ago a out</span></div>
+    <div class="hero-stat"><strong>90 dias</strong><span>Plano inicial</span></div>
+  </div>
 </section>
 
 <!-- 01 - LEITURA -->
@@ -591,5 +713,20 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   <p><strong>agenciagst.com.br</strong> · Baseado em análise pública do perfil; números serão validados com a loja.</p>
 </footer>
 
+</div>
+<script>
+(function(){
+  var views={'v-r0511':['reuniao-0511','r-resumo','r-loja','r-gst','onboarding','tarefas','semana','rotina'],'v-diag':['diagnostico']};
+  function show(){
+    var h=location.hash.replace('#',''),v='v-r0511';
+    for(var k in views){ if(views[k].indexOf(h)>-1) v=k; var el=document.getElementById(k); if(el && el.contains(document.getElementById(h)) ) v=k; }
+    document.querySelectorAll('.view').forEach(function(e){e.classList.toggle('on',e.id===v)});
+    document.querySelectorAll('.side a.nav[data-view]').forEach(function(a){a.classList.toggle('on',a.dataset.view===v)});
+    var t=document.getElementById(h); if(t && views[v][0]!==h){t.scrollIntoView()} else {window.scrollTo(0,0)}
+    document.querySelector('.side').classList.remove('open');
+  }
+  window.addEventListener('hashchange',show); show();
+})();
+</script>
 </body>
 </html>
