@@ -238,15 +238,34 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 .mes .var{margin-top:12px;padding-top:10px;border-top:1px solid rgba(255,255,255,.1);font-size:12px;color:rgba(255,255,255,.7);line-height:1.5}
 @media(max-width:900px){.mes-grid{grid-template-columns:1fr 1fr}}
 @media(max-width:520px){.mes-grid{grid-template-columns:1fr}}
+.sem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:24px 0}
+.sem{background:#fff;border:1px solid var(--border-day);border-top:4px solid var(--green);border-radius:14px;padding:18px 20px}
+.sem span{font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--green-dark);display:block;margin-bottom:6px}
+.sem h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy);margin-bottom:6px}
+.sem p{font-size:13px;color:#4a5a6a;line-height:1.55}
+.sem.big{border-top-color:#f5b400;background:#fffaf0}.sem.big span{color:#9a6b00}
+.task-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.task{background:#fff;border:1px solid var(--border-day);border-radius:14px;padding:22px}
+.task h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:var(--navy);margin-bottom:4px}
+.task small{display:block;font-size:12px;color:#6b7b8b;margin-bottom:12px}
+.task ul{list-style:none;padding:0;margin:0}
+.task li{font-size:13px;line-height:1.55;padding:7px 0 7px 28px;border-top:1px solid #f0f3f7;position:relative;color:var(--text)}
+.task li::before{content:'';position:absolute;left:0;top:9px;width:16px;height:16px;border:2px solid var(--green);border-radius:4px}
+.rot-tbl{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--border-day);border-radius:14px;overflow:hidden;margin:20px 0}
+.rot-tbl th{font-family:var(--font-head);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#5a6b7d;text-align:left;padding:12px 16px;background:#f4f7fb}
+.rot-tbl td{padding:12px 16px;border-top:1px solid var(--border-day);color:var(--text);vertical-align:top}
+.onb-tag{display:inline-block;background:var(--green);color:var(--navy);font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+@media(max-width:900px){.sem-grid{grid-template-columns:1fr 1fr}.task-grid{grid-template-columns:1fr}.rot-tbl{font-size:12px}.rot-tbl th,.rot-tbl td{padding:10px 8px}}
+@media(max-width:520px){.sem-grid{grid-template-columns:1fr}}
 </style>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-top">
     <div class="hero-logo">GST <span>Marketing</span></div>
-    <span class="hero-badge">🔍 Diagnóstico</span>
+    <span class="hero-badge">🚀 Cliente GST · Onboarding</span>
   </div>
-  <div class="hero-pre">Supermercado Aly · Baixa Grande do Ribeiro/PI · Novembro de 2026</div>
+  <div class="hero-pre">Supermercado Aly · Baixa Grande do Ribeiro/PI · Programa de Tração · Onboarding em 05/11/2026</div>
   <h1>Loja nova é a chance de<br><em>virar o hábito da cidade.</em></h1>
   <p class="hero-sub">Inaugurado em junho de 2026 com a promessa de ser "Referência em preços baixos", o Aly já tem os eventos certos rodando. Este diagnóstico mostra como transformar Rasga Preço, Quarta do Hortifrúti e encartes em cliente que volta toda semana — medido em cupons no caixa.</p>
   <span class="ig-handle">📸 @supermercadoaly · Av. Ari Rocha, 3589 — Centro</span>
@@ -260,6 +279,109 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
     <div class="hero-stat"><strong>−13%</strong><span>Cupons de ago a out</span></div>
     <div class="hero-stat"><strong>90 dias</strong><span>Plano inicial</span></div>
   </div>
+</section>
+
+<!-- ONBOARDING -->
+<section class="section" id="onboarding">
+  <span class="onb-tag">Atualizado em 05/11 · após a reunião de onboarding</span>
+  <div class="sec-lbl">Onboarding · Onde estamos</div>
+  <h2>Primeiro arrumar a casa, depois chamar o cliente</h2>
+  <p class="sec-desc">Na reunião de 05/11 confirmamos o cenário: a loja perdeu clientes desde agosto e hoje tem falta de produtos nas prateleiras. Por isso a ordem é esta: primeiro vemos a loja e o estoque, depois montamos as ofertas, e só então ligamos os anúncios. Não adianta chamar o cliente para a festa e não ter o que servir.</p>
+
+  <div class="callout t">
+    <span class="c-lbl">// a missão dos próximos meses</span>
+    <h3>Giro rápido: trazer de volta os ~2 mil clientes que a loja perdeu e transformar estoque parado em dinheiro no caixa</h3>
+    <p>Produto parado já está pago. Cada venda dele é dinheiro novo entrando sem precisar de uma compra nova. As ofertas e os festivais vão priorizar o que está parado há mais de 30 dias.</p>
+  </div>
+</section>
+
+<!-- TAREFAS -->
+<section class="section" id="tarefas">
+  <div class="sec-lbl">Passo 1 · Tarefas da loja</div>
+  <h2>O que a loja manda no grupo antes de começarmos</h2>
+  <p class="sec-desc">Com esse material em mãos, a GST e a consultoria analisam a loja até o fim de semana e, na segunda-feira, apresentamos a estratégia antes de soltar as primeiras ofertas.</p>
+
+  <div class="task-grid">
+    <div class="task">
+      <h4>📸 Retrato da loja</h4>
+      <small>Responsável: Kalliany / Milton</small>
+      <ul>
+        <li>Vídeo andando pela loja como cliente, da entrada até o caixa</li>
+        <li>Fotos de cada corredor, terminal e ponta de gôndola</li>
+        <li>Fotos da padaria, do açougue e do hortifrúti abastecidos</li>
+      </ul>
+    </div>
+    <div class="task">
+      <h4>📊 Relatórios do sistema</h4>
+      <small>Responsável: Eduardo</small>
+      <ul>
+        <li>Venda por produto dos últimos 3 meses</li>
+        <li>Estoque parado: produtos sem venda há mais de 30 dias</li>
+        <li>Produtos de curva A que estão faltando (ruptura)</li>
+      </ul>
+    </div>
+    <div class="task">
+      <h4>🤝 Compras e fornecedores</h4>
+      <small>Responsável: Eduardo · acompanhamento da consultoria</small>
+      <ul>
+        <li>Lista dos principais fornecedores com o prazo de cada um</li>
+        <li>Começar a fracionar compras: comprar por semana o que se vende na semana</li>
+      </ul>
+    </div>
+    <div class="task">
+      <h4>🔑 Acessos e estrutura</h4>
+      <small>Responsável: Milton / Kalliany</small>
+      <ul>
+        <li>Acesso ao Instagram e à página do Facebook</li>
+        <li>Gerenciador de Negócios e conta de anúncio no CNPJ da loja (criamos juntos se não existir)</li>
+        <li>Número de pessoas no grupo de ofertas do WhatsApp</li>
+        <li>Tripé para gravação (a ring light que a loja já tem serve)</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- CALENDÁRIO DA SEMANA -->
+<section class="section" id="semana">
+  <div class="sec-lbl">Passo 2 · Calendário comercial</div>
+  <h2>Uma razão para vir à loja todo dia</h2>
+  <p class="sec-desc">Hoje a loja faz uma oferta por semana, duas grandes por mês e o dia da verdura. Com o calendário, cada dia ganha uma ação fixa, para o cliente associar o dia ao setor. Os dias podem ser trocados se a operação da loja pedir.</p>
+
+  <div class="sem-grid">
+    <div class="sem"><span>Segunda</span><h4>Segunda Mão de Vaca</h4><p>Dia da padaria: leve mais, pague menos (ex.: leve 6, pague 5). Na mesma semana roda o Festival da Padaria.</p></div>
+    <div class="sem"><span>Terça</span><h4>Feirão do Hortifrúti</h4><p>O melhor dia para comprar frutas, legumes e verduras na cidade.</p></div>
+    <div class="sem"><span>Quarta</span><h4>Dia do Açougue</h4><p>Carnes em destaque, para o cliente lembrar do Aly quando pensar em carne.</p></div>
+    <div class="sem"><span>Quinta</span><h4>Quinta Nota 10</h4><p>Combos de R$ 10 (3 por 10, 4 por 10) com 12 a 20 itens: sobe o ticket e gira o estoque parado.</p></div>
+    <div class="sem big"><span>Sexta e sábado</span><h4>Oferta Sinal Verde</h4><p>Encarte grande de 36 produtos de todos os setores. 8 "bois de piranha" com preço agressivo, o resto com margem.</p></div>
+    <div class="sem big"><span>12 a 14/11</span><h4>Dia do Supermercado</h4><p>Oferta de três dias com mix grande, chegando ao fim de semana.</p></div>
+    <div class="sem big"><span>Antes da Black</span><h4>Festival do Bebê</h4><p>24 produtos de perfumaria e bebê (fralda, talco, cotonete): setor que passaria despercebido.</p></div>
+    <div class="sem big"><span>Última semana de novembro</span><h4>Festival Super Black</h4><p>Black Friday com ações diárias no tema.</p></div>
+  </div>
+  <p class="sec-desc"><b>Festivais:</b> um por semana, com 16 a 24 produtos, sendo pelo menos metade ligada ao tema. Pode ser dividido em dois encartes (seg–qua e qui–sáb) para revezar os produtos.</p>
+</section>
+
+<!-- ROTINA -->
+<section class="section" id="rotina">
+  <div class="sec-lbl">Passo 3 · Rotina de execução</div>
+  <h2>Como cada oferta vai para a rua</h2>
+
+  <table class="rot-tbl">
+    <tr><th>Etapa</th><th>Quem</th><th>Prazo</th></tr>
+    <tr><td>Lista de produtos e preços no grupo (12 produtos em sequência; os 4 primeiros são os destaques)</td><td>Loja</td><td>Até 15h do dia anterior à oferta</td></tr>
+    <tr><td>Oferta de segunda-feira</td><td>Loja</td><td>Sexta até 15h (no máximo sábado ao meio-dia)</td></tr>
+    <tr><td>Criação das lâminas e devolução no grupo</td><td>GST</td><td>Mesmo dia</td></tr>
+    <tr><td>Aprovação final</td><td>Loja</td><td>Até 20h</td></tr>
+    <tr><td>Publicação no feed e nos stories do Instagram e do Facebook, e nos anúncios</td><td>GST</td><td>Na abertura da oferta</td></tr>
+    <tr><td>Feriado</td><td>Loja</td><td>Antecipar o envio da lista</td></tr>
+  </table>
+
+  <div class="entreg-grid">
+    <div class="entreg"><span class="e-ico">📣</span><h4>Tráfego pago</h4><ul><li>Verba mínima recomendada: R$ 1.500/mês, paga pela loja direto à Meta</li><li>R$ 30 a R$ 50 por dia em cada ação</li><li>Instagram e Facebook (o público de 40+ que paga as contas está no Facebook)</li><li>Foco também em crescer o grupo de WhatsApp</li></ul></div>
+    <div class="entreg"><span class="e-ico">🎬</span><h4>Vídeos</h4><ul><li>A GST envia o roteiro de cada ação do calendário</li><li>A Kalliany grava no tripé e sobe no Drive</li><li>A GST edita e devolve pronto para postar</li></ul></div>
+    <div class="entreg"><span class="e-ico">📱</span><h4>Redes e treinamento</h4><ul><li>10 posts por mês de conteúdo institucional, aprovados antes</li><li>Fotos da loja para campanhas de frescor, qualidade e mix</li><li>Aulão de humanização a cada 15 a 20 dias</li><li>Automação do WhatsApp: avaliar depois</li></ul></div>
+  </div>
+
+  <div class="formula">Lista até 15h → Lâmina da GST → Aprovação até 20h → Post + anúncio → Cliente na loja → <em>Cupons medidos</em></div>
 </section>
 
 <!-- 01 - LEITURA -->
@@ -279,6 +401,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 <section class="section">
   <div class="sec-lbl">02 · Resultados recentes</div>
   <h2>A loja perdeu clientes depois de agosto</h2>
+  <p class="sec-desc"><b>Contexto:</b> são 6 anos na cidade. Os dois mercadinhos, que juntos faturavam cerca de R$ 400 mil por mês, viraram um supermercado só, inaugurado em 6 de junho. O primeiro mês fechou em cerca de R$ 700 mil.</p>
   <p class="sec-desc">Números do sistema da loja, de julho a outubro de 2026. Julho e agosto foram os meses mais fortes, ainda no embalo da inauguração. Em setembro o número de clientes caiu, e em outubro não voltou a subir.</p>
 
   <table class="res-tbl">
