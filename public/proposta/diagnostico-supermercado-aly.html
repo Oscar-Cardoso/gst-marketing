@@ -215,6 +215,18 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 .saz h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;margin-bottom:6px}
 .saz p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6}
 @media(max-width:900px){.fases.f3,.pub-grid,.saz-grid{grid-template-columns:1fr}.hero,.section{padding-left:20px!important;padding-right:20px!important}}
+.res-tbl{width:100%;border-collapse:collapse;margin:24px 0;font-size:14px;background:#fff;border:1px solid var(--border-day);border-radius:14px;overflow:hidden}
+.res-tbl th{font-family:var(--font-head);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#5a6b7d;text-align:right;padding:12px 16px;background:#f4f7fb}
+.res-tbl th:first-child,.res-tbl td:first-child{text-align:left}
+.res-tbl td{padding:12px 16px;text-align:right;border-top:1px solid var(--border-day);color:var(--text);font-variant-numeric:tabular-nums}
+.res-tbl tr.last td{font-weight:700;background:#fff8e6}
+.res-tbl .neg{color:#c0392b;font-weight:700}.res-tbl .pos{color:#00803f;font-weight:700}
+.bars{display:flex;flex-direction:column;gap:10px;margin:8px 0 24px}
+.bar-row{display:grid;grid-template-columns:70px 1fr 90px;align-items:center;gap:12px;font-size:13px}
+.bar-row b{font-family:var(--font-head)}
+.bar{height:22px;border-radius:6px;background:var(--navy)}.bar.lo{background:#f5b400}
+.bar-row span{text-align:right;font-variant-numeric:tabular-nums;color:var(--text)}
+@media(max-width:900px){.res-tbl{font-size:12px}.res-tbl th,.res-tbl td{padding:10px 8px}.res-tbl .hide-m{display:none}}
 </style>
 
 <!-- HERO -->
@@ -234,7 +246,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   <div class="hero-stats">
     <div class="hero-stat"><strong>Jun/26</strong><span>Inauguração</span></div>
     <div class="hero-stat"><strong>4</strong><span>Setores completos</span></div>
-    <div class="hero-stat"><strong>2</strong><span>Eventos fixos de oferta</span></div>
+    <div class="hero-stat"><strong>−13%</strong><span>Cupons de ago a out</span></div>
     <div class="hero-stat"><strong>90 dias</strong><span>Plano inicial</span></div>
   </div>
 </section>
@@ -252,9 +264,58 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   </div>
 </section>
 
-<!-- 02 - INSTAGRAM -->
+<!-- 02 - RESULTADOS -->
 <section class="section">
-  <div class="sec-lbl">02 · Instagram</div>
+  <div class="sec-lbl">02 · Resultados recentes</div>
+  <h2>A loja perdeu clientes depois de agosto</h2>
+  <p class="sec-desc">Números do sistema da loja, de julho a outubro de 2026. Julho e agosto foram os meses mais fortes, ainda no embalo da inauguração. Em setembro o número de clientes caiu, e em outubro não voltou a subir.</p>
+
+  <table class="res-tbl">
+    <tr><th>Mês</th><th>Faturamento</th><th>Cupons</th><th class="hide-m">Cupons/dia</th><th>Ticket médio</th><th class="hide-m">Cupons vs. mês anterior</th></tr>
+    <tr><td>Julho</td><td>R$ 610.674</td><td>12.743</td><td class="hide-m">411</td><td>R$ 47,92</td><td class="hide-m">—</td></tr>
+    <tr><td>Agosto</td><td>R$ 626.634</td><td>13.100</td><td class="hide-m">423</td><td>R$ 47,83</td><td class="hide-m pos">+2,8%</td></tr>
+    <tr><td>Setembro</td><td>R$ 523.559</td><td>11.308</td><td class="hide-m">377</td><td>R$ 46,30</td><td class="hide-m neg">−13,7%</td></tr>
+    <tr class="last"><td>Outubro</td><td>R$ 505.799</td><td>11.374</td><td class="hide-m">367</td><td>R$ 44,47</td><td class="hide-m">+0,6%</td></tr>
+  </table>
+
+  <p class="sec-desc" style="margin-bottom:8px"><b>Clientes por dia no caixa</b></p>
+  <div class="bars">
+    <div class="bar-row"><b>Jul</b><div class="bar" style="width:97%"></div><span>411/dia</span></div>
+    <div class="bar-row"><b>Ago</b><div class="bar" style="width:100%"></div><span>423/dia</span></div>
+    <div class="bar-row"><b>Set</b><div class="bar lo" style="width:89%"></div><span>377/dia</span></div>
+    <div class="bar-row"><b>Out</b><div class="bar lo" style="width:87%"></div><span>367/dia</span></div>
+  </div>
+
+  <div class="diag-grid">
+    <div class="diag-card a">
+      <h4>📉 O que os números mostram</h4>
+      <ul>
+        <li>De agosto para outubro: −1.726 cupons por mês (−13%) e −R$ 120,8 mil de faturamento (−19%)</li>
+        <li>Ticket médio caiu de R$ 47,92 para R$ 44,47 (−7%): o cliente está levando menos por compra</li>
+        <li>Outubro teve 367 clientes por dia, o menor número da série</li>
+        <li>Venda a prazo caiu de R$ 18,5 mil para R$ 12,3 mil por mês</li>
+      </ul>
+    </div>
+    <div class="diag-card o">
+      <h4>✅ O lado bom</h4>
+      <ul>
+        <li>Mais de R$ 500 mil por mês e cerca de 11,4 mil compras: a loja já tem uma base de clientes</li>
+        <li>A queda parou em outubro: o número de cupons ficou estável em relação a setembro</li>
+        <li>O efeito da inauguração passou. Agora a questão é trazer o cliente de volta, porque a loja ele já conhece</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="callout t">
+    <span class="c-lbl">// a conta da meta</span>
+    <h3>+10% de cupons = cerca de 1.140 compras a mais e R$ 50 mil a mais por mês</h3>
+    <p>Partindo de outubro (11.374 cupons e ticket de R$ 44,47), a meta de +10% leva a loja a cerca de 12.500 cupons e R$ 556 mil por mês, ainda abaixo do pico de agosto. Recuperar o patamar de agosto vale cerca de R$ 120 mil por mês. Faturamento = número de clientes × ticket médio. Trabalhamos as duas pontas: mais gente no caixa e cada uma levando um pouco mais.</p>
+  </div>
+</section>
+
+<!-- 03 - INSTAGRAM -->
+<section class="section">
+  <div class="sec-lbl">03 · Instagram</div>
   <h2>Eventos fortes, informação faltando</h2>
 
   <div class="diag-grid">
@@ -287,7 +348,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 
 <!-- 03 - PÚBLICOS -->
 <section class="section">
-  <div class="sec-lbl">03 · Públicos</div>
+  <div class="sec-lbl">04 · Públicos</div>
   <h2>Três clientes, três mensagens</h2>
   <p class="big-quote">Na loja nova, o primeiro desafio não é o preço: é <em>virar hábito.</em></p>
   <p class="sec-desc">Cada público pede uma mensagem e um anúncio diferente. Todos chegam ao mesmo caixa.</p>
@@ -301,7 +362,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 
 <!-- 04 - CALENDÁRIO -->
 <section class="section">
-  <div class="sec-lbl">04 · Calendário comercial</div>
+  <div class="sec-lbl">05 · Calendário comercial</div>
   <h2>As datas que movem o caixa da loja</h2>
   <p class="sec-desc">Cada data com campanha planejada antes: anúncio na cidade e região dias antes, encarte pronto e loja preparada para receber o movimento.</p>
 
@@ -315,7 +376,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 
 <!-- 05 - PLANO 90 DIAS -->
 <section class="section">
-  <div class="sec-lbl">05 · Plano de 90 dias</div>
+  <div class="sec-lbl">06 · Plano de 90 dias</div>
   <h2>Organizar, anunciar e medir</h2>
 
   <div class="fases f3">
@@ -353,12 +414,12 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 
 <!-- 06 - PRÓXIMOS PASSOS -->
 <section class="section">
-  <div class="sec-lbl">06 · Para seguir</div>
+  <div class="sec-lbl">07 · Para seguir</div>
   <h2>O que precisamos para fechar o plano</h2>
 
   <ul class="check-list">
-    <li><span>01</span>Número de cupons por dia e ticket médio</li>
-    <li><span>02</span>Faturamento mensal desde a inauguração</li>
+    <li><span>01</span>O que mudou de agosto para setembro: concorrência, fim da inauguração, entressafra?</li>
+    <li><span>02</span>Cupons por dia da semana: quais dias estão mais fracos</li>
     <li><span>03</span>Setor que mais vende hoje</li>
     <li><span>04</span>Resultado do Rasga Preço: cupons no dia do evento vs. um dia normal</li>
     <li><span>05</span>Como funciona o delivery hoje</li>
@@ -368,7 +429,7 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   </ul>
 
   <div class="passos">
-    <div class="passo"><span class="passo-num">1</span><h4>Dados</h4><p>Cupons, ticket e setores que mais vendem</p></div>
+    <div class="passo"><span class="passo-num">1</span><h4>Dados</h4><p>Cupons por dia, setores e linha de base de outubro</p></div>
     <div class="passo"><span class="passo-num">2</span><h4>Acessos</h4><p>Instagram, Facebook, anúncios e WhatsApp</p></div>
     <div class="passo"><span class="passo-num">3</span><h4>Kick-off</h4><p>Bio, destaques e campanha de Natal</p></div>
     <div class="passo"><span class="passo-num">4</span><h4>Início</h4><p>Anúncios rodando na cidade e região</p></div>
