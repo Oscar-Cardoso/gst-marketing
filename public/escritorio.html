@@ -1,0 +1,407 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>Escritório · GST</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f5f3fb;--card:#fff;--fg:#171717;--muted:#6b6880;--line:#e6e2f2;--roxo:#6447b1;--roxo-esc:#120d21;--lav:#eae6f7;
+--verm:#c2410c;--verm-bg:#fff1ea;--amar:#a16207;--amar-bg:#fef7e0;--azul:#1d4ed8;--azul-bg:#eaf0ff;--verde:#15803d;--verde-bg:#e9f8ee;--cinza-bg:#f1f0f5}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 Inter,system-ui,sans-serif}
+button,select,input,textarea{font:inherit}
+.hidden{display:none!important}
+header{background:var(--roxo-esc);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5}
+.top{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.marca{font-weight:700;letter-spacing:.02em}.marca small{color:#b9a8ef;font-weight:500;margin-left:6px}
+.top .esp{flex:1}
+.top select{background:#2a2142;color:#fff;border:1px solid #3d3160;border-radius:8px;padding:6px 8px}
+.btn{border:0;border-radius:8px;padding:8px 12px;font-weight:600;cursor:pointer;background:var(--lav);color:var(--roxo-esc)}
+.btn.pri{background:var(--roxo);color:#fff}.btn.pri:hover{background:#5638a0}
+.btn.peq{padding:5px 9px;font-size:12.5px}
+.btn.fant{background:transparent;color:var(--muted);border:1px solid var(--line)}
+.btn:disabled{opacity:.5;cursor:default}
+nav{max-width:1180px;margin:10px auto 0;display:flex;gap:4px}
+nav button{background:transparent;border:0;color:#cfc6ee;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:600;cursor:pointer}
+nav button.on{background:var(--bg);color:var(--roxo-esc)}
+main{max-width:1180px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
+.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left}
+.kpi span{display:block;font-size:12px;color:var(--muted)}.kpi b{font-size:24px}
+.kpi.alerta b{color:var(--verm)}.kpi.zero{opacity:.55}
+.sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
+.sec h2{font-size:15px;margin:0 0 2px;display:flex;align-items:center;gap:8px}
+.sec h2 .n{background:var(--cinza-bg);border-radius:20px;padding:0 8px;font-size:12px;color:var(--muted)}
+.sec .nota{color:var(--muted);font-size:12.5px;margin:0 0 10px}
+.lista{display:flex;flex-direction:column;gap:8px}
+.vazio{color:var(--muted);font-size:13px;padding:6px 0}
+.t{border:1px solid var(--line);border-left:4px solid var(--roxo);border-radius:10px;padding:10px 12px;display:grid;grid-template-columns:1fr auto;gap:6px 12px;align-items:center}
+.t.atrasada{border-left-color:var(--verm)}.t.travada{border-left-color:#9ca3af}.t.aguarda{border-left-color:var(--amar)}
+.t .tit{font-weight:600}
+.t .meta{grid-column:1;display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px;color:var(--muted)}
+.tag{border-radius:6px;padding:1px 7px;font-size:12px;font-weight:600;background:var(--cinza-bg);color:#4b4766}
+.tag.verm{background:var(--verm-bg);color:var(--verm)}.tag.amar{background:var(--amar-bg);color:var(--amar)}
+.tag.azul{background:var(--azul-bg);color:var(--azul)}.tag.verde{background:var(--verde-bg);color:var(--verde)}
+.t .acoes{grid-column:2;grid-row:1/span 2;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.bloq{grid-column:1/-1;font-size:12.5px;color:#57534e;background:var(--cinza-bg);border-radius:6px;padding:4px 8px}
+.pessoas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:12px}
+table{width:100%;border-collapse:collapse}
+th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:8px;border-bottom:1px solid var(--line);white-space:nowrap}
+td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
+.tab{overflow-x:auto}
+.busca{width:100%;max-width:320px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-bottom:10px}
+dialog{border:0;border-radius:14px;padding:0;width:min(520px,94vw);box-shadow:0 20px 60px rgba(18,13,33,.35)}
+dialog::backdrop{background:rgba(18,13,33,.45)}
+dialog form{padding:18px;display:flex;flex-direction:column;gap:10px}
+dialog h3{margin:0 0 4px;font-size:17px}
+label{font-size:12.5px;font-weight:600;color:#4b4766;display:flex;flex-direction:column;gap:4px}
+label input,label select,label textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-weight:400;color:var(--fg)}
+.linha{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.rodape{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
+.prev{font-size:12.5px;background:var(--lav);border-radius:8px;padding:8px 10px;color:var(--roxo-esc)}
+#toast{position:fixed;bottom:18px;left:50%;transform:translateX(-50%);background:var(--roxo-esc);color:#fff;padding:10px 16px;border-radius:10px;font-weight:600;z-index:50;max-width:90vw}
+#login{min-height:100vh;display:grid;place-items:center;background:var(--roxo-esc)}
+#login form{background:#fff;border-radius:16px;padding:26px;width:min(360px,92vw);display:flex;flex-direction:column;gap:12px}
+#login h1{margin:0;font-size:20px}#login p{margin:0;color:var(--muted)}
+.erro{color:var(--verm);font-size:13px;min-height:18px}
+.atual{font-size:12px;color:#b9a8ef}
+@media (max-width:640px){.t{grid-template-columns:1fr}.t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}.linha{grid-template-columns:1fr}nav button{padding:8px}}
+</style>
+</head>
+<body>
+
+<div id="login" class="hidden">
+  <form id="fLogin">
+    <h1>Escritório GST</h1>
+    <p>Painel interno da operação.</p>
+    <label>Senha<input type="password" id="senha" autocomplete="current-password" required></label>
+    <div class="erro" id="erroLogin"></div>
+    <button class="btn pri" type="submit">Entrar</button>
+  </form>
+</div>
+
+<div id="app" class="hidden">
+  <header>
+    <div class="top">
+      <div class="marca">GST Marketing <small>Escritório</small></div>
+      <span class="atual" id="atual"></span>
+      <div class="esp"></div>
+      <select id="ator" title="Quem está usando"></select>
+      <button class="btn pri" id="bOferta">+ Chegou oferta</button>
+      <button class="btn" id="bNova">+ Tarefa</button>
+      <button class="btn fant" id="bSair" style="color:#cfc6ee;border-color:#3d3160">Sair</button>
+    </div>
+    <nav>
+      <button data-aba="hoje" class="on">Hoje</button>
+      <button data-aba="pessoas">Por pessoa</button>
+      <button data-aba="clientes">Clientes</button>
+    </nav>
+  </header>
+  <main id="conteudo"></main>
+</div>
+
+<dialog id="dOferta"><form method="dialog" id="fOferta">
+  <h3>Chegou oferta</h3>
+  <label>Cliente<select id="oCliente" required></select></label>
+  <div class="prev" id="oPrev"></div>
+  <label>Detalhes (opcional)<textarea id="oDesc" rows="3" placeholder="Ex.: lista de sábado, 12 itens, foco em carnes"></textarea></label>
+  <div class="rodape"><button class="btn fant" value="cancel" formnovalidate>Cancelar</button><button class="btn pri" id="oOk">Criar tarefas</button></div>
+</form></dialog>
+
+<dialog id="dNova"><form method="dialog" id="fNova">
+  <h3>Nova tarefa</h3>
+  <label>Cliente<select id="nCliente" required></select></label>
+  <label>O que precisa ser feito<input id="nTitulo" required maxlength="300"></label>
+  <label>Detalhes<textarea id="nDesc" rows="2"></textarea></label>
+  <div class="linha">
+    <label>Responsável<select id="nResp"></select></label>
+    <label>Prazo<input type="datetime-local" id="nPrazo"></label>
+  </div>
+  <div class="linha">
+    <label>Área<select id="nArea"><option value="">—</option><option value="design">Design</option><option value="social_media">Social media</option><option value="trafego">Tráfego</option><option value="automacao">Automação</option><option value="video">Vídeo</option><option value="gestao">Gestão</option></select></label>
+    <label>Prioridade<select id="nPrio"><option value="normal">Normal</option><option value="alta">Alta</option><option value="urgente">Urgente</option><option value="baixa">Baixa</option></select></label>
+  </div>
+  <p class="nota" style="margin:0;font-size:12px;color:var(--muted)">Sem responsável ou prazo, a tarefa fica em triagem.</p>
+  <div class="rodape"><button class="btn fant" value="cancel" formnovalidate>Cancelar</button><button class="btn pri">Criar</button></div>
+</form></dialog>
+
+<dialog id="dEdit"><form method="dialog" id="fEdit">
+  <h3 id="eTit">Editar tarefa</h3>
+  <div class="prev" id="eInfo"></div>
+  <div class="linha">
+    <label>Responsável<select id="eResp"></select></label>
+    <label>Prazo<input type="datetime-local" id="ePrazo"></label>
+  </div>
+  <div class="linha">
+    <label>Status<select id="eStatus">
+      <option value="triagem">Triagem</option><option value="a_fazer">A fazer</option><option value="em_andamento">Em andamento</option>
+      <option value="aguardando_cliente">Aguardando cliente</option><option value="concluida">Concluída</option><option value="cancelada">Cancelada</option></select></label>
+    <label>Prioridade<select id="ePrio"><option value="normal">Normal</option><option value="alta">Alta</option><option value="urgente">Urgente</option><option value="baixa">Baixa</option></select></label>
+  </div>
+  <label>Travada por (deixe vazio se não estiver travada)<input id="eBloq" maxlength="500"></label>
+  <div class="rodape"><button class="btn fant" value="cancel" formnovalidate>Fechar</button><button class="btn pri">Salvar</button></div>
+</form></dialog>
+
+<div id="toast" class="hidden"></div>
+
+<script>
+const D = { clientes: [], equipe: [], responsaveis: [], abertas: [], concluidasHoje: [] };
+let aba = 'hoje', editando = null, filtroCli = '';
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const AREA = { design: 'Design', social_media: 'Social', trafego: 'Tráfego', automacao: 'Automação', video: 'Vídeo', gestao: 'Gestão' };
+const ST = { triagem: 'Triagem', a_fazer: 'A fazer', em_andamento: 'Em andamento', aguardando_cliente: 'Aguardando cliente', em_conferencia: 'Em conferência', concluida: 'Concluída', cancelada: 'Cancelada' };
+
+function lsGet(k) { try { return localStorage.getItem(k); } catch { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch {} }
+
+async function api(acao, body) {
+  const r = await fetch('/api/escritorio?acao=' + acao, body ? { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body), credentials: 'same-origin' } : { credentials: 'same-origin' });
+  const j = await r.json().catch(() => ({ ok: false, erro: 'Resposta inválida' }));
+  if (r.status === 401 && acao !== 'login') { mostrarLogin(); throw new Error('Faça login'); }
+  if (!j.ok) throw new Error(j.erro || 'Erro');
+  return j;
+}
+function toast(msg) { const t = $('#toast'); t.textContent = msg; t.classList.remove('hidden'); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.add('hidden'), 3200); }
+
+// ---------- datas ----------
+const fmtDia = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit' });
+const fmtHora = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' });
+const diaSP = (d) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(d);
+function prazoTxt(p) {
+  if (!p) return 'sem prazo';
+  const d = new Date(p), hoje = diaSP(new Date()), dia = diaSP(d);
+  const amanha = diaSP(new Date(Date.now() + 864e5));
+  const h = fmtHora.format(d); const hora = h === '23:59' ? '' : ' ' + h;
+  if (dia === hoje) return 'hoje' + hora;
+  if (dia === amanha) return 'amanhã' + hora;
+  return fmtDia.format(d) + hora;
+}
+function paraInput(p) { if (!p) return ''; const d = new Date(new Date(p).getTime() - 3 * 3600e3); return d.toISOString().slice(0, 16); }
+function deInput(v) { return v ? v + ':00-03:00' : null; }
+function fimDeHoje() { return diaSP(new Date()) + 'T23:59'; }
+
+// ---------- classificação ----------
+const cli = (id) => D.clientes.find((c) => c.id === id) || { nome: '—' };
+const pes = (id) => D.equipe.find((p) => p.id === id);
+function atrasada(t) { return t.prazo && new Date(t.prazo) < new Date() && !['concluida', 'cancelada'].includes(t.status); }
+function ehHoje(t) { return t.prazo && diaSP(new Date(t.prazo)) === diaSP(new Date()); }
+function grupos() {
+  const g = { atrasadas: [], triagem: [], hoje: [], aguardando: [], travadas: [], proximas: [] };
+  for (const t of D.abertas) {
+    if (t.status === 'triagem' || !t.responsavel_id) g.triagem.push(t);
+    else if (t.status === 'aguardando_cliente') g.aguardando.push(t);
+    else if (t.bloqueio) g.travadas.push(t);
+    else if (atrasada(t)) g.atrasadas.push(t);
+    else if (ehHoje(t)) g.hoje.push(t);
+    else g.proximas.push(t);
+  }
+  return g;
+}
+
+// ---------- cartão de tarefa ----------
+function botoes(t) {
+  const b = [];
+  if (t.status === 'triagem' || !t.responsavel_id || !t.prazo) b.push(['Organizar', 'editar']);
+  else if (t.status === 'aguardando_cliente') b.push(['Cliente aprovou', 'concluida']);
+  else if (!t.bloqueio) {
+    if (t.status === 'a_fazer') b.push(['Iniciar', 'em_andamento']);
+    if (t.area === 'design' && t.oferta_id) b.push(['Enviado ao cliente', 'aguardando_cliente']);
+    b.push(['Concluir', 'concluida']);
+  }
+  b.push(['Editar', 'editar']);
+  return b.map(([txt, a]) => `<button class="btn peq ${a === 'concluida' ? 'pri' : ''}" data-t="${t.id}" data-a="${a}">${txt}</button>`).join('');
+}
+function cartao(t, mostrarPessoa = true) {
+  const p = pes(t.responsavel_id);
+  const classe = t.status === 'aguardando_cliente' ? 'aguarda' : t.bloqueio ? 'travada' : atrasada(t) ? 'atrasada' : '';
+  const tags = [];
+  if (atrasada(t)) tags.push('<span class="tag verm">atrasada</span>');
+  if (t.status === 'em_andamento') tags.push('<span class="tag azul">em andamento</span>');
+  if (t.status === 'aguardando_cliente') tags.push('<span class="tag amar">aguardando cliente</span>');
+  if (t.prioridade === 'urgente' || t.prioridade === 'alta') tags.push(`<span class="tag verm">${t.prioridade}</span>`);
+  return `<div class="t ${classe}">
+    <div class="tit">${esc(t.titulo)}</div>
+    <div class="acoes">${botoes(t)}</div>
+    <div class="meta"><span>${esc(cli(t.cliente_id).nome)}</span>
+      ${mostrarPessoa ? `<span>· ${p ? esc(p.nome) : '<b style="color:var(--verm)">sem responsável</b>'}</span>` : ''}
+      ${t.area ? `<span class="tag">${AREA[t.area] || esc(t.area)}</span>` : ''}
+      <span>· ${prazoTxt(t.prazo)}</span> ${tags.join(' ')}</div>
+    ${t.bloqueio ? `<div class="bloq">⏸ ${esc(t.bloqueio)}</div>` : ''}
+  </div>`;
+}
+function secao(titulo, nota, lista, vazio, mostrarPessoa = true, id = '') {
+  return `<section class="sec" ${id ? `id="${id}"` : ''}><h2>${titulo} <span class="n">${lista.length}</span></h2>${nota ? `<p class="nota">${nota}</p>` : ''}
+    <div class="lista">${lista.length ? lista.map((t) => cartao(t, mostrarPessoa)).join('') : `<div class="vazio">${vazio}</div>`}</div></section>`;
+}
+
+// ---------- abas ----------
+function renderHoje() {
+  const g = grupos();
+  const k = (rot, n, alvo, alerta) => `<button class="kpi ${alerta && n ? 'alerta' : ''} ${n ? '' : 'zero'}" data-ir="${alvo}"><span>${rot}</span><b>${n}</b></button>`;
+  return `<div class="kpis">
+      ${k('Atrasadas', g.atrasadas.length, 's-atr', true)}
+      ${k('Sem responsável / triagem', g.triagem.length, 's-tri', true)}
+      ${k('Para hoje', g.hoje.length, 's-hoje')}
+      ${k('Aguardando cliente', g.aguardando.length, 's-agu')}
+      ${k('Travadas', g.travadas.length, 's-trv')}
+      ${k('Concluídas hoje', D.concluidasHoje.length, 's-ok')}
+    </div>
+    ${secao('Atrasadas', 'Prazo já passou e ainda não foi concluída.', g.atrasadas, 'Nada atrasado.', true, 's-atr')}
+    ${secao('Triagem', 'Falta responsável ou prazo. Organize para entrar no fluxo.', g.triagem, 'Tudo organizado.', true, 's-tri')}
+    ${secao('Para hoje', null, g.hoje, 'Nenhuma tarefa com prazo hoje.', true, 's-hoje')}
+    ${secao('Aguardando cliente', 'Encartes enviados esperando aprovação. Quando o cliente aprovar, social e tráfego são liberados.', g.aguardando, 'Nada esperando cliente.', true, 's-agu')}
+    ${secao('Travadas', 'Esperando outra tarefa terminar.', g.travadas, 'Nada travado.', true, 's-trv')}
+    ${secao('Próximos dias', null, g.proximas, 'Nada agendado para os próximos dias.')}
+    <section class="sec" id="s-ok"><h2>Concluídas hoje <span class="n">${D.concluidasHoje.length}</span></h2>
+      <div class="lista">${D.concluidasHoje.length ? D.concluidasHoje.map((t) => `<div class="meta" style="font-size:13px">✓ ${esc(t.titulo)} · <span style="color:var(--muted)">${esc((pes(t.responsavel_id) || {}).nome || '')} · ${fmtHora.format(new Date(t.concluida_em))}</span></div>`).join('') : '<div class="vazio">Nenhuma ainda.</div>'}</div></section>`;
+}
+function renderPessoas() {
+  const blocos = D.equipe.map((p) => {
+    const ts = D.abertas.filter((t) => t.responsavel_id === p.id);
+    const atr = ts.filter(atrasada).length;
+    const contas = new Set(D.responsaveis.filter((r) => r.equipe_id === p.id).map((r) => r.cliente_id)).size;
+    const ok = D.concluidasHoje.filter((t) => t.responsavel_id === p.id).length;
+    return { p, ts, atr, contas, ok };
+  }).sort((a, b) => b.atr - a.atr || b.ts.length - a.ts.length);
+  return `<div class="pessoas">${blocos.map(({ p, ts, atr, contas, ok }) => `
+    <section class="sec"><h2>${esc(p.nome)} <span class="n">${ts.length} abertas</span>${atr ? `<span class="tag verm">${atr} atrasada${atr > 1 ? 's' : ''}</span>` : ''}</h2>
+      <p class="nota">${esc(p.funcao || '')} · ${contas} conta${contas === 1 ? '' : 's'} · ${ok} concluída${ok === 1 ? '' : 's'} hoje</p>
+      <div class="lista">${ts.length ? ts.map((t) => cartao(t, false)).join('') : '<div class="vazio">Sem tarefas abertas.</div>'}</div></section>`).join('')}</div>`;
+}
+function nomeResp(cid, area) {
+  return D.responsaveis.filter((r) => r.cliente_id === cid && r.area === area).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean).join(', ') || '<span style="color:#b8b4c8">—</span>';
+}
+function renderClientes() {
+  const f = filtroCli.toLowerCase();
+  const lista = D.clientes.filter((c) => !f || (c.nome + ' ' + (c.tipo_servico || '') + ' ' + (c.contato || '')).toLowerCase().includes(f));
+  const rows = lista.map((c) => {
+    const ab = D.abertas.filter((t) => t.cliente_id === c.id);
+    const atr = ab.filter(atrasada).length;
+    return `<tr><td><b>${esc(c.nome)}</b>${c.contato ? `<div style="color:var(--muted);font-size:12px">${esc(c.contato)}</div>` : ''}${c.status !== 'ativo' ? ` <span class="tag amar">${esc(c.status)}</span>` : ''}</td>
+      <td>${c.socio === 'dimas' ? 'Dimas' : 'Oscar'}</td><td>${esc(c.tipo_servico || '')}</td>
+      <td>${nomeResp(c.id, 'design')}</td><td>${nomeResp(c.id, 'social_media')}</td><td>${nomeResp(c.id, 'trafego')}</td>
+      <td>${ab.length}${atr ? ` <span class="tag verm">${atr} atras.</span>` : ''}</td>
+      <td><button class="btn peq" data-of="${c.id}">Oferta</button></td></tr>`;
+  }).join('');
+  return `<section class="sec"><h2>Clientes <span class="n">${D.clientes.length}</span></h2>
+    <input class="busca" id="buscaCli" placeholder="Buscar cliente, serviço ou contato" value="${esc(filtroCli)}">
+    <div class="tab"><table><thead><tr><th>Cliente</th><th>Sócio</th><th>Serviço</th><th>Design</th><th>Social</th><th>Tráfego</th><th>Abertas</th><th></th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="8" class="vazio">Nenhum cliente encontrado.</td></tr>'}</tbody></table></div></section>`;
+}
+function render() {
+  const c = $('#conteudo');
+  c.innerHTML = aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : renderClientes();
+  document.querySelectorAll('nav button').forEach((b) => b.classList.toggle('on', b.dataset.aba === aba));
+  const busca = $('#buscaCli');
+  if (busca) { busca.oninput = (e) => { filtroCli = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaCli'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
+}
+
+// ---------- carregar ----------
+async function carregar() {
+  const j = await api('dados');
+  Object.assign(D, j);
+  $('#atual').textContent = 'atualizado ' + fmtHora.format(new Date());
+  preencherSelects();
+  render();
+}
+function opcoesPessoas(sel) { return '<option value="">— sem responsável —</option>' + D.equipe.map((p) => `<option value="${p.id}" ${p.id === sel ? 'selected' : ''}>${esc(p.nome)}</option>`).join(''); }
+function preencherSelects() {
+  const ator = $('#ator'), salvo = lsGet('gst_ator');
+  ator.innerHTML = '<option value="">Quem está usando?</option>' + D.equipe.filter((p) => /gest/i.test(p.funcao || '')).map((p) => `<option value="${p.id}" ${p.id === salvo ? 'selected' : ''}>${esc(p.nome)}</option>`).join('');
+  const comOferta = D.clientes.filter((c) => (c.servicos || []).some((s) => s === 'design' || s === 'social_media') || /oferta|todo dia|completo|indica/i.test(c.tipo_servico || ''));
+  $('#oCliente').innerHTML = '<option value="">Escolha…</option>' + comOferta.map((c) => `<option value="${c.id}">${esc(c.nome)}</option>`).join('');
+  $('#nCliente').innerHTML = '<option value="">Escolha…</option>' + D.clientes.map((c) => `<option value="${c.id}">${esc(c.nome)}</option>`).join('');
+}
+const atorId = () => $('#ator').value || null;
+
+// ---------- ações ----------
+async function mudarStatus(id, status) {
+  try { await api('tarefa', { id, status, ator_id: atorId() }); toast(status === 'concluida' ? 'Concluída ✓' : 'Atualizada'); await carregar(); }
+  catch (e) { toast(e.message); }
+}
+function abrirEdicao(id) {
+  const t = D.abertas.find((x) => x.id === id); if (!t) return;
+  editando = t;
+  $('#eTit').textContent = t.titulo;
+  $('#eInfo').textContent = cli(t.cliente_id).nome + (t.pedido_original && t.pedido_original !== t.titulo ? ' · ' + t.pedido_original : '');
+  $('#eResp').innerHTML = opcoesPessoas(t.responsavel_id);
+  $('#ePrazo').value = t.prazo ? paraInput(t.prazo) : fimDeHoje();
+  $('#eStatus').value = t.status === 'triagem' ? 'a_fazer' : t.status;
+  $('#ePrio').value = t.prioridade || 'normal';
+  $('#eBloq').value = t.bloqueio || '';
+  $('#dEdit').showModal();
+}
+document.addEventListener('click', (e) => {
+  const b = e.target.closest('button'); if (!b) return;
+  if (b.dataset.aba) { aba = b.dataset.aba; render(); }
+  else if (b.dataset.ir) { const s = document.getElementById(b.dataset.ir); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+  else if (b.dataset.t) { b.dataset.a === 'editar' ? abrirEdicao(b.dataset.t) : mudarStatus(b.dataset.t, b.dataset.a); }
+  else if (b.dataset.of) { abrirOferta(b.dataset.of); }
+});
+function abrirOferta(cid) {
+  $('#oCliente').value = cid || ''; $('#oDesc').value = ''; prevOferta(); $('#dOferta').showModal();
+}
+function prevOferta() {
+  const id = $('#oCliente').value;
+  if (!id) { $('#oPrev').textContent = 'Escolha o cliente para ver quem recebe as tarefas.'; return; }
+  const r = (a) => D.responsaveis.filter((x) => x.cliente_id === id && x.area === a).map((x) => (pes(x.equipe_id) || {}).nome)[0];
+  const d = r('design'), s = r('social_media'), t = r('trafego');
+  const partes = [];
+  if (d) partes.push(`Encarte → ${d}`);
+  if (s) partes.push(`Feed e stories → ${s}${d ? ' (após aprovação)' : ''}`);
+  if (t) partes.push(`Campanha → ${t}${d ? ' (após aprovação)' : ''}`);
+  $('#oPrev').textContent = partes.length ? partes.join(' · ') : 'Este cliente não tem responsáveis de design, social ou tráfego cadastrados.';
+}
+$('#oCliente').onchange = prevOferta;
+$('#fOferta').onsubmit = async (e) => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  e.preventDefault();
+  const btn = $('#oOk'); btn.disabled = true;
+  try { await api('oferta', { cliente_id: $('#oCliente').value, descricao: $('#oDesc').value }); $('#dOferta').close(); toast('Oferta registrada, tarefas criadas'); await carregar(); }
+  catch (er) { toast(er.message); } finally { btn.disabled = false; }
+};
+$('#bOferta').onclick = () => abrirOferta('');
+$('#bNova').onclick = () => {
+  $('#fNova').reset(); $('#nResp').innerHTML = opcoesPessoas(null); $('#nPrazo').value = fimDeHoje(); $('#dNova').showModal();
+};
+$('#fNova').onsubmit = async (e) => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  e.preventDefault();
+  try {
+    await api('nova', { cliente_id: $('#nCliente').value, titulo: $('#nTitulo').value, descricao: $('#nDesc').value, responsavel_id: $('#nResp').value || null,
+      prazo: deInput($('#nPrazo').value), area: $('#nArea').value, prioridade: $('#nPrio').value, ator_id: atorId() });
+    $('#dNova').close(); toast('Tarefa criada'); await carregar();
+  } catch (er) { toast(er.message); }
+};
+$('#fEdit').onsubmit = async (e) => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  e.preventDefault();
+  try {
+    await api('tarefa', { id: editando.id, responsavel_id: $('#eResp').value || null, prazo: deInput($('#ePrazo').value), status: $('#eStatus').value,
+      prioridade: $('#ePrio').value, bloqueio: $('#eBloq').value, ator_id: atorId() });
+    $('#dEdit').close(); toast('Salvo'); await carregar();
+  } catch (er) { toast(er.message); }
+};
+$('#ator').onchange = (e) => lsSet('gst_ator', e.target.value);
+$('#bSair').onclick = async () => { await api('logout').catch(() => {}); mostrarLogin(); };
+
+// ---------- login ----------
+function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); $('#senha').focus(); }
+async function entrar() {
+  $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
+  await carregar();
+  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]')) carregar().catch(() => {}); }, 60000);
+}
+$('#fLogin').onsubmit = async (e) => {
+  e.preventDefault(); $('#erroLogin').textContent = '';
+  try { await api('login', { senha: $('#senha').value }); $('#senha').value = ''; await entrar(); }
+  catch (er) { $('#erroLogin').textContent = er.message; }
+};
+api('dados').then((j) => { Object.assign(D, j); entrar(); }).catch((e) => { if (!/login/i.test(e.message)) { mostrarLogin(); $('#erroLogin').textContent = e.message; } });
+</script>
+</body>
+</html>
