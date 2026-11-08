@@ -74,7 +74,7 @@ async function carregarDados() {
   const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10); // dia em Brasília
   const inicioHoje = new Date(hoje + 'T00:00:00-03:00').toISOString();
   const [clientes, equipe, responsaveis, abertas, concluidasHoje] = await Promise.all([
-    sb('clientes?select=id,nome,socio,tipo_servico,contato,status,servicos,frequencia_oferta&order=nome'),
+    sb('clientes?select=id,nome,socio,tipo_servico,contato,status,servicos,frequencia_oferta,tier,saude,emite_nota,pagamento_anuncios&order=nome'),
     sb('equipe?select=id,nome,funcao,ativo&ativo=eq.true&order=nome'),
     sb('cliente_responsaveis?select=cliente_id,equipe_id,area'),
     sb('tarefas?select=id,cliente_id,responsavel_id,titulo,descricao,area,status,prazo,prioridade,bloqueio,dependencia_id,oferta_id,pedido_original,created_at,updated_at&status=not.in.(concluida,cancelada)&order=prazo.asc.nullsfirst&limit=1000'),

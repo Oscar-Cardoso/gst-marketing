@@ -8,7 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-:root{--bg:#f5f3fb;--card:#fff;--fg:#171717;--muted:#6b6880;--line:#e6e2f2;--roxo:#6447b1;--roxo-esc:#120d21;--lav:#eae6f7;
+:root{--bg:#f4f6f9;--card:#fff;--fg:#0d1b2a;--muted:#5b6675;--line:#e3e7ee;--roxo:#00a85a;--roxo-esc:#0d1b2a;--lav:#e6fff4;--amarelo:#f5b400;
 --verm:#c2410c;--verm-bg:#fff1ea;--amar:#a16207;--amar-bg:#fef7e0;--azul:#1d4ed8;--azul-bg:#eaf0ff;--verde:#15803d;--verde-bg:#e9f8ee;--cinza-bg:#f1f0f5}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.45 Inter,system-ui,sans-serif}
@@ -16,22 +16,22 @@ button,select,input,textarea{font:inherit}
 .hidden{display:none!important}
 header{background:var(--roxo-esc);color:#fff;padding:12px 16px;position:sticky;top:0;z-index:5}
 .top{max-width:1180px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
-.marca{font-weight:700;letter-spacing:.02em}.marca small{color:#b9a8ef;font-weight:500;margin-left:6px}
+.marca{font-weight:700;letter-spacing:.02em}.marca small{color:#00c46a;font-weight:500;margin-left:6px}
 .top .esp{flex:1}
-.top select{background:#2a2142;color:#fff;border:1px solid #3d3160;border-radius:8px;padding:6px 8px}
+.top select{background:#162032;color:#fff;border:1px solid #24324a;border-radius:8px;padding:6px 8px}
 .btn{border:0;border-radius:8px;padding:8px 12px;font-weight:600;cursor:pointer;background:var(--lav);color:var(--roxo-esc)}
-.btn.pri{background:var(--roxo);color:#fff}.btn.pri:hover{background:#5638a0}
+.btn.pri{background:var(--roxo);color:#fff}.btn.pri:hover{background:#008f4c}
 .btn.peq{padding:5px 9px;font-size:12.5px}
 .btn.fant{background:transparent;color:var(--muted);border:1px solid var(--line)}
 .btn:disabled{opacity:.5;cursor:default}
 nav{max-width:1180px;margin:10px auto 0;display:flex;gap:4px}
-nav button{background:transparent;border:0;color:#cfc6ee;padding:8px 12px;border-radius:8px 8px 0 0;font-weight:600;cursor:pointer}
+nav button{background:transparent;border:0;color:rgba(255,255,255,.72);padding:8px 12px;border-radius:8px 8px 0 0;font-weight:600;cursor:pointer}
 nav button.on{background:var(--bg);color:var(--roxo-esc)}
 main{max-width:1180px;margin:0 auto;padding:16px;display:flex;flex-direction:column;gap:16px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px}
-.kpi{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left}
+.kpi{background:var(--card);border:1px solid var(--line);border-top:3px solid var(--roxo);border-radius:12px;padding:10px 12px;cursor:pointer;text-align:left}
 .kpi span{display:block;font-size:12px;color:var(--muted)}.kpi b{font-size:24px}
-.kpi.alerta b{color:var(--verm)}.kpi.zero{opacity:.55}
+.kpi.alerta{border-top-color:var(--amarelo)}.kpi.alerta b{color:var(--verm)}.kpi.zero{opacity:.55}
 .sec{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:14px}
 .sec h2{font-size:15px;margin:0 0 2px;display:flex;align-items:center;gap:8px}
 .sec h2 .n{background:var(--cinza-bg);border-radius:20px;padding:0 8px;font-size:12px;color:var(--muted)}
@@ -42,7 +42,7 @@ main{max-width:1180px;margin:0 auto;padding:16px;display:flex;flex-direction:col
 .t.atrasada{border-left-color:var(--verm)}.t.travada{border-left-color:#9ca3af}.t.aguarda{border-left-color:var(--amar)}
 .t .tit{font-weight:600}
 .t .meta{grid-column:1;display:flex;flex-wrap:wrap;gap:6px;font-size:12.5px;color:var(--muted)}
-.tag{border-radius:6px;padding:1px 7px;font-size:12px;font-weight:600;background:var(--cinza-bg);color:#4b4766}
+.tag{border-radius:6px;padding:1px 7px;font-size:12px;font-weight:600;background:var(--cinza-bg);color:#3b4656}
 .tag.verm{background:var(--verm-bg);color:var(--verm)}.tag.amar{background:var(--amar-bg);color:var(--amar)}
 .tag.azul{background:var(--azul-bg);color:var(--azul)}.tag.verde{background:var(--verde-bg);color:var(--verde)}
 .t .acoes{grid-column:2;grid-row:1/span 2;display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
@@ -53,11 +53,11 @@ th{text-align:left;font-size:12px;color:var(--muted);font-weight:600;padding:8px
 td{padding:8px;border-bottom:1px solid var(--line);vertical-align:top}
 .tab{overflow-x:auto}
 .busca{width:100%;max-width:320px;border:1px solid var(--line);border-radius:8px;padding:7px 10px;margin-bottom:10px}
-dialog{border:0;border-radius:14px;padding:0;width:min(520px,94vw);box-shadow:0 20px 60px rgba(18,13,33,.35)}
-dialog::backdrop{background:rgba(18,13,33,.45)}
+dialog{border:0;border-radius:14px;padding:0;width:min(520px,94vw);box-shadow:0 20px 60px rgba(13,27,42,.35)}
+dialog::backdrop{background:rgba(13,27,42,.45)}
 dialog form{padding:18px;display:flex;flex-direction:column;gap:10px}
 dialog h3{margin:0 0 4px;font-size:17px}
-label{font-size:12.5px;font-weight:600;color:#4b4766;display:flex;flex-direction:column;gap:4px}
+label{font-size:12.5px;font-weight:600;color:#3b4656;display:flex;flex-direction:column;gap:4px}
 label input,label select,label textarea{border:1px solid var(--line);border-radius:8px;padding:8px 10px;font-weight:400;color:var(--fg)}
 .linha{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .rodape{display:flex;gap:8px;justify-content:flex-end;margin-top:6px}
@@ -67,7 +67,7 @@ label input,label select,label textarea{border:1px solid var(--line);border-radi
 #login form{background:#fff;border-radius:16px;padding:26px;width:min(360px,92vw);display:flex;flex-direction:column;gap:12px}
 #login h1{margin:0;font-size:20px}#login p{margin:0;color:var(--muted)}
 .erro{color:var(--verm);font-size:13px;min-height:18px}
-.atual{font-size:12px;color:#b9a8ef}
+.atual{font-size:12px;color:#9fb3c8}
 @media (max-width:640px){.t{grid-template-columns:1fr}.t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}.linha{grid-template-columns:1fr}nav button{padding:8px}}
 </style>
 </head>
@@ -92,7 +92,7 @@ label input,label select,label textarea{border:1px solid var(--line);border-radi
       <select id="ator" title="Quem está usando"></select>
       <button class="btn pri" id="bOferta">+ Chegou oferta</button>
       <button class="btn" id="bNova">+ Tarefa</button>
-      <button class="btn fant" id="bSair" style="color:#cfc6ee;border-color:#3d3160">Sair</button>
+      <button class="btn fant" id="bSair" style="color:rgba(255,255,255,.72);border-color:#24324a">Sair</button>
     </div>
     <nav>
       <button data-aba="hoje" class="on">Hoje</button>
@@ -273,15 +273,18 @@ function renderPessoas() {
       <div class="lista">${ts.length ? ts.map((t) => cartao(t, false)).join('') : '<div class="vazio">Sem tarefas abertas.</div>'}</div></section>`).join('')}</div>`;
 }
 function nomeResp(cid, area) {
-  return D.responsaveis.filter((r) => r.cliente_id === cid && r.area === area).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean).join(', ') || '<span style="color:#b8b4c8">—</span>';
+  return D.responsaveis.filter((r) => r.cliente_id === cid && r.area === area).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean).join(', ') || '<span style="color:#a3adbb">—</span>';
 }
 function renderClientes() {
   const f = filtroCli.toLowerCase();
-  const lista = D.clientes.filter((c) => !f || (c.nome + ' ' + (c.tipo_servico || '') + ' ' + (c.contato || '')).toLowerCase().includes(f));
+  const peso = (c) => ({ vermelho: 0, amarelo: 1 }[c.saude] ?? 2) * 10 + ({ Prime: 0, Plus: 1, Essencial: 2 }[c.tier] ?? 3);
+  const lista = D.clientes.filter((c) => !f || (c.nome + ' ' + (c.tipo_servico || '') + ' ' + (c.contato || '') + ' ' + (c.tier || '')).toLowerCase().includes(f)).sort((a, b) => peso(a) - peso(b) || a.nome.localeCompare(b.nome));
   const rows = lista.map((c) => {
     const ab = D.abertas.filter((t) => t.cliente_id === c.id);
     const atr = ab.filter(atrasada).length;
-    return `<tr><td><b>${esc(c.nome)}</b>${c.contato ? `<div style="color:var(--muted);font-size:12px">${esc(c.contato)}</div>` : ''}${c.status !== 'ativo' ? ` <span class="tag amar">${esc(c.status)}</span>` : ''}</td>
+    const cor = { verde: 'var(--verde)', amarelo: 'var(--amarelo)', vermelho: 'var(--verm)' }[c.saude];
+    const extras = [c.tier ? `<span class="tag ${c.tier === 'Prime' ? 'verde' : ''}">${esc(c.tier)}</span>` : '', c.emite_nota ? '<span class="tag">NF</span>' : '', c.pagamento_anuncios === 'pix_boleto' ? '<span class="tag amar">Pix/boleto</span>' : ''].join(' ');
+    return `<tr><td>${cor ? `<span title="Saúde: ${esc(c.saude)}" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${cor};margin-right:6px"></span>` : ''}<b>${esc(c.nome)}</b>${c.contato ? `<div style="color:var(--muted);font-size:12px">${esc(c.contato)}</div>` : ''}${c.status !== 'ativo' ? ` <span class="tag amar">${esc(c.status)}</span>` : ''}<div style="margin-top:3px">${extras}</div></td>
       <td>${c.socio === 'dimas' ? 'Dimas' : 'Oscar'}</td><td>${esc(c.tipo_servico || '')}</td>
       <td>${nomeResp(c.id, 'design')}</td><td>${nomeResp(c.id, 'social_media')}</td><td>${nomeResp(c.id, 'trafego')}</td>
       <td>${ab.length}${atr ? ` <span class="tag verm">${atr} atras.</span>` : ''}</td>
