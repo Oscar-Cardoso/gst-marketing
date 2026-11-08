@@ -1,13 +1,15 @@
 // Escritório Virtual GST — API do painel interno.
 // Os dados ficam no Supabase e só este servidor acessa (chave secreta).
 // Variáveis de ambiente na Vercel:
-//   SUPABASE_URL               -> https://rybbojxebmmtfhbmnopm.supabase.co
-//   SUPABASE_SERVICE_ROLE_KEY  -> chave secreta (service_role) do Supabase
+//   SUPABASE_SERVICE_ROLE_KEY  -> chave secreta do Supabase (colocada pela integração Supabase ↔ Vercel)
 //   ESCRITORIO_SENHA           -> senha compartilhada do painel
-//   ESCRITORIO_SEGREDO         -> texto aleatório longo usado para assinar o login
+// Opcionais: SUPABASE_URL (padrão abaixo) e ESCRITORIO_SEGREDO (padrão: derivado da chave secreta)
 const crypto = require('crypto');
 
 const COOKIE = 'gst_escritorio';
+const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rybbojxebmmtfhbmnopm.supabase.co';
+const CHAVE = () => process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
+const SEGREDO = () => process.env.ESCRITORIO_SEGREDO || (CHAVE() ? crypto.createHash('sha256').update('gst-escritorio:' + CHAVE()).digest('hex') : '');
 const DIAS_SESSAO = 30;
 const STATUS = ['triagem', 'a_fazer', 'em_andamento', 'aguardando_cliente', 'em_conferencia', 'concluida', 'cancelada'];
 const AREAS = ['design', 'social_media', 'trafego', 'automacao', 'video', 'gestao'];
@@ -16,14 +18,14 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
 // ---------- sessão ----------
 function assinar(valor) {
-  return crypto.createHmac('sha256', process.env.ESCRITORIO_SEGREDO || '').update(valor).digest('base64url');
+  return crypto.createHmac('sha256', SEGREDO()).update(valor).digest('base64url');
 }
 function criarToken() {
   const exp = String(Date.now() + DIAS_SESSAO * 864e5);
   return exp + '.' + assinar(exp);
 }
 function tokenValido(token) {
-  if (!token || !process.env.ESCRITORIO_SEGREDO) return false;
+  if (!token || !SEGREDO()) return false;
   const [exp, sig] = token.split('.');
   if (!exp || !sig || Number(exp) < Date.now()) return false;
   const esperado = assinar(exp);
@@ -43,8 +45,8 @@ function senhaConfere(digitada) {
 
 // ---------- Supabase (REST) ----------
 async function sb(caminho, { method = 'GET', body, prefer } = {}) {
-  const url = process.env.SUPABASE_URL + '/rest/v1/' + caminho;
-  const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const url = SUPABASE_URL + '/rest/v1/' + caminho;
+  const key = CHAVE();
   const headers = { apikey: key, 'Content-Type': 'application/json' };
   // chave antiga (service_role, começa com "eyJ") também vai no Authorization; a nova (sb_secret_...) só no apikey
   if (!key.startsWith('sb_')) headers.Authorization = 'Bearer ' + key;
@@ -149,7 +151,7 @@ module.exports = async (req, res) => {
   res.setHeader('X-Robots-Tag', 'noindex');
   const acao = (req.query && req.query.acao) || '';
   try {
-    if (!process.env.SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY || !process.env.ESCRITORIO_SENHA || !process.env.ESCRITORIO_SEGREDO) {
+    if (!CHAVE() || !process.env.ESCRITORIO_SENHA) {
       return res.status(503).json({ ok: false, erro: 'Painel ainda não configurado na Vercel (variáveis de ambiente).' });
     }
 
