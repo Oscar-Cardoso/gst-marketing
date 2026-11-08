@@ -140,6 +140,99 @@ async function criarTarefa(b) {
   return { tarefa: r && r[0] };
 }
 
+// ---------- financeiro ----------
+// Regra da sociedade: nos clientes do Dimas, o design sai antes da divisão 50/50;
+// tráfego e social saem só da metade da GST (Oscar).
+const n2 = (v) => Math.round((Number(v) || 0) * 100) / 100;
+async function carregarFinanceiro() {
+  const [clientes, equipe, responsaveis, fixos] = await Promise.all([
+    sb('clientes?select=id,nome,socio,tier,mensalidade&order=nome'),
+    sb('equipe?select=id,nome,funcao,ativo,custo_por_cliente,custo_fixo_mensal,custo_obs&ativo=eq.true&order=nome'),
+    sb('cliente_responsaveis?select=cliente_id,equipe_id,area'),
+    sb('custos_fixos?select=id,descricao,categoria,tipo,valor&ativo=eq.true&order=descricao'),
+  ]);
+  const pessoa = Object.fromEntries(equipe.map((p) => [p.id, p]));
+  const clientesDe = {};
+  for (const r of responsaveis) (clientesDe[r.equipe_id] = clientesDe[r.equipe_id] || new Set()).add(r.cliente_id);
+
+  const porArea = {}, porPessoa = {};
+  for (const p of equipe) porPessoa[p.id] = { id: p.id, nome: p.nome, custo: 0, clientes: (clientesDe[p.id] || new Set()).size, areas: {}, regra: p.custo_obs || null, custo_por_cliente: p.custo_por_cliente, custo_fixo_mensal: p.custo_fixo_mensal, sem_valor: p.custo_por_cliente == null && p.custo_fixo_mensal == null };
+  // custo fixo da pessoa sem nenhum cliente cadastrado entra inteiro
+  for (const p of equipe) if (Number(p.custo_fixo_mensal) > 0 && !porPessoa[p.id].clientes) { porPessoa[p.id].custo += Number(p.custo_fixo_mensal); porArea.outros = (porArea.outros || 0) + Number(p.custo_fixo_mensal); }
+
+  const linhas = clientes.map((c) => {
+    const M = Number(c.mensalidade) || 0;
+    const custos = { design: 0, outros: 0 }, contados = new Set(), det = [];
+    for (const r of responsaveis.filter((x) => x.cliente_id === c.id)) {
+      const p = pessoa[r.equipe_id];
+      if (!p || contados.has(p.id)) continue;
+      contados.add(p.id);
+      let v = 0;
+      if (Number(p.custo_fixo_mensal) > 0) v = Number(p.custo_fixo_mensal) / (clientesDe[p.id].size || 1);
+      else v = Number(p.custo_por_cliente) || 0;
+      if (r.area === 'design') custos.design += v; else custos.outros += v;
+      porArea[r.area] = (porArea[r.area] || 0) + v;
+      porPessoa[p.id].custo += v;
+      porPessoa[p.id].areas[r.area] = (porPessoa[p.id].areas[r.area] || 0) + 1;
+      det.push({ pessoa: p.nome, area: r.area, valor: n2(v) });
+    }
+    const custoEquipe = custos.design + custos.outros;
+    const repasse = c.socio === 'dimas' ? Math.max(0, (M - custos.design) / 2) : 0;
+    const receitaGst = M - repasse;
+    return { id: c.id, nome: c.nome, socio: c.socio, tier: c.tier, mensalidade: c.mensalidade == null ? null : n2(M), repasse_dimas: n2(repasse), receita_gst: n2(receitaGst), custo_equipe: n2(custoEquipe), lucro: c.mensalidade == null ? null : n2(receitaGst - custoEquipe), detalhe: det };
+  });
+
+  const soma = (k) => n2(linhas.reduce((a, l) => a + (Number(l[k]) || 0), 0));
+  const receitaBruta = soma('mensalidade');
+  const fixosCalc = fixos.map((f) => ({ ...f, total: n2(f.tipo === 'percentual_receita' ? receitaBruta * Number(f.valor) / 100 : Number(f.valor)) }));
+  const totalFixos = n2(fixosCalc.reduce((a, f) => a + f.total, 0));
+  const custoEquipeTotal = n2(Object.values(porPessoa).reduce((a, p) => a + p.custo, 0));
+  const receitaGst = soma('receita_gst');
+  const lucro = n2(receitaGst - custoEquipeTotal - totalFixos);
+  const cat = {};
+  for (const f of fixosCalc) cat[f.categoria] = n2((cat[f.categoria] || 0) + f.total);
+  return {
+    resumo: {
+      receita_bruta: receitaBruta, repasse_dimas: soma('repasse_dimas'), receita_gst: receitaGst,
+      custo_equipe: custoEquipeTotal, custos_fixos: totalFixos, custo_total: n2(custoEquipeTotal + totalFixos),
+      lucro, margem: receitaGst ? Math.round((lucro / receitaGst) * 1000) / 10 : 0,
+      clientes_com_valor: linhas.filter((l) => l.mensalidade != null).length, clientes_total: linhas.length,
+      custo_sem_mensalidade: n2(linhas.filter((l) => l.mensalidade == null).reduce((a, l) => a + l.custo_equipe, 0)),
+    },
+    por_area: Object.entries(porArea).map(([area, v]) => ({ area, valor: n2(v) })).sort((a, b) => b.valor - a.valor),
+    por_pessoa: Object.values(porPessoa).map((p) => ({ ...p, custo: n2(p.custo) })).sort((a, b) => b.custo - a.custo),
+    fixos: fixosCalc, fixos_por_categoria: cat,
+    clientes: linhas.sort((a, b) => (a.lucro == null) - (b.lucro == null) || (b.lucro ?? 0) - (a.lucro ?? 0) || a.nome.localeCompare(b.nome)),
+  };
+}
+async function salvarMensalidade(b) {
+  const id = idOuNulo(b.cliente_id);
+  if (!id) throw Object.assign(new Error('Cliente inválido'), { status: 400 });
+  const v = b.mensalidade === '' || b.mensalidade == null ? null : Number(b.mensalidade);
+  if (v != null && (!isFinite(v) || v < 0 || v > 1e6)) throw Object.assign(new Error('Valor inválido'), { status: 400 });
+  await sb('clientes?id=eq.' + id, { method: 'PATCH', body: { mensalidade: v } });
+  return {};
+}
+async function salvarCustoPessoa(b) {
+  const id = idOuNulo(b.equipe_id);
+  if (!id) throw Object.assign(new Error('Pessoa inválida'), { status: 400 });
+  const num = (x) => (x === '' || x == null ? null : Number(x));
+  const pc = num(b.custo_por_cliente), cf = num(b.custo_fixo_mensal);
+  for (const v of [pc, cf]) if (v != null && (!isFinite(v) || v < 0 || v > 1e6)) throw Object.assign(new Error('Valor inválido'), { status: 400 });
+  await sb('equipe?id=eq.' + id, { method: 'PATCH', body: { custo_por_cliente: pc, custo_fixo_mensal: cf, custo_obs: texto(b.custo_obs, 200) || null } });
+  return {};
+}
+async function salvarCustoFixo(b) {
+  const id = idOuNulo(b.id);
+  if (b.remover && id) { await sb('custos_fixos?id=eq.' + id, { method: 'PATCH', body: { ativo: false } }); return {}; }
+  const desc = texto(b.descricao, 120), v = Number(b.valor);
+  if (!desc || !isFinite(v) || v < 0) throw Object.assign(new Error('Informe descrição e valor'), { status: 400 });
+  const linha = { descricao: desc, categoria: texto(b.categoria, 40) || 'geral', tipo: b.tipo === 'percentual_receita' ? 'percentual_receita' : 'valor', valor: v };
+  if (id) await sb('custos_fixos?id=eq.' + id, { method: 'PATCH', body: linha });
+  else await sb('custos_fixos', { method: 'POST', body: linha });
+  return {};
+}
+
 async function lerCorpo(req) {
   let b = req.body;
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch { b = {}; } }
@@ -172,11 +265,15 @@ module.exports = async (req, res) => {
     if (!tokenValido(lerCookie(req))) return res.status(401).json({ ok: false, erro: 'Faça login' });
 
     if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDados()) });
+    if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });
     if (req.method !== 'POST') return res.status(405).json({ ok: false });
     const b = await lerCorpo(req);
     if (acao === 'oferta') return res.json({ ok: true, ...(await registrarOferta(b)) });
     if (acao === 'tarefa') return res.json({ ok: true, ...(await atualizarTarefa(b)) });
     if (acao === 'nova') return res.json({ ok: true, ...(await criarTarefa(b)) });
+    if (acao === 'mensalidade') return res.json({ ok: true, ...(await salvarMensalidade(b)) });
+    if (acao === 'custo_pessoa') return res.json({ ok: true, ...(await salvarCustoPessoa(b)) });
+    if (acao === 'custo_fixo') return res.json({ ok: true, ...(await salvarCustoFixo(b)) });
     return res.status(404).json({ ok: false, erro: 'Ação desconhecida' });
   } catch (e) {
     return res.status(e.status || 500).json({ ok: false, erro: e.message || 'Erro' });

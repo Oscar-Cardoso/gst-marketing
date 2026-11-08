@@ -68,6 +68,19 @@ label input,label select,label textarea{border:1px solid var(--line);border-radi
 #login h1{margin:0;font-size:20px}#login p{margin:0;color:var(--muted)}
 .erro{color:var(--verm);font-size:13px;min-height:18px}
 .atual{font-size:12px;color:#9fb3c8}
+.kpi.fin{cursor:default}.kpi.fin b{font-size:21px}.kpi.fin small{display:block;font-size:11.5px;color:var(--muted);margin-top:2px}
+.kpi.lucro{border-top-color:#00c46a;background:#0d1b2a;color:#fff}.kpi.lucro span,.kpi.lucro small{color:#9fb3c8}.kpi.lucro b{color:#00c46a}
+.duas{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,420px),1fr));gap:16px}
+.barra{display:grid;grid-template-columns:minmax(90px,130px) 1fr auto;gap:10px;align-items:center;padding:6px 0;font-size:13px}
+.barra .trilho{background:var(--cinza-bg);border-radius:6px;height:14px;overflow:hidden}
+.barra .enche{background:#00c46a;height:100%;border-radius:6px}
+.barra .val{font-weight:600;white-space:nowrap;font-variant-numeric:tabular-nums}
+.barra .sub{display:block;font-size:11.5px;color:var(--muted);font-weight:400}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mens{width:96px;border:1px solid var(--line);border-radius:6px;padding:4px 6px;text-align:right}
+.mens.falta{border-color:var(--amarelo);background:var(--amar-bg)}
+.neg{color:var(--verm)}
+.aviso{background:var(--amar-bg);color:var(--amar);border-radius:10px;padding:10px 12px;font-size:13px}
 @media (max-width:640px){.t{grid-template-columns:1fr}.t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}.linha{grid-template-columns:1fr}nav button{padding:8px}}
 </style>
 </head>
@@ -98,6 +111,7 @@ label input,label select,label textarea{border:1px solid var(--line);border-radi
       <button data-aba="hoje" class="on">Hoje</button>
       <button data-aba="pessoas">Por pessoa</button>
       <button data-aba="clientes">Clientes</button>
+      <button data-aba="financeiro">Financeiro</button>
     </nav>
   </header>
   <main id="conteudo"></main>
@@ -143,6 +157,28 @@ label input,label select,label textarea{border:1px solid var(--line);border-radi
   </div>
   <label>Travada por (deixe vazio se não estiver travada)<input id="eBloq" maxlength="500"></label>
   <div class="rodape"><button class="btn fant" value="cancel" formnovalidate>Fechar</button><button class="btn pri">Salvar</button></div>
+</form></dialog>
+
+<dialog id="dPessoa"><form method="dialog" id="fPessoa">
+  <h3 id="pTit">Custo da pessoa</h3>
+  <div class="linha">
+    <label>Valor por cliente (R$)<input type="number" step="0.01" min="0" id="pPC" placeholder="Ex.: 150"></label>
+    <label>Fixo por mês (R$)<input type="number" step="0.01" min="0" id="pCF" placeholder="Ex.: 850"></label>
+  </div>
+  <label>Como é a regra<input id="pObs" maxlength="200" placeholder="Ex.: R$ 150 por conta"></label>
+  <p class="nota" style="margin:0;font-size:12px;color:var(--muted)">Se tiver valor fixo, ele é dividido entre os clientes da pessoa.</p>
+  <div class="rodape"><button class="btn fant" value="cancel" formnovalidate>Cancelar</button><button class="btn pri">Salvar</button></div>
+</form></dialog>
+
+<dialog id="dFixo"><form method="dialog" id="fFixo">
+  <h3>Custo fixo da empresa</h3>
+  <label>Descrição<input id="fDesc" required maxlength="120" placeholder="Ex.: Contador, Imposto Simples, Ferramentas"></label>
+  <div class="linha">
+    <label>Tipo<select id="fTipo"><option value="valor">Valor por mês (R$)</option><option value="percentual_receita">% da receita bruta</option></select></label>
+    <label>Valor<input type="number" step="0.01" min="0" id="fValor" required></label>
+  </div>
+  <label>Categoria<select id="fCat"><option value="ferramentas">Ferramentas</option><option value="impostos">Impostos</option><option value="servicos">Serviços (contador etc.)</option><option value="pessoal">Pessoal</option><option value="geral">Geral</option></select></label>
+  <div class="rodape"><button class="btn fant" value="cancel" formnovalidate>Cancelar</button><button class="btn pri">Salvar</button></div>
 </form></dialog>
 
 <div id="toast" class="hidden"></div>
@@ -295,9 +331,62 @@ function renderClientes() {
     <div class="tab"><table><thead><tr><th>Cliente</th><th>Sócio</th><th>Serviço</th><th>Design</th><th>Social</th><th>Tráfego</th><th>Abertas</th><th></th></tr></thead>
     <tbody>${rows || '<tr><td colspan="8" class="vazio">Nenhum cliente encontrado.</td></tr>'}</tbody></table></div></section>`;
 }
+// ---------- financeiro ----------
+let F = null, pessoaEdit = null;
+const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
+const R$ = (v) => brl.format(Number(v) || 0);
+const AREA_FIN = { ...AREA, social_media: 'Social media', outros: 'Outros' };
+async function carregarFinanceiro() {
+  try { F = await api('financeiro'); } catch (e) { toast(e.message); }
+  if (aba === 'financeiro') render();
+}
+function barras(lista, rot, sub) {
+  const max = Math.max(1, ...lista.map((x) => x.v));
+  return lista.map((x) => `<div class="barra"><div>${rot(x)}${sub ? `<span class="sub">${sub(x)}</span>` : ''}</div><div class="trilho"><div class="enche" style="width:${(x.v / max) * 100}%"></div></div><div class="val">${R$(x.v)}${x.btn || ''}</div></div>`).join('');
+}
+function renderFinanceiro() {
+  if (!F) { carregarFinanceiro(); return '<section class="sec"><p class="vazio">Carregando números…</p></section>'; }
+  const r = F.resumo, faltam = r.clientes_total - r.clientes_com_valor;
+  const semCusto = F.por_pessoa.filter((p) => p.sem_valor && p.clientes);
+  const kpi = (t, v, s, cls = '') => `<div class="kpi fin ${cls}"><span>${t}</span><b>${v}</b>${s ? `<small>${s}</small>` : ''}</div>`;
+  const areas = F.por_area.map((a) => ({ v: a.valor, a: a.area }));
+  const pessoas = F.por_pessoa.filter((p) => p.clientes || p.custo).map((p) => ({ v: p.custo, p, btn: ` <button class="btn peq fant" data-pc="${p.id}" style="margin-left:6px">Editar</button>` }));
+  const fixos = F.fixos.map((f) => `<tr><td>${esc(f.descricao)}<div style="color:var(--muted);font-size:12px">${esc(f.categoria)}${f.tipo === 'percentual_receita' ? ' · ' + String(f.valor).replace('.', ',') + '% da receita' : ''}</div></td><td class="num">${R$(f.total)}</td><td><button class="btn peq fant" data-fx="${f.id}">Remover</button></td></tr>`).join('');
+  const linhas = F.clientes.map((c) => {
+    const marg = c.lucro != null && c.receita_gst ? Math.round((c.lucro / c.receita_gst) * 100) : null;
+    return `<tr><td><b>${esc(c.nome)}</b> ${c.tier ? `<span class="tag">${esc(c.tier)}</span>` : ''}<div style="color:var(--muted);font-size:12px">${c.detalhe.map((d) => esc(d.pessoa) + ' ' + R$(d.valor)).join(' · ') || 'sem equipe cadastrada'}</div></td>
+      <td>${c.socio === 'dimas' ? 'Dimas' : 'Oscar'}</td>
+      <td class="num"><input class="mens ${c.mensalidade == null ? 'falta' : ''}" type="number" min="0" step="0.01" data-mens="${c.id}" value="${c.mensalidade ?? ''}" placeholder="falta"></td>
+      <td class="num">${c.repasse_dimas ? R$(c.repasse_dimas) : '—'}</td>
+      <td class="num">${R$(c.custo_equipe)}</td>
+      <td class="num ${c.lucro < 0 ? 'neg' : ''}">${c.lucro == null ? '<span style="color:var(--muted)">falta valor</span>' : '<b>' + R$(c.lucro) + '</b>'}</td>
+      <td class="num">${marg == null ? '—' : marg + '%'}</td></tr>`;
+  }).join('');
+  return `${faltam || semCusto.length ? `<div class="aviso"><b>Números parciais.</b> ${faltam ? `${faltam} cliente${faltam > 1 ? 's' : ''} sem mensalidade (campos amarelos na tabela abaixo). O custo da equipe nesses clientes (${R$(r.custo_sem_mensalidade)}) já entra no custo total, mas a receita deles ainda não, por isso o lucro aparece menor do que é.` : ''} ${semCusto.length ? `Sem custo definido: ${semCusto.map((p) => esc(p.nome)).join(', ')}.` : ''} ${F.fixos.length ? '' : 'Custos fixos (contador, ferramentas, imposto) ainda não cadastrados.'}</div>` : ''}
+    <div class="kpis">
+      ${kpi('Receita bruta', R$(r.receita_bruta), r.clientes_com_valor + ' de ' + r.clientes_total + ' clientes')}
+      ${kpi('Repasse ao Dimas', R$(r.repasse_dimas), 'metade, após o design')}
+      ${kpi('Receita da GST', R$(r.receita_gst), 'o que fica com você')}
+      ${kpi('Custo total', R$(r.custo_total), 'equipe ' + R$(r.custo_equipe) + ' · fixos ' + R$(r.custos_fixos))}
+      ${kpi('Lucro', R$(r.lucro), 'margem ' + String(r.margem).replace('.', ',') + '%', 'lucro')}
+    </div>
+    <div class="duas">
+      <section class="sec"><h2>Custo por área</h2><p class="nota">Quanto cada frente da operação custa por mês.</p>
+        ${barras(areas, (x) => esc(AREA_FIN[x.a] || x.a))}
+        ${Object.keys(F.fixos_por_categoria).length ? '<p class="nota" style="margin-top:10px">Custos fixos: ' + Object.entries(F.fixos_por_categoria).map(([k, v]) => esc(k) + ' ' + R$(v)).join(' · ') + '</p>' : ''}</section>
+      <section class="sec"><h2>Custo por pessoa</h2><p class="nota">Pagamento mensal pelas regras de cada um.</p>
+        ${barras(pessoas, (x) => '<b>' + esc(x.p.nome) + '</b>', (x) => x.p.clientes + ' cliente' + (x.p.clientes === 1 ? '' : 's') + (x.p.regra ? ' · ' + esc(x.p.regra) : x.p.sem_valor ? ' · <span style="color:var(--verm)">sem valor</span>' : ''))}</section>
+    </div>
+    <section class="sec"><h2>Custos fixos da empresa <span class="n">${F.fixos.length}</span></h2><p class="nota">Contador, ferramentas, imposto, chip… tudo que não depende de cliente.</p>
+      ${fixos ? `<div class="tab"><table><tbody>${fixos}</tbody></table></div>` : '<p class="vazio">Nenhum cadastrado ainda.</p>'}
+      <button class="btn" id="bFixo" style="margin-top:8px">+ Custo fixo</button></section>
+    <section class="sec"><h2>Por cliente <span class="n">${F.clientes.length}</span></h2><p class="nota">Digite a mensalidade direto na tabela; salva sozinho. Ordenado do maior para o menor lucro.</p>
+      <div class="tab"><table><thead><tr><th>Cliente</th><th>Sócio</th><th class="num">Mensalidade</th><th class="num">Repasse Dimas</th><th class="num">Custo equipe</th><th class="num">Lucro GST</th><th class="num">Margem</th></tr></thead><tbody>${linhas}</tbody></table></div></section>`;
+}
 function render() {
   const c = $('#conteudo');
-  c.innerHTML = aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : renderClientes();
+  c.innerHTML = aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : renderClientes();
+  document.querySelectorAll('[data-mens]').forEach((i) => { i.onchange = async () => { try { await api('mensalidade', { cliente_id: i.dataset.mens, mensalidade: i.value }); toast('Mensalidade salva'); carregarFinanceiro(); } catch (e) { toast(e.message); } }; });
   document.querySelectorAll('nav button').forEach((b) => b.classList.toggle('on', b.dataset.aba === aba));
   const busca = $('#buscaCli');
   if (busca) { busca.oninput = (e) => { filtroCli = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaCli'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
@@ -340,7 +429,10 @@ function abrirEdicao(id) {
 }
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button'); if (!b) return;
-  if (b.dataset.aba) { aba = b.dataset.aba; render(); }
+  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'financeiro' && F) carregarFinanceiro(); }
+  else if (b.dataset.pc) { abrirPessoa(b.dataset.pc); }
+  else if (b.dataset.fx) { if (confirmarRemocao(b)) api('custo_fixo', { id: b.dataset.fx, remover: true }).then(() => { toast('Removido'); carregarFinanceiro(); }).catch((er) => toast(er.message)); }
+  else if (b.id === 'bFixo') { $('#fFixo').reset(); $('#dFixo').showModal(); }
   else if (b.dataset.ir) { const s = document.getElementById(b.dataset.ir); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
   else if (b.dataset.t) { b.dataset.a === 'editar' ? abrirEdicao(b.dataset.t) : mudarStatus(b.dataset.t, b.dataset.a); }
   else if (b.dataset.of) { abrirOferta(b.dataset.of); }
@@ -389,6 +481,36 @@ $('#fEdit').onsubmit = async (e) => {
     $('#dEdit').close(); toast('Salvo'); await carregar();
   } catch (er) { toast(er.message); }
 };
+function confirmarRemocao(b) {
+  if (b.dataset.certeza) return true;
+  b.dataset.certeza = '1'; b.textContent = 'Confirmar?'; setTimeout(() => { delete b.dataset.certeza; b.textContent = 'Remover'; }, 3000);
+  return false;
+}
+function abrirPessoa(id) {
+  const p = F.por_pessoa.find((x) => x.id === id); if (!p) return;
+  pessoaEdit = id;
+  $('#pTit').textContent = 'Custo · ' + p.nome;
+  $('#pPC').value = p.custo_por_cliente ?? '';
+  $('#pCF').value = p.custo_fixo_mensal ?? '';
+  $('#pObs').value = p.regra || '';
+  $('#dPessoa').showModal();
+}
+$('#fPessoa').onsubmit = async (e) => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  e.preventDefault();
+  try {
+    await api('custo_pessoa', { equipe_id: pessoaEdit, custo_por_cliente: $('#pPC').value, custo_fixo_mensal: $('#pCF').value, custo_obs: $('#pObs').value });
+    $('#dPessoa').close(); toast('Custo salvo'); await carregar(); await carregarFinanceiro();
+  } catch (er) { toast(er.message); }
+};
+$('#fFixo').onsubmit = async (e) => {
+  if (e.submitter && e.submitter.value === 'cancel') return;
+  e.preventDefault();
+  try {
+    await api('custo_fixo', { descricao: $('#fDesc').value, tipo: $('#fTipo').value, valor: $('#fValor').value, categoria: $('#fCat').value });
+    $('#dFixo').close(); toast('Custo fixo salvo'); await carregarFinanceiro();
+  } catch (er) { toast(er.message); }
+};
 $('#ator').onchange = (e) => lsSet('gst_ator', e.target.value);
 $('#bSair').onclick = async () => { await api('logout').catch(() => {}); mostrarLogin(); };
 
@@ -397,7 +519,7 @@ function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classLi
 async function entrar() {
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
   await carregar();
-  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]')) carregar().catch(() => {}); }, 60000);
+  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]') && aba !== 'financeiro') carregar().catch(() => {}); }, 60000);
 }
 $('#fLogin').onsubmit = async (e) => {
   e.preventDefault(); $('#erroLogin').textContent = '';
