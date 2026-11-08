@@ -45,7 +45,9 @@ function senhaConfere(digitada) {
 async function sb(caminho, { method = 'GET', body, prefer } = {}) {
   const url = process.env.SUPABASE_URL + '/rest/v1/' + caminho;
   const key = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  const headers = { apikey: key, Authorization: 'Bearer ' + key, 'Content-Type': 'application/json' };
+  const headers = { apikey: key, 'Content-Type': 'application/json' };
+  // chave antiga (service_role, começa com "eyJ") também vai no Authorization; a nova (sb_secret_...) só no apikey
+  if (!key.startsWith('sb_')) headers.Authorization = 'Bearer ' + key;
   if (prefer) headers.Prefer = prefer;
   const r = await fetch(url, { method, headers, body: body ? JSON.stringify(body) : undefined });
   const texto = await r.text();
