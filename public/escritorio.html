@@ -135,7 +135,7 @@ label input,label select,label textarea{border:1px solid var(--line);border-radi
     <label>Prazo<input type="datetime-local" id="nPrazo"></label>
   </div>
   <div class="linha">
-    <label>Área<select id="nArea"><option value="">—</option><option value="design">Design</option><option value="social_media">Social media</option><option value="trafego">Tráfego</option><option value="automacao">Automação</option><option value="video">Vídeo</option><option value="gestao">Gestão</option></select></label>
+    <label>Área<select id="nArea"><option value="">—</option><option value="design">Design</option><option value="social_media">Social media</option><option value="trafego">Tráfego</option><option value="automacao">Automação</option><option value="video">Vídeo</option><option value="gestao">Gestão</option><option value="comercial">Comercial (Dimas)</option></select></label>
     <label>Prioridade<select id="nPrio"><option value="normal">Normal</option><option value="alta">Alta</option><option value="urgente">Urgente</option><option value="baixa">Baixa</option></select></label>
   </div>
   <p class="nota" style="margin:0;font-size:12px;color:var(--muted)">Sem responsável ou prazo, a tarefa fica em triagem.</p>
@@ -188,7 +188,7 @@ const D = { clientes: [], equipe: [], responsaveis: [], abertas: [], concluidasH
 let aba = 'hoje', editando = null, filtroCli = '';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const AREA = { design: 'Design', social_media: 'Social', trafego: 'Tráfego', automacao: 'Automação', video: 'Vídeo', gestao: 'Gestão' };
+const AREA = { design: 'Design', social_media: 'Social', trafego: 'Tráfego', automacao: 'Automação', video: 'Vídeo', gestao: 'Gestão', comercial: 'Comercial' };
 const ST = { triagem: 'Triagem', a_fazer: 'A fazer', em_andamento: 'Em andamento', aguardando_cliente: 'Aguardando cliente', em_conferencia: 'Em conferência', concluida: 'Concluída', cancelada: 'Cancelada' };
 
 function lsGet(k) { try { return localStorage.getItem(k); } catch { return null; } }

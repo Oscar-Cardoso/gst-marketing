@@ -12,7 +12,7 @@ const CHAVE = () => process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABAS
 const SEGREDO = () => process.env.ESCRITORIO_SEGREDO || (CHAVE() ? crypto.createHash('sha256').update('gst-escritorio:' + CHAVE()).digest('hex') : '');
 const DIAS_SESSAO = 30;
 const STATUS = ['triagem', 'a_fazer', 'em_andamento', 'aguardando_cliente', 'em_conferencia', 'concluida', 'cancelada'];
-const AREAS = ['design', 'social_media', 'trafego', 'automacao', 'video', 'gestao'];
+const AREAS = ['design', 'social_media', 'trafego', 'automacao', 'video', 'gestao', 'comercial'];
 const PRIORIDADES = ['baixa', 'normal', 'alta', 'urgente'];
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
