@@ -146,7 +146,7 @@ async function criarTarefa(b) {
 const n2 = (v) => Math.round((Number(v) || 0) * 100) / 100;
 async function carregarFinanceiro() {
   const [clientes, equipe, responsaveis, fixos] = await Promise.all([
-    sb('clientes?select=id,nome,socio,tier,mensalidade,custo_design,custo_trafego,custo_social&order=nome'),
+    sb('clientes?select=id,nome,socio,tier,mensalidade,custo_design,custo_trafego,custo_social&status=not.in.(pausado,encerrado)&order=nome'),
     sb('equipe?select=id,nome,funcao,ativo,custo_por_cliente,custo_fixo_mensal,custo_obs&ativo=eq.true&order=nome'),
     sb('cliente_responsaveis?select=cliente_id,equipe_id,area'),
     sb('custos_fixos?select=id,descricao,categoria,tipo,valor&ativo=eq.true&order=descricao'),
