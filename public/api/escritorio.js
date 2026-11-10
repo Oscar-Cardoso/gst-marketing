@@ -146,10 +146,14 @@ async function criarTarefa(b) {
 const n2 = (v) => Math.round((Number(v) || 0) * 100) / 100;
 async function carregarFinanceiro() {
   const [clientes, equipe, responsaveis, fixos] = await Promise.all([
-    sb('clientes?select=id,nome,socio,tier,mensalidade&order=nome'),
+    sb('clientes?select=id,nome,socio,tier,mensalidade,custo_design,custo_trafego,custo_social&order=nome'),
     sb('equipe?select=id,nome,funcao,ativo,custo_por_cliente,custo_fixo_mensal,custo_obs&ativo=eq.true&order=nome'),
     sb('cliente_responsaveis?select=cliente_id,equipe_id,area'),
     sb('custos_fixos?select=id,descricao,categoria,tipo,valor&ativo=eq.true&order=descricao'),
+  ]);
+  const [fech, desp] = await Promise.all([
+    sb('fechamentos_mensais?select=mes,cliente_nome,cliente_id,socio,servico,receita,custo_design,custo_trafego,custo_social,lucro_oscar,projecao&order=mes,cliente_nome&limit=2000'),
+    sb('despesas_mensais?select=mes,descricao,tipo,valor&order=mes&limit=500'),
   ]);
   const pessoa = Object.fromEntries(equipe.map((p) => [p.id, p]));
   const clientesDe = {};
@@ -163,8 +167,25 @@ async function carregarFinanceiro() {
   const linhas = clientes.map((c) => {
     const M = Number(c.mensalidade) || 0;
     const custos = { design: 0, outros: 0 }, contados = new Set(), det = [];
-    for (const r of responsaveis.filter((x) => x.cliente_id === c.id)) {
+    // custo real do cliente (planilha de fechamento) substitui a regra por pessoa em design/social/tráfego
+    const real = c.custo_design != null || c.custo_trafego != null || c.custo_social != null;
+    const AREAS_REAIS = { design: c.custo_design, social_media: c.custo_social, trafego: c.custo_trafego };
+    const resps = responsaveis.filter((x) => x.cliente_id === c.id);
+    if (real) {
+      for (const [area, val] of Object.entries(AREAS_REAIS)) {
+        const v = Number(val) || 0;
+        if (!v) continue;
+        const r = resps.find((x) => x.area === area);
+        const p = r && pessoa[r.equipe_id];
+        if (area === 'design') custos.design += v; else custos.outros += v;
+        porArea[area] = (porArea[area] || 0) + v;
+        if (p) { porPessoa[p.id].custo += v; porPessoa[p.id].areas[area] = (porPessoa[p.id].areas[area] || 0) + 1; contados.add(p.id + area); }
+        det.push({ pessoa: p ? p.nome : 'sem responsável', area, valor: n2(v) });
+      }
+    }
+    for (const r of resps) {
       const p = pessoa[r.equipe_id];
+      if (real && AREAS_REAIS.hasOwnProperty(r.area)) continue;
       if (!p || contados.has(p.id)) continue;
       contados.add(p.id);
       let v = 0;
@@ -191,7 +212,28 @@ async function carregarFinanceiro() {
   const lucro = n2(receitaGst - custoEquipeTotal - totalFixos);
   const cat = {};
   for (const f of fixosCalc) cat[f.categoria] = n2((cat[f.categoria] || 0) + f.total);
+  const meses = {};
+  for (const f of fech) {
+    const m = (meses[f.mes] = meses[f.mes] || { mes: f.mes, projecao: false, receita: 0, receita_oscar: 0, receita_dimas: 0, design: 0, trafego: 0, social: 0, resultado: 0, clientes: 0, despesas: 0, linhas: [] });
+    const R = Number(f.receita) || 0;
+    m.projecao = m.projecao || f.projecao;
+    m.receita += R; if (f.socio === 'dimas') m.receita_dimas += R; else m.receita_oscar += R;
+    m.design += Number(f.custo_design) || 0; m.trafego += Number(f.custo_trafego) || 0; m.social += Number(f.custo_social) || 0;
+    m.resultado += Number(f.lucro_oscar) || 0;
+    if (R > 0) m.clientes += 1;
+    m.linhas.push({ nome: f.cliente_nome, socio: f.socio, servico: f.servico, receita: f.receita, design: f.custo_design, trafego: f.custo_trafego, social: f.custo_social, lucro: f.lucro_oscar });
+  }
+  const despMes = {};
+  for (const d of desp) { (despMes[d.mes] = despMes[d.mes] || []).push(d); if (meses[d.mes]) meses[d.mes].despesas += Number(d.valor) || 0; }
+  const historico = Object.values(meses).sort((a, b) => a.mes.localeCompare(b.mes)).map((m) => ({
+    ...m, receita: n2(m.receita), receita_oscar: n2(m.receita_oscar), receita_dimas: n2(m.receita_dimas), design: n2(m.design), trafego: n2(m.trafego), social: n2(m.social),
+    resultado: n2(m.resultado), despesas: n2(m.despesas), despesas_lista: despMes[m.mes] || [],
+    resultado_final: despMes[m.mes] ? n2(m.resultado - m.despesas) : null,
+    margem: m.receita ? Math.round((m.resultado / m.receita) * 1000) / 10 : 0,
+    linhas: m.linhas.sort((a, b) => (Number(b.lucro) || 0) - (Number(a.lucro) || 0)),
+  }));
   return {
+    historico,
     resumo: {
       receita_bruta: receitaBruta, repasse_dimas: soma('repasse_dimas'), receita_gst: receitaGst,
       custo_equipe: custoEquipeTotal, custos_fixos: totalFixos, custo_total: n2(custoEquipeTotal + totalFixos),
