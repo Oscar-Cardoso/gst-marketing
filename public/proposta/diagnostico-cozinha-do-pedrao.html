@@ -188,6 +188,38 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
   .fases,.passos,.comp-grid,.dados-grid{grid-template-columns:1fr}
   .ib-nums{flex-direction:column}
 }
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:28px 0}
+.plan{background:#fff;border:1px solid var(--border-day);border-radius:18px;padding:28px;display:flex;flex-direction:column}
+.plan.top{background:var(--navy);border:2px solid var(--green);color:#fff;box-shadow:0 20px 60px rgba(0,196,106,.18)}
+.plan .pl{font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green-dark)}
+.plan.top .pl{color:var(--green)}
+.plan h3{font-family:var(--font-head);font-size:22px;font-weight:800;margin:6px 0 2px;color:var(--navy)}.plan.top h3{color:#fff}
+.plan .sub{font-size:13px;color:#6b7b8b}.plan.top .sub{color:rgba(255,255,255,.6)}
+.plan .price{font-family:var(--font-head);font-size:40px;font-weight:900;color:var(--navy);margin:16px 0 4px;line-height:1}.plan.top .price{color:var(--green)}
+.plan .price small{font-size:15px;font-weight:600;color:#8a99a8}
+.plan ul{list-style:none;padding:0;margin:14px 0 18px;flex:1}
+.plan li{font-size:13.5px;line-height:1.55;padding:7px 0 7px 22px;border-top:1px solid #eef2f6;position:relative}.plan.top li{border-top-color:rgba(255,255,255,.08);color:rgba(255,255,255,.88)}
+.plan li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+.plan .fee{font-size:13px;font-weight:700;color:#9a6b00;background:#fff6dc;border-radius:10px;padding:10px 12px}
+.plan.top .fee{background:rgba(245,180,0,.14);color:#f5b400}
+.plan .badge{align-self:flex-start;background:#f5b400;color:var(--navy);font-family:var(--font-head);font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.verba{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.verba div{background:#fff;border:1px solid var(--border-day);border-radius:14px;padding:20px}
+.verba b{font-family:var(--font-head);font-size:26px;color:var(--navy);display:block}.verba span{font-size:13px;color:#5a6b7d}
+@media(max-width:900px){.plan-grid,.verba{grid-template-columns:1fr}}
+.op-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.op{background:#fff;border:1px solid var(--border-day);border-radius:14px;padding:22px;border-left:4px solid var(--green)}
+.op b.n{font-family:var(--font-head);font-size:12px;font-weight:800;color:var(--green-dark);letter-spacing:1px}
+.op h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy);margin:4px 0 8px}
+.op p{font-size:13.5px;color:#4a5a6a;line-height:1.6}
+.op p.how{margin-top:8px;color:var(--navy);font-weight:600}
+.verba-tbl{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--border-day);border-radius:14px;overflow:hidden;margin:20px 0}
+.verba-tbl th{font-family:var(--font-head);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#5a6b7d;text-align:left;padding:12px 16px;background:#f4f7fb}
+.verba-tbl td{padding:12px 16px;border-top:1px solid var(--border-day);color:var(--text);vertical-align:top}
+.verba-tbl tr.tot td{font-weight:800;background:#f0fbf5}
+.solo{max-width:560px}
+.upd{display:inline-block;background:rgba(0,196,106,.15);color:var(--green);border:1px solid rgba(0,196,106,.4);font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:14px}
+@media(max-width:900px){.op-grid{grid-template-columns:1fr}.verba-tbl{font-size:12px}.verba-tbl th,.verba-tbl td{padding:10px 8px}}
 </style>
 </head>
 <body>
@@ -215,27 +247,60 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 .saz h4{font-family:var(--font-head);font-size:15px;font-weight:800;color:#fff;margin-bottom:6px}
 .saz p{font-size:12px;color:rgba(255,255,255,.6);line-height:1.6}
 @media(max-width:900px){.fases.f3,.pub-grid,.saz-grid{grid-template-columns:1fr}.hero,.section{padding-left:20px!important;padding-right:20px!important}}
+.plan-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin:28px 0}
+.plan{background:#fff;border:1px solid var(--border-day);border-radius:18px;padding:28px;display:flex;flex-direction:column}
+.plan.top{background:var(--navy);border:2px solid var(--green);color:#fff;box-shadow:0 20px 60px rgba(0,196,106,.18)}
+.plan .pl{font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--green-dark)}
+.plan.top .pl{color:var(--green)}
+.plan h3{font-family:var(--font-head);font-size:22px;font-weight:800;margin:6px 0 2px;color:var(--navy)}.plan.top h3{color:#fff}
+.plan .sub{font-size:13px;color:#6b7b8b}.plan.top .sub{color:rgba(255,255,255,.6)}
+.plan .price{font-family:var(--font-head);font-size:40px;font-weight:900;color:var(--navy);margin:16px 0 4px;line-height:1}.plan.top .price{color:var(--green)}
+.plan .price small{font-size:15px;font-weight:600;color:#8a99a8}
+.plan ul{list-style:none;padding:0;margin:14px 0 18px;flex:1}
+.plan li{font-size:13.5px;line-height:1.55;padding:7px 0 7px 22px;border-top:1px solid #eef2f6;position:relative}.plan.top li{border-top-color:rgba(255,255,255,.08);color:rgba(255,255,255,.88)}
+.plan li::before{content:"✓";position:absolute;left:0;color:var(--green);font-weight:800}
+.plan .fee{font-size:13px;font-weight:700;color:#9a6b00;background:#fff6dc;border-radius:10px;padding:10px 12px}
+.plan.top .fee{background:rgba(245,180,0,.14);color:#f5b400}
+.plan .badge{align-self:flex-start;background:#f5b400;color:var(--navy);font-family:var(--font-head);font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;margin-bottom:10px}
+.verba{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin:20px 0}
+.verba div{background:#fff;border:1px solid var(--border-day);border-radius:14px;padding:20px}
+.verba b{font-family:var(--font-head);font-size:26px;color:var(--navy);display:block}.verba span{font-size:13px;color:#5a6b7d}
+@media(max-width:900px){.plan-grid,.verba{grid-template-columns:1fr}}
+.op-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin:24px 0}
+.op{background:#fff;border:1px solid var(--border-day);border-radius:14px;padding:22px;border-left:4px solid var(--green)}
+.op b.n{font-family:var(--font-head);font-size:12px;font-weight:800;color:var(--green-dark);letter-spacing:1px}
+.op h4{font-family:var(--font-head);font-size:16px;font-weight:800;color:var(--navy);margin:4px 0 8px}
+.op p{font-size:13.5px;color:#4a5a6a;line-height:1.6}
+.op p.how{margin-top:8px;color:var(--navy);font-weight:600}
+.verba-tbl{width:100%;border-collapse:collapse;font-size:14px;background:#fff;border:1px solid var(--border-day);border-radius:14px;overflow:hidden;margin:20px 0}
+.verba-tbl th{font-family:var(--font-head);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:#5a6b7d;text-align:left;padding:12px 16px;background:#f4f7fb}
+.verba-tbl td{padding:12px 16px;border-top:1px solid var(--border-day);color:var(--text);vertical-align:top}
+.verba-tbl tr.tot td{font-weight:800;background:#f0fbf5}
+.solo{max-width:560px}
+.upd{display:inline-block;background:rgba(0,196,106,.15);color:var(--green);border:1px solid rgba(0,196,106,.4);font-family:var(--font-head);font-size:11px;font-weight:800;letter-spacing:1px;text-transform:uppercase;padding:5px 12px;border-radius:20px;margin-bottom:14px}
+@media(max-width:900px){.op-grid{grid-template-columns:1fr}.verba-tbl{font-size:12px}.verba-tbl th,.verba-tbl td{padding:10px 8px}}
 </style>
 
 <!-- HERO -->
 <section class="hero">
   <div class="hero-top">
     <div class="hero-logo">GST <span>Marketing</span></div>
-    <span class="hero-badge">🔍 Diagnóstico</span>
+    <span class="hero-badge">🔍 Diagnóstico + Proposta</span>
   </div>
+  <span class="upd">Atualizado após a reunião de 10/11/2026</span>
   <div class="hero-pre">Cozinha do Pedrão · Jardim Baronesa, Taubaté/SP · Novembro de 2026</div>
-  <h1>A fome decide às 11h.<br><em>Quem aparece primeiro, vende.</em></h1>
-  <p class="hero-sub">Fundada em 2026, a Cozinha do Pedrão já tem um formato claro: marmitex de segunda a sábado, assados na brasa no fim de semana, retirada e delivery com entrega inclusa, tudo pelo WhatsApp. Este diagnóstico mostra como estar na tela do cliente na hora em que ele decide o almoço e como fazer o mesmo cliente pedir várias vezes por semana.</p>
+  <h1>A comida já conquista.<br><em>Falta o cliente saber e voltar.</em></h1>
+  <p class="hero-sub">O frango e os assados já têm clientela fiel. O restaurante, que começou entre o fim de maio e o começo de junho, tem comida elogiada e preço competitivo, mas ainda vende cerca de 30 refeições por dia. Este diagnóstico junta o que vimos no perfil com o que ouvimos na reunião e mostra o caminho para chegar a 50 refeições por dia.</p>
   <span class="ig-handle">📸 @cozinhadopedraoo · Rua Marinheiro Marcílio Dias, 92</span>
   <div class="hero-tese">
     <span class="hero-tese-lbl">// leitura central</span>
-    <p>"Marmita é decisão de impulso e de hábito. Quem aparece às 11h ganha o pedido de hoje. Quem vira rotina ganha o pedido da semana inteira."</p>
+    <p>"O maior cliente do restaurante já está na porta todo fim de semana, comprando frango, e ainda não sabe que a casa também serve refeição."</p>
   </div>
   <div class="hero-stats">
-    <div class="hero-stat"><strong>2026</strong><span>Fundação</span></div>
-    <div class="hero-stat"><strong>7 dias</strong><span>Marmitex e assados</span></div>
-    <div class="hero-stat"><strong>3–5 km</strong><span>Raio de anúncio</span></div>
-    <div class="hero-stat"><strong>10h–13h30</strong><span>Janela da decisão</span></div>
+    <div class="hero-stat"><strong>~30/dia</strong><span>Refeições hoje</span></div>
+    <div class="hero-stat"><strong>40</strong><span>Pico já atingido</span></div>
+    <div class="hero-stat"><strong>50/dia</strong><span>Meta de equilíbrio</span></div>
+    <div class="hero-stat"><strong>~250</strong><span>Clientes novos/mês no frango</span></div>
   </div>
 </section>
 
@@ -243,149 +308,199 @@ body{font-family:var(--font-body);background:#fff;color:var(--text);line-height:
 <section class="section">
   <div class="sec-lbl">01 · Leitura geral</div>
   <h2>Três negócios dentro de uma cozinha</h2>
-  <p class="sec-desc">O Pedrão já vende em três frentes. Cada uma tem um cliente, um horário e uma mensagem diferente, e o marketing precisa tratar as três separadamente.</p>
+  <p class="sec-desc">Cada frente tem um cliente, um horário e uma mensagem. O trabalho é usar a força de uma para fazer as outras crescerem.</p>
 
   <div class="entreg-grid">
-    <div class="entreg"><span class="e-ico">🍱</span><h4>Marmitex do dia</h4><ul><li>Segunda a sábado, no almoço</li><li>Retirada no balcão e delivery</li><li>Entrega já inclusa no valor</li></ul></div>
-    <div class="entreg"><span class="e-ico">🔥</span><h4>Assados de fim de semana</h4><ul><li>Sábado e domingo</li><li>Carnes na brasa, Combo Costelaço</li><li>Bisteca grelhada</li></ul></div>
-    <div class="entreg"><span class="e-ico">🏢</span><h4>Empresas</h4><ul><li>Planos de marmita para empresas da região</li><li>Condições por volume</li><li>Receita recorrente e previsível</li></ul></div>
+    <div class="entreg"><span class="e-ico">🍛</span><h4>Refeições do dia</h4><ul><li>Segunda a sábado, no almoço</li><li>Retirada e delivery com entrega inclusa</li><li>Tamanhos P (500 g), M (700 g) e G (900 g)</li><li>Hoje: cerca de 30 por dia, com oscilação</li></ul></div>
+    <div class="entreg"><span class="e-ico">🍗</span><h4>Frango e assados</h4><ul><li>Desde fevereiro, aos sábados e domingos</li><li>Cerca de 100 clientes por fim de semana</li><li>15 a 20 fiéis toda semana; muitos voltam a cada 2–4 semanas</li></ul></div>
+    <div class="entreg"><span class="e-ico">🏢</span><h4>Empresas</h4><ul><li>Um cliente empresarial fixo, com pagamento quinzenal</li><li>Pratos básicos a partir de R$ 18</li><li>Modelo que já funciona e pode ser multiplicado</li></ul></div>
   </div>
 </section>
 
-<!-- 02 - INSTAGRAM -->
+<!-- 02 - O QUE OUVIMOS -->
 <section class="section">
-  <div class="sec-lbl">02 · Instagram e WhatsApp</div>
-  <h2>Boa base, falta a rotina diária</h2>
+  <div class="sec-lbl">02 · O que ouvimos na reunião</div>
+  <h2>O cenário pelo olhar da casa</h2>
 
   <div class="diag-grid">
-    <div class="diag-card o">
-      <h4>✅ O que já funciona</h4>
+    <div class="diag-card a">
+      <h4>⚠️ Os desafios</h4>
       <ul>
-        <li>WhatsApp como canal único de pedido e cardápio</li>
-        <li>Campanha Black November com palavra-chave no direct</li>
-        <li>Endereço e formato de funcionamento bem explicados</li>
-        <li>Já apareceu em perfil de dicas da região (Guia do Vale)</li>
+        <li>Nenhum anúncio rodando hoje; a venda é toda orgânica</li>
+        <li>O teste no iFood chegou a 40 refeições por dia, mas não se sustentou e encarece o preço</li>
+        <li>O cliente de marmita é volátil e muito apegado a preço e quantidade</li>
+        <li>Atendimento no WhatsApp curto demais: "tem marmita hoje?" "Tem." e a conversa acaba</li>
+        <li>Na correria do frango, ninguém tem tempo de contar que existe o restaurante</li>
       </ul>
     </div>
-    <div class="diag-card a">
-      <h4>💡 Onde dá para evoluir</h4>
+    <div class="diag-card o">
+      <h4>✅ Os trunfos</h4>
       <ul>
-        <li>Cardápio do dia nos stories todo dia, até as 10h15</li>
-        <li>Vídeo curto do preparo logo cedo: carne selando, panela fumegando</li>
-        <li>Avisos de "últimas unidades" conforme os pratos acabam</li>
-        <li>Mensagem pronta no WhatsApp: "Quero ver o cardápio de hoje"</li>
-        <li>Plano para empresas mais visível no perfil</li>
+        <li>Comida muito elogiada, quase sem reclamação</li>
+        <li>Preço competitivo e entrega já inclusa no valor</li>
+        <li>Tudo feito na hora, fresquinho, sem desperdício</li>
+        <li>Atendimento humanizado no balcão: o cliente é abraçado</li>
+        <li>Fotos de comida real, enquanto concorrentes usam imagem de IA</li>
+        <li>Um time que se comunica bem pessoalmente</li>
       </ul>
     </div>
   </div>
 
   <div class="callout t">
-    <span class="c-lbl">// ganho rápido</span>
-    <h3>Cardápio do dia nos stories até 10h15, todo dia, sem falhar</h3>
-    <p>É a vitrine do almoço. O cliente que decide por volta das 11h precisa encontrar o cardápio e o botão do WhatsApp sem procurar. Não custa nada e cria o hábito de olhar o Pedrão antes de escolher.</p>
+    <span class="c-lbl">// a conta que importa</span>
+    <h3>De 30 para 50 refeições por dia = cerca de R$ 480 a mais por dia</h3>
+    <p>Com um prato médio de R$ 24 (como a carne cozida com batata M), 50 refeições dão cerca de R$ 1.200 por dia, contra cerca de R$ 720 hoje. Em 26 dias de operação, a diferença é de aproximadamente R$ 12 mil por mês. Estimativa a validar com os números reais da casa.</p>
   </div>
 </section>
 
-<!-- 03 - PÚBLICOS -->
+<!-- 03 - OPORTUNIDADES -->
 <section class="section">
-  <div class="sec-lbl">03 · Públicos</div>
-  <h2>Três clientes, três horários</h2>
-  <p class="big-quote">O lucro de uma marmitaria está em fazer a mesma pessoa <em>pedir 3 ou 4 vezes por semana.</em></p>
+  <div class="sec-lbl">03 · Oportunidades do negócio</div>
+  <h2>Onde estão os próximos clientes</h2>
 
-  <div class="pub-grid">
-    <div class="pub m"><span class="d-lbl">Dia a dia · 10h–13h30</span><h4>Quem trabalha ou mora perto</h4><ul><li>Decide o almoço por impulso</li><li>Quer rapidez e comida caseira</li><li>Anúncio no raio de 3 a 5 km</li></ul></div>
-    <div class="pub a"><span class="d-lbl">Fim de semana</span><h4>Famílias</h4><ul><li>Almoço de sábado e domingo sem fogão</li><li>Combo Costelaço e assados</li><li>Anúncio de sexta e sábado de manhã</li></ul></div>
-    <div class="pub n"><span class="d-lbl">Recorrente</span><h4>Empresas da região</h4><ul><li>Marmita para a equipe todo dia</li><li>Preço por volume</li><li>Abordagem direta e campanha para gestores</li></ul></div>
+  <div class="op-grid">
+    <div class="op"><b class="n">01</b><h4>Os clientes do frango que não conhecem o restaurante</h4><p>São cerca de 400 clientes diferentes por mês no frango, uns 250 deles novos. A maioria não sabe que a casa serve refeição. Se 10% virarem clientes do restaurante, são 25 novos clientes por mês.</p><p class="how">Como: QR Code e cartão na embalagem do frango, lista do WhatsApp e cardápio da semana enviado a esses clientes.</p></div>
+    <div class="op"><b class="n">02</b><h4>Famílias: refeição, não marmita</h4><p>A família que não quer cozinhar no fim de semana ou na correria compra pelo paladar, não só pelo preço. Exemplo real: uma parmegiana para três pessoas por R$ 58, entregue quentinha.</p><p class="how">Como: combos família com foto real e comunicação de "extensão da mesa de casa".</p></div>
+    <div class="op"><b class="n">03</b><h4>WhatsApp que vende</h4><p>O cliente não quer falar com alguém lacônico nem com um robô. Quando ele pergunta se tem marmita, a resposta precisa despertar o desejo.</p><p class="how">Como: roteiro de atendimento com o cardápio do dia, a descrição dos pratos, foto real e sugestão de combo.</p></div>
+    <div class="op"><b class="n">04</b><h4>Comida real como diferencial</h4><p>As pessoas já cansaram de imagem de IA. Preparo, bastidores, feedback de clientes e a bandeja saindo quente geram confiança e desejo.</p><p class="how">Como: banco de fotos e vídeos reais, rotina de stories e posts com depoimentos.</p></div>
+    <div class="op"><b class="n">05</b><h4>Ticket médio maior</h4><p>Com bebida ou sobremesa no pedido, o ticket sobe de cerca de R$ 24 para cerca de R$ 29 sem precisar de um cliente a mais.</p><p class="how">Como: sugerir o adicional em todo atendimento e oferecer combos prontos.</p></div>
+    <div class="op"><b class="n">06</b><h4>Mais empresas no plano</h4><p>O modelo empresarial já funciona: volume previsível e pagamento quinzenal. Cada empresa nova vale por vários clientes avulsos.</p><p class="how">Como: abordagem direta às empresas e obras da região e campanha para quem decide o almoço da equipe.</p></div>
+    <div class="op"><b class="n">07</b><h4>Frequência com fidelidade</h4><p>O cliente de marmita varia de prato e de lugar. O cartão fidelidade e o cardápio da semana dão um motivo para voltar.</p><p class="how">Como: cartão com 10 carimbos que libera uma refeição ou um frango, e cardápio enviado toda segunda-feira.</p></div>
+    <div class="op"><b class="n">08</b><h4>Referência sem copiar</h4><p>Um concorrente da cidade já tem mais de 9 mil seguidores. Serve de referência para entender o que funciona, adaptado ao jeito da casa.</p><p class="how">Como: estudar formatos e frequência e construir um ritmo próprio.</p></div>
   </div>
 </section>
 
-<!-- 04 - CALENDÁRIO -->
+<!-- 04 - CARDÁPIO DA SEMANA -->
 <section class="section">
   <div class="sec-lbl">04 · Cardápio da semana</div>
   <h2>Um motivo fixo para cada dia</h2>
-  <p class="sec-desc">Sugestão de âncoras para o cliente saber o que vai comer em cada dia. A ideia é ajustar ao cardápio real da casa.</p>
-
+  <p class="sec-desc">Âncoras que já existem no cardápio da casa, comunicadas sempre do mesmo jeito para o cliente saber o que vai comer em cada dia.</p>
   <div class="saz-grid">
-    <div class="saz"><span>Segunda</span><h4>PF comercial</h4><p>Bife acebolado, virado: o clássico para começar a semana</p></div>
-    <div class="saz now"><span>Quarta</span><h4>Dia da feijoada</h4><p>Costuma ser o dia de maior venda nas marmitarias</p></div>
-    <div class="saz"><span>Sexta</span><h4>Prato especial</h4><p>Parmegiana ou costela para fechar a semana</p></div>
-    <div class="saz now"><span>Sábado e domingo</span><h4>Assados na brasa</h4><p>Combo Costelaço e bisteca para a família</p></div>
+    <div class="saz"><span>Segunda e terça</span><h4>Carne de panela</h4><p>A comida de casa para começar a semana</p></div>
+    <div class="saz now"><span>Quarta</span><h4>Dia da feijoada</h4><p>P 500 g, M 700 g, G 900 g</p></div>
+    <div class="saz"><span>Quinta</span><h4>Milanesa de frango</h4><p>Empanada na hora</p></div>
+    <div class="saz now"><span>Sábado e domingo</span><h4>Frango e assados</h4><p>A porta de entrada para o restaurante</p></div>
   </div>
 </section>
 
 <!-- 05 - PLANO 90 DIAS -->
 <section class="section">
   <div class="sec-lbl">05 · Plano de 90 dias</div>
-  <h2>Aparecer, atender rápido e fidelizar</h2>
+  <h2>Primeiro arrumar a casa, depois chamar o cliente</h2>
 
   <div class="fases f3">
     <div class="fase">
-      <div class="fase-head"><span class="fase-tag">Dias 1–30</span><h4>Organizar</h4><span>Rotina e atendimento</span></div>
+      <div class="fase-head"><span class="fase-tag">Dias 1–30</span><h4>Arrumar a casa</h4><span>Canais de comunicação e atendimento</span></div>
       <div class="fase-body">
-        <div class="fase-item">Rotina de stories: preparo cedo e cardápio até 10h15</div>
-        <div class="fase-item">WhatsApp com mensagem de boas-vindas e cardápio pronto</div>
-        <div class="fase-item">Lista de transmissão com quem já comprou</div>
-        <div class="fase-item">Banco de vídeos e fotos dos pratos de verdade</div>
+        <div class="fase-item">Pelo menos 12 posts no Instagram com comunicação clara</div>
+        <div class="fase-item">Rotina diária de stories: preparo e cardápio do dia</div>
+        <div class="fase-item">Banco de fotos e vídeos reais da comida</div>
+        <div class="fase-item">Roteiro de atendimento no WhatsApp</div>
+        <div class="fase-item">Lista de transmissão e QR Code na embalagem do frango</div>
       </div>
     </div>
     <div class="fase">
-      <div class="fase-head"><span class="fase-tag">Dias 31–60</span><h4>Anunciar</h4><span>Meta Ads no raio da cozinha</span></div>
+      <div class="fase-head"><span class="fase-tag">Dias 31–60</span><h4>Anunciar</h4><span>Potencializar o que funcionou</span></div>
       <div class="fase-body">
-        <div class="fase-item">Anúncio do almoço só das 10h às 13h30, em raio de 3 a 5 km</div>
+        <div class="fase-item">Anúncios no horário do almoço, num raio de 3 a 5 km</div>
+        <div class="fase-item">Mais força nos bairros que responderem melhor</div>
         <div class="fase-item">Criativos em vídeo da comida real</div>
-        <div class="fase-item">Anúncio dos assados na sexta e no sábado de manhã</div>
-        <div class="fase-item">Campanha do plano para empresas</div>
+        <div class="fase-item">Assados só se a operação aumentar a capacidade</div>
       </div>
     </div>
     <div class="fase">
-      <div class="fase-head"><span class="fase-tag">Dias 61–90</span><h4>Fidelizar e medir</h4><span>Pedido que se repete</span></div>
+      <div class="fase-head"><span class="fase-tag">Dias 61–90</span><h4>Fidelizar</h4><span>Aumentar a frequência de compra</span></div>
       <div class="fase-body">
-        <div class="fase-item">Cartão fidelidade: a cada 10 marmitas, a 11ª é grátis</div>
-        <div class="fase-item">Cardápio da semana enviado toda segunda para a lista</div>
-        <div class="fase-item">Combo semanal pago antecipado (5 marmitas)</div>
-        <div class="fase-item">Pedidos por dia medidos mês a mês</div>
+        <div class="fase-item">Cartão fidelidade com 10 carimbos</div>
+        <div class="fase-item">Cardápio da semana enviado toda segunda</div>
+        <div class="fase-item">Combos família e adicionais para subir o ticket</div>
+        <div class="fase-item">Refeições por dia medidas mês a mês</div>
       </div>
     </div>
   </div>
 
-  <div class="formula">Anúncio às 11h → Cardápio nos stories → WhatsApp com 1 clique → Pedido → Fidelidade → <em>Pedido toda semana</em></div>
+  <div class="formula">Cliente do frango → QR Code e lista → Cardápio da semana → Pedido no WhatsApp → Fidelidade → <em>50 refeições por dia</em></div>
 </section>
 
-<!-- 06 - PRÓXIMOS PASSOS -->
+<!-- 06 - PROPOSTA -->
+<section class="section" id="proposta">
+  <div class="sec-lbl">06 · Proposta</div>
+  <h2>Uma proposta, duas contas separadas</h2>
+  <p class="sec-desc">Uma coisa é a mensalidade da agência, pelo trabalho da GST junto com a Sara. Outra é a verba dos anúncios, paga direto à Meta pela Cozinha do Pedrão e investida aos poucos, conforme a casa fica pronta para receber os clientes.</p>
+
+  <div class="plan-grid" style="grid-template-columns:1fr 1fr">
+    <div class="plan top">
+      <span class="badge">Pacote da agência</span>
+      <span class="pl">GST Marketing + Sara</span>
+      <h3>Gestão completa</h3>
+      <span class="sub">Estratégia, redes sociais, anúncios e atendimento</span>
+      <div class="price">R$ 2.000<small>/mês</small></div>
+      <ul>
+        <li>Estratégia e acompanhamento do plano de 90 dias</li>
+        <li>Planejamento e postagem de pelo menos 12 posts por mês</li>
+        <li>Rotina de stories com cardápio do dia e preparo</li>
+        <li>Artes do cardápio da semana, dos combos e da fidelidade</li>
+        <li>Banco de fotos e vídeos reais, com roteiros para a equipe gravar</li>
+        <li>Roteiro de atendimento no WhatsApp e lista de transmissão</li>
+        <li>QR Code e cartão para converter os clientes do frango</li>
+        <li>Gestão dos anúncios no Meta (Instagram e Facebook)</li>
+        <li>Relatório mensal: refeições por dia, clientes novos e recorrentes</li>
+      </ul>
+    </div>
+    <div class="plan">
+      <span class="pl">Verba de anúncios · paga à Meta</span>
+      <h3>Investimento em mídia</h3>
+      <span class="sub">Fora da mensalidade, investida de forma gradual</span>
+      <div class="price">R$ 600 a 1.000<small>/mês</small></div>
+      <ul>
+        <li>Entra quando a casa estiver arrumada: posts, stories e atendimento prontos</li>
+        <li>Sobe conforme os anúncios trazem pedidos</li>
+        <li>Paga direto à Meta, no cartão ou boleto da empresa</li>
+        <li>A GST define onde, quando e quanto investir</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3 style="font-family:var(--font-head);font-size:18px;color:var(--navy);margin:34px 0 4px">Estratégia da verba</h3>
+  <table class="verba-tbl">
+    <tr><th>Campanha</th><th>Quando</th><th>Para quem</th><th>Verba/mês</th></tr>
+    <tr><td><b>Almoço do dia</b></td><td>Segunda a sábado, das 10h às 13h30</td><td>Quem trabalha ou mora num raio de 3 a 5 km</td><td>R$ 400 a 650</td></tr>
+    <tr><td><b>Famílias e combos</b></td><td>Sexta a domingo</td><td>Famílias do bairro e dos condomínios próximos</td><td>R$ 120 a 200</td></tr>
+    <tr><td><b>Relembrar e empresas</b></td><td>Semana toda</td><td>Quem já interagiu, clientes do frango e empresas da região</td><td>R$ 80 a 150</td></tr>
+    <tr class="tot"><td>Total</td><td colspan="2">Cerca de R$ 20 a R$ 33 por dia</td><td>R$ 600 a 1.000</td></tr>
+  </table>
+
+  <div class="saz-grid">
+    <div class="saz"><span>Mês 1</span><h4>R$ 600</h4><p>Começa depois dos primeiros posts e do atendimento prontos, com foco no almoço</p></div>
+    <div class="saz now"><span>Mês 2</span><h4>R$ 600 a 800</h4><p>Almoço e famílias rodando, com refeições por dia medidas</p></div>
+    <div class="saz now"><span>Mês 3</span><h4>Até R$ 1.000</h4><p>Mais verba no que trouxe mais pedido</p></div>
+    <div class="saz"><span>Sempre</span><h4>Medido em pedidos</h4><p>Refeições por dia, não curtidas</p></div>
+  </div>
+</section>
+
+<!-- 07 - PRÓXIMOS PASSOS -->
 <section class="section">
-  <div class="sec-lbl">06 · Para seguir</div>
-  <h2>O que precisamos para fechar o plano</h2>
-
-  <ul class="check-list">
-    <li><span>01</span>Média de marmitas vendidas por dia e ticket médio</li>
-    <li><span>02</span>Quanto o fim de semana (assados) representa no faturamento</li>
-    <li><span>03</span>Dias mais fortes e mais fracos da semana</li>
-    <li><span>04</span>Quantas empresas já compram no plano e com que volume</li>
-    <li><span>05</span>Quantos contatos de clientes já estão no WhatsApp</li>
-    <li><span>06</span>Se vende por iFood ou outro aplicativo, ou só pelo WhatsApp</li>
-    <li><span>07</span>Capacidade de produção e raio de entrega</li>
-    <li><span>08</span>Investimento atual em anúncios e quem produz o conteúdo</li>
-  </ul>
-
+  <div class="sec-lbl">07 · Como começamos</div>
+  <h2>Do sim ao primeiro post</h2>
   <div class="passos">
-    <div class="passo"><span class="passo-num">1</span><h4>Dados</h4><p>Pedidos por dia, ticket e dias mais fortes</p></div>
-    <div class="passo"><span class="passo-num">2</span><h4>Acessos</h4><p>Instagram, Facebook, anúncios e WhatsApp</p></div>
-    <div class="passo"><span class="passo-num">3</span><h4>Kick-off</h4><p>Rotina de stories e cardápio da semana</p></div>
-    <div class="passo"><span class="passo-num">4</span><h4>Início</h4><p>Anúncios no horário do almoço</p></div>
+    <div class="passo"><span class="passo-num">1</span><h4>Aprovação</h4><p>Ok da proposta e início do contrato</p></div>
+    <div class="passo"><span class="passo-num">2</span><h4>Acessos</h4><p>Instagram, Facebook, conta de anúncio e WhatsApp</p></div>
+    <div class="passo"><span class="passo-num">3</span><h4>Linha de base</h4><p>Refeições por dia, ticket médio e clientes de hoje</p></div>
+    <div class="passo"><span class="passo-num">4</span><h4>Casa arrumada</h4><p>Posts, stories e atendimento prontos para receber o cliente</p></div>
   </div>
 </section>
 
 <!-- CTA -->
 <section class="cta-sec">
-  <h2>A comida já conquista.<br>Agora é fazer o Pedrão<br><em>virar o almoço do bairro.</em></h2>
-  <p>A GST organiza a rotina do Instagram, coloca anúncios no horário em que o cliente decide e monta a fidelização, com resultado medido em pedidos por dia.</p>
-  <a href="https://wa.me/5511983912170?text=Ol%C3%A1%20Oscar!%20Vi%20o%20diagn%C3%B3stico%20da%20Cozinha%20do%20Pedr%C3%A3o%20e%20quero%20conversar." class="cta-btn" target="_blank">💬 Falar com a GST</a>
+  <h2>O produto é bom e o preço é justo.<br>Agora é fazer o bairro<br><em>sentar à mesa com vocês.</em></h2>
+  <p>A GST e a Sara organizam a comunicação, o atendimento e os anúncios para a Cozinha do Pedrão chegar a 50 refeições por dia, com resultado medido em pedidos.</p>
+  <a href="https://wa.me/5511983912170?text=Ol%C3%A1%20Oscar!%20Vi%20a%20proposta%20da%20Cozinha%20do%20Pedr%C3%A3o%20e%20quero%20seguir." class="cta-btn" target="_blank">💬 Quero começar</a>
   <small>GST Marketing · agenciagst.com.br</small>
 </section>
 
 <footer class="page-footer">
-  <p>Diagnóstico — Cozinha do Pedrão · Taubaté/SP · GST Marketing · Nov 2026</p>
-  <p><strong>agenciagst.com.br</strong> · Baseado em análise pública do perfil; números serão validados com o restaurante.</p>
+  <p>Diagnóstico e proposta — Cozinha do Pedrão · Taubaté/SP · GST Marketing · Nov 2026</p>
+  <p><strong>agenciagst.com.br</strong> · Estimativas a validar com os números da casa. Verba de anúncios não inclusa na mensalidade.</p>
 </footer>
 
 </body>
