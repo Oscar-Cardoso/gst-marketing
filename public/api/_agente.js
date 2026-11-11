@@ -58,7 +58,7 @@ const FERRAMENTAS = [
   { name: 'listar_tarefas', description: 'Lista tarefas abertas. Filtros opcionais: cliente, responsavel, so_atrasadas, so_hoje.', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, responsavel: { type: 'string' }, so_atrasadas: { type: 'boolean' }, so_hoje: { type: 'boolean' } } } },
   { name: 'panorama', description: 'Números do escritório agora: atrasadas, triagem, para hoje, aguardando cliente, concluídas hoje, por pessoa.', input_schema: { type: 'object', properties: {} } },
   { name: 'criar_tarefa', description: 'Cria uma tarefa. prazo em ISO (AAAA-MM-DD ou AAAA-MM-DDTHH:MM, horário de Brasília). Sem responsável ou prazo, fica em triagem.', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, titulo: { type: 'string' }, responsavel: { type: 'string' }, prazo: { type: 'string' }, area: { type: 'string', enum: AREAS }, prioridade: { type: 'string', enum: ['baixa', 'normal', 'alta', 'urgente'] }, descricao: { type: 'string' } }, required: ['cliente', 'titulo'] } },
-  { name: 'atualizar_tarefa', description: 'Muda uma tarefa existente pelo código de 8 caracteres mostrado nas listas: status, responsável, prazo, prioridade ou bloqueio ("" tira o bloqueio).', input_schema: { type: 'object', properties: { codigo: { type: 'string' }, status: { type: 'string', enum: STATUS }, responsavel: { type: 'string' }, prazo: { type: 'string' }, prioridade: { type: 'string', enum: ['baixa', 'normal', 'alta', 'urgente'] }, bloqueio: { type: 'string' } }, required: ['codigo'] } },
+  { name: 'atualizar_tarefa', description: 'Muda uma tarefa aberta: status, responsável, prazo, prioridade ou bloqueio ("" tira o bloqueio). Identifique pelo código interno [xxxxxxxx] que aparece nos resultados das ferramentas, ou por parte do título (+ cliente).', input_schema: { type: 'object', properties: { codigo: { type: 'string' }, titulo: { type: 'string' }, cliente: { type: 'string' }, status: { type: 'string', enum: STATUS }, responsavel: { type: 'string' }, prazo: { type: 'string' }, prioridade: { type: 'string', enum: ['baixa', 'normal', 'alta', 'urgente'] }, bloqueio: { type: 'string' } } } },
   { name: 'registrar_oferta', description: 'Registra que chegou oferta de um cliente: cria o encarte para o designer e deixa social e tráfego esperando a aprovação.', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, detalhes: { type: 'string' } }, required: ['cliente'] } },
   { name: 'trocar_responsavel_cliente', description: 'Define quem cuida de uma área de um cliente (design, social_media, trafego, automacao, video, gestao). Substitui quem estava.', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, area: { type: 'string', enum: AREAS }, pessoa: { type: 'string' } }, required: ['cliente', 'area', 'pessoa'] } },
   { name: 'anotar_diario', description: 'Grava um registro no Diário do escritório (decisão, recado, mudança, fato importante).', input_schema: { type: 'object', properties: { resumo: { type: 'string' }, cliente: { type: 'string' }, tipo: { type: 'string', enum: ['decisao', 'nota', 'cliente', 'equipe', 'financeiro'] } }, required: ['resumo'] } },
@@ -115,10 +115,18 @@ async function executar(nome, a, ctx) {
     return { criada: linhaTarefa(r[0], B) };
   }
   if (nome === 'atualizar_tarefa') {
-    const cod = String(a.codigo).toLowerCase().replace(/[^0-9a-f]/g, '').slice(0, 8);
-    if (cod.length < 8) throw new Error('código inválido');
-    const achadas = await sb(`tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&id=gte.${cod}-0000-0000-0000-000000000000&id=lte.${cod}-ffff-ffff-ffff-ffffffffffff`);
-    if (achadas.length !== 1) throw new Error('não achei a tarefa ' + cod);
+    const cod = String(a.codigo || '').toLowerCase().replace(/[^0-9a-f]/g, '').slice(0, 8);
+    let achadas;
+    if (cod.length === 8) achadas = await sb(`tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&id=gte.${cod}-0000-0000-0000-000000000000&id=lte.${cod}-ffff-ffff-ffff-ffffffffffff`);
+    else {
+      if (!a.titulo) throw new Error('diga qual tarefa (parte do título e o cliente)');
+      let q = 'tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&status=not.in.(concluida,cancelada)&limit=200';
+      if (a.cliente) q += '&cliente_id=eq.' + cli(a.cliente).id;
+      const palavras = norm(a.titulo).split(' ').filter((w) => w.length > 2);
+      achadas = (await sb(q)).filter((t) => palavras.every((w) => norm(t.titulo).includes(w)));
+      if (achadas.length > 1) throw new Error('mais de uma tarefa parecida: ' + achadas.slice(0, 6).map((t) => linhaTarefa(t, B)).join(' | '));
+    }
+    if (achadas.length !== 1) throw new Error('não achei essa tarefa');
     const t = achadas[0], m = { alterado_por: ctx.quem.id };
     if (a.status) m.status = a.status;
     if (a.responsavel) m.responsavel_id = pes(a.responsavel).id;
@@ -197,6 +205,7 @@ function sistema(quem, B) {
   return `Você é o agente do Escritório Virtual da GST Marketing (agência de marketing para supermercados; dono Oscar Cardoso, sócio Dimas em parte dos clientes). Conversa pelo WhatsApp com ${quem.nome}${/j[ée]ssica/i.test(quem.nome) ? ' (esposa do Oscar, assumindo a operação; ainda aprendendo, explique de forma simples quando ajudar)' : ' (dono da GST)'}.
 Agora: ${agoraSP()} (Brasília).
 Responda sempre em português do Brasil, curto e direto, no estilo WhatsApp: frases curtas, listas com "•" quando houver vários itens, *negrito* do WhatsApp com asteriscos simples. Nada de markdown com # ou **. Sem enrolação.
+Os códigos entre colchetes [xxxxxxxx] nos resultados são internos: use nas ferramentas, mas NUNCA mostre na resposta; cite a tarefa pelo título.
 Use as ferramentas para consultar e mudar o escritório; nunca invente tarefa, número, prazo ou nome. Se a ferramenta der erro (ex.: nome ambíguo), diga o que faltou e pergunte.
 Quando pedirem para fazer algo (criar tarefa, mudar responsável, registrar oferta, anotar), faça direto e confirme em uma linha o que ficou. Só pergunte antes se faltar algo essencial (qual cliente) ou se o pedido for ambíguo.
 Regras: tudo o que não é marketing (precificação, margem, mix, Mapa do Lucro, estoque, curva ABC, fornecedores, financeiro da loja) vai para o responsável "Comercial · Dimas" com área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia. "Amanhã", "sexta" etc. são relativos a hoje.
