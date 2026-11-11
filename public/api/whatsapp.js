@@ -2,7 +2,7 @@
 // Variáveis na Vercel: UAZAPI_URL, UAZAPI_TOKEN (token da instância) e a chave do Supabase.
 // O endereço do webhook leva um segredo derivado do UAZAPI_TOKEN (?s=...), configurado pelo painel.
 const crypto = require('crypto');
-const { responder } = require('./_agente.js');
+const { responder, despacharFila } = require('./_agente.js');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rybbojxebmmtfhbmnopm.supabase.co';
 const CHAVE = () => process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
@@ -75,6 +75,10 @@ async function atender(quem, msg, numero) {
 
 module.exports = async (req, res) => {
   res.setHeader('Cache-Control', 'no-store');
+  // despacha a fila de envio (só manda o que já está gravado no banco; não aceita conteúdo de fora)
+  if (req.query && req.query.acao === 'despachar') {
+    try { return res.json({ ok: true, enviados: await despacharFila() }); } catch (e) { return res.status(500).json({ ok: false }); }
+  }
   if (req.method !== 'POST') return res.status(405).json({ ok: false });
   if (!confere(req.query && req.query.s, segredoWebhook())) return res.status(401).json({ ok: false });
   let p = req.body;

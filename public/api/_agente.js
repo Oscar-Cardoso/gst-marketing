@@ -276,7 +276,7 @@ async function montarTarefasEquipe(B, filtro, pedidoPor) {
   }
   const hoje = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: '2-digit' }).format(agora);
   if (!blocos.length) return `📋 *Tarefas da equipe · ${hoje}*\n\nNenhuma tarefa aberta com responsável agora. 🎉\n\n_Fiscal · GST_`;
-  return `📋 *Tarefas da equipe · ${hoje}*\n_Atualização pedida por ${pedidoPor}. ⚠️ = atrasada._\n\n${blocos.join('\n\n')}\n\nTerminou? Marque como concluída no painel (agenciagst.com.br/escritorio) ou avise aqui no grupo.\n\n_Fiscal · GST_`;
+  return `📋 *Tarefas da equipe · ${hoje}*\n_${pedidoPor === 'rotina' ? 'Atualização automática das 20h' : 'Atualização pedida por ' + pedidoPor}. ⚠️ = atrasada._\n\n${blocos.join('\n\n')}\n\nTerminou? Marque como concluída no painel (agenciagst.com.br/escritorio) ou avise aqui no grupo.\n\n_Fiscal · GST_`;
 }
 
 async function claude(body) {
@@ -321,4 +321,31 @@ async function responder({ quem, pedido, historico = [] }) {
   return 'Demorei demais para fechar essa. Pode repetir de forma mais curta?';
 }
 
-module.exports = { responder, executar, base };
+// ---------- fila de envio (agentes agendados e rotina das 20h) ----------
+async function despacharFila() {
+  const pend = await sb('whatsapp_fila?select=id,destino,tipo,texto&status=eq.pendente&created_at=gte.' + new Date(Date.now() - 864e5).toISOString() + '&order=created_at&limit=10');
+  const out = [];
+  for (const m of pend) {
+    const pegou = await sb('whatsapp_fila?id=eq.' + m.id + '&status=eq.pendente', { method: 'PATCH', body: { status: 'enviando' }, prefer: 'return=representation' });
+    if (!pegou.length) continue;
+    try {
+      let numero, texto = m.texto;
+      if (m.destino === 'grupo_interno') numero = (await grupoInterno()).id;
+      else {
+        const p = await sb('equipe?select=whatsapp&comanda_agente=eq.true&nome=eq.' + encodeURIComponent(m.destino === 'oscar' ? 'Oscar' : 'Jéssica'));
+        numero = p[0] && p[0].whatsapp;
+        if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
+      }
+      if (m.tipo === 'tarefas_equipe') texto = await montarTarefasEquipe(await base(), null, 'rotina');
+      await enviarWhats(numero, String(texto).slice(0, 60000));
+      await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', enviado_em: new Date().toISOString() } });
+      out.push({ id: m.id, ok: true });
+    } catch (e) {
+      await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'erro', erro: String(e.message || e).slice(0, 300) } });
+      out.push({ id: m.id, ok: false });
+    }
+  }
+  return out;
+}
+
+module.exports = { responder, executar, base, despacharFila };
