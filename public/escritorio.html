@@ -125,6 +125,44 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .hb b{font-size:12.5px}.hb span{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .hist-leg{display:flex;gap:14px;font-size:12px;color:var(--muted);align-self:center;margin-left:auto}.hist-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .hist-linha{cursor:pointer}.hist-det>td{background:#f8fafc}
+/* diário */
+.dia-filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px}
+.dia-filtros .busca{margin:0;flex:1 1 220px}
+.dia-filtros select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);max-width:240px}
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
+.chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12.5px;font-weight:600;color:#334155;cursor:pointer}
+.chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+.dia{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.dia:first-of-type{border-top:0}
+.dia-data b{display:block;font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;line-height:1.1}
+.dia-data span{font-size:12px;color:var(--muted)}
+.dia-data .n{display:inline-block;margin-top:6px;background:var(--bg);border-radius:20px;padding:1px 9px;font-size:11.5px;color:var(--muted);font-weight:600}
+.ev-lista{display:flex;flex-direction:column;gap:6px}
+.ev{display:grid;grid-template-columns:26px 1fr;gap:10px;align-items:start;padding:7px 10px;border-radius:10px;background:#fbfcfd;border:1px solid #edf1f5}
+.ev i{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-style:normal;font-weight:800;font-size:12px;background:var(--bg);color:var(--navy)}
+.ev .txt{font-size:13.5px;line-height:1.45}
+.ev .txt small{display:block;color:var(--muted);font-size:12px;margin-top:2px}
+.ev.t-reuniao i{background:#e8edf5}.ev.t-decisao i{background:var(--yellow-t);color:#8a5a00}.ev.t-tarefa_concluida i{background:var(--green-t);color:#057a45}
+.ev.t-oferta i{background:#fde8f1;color:#a3195b}.ev.t-cliente i{background:var(--navy);color:var(--green)}.ev.t-financeiro i{background:#eaf0ff;color:var(--azul)}
+.resumo-dia{background:var(--navy);color:#e7eef6;border-radius:12px;padding:11px 14px;font-size:13.5px;line-height:1.5;margin-bottom:4px}
+.resumo-dia b{color:var(--green);font-size:11px;letter-spacing:.08em;text-transform:uppercase;display:block;margin-bottom:3px}
+/* mapa */
+.mapa-wrap{display:grid;grid-template-columns:1fr 340px;height:calc(100vh - var(--hdr))}
+#mapa{position:relative;overflow:hidden;background:radial-gradient(circle at 50% 45%,#fff 0,#eef2f6 70%)}
+#mapa svg{width:100%;height:100%;display:block;cursor:grab}
+#mapa .no{cursor:pointer}
+#mapa text{font:600 11px Inter,sans-serif;fill:#334155;pointer-events:none;paint-order:stroke;stroke:#fff;stroke-width:3px}
+#mapa .ini{fill:#fff;stroke:none;font-size:10px;font-weight:800}
+.mapa-leg{position:absolute;left:14px;bottom:12px;background:rgba(255,255,255,.92);border:1px solid var(--line);border-radius:12px;padding:8px 11px;font-size:12px;color:var(--muted);display:flex;gap:12px;flex-wrap:wrap;max-width:calc(100% - 28px)}
+.mapa-leg span{display:flex;align-items:center;gap:5px}.mapa-leg i{width:11px;height:11px;border-radius:50%;display:inline-block}
+.ficha{background:#fff;border-left:1px solid var(--line);overflow-y:auto;padding:18px}
+.ficha h3{margin:0;font-size:18px;font-weight:800}
+.ficha .sub{color:var(--muted);font-size:12.5px;margin:2px 0 12px}
+.ficha h4{font-size:11.5px;text-transform:uppercase;letter-spacing:.05em;color:var(--muted);margin:16px 0 6px}
+.ficha .it{font-size:13px;padding:6px 0;border-bottom:1px solid #f1f5f9}
+.ficha .it small{color:var(--muted)}
+@media (max-width:900px){.mapa-wrap{grid-template-columns:1fr;height:auto}#mapa{height:62vh}.ficha{border-left:0;border-top:1px solid var(--line)}}
+@media (max-width:640px){.dia{grid-template-columns:1fr;gap:8px}.dia-data b{display:inline;font-size:17px;margin-right:6px}}
 @media (max-width:640px){header{padding:10px 14px 0}.t{grid-template-columns:1fr}.t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}.linha{grid-template-columns:1fr}nav button{padding:9px 10px}main{padding:14px}.col{flex-basis:86vw}.kanban{padding:14px}.kb-nav{display:none}}
 </style>
 </head>
@@ -155,6 +193,8 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
       <button data-aba="hoje" class="on">Hoje</button>
       <button data-aba="pessoas">Por pessoa</button>
       <button data-aba="clientes">Clientes</button>
+      <button data-aba="diario">Diário</button>
+      <button data-aba="mapa">Mapa</button>
       <button data-aba="financeiro">Financeiro</button>
     </nav>
   </header>
@@ -454,12 +494,190 @@ function renderFinanceiro() {
     <section class="sec"><h2>Por cliente <span class="n">${F.clientes.length}</span></h2><p class="nota">Digite a mensalidade direto na tabela; salva sozinho. Ordenado do maior para o menor lucro.</p>
       <div class="tab"><table><thead><tr><th>Cliente</th><th>Sócio</th><th class="num">Mensalidade</th><th class="num">Repasse Dimas</th><th class="num">Custo equipe</th><th class="num">Lucro GST</th><th class="num">Margem</th></tr></thead><tbody>${linhas}</tbody></table></div></section>`;
 }
+// ---------- diário ----------
+let DI = null, diaBusca = '', diaCli = '', diaTipo = '';
+const TIPO = { reuniao: ['Reunião', 'R'], decisao: ['Decisão', 'D'], tarefa_concluida: ['Concluída', '✓'], tarefa_criada: ['Tarefas novas', '+'], oferta: ['Oferta', 'O'], cliente: ['Cliente', 'C'], equipe: ['Equipe', 'E'], financeiro: ['Financeiro', '$'], nota: ['Nota', 'N'] };
+async function carregarDiario() {
+  try { DI = (await api('diario')).diario; } catch (e) { toast(e.message); DI = DI || []; }
+  if (aba === 'diario' || aba === 'mapa') render();
+}
+function nomeDia(iso) {
+  const d = new Date(iso + 'T12:00:00-03:00');
+  const hoje = diaSP(new Date()), ontem = diaSP(new Date(Date.now() - 864e5));
+  const sem = new Intl.DateTimeFormat('pt-BR', { weekday: 'long', timeZone: 'America/Sao_Paulo' }).format(d);
+  return { num: fmtDia.format(d), txt: iso === hoje ? 'Hoje · ' + sem : iso === ontem ? 'Ontem · ' + sem : sem[0].toUpperCase() + sem.slice(1) };
+}
+function evento(e, mostrarCli = true) {
+  const [rot, ic] = TIPO[e.tipo] || [e.tipo, '•'];
+  const c = e.cliente_id ? cli(e.cliente_id).nome : '';
+  const link = e.referencia && /^https?:\/\//.test(e.referencia) ? ` · <a href="${esc(e.referencia)}" target="_blank" rel="noopener">abrir</a>` : '';
+  return `<div class="ev t-${esc(e.tipo)}"><i title="${esc(rot)}">${ic}</i><div class="txt">${esc(e.resumo)}<small>${[rot, mostrarCli && c ? esc(c) : '', e.quem ? esc(e.quem) : ''].filter(Boolean).join(' · ')}${link}</small></div></div>`;
+}
+function renderDiario() {
+  if (!DI) { carregarDiario(); return '<section class="sec"><p class="vazio">Carregando o diário…</p></section>'; }
+  const f = diaBusca.toLowerCase();
+  const lista = DI.filter((e) => (!diaCli || e.cliente_id === diaCli) && (!diaTipo || e.tipo === diaTipo || (diaTipo === 'resumo_dia' && e.tipo === 'resumo_dia'))
+    && (!f || (e.resumo + ' ' + (e.quem || '') + ' ' + (e.cliente_id ? cli(e.cliente_id).nome : '')).toLowerCase().includes(f)));
+  const porDia = new Map();
+  for (const e of lista) { if (!porDia.has(e.dia)) porDia.set(e.dia, []); porDia.get(e.dia).push(e); }
+  const usados = new Set(DI.map((e) => e.cliente_id).filter(Boolean));
+  const clis = D.clientes.filter((c) => usados.has(c.id));
+  const chips = [['', 'Tudo'], ['reuniao', 'Reuniões'], ['decisao', 'Decisões'], ['tarefa_concluida', 'Concluídas'], ['oferta', 'Ofertas'], ['cliente', 'Clientes'], ['equipe', 'Equipe'], ['financeiro', 'Financeiro'], ['nota', 'Notas']]
+    .map(([v, t]) => `<button class="chip ${diaTipo === v ? 'on' : ''}" data-dtipo="${v}">${t}</button>`).join('');
+  const dias = [...porDia.entries()].map(([dia, evs]) => {
+    const n = nomeDia(dia);
+    const resumo = evs.find((e) => e.tipo === 'resumo_dia');
+    const resto = evs.filter((e) => e.tipo !== 'resumo_dia');
+    return `<div class="dia"><div class="dia-data"><b>${n.num}</b><span>${esc(n.txt)}</span><br><span class="n">${resto.length} registro${resto.length === 1 ? '' : 's'}</span></div>
+      <div class="ev-lista">${resumo ? `<div class="resumo-dia"><b>Resumo do dia</b>${esc(resumo.resumo)}</div>` : ''}${resto.map((e) => evento(e, !diaCli)).join('')}</div></div>`;
+  }).join('');
+  return `<section class="sec"><h2>Diário do escritório <span class="n">${lista.length}</span></h2>
+    <p class="nota">Tudo o que aconteceu na GST, dia a dia: reuniões, decisões, tarefas concluídas, ofertas e mudanças. Atualiza sozinho às 19:40 e a cada tarefa concluída.</p>
+    <div class="dia-filtros"><input class="busca" id="buscaDia" placeholder="Buscar (ex.: Aly, contrato, Meta)" value="${esc(diaBusca)}">
+      <select id="cliDia"><option value="">Todos os clientes</option>${clis.map((c) => `<option value="${c.id}" ${c.id === diaCli ? 'selected' : ''}>${esc(c.nome)}</option>`).join('')}</select></div>
+    <div class="chips">${chips}</div>
+    ${dias || '<p class="vazio" style="margin-top:12px">Nada encontrado com esse filtro.</p>'}</section>`;
+}
+// ---------- mapa ----------
+let simMapa = null, selMapa = null;
+function carregarD3() {
+  if (window.d3) return Promise.resolve();
+  return carregarD3.p || (carregarD3.p = new Promise((ok, erro) => { const s = document.createElement('script'); s.src = 'https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js'; s.onload = ok; s.onerror = () => { carregarD3.p = null; erro(new Error('Não carregou o mapa. Verifique a internet.')); }; document.head.appendChild(s); }));
+}
+function renderMapa() {
+  if (!DI) carregarDiario();
+  return `<div class="mapa-wrap"><div id="mapa"><div class="mapa-leg">
+      <span><i style="background:var(--navy)"></i>Sócio</span><span><i style="background:var(--green)"></i>Equipe</span>
+      <span><i style="background:#fff;border:2px solid var(--verde)"></i>Cliente em dia</span><span><i style="background:#fff;border:2px solid var(--verm)"></i>Com atraso</span>
+      <span>tamanho = tarefas abertas</span></div></div>
+    <aside class="ficha" id="ficha">${fichaPadrao()}</aside></div>`;
+}
+const ativosMapa = () => D.clientes.filter((c) => !['pausado', 'encerrado'].includes(c.status));
+function fichaPadrao() {
+  const ats = ativosMapa(), atr = D.abertas.filter(atrasada).length;
+  return `<h3>Mapa da GST</h3><p class="sub">${ats.length} clientes ativos · ${D.equipe.length} pessoas · ${D.abertas.length} tarefas abertas${atr ? ` · <b style="color:var(--verm)">${atr} atrasadas</b>` : ''}</p>
+    <p class="nota" style="margin:0">Clique num cliente, numa pessoa ou num sócio para ver a ficha: quem cuida, o que está aberto e o que aconteceu por último. Arraste para reorganizar, role para dar zoom.</p>
+    ${DI ? `<h4>Últimos registros</h4>${DI.filter((e) => e.tipo !== 'resumo_dia').slice(0, 6).map((e) => evento(e)).join('')}` : ''}`;
+}
+function itemTarefa(t, comPessoa = true) {
+  const p = pes(t.responsavel_id);
+  return `<div class="it">${esc(t.titulo)}<br><small>${comPessoa ? (p ? esc(p.nome) : 'sem responsável') + ' · ' : esc(cli(t.cliente_id).nome) + ' · '}${prazoTxt(t.prazo)}</small>${atrasada(t) ? ' <span class="tag verm">atrasada</span>' : ''}</div>`;
+}
+function fichaNo(n) {
+  if (n.tipo === 'cliente') {
+    const c = n.c, ab = D.abertas.filter((t) => t.cliente_id === c.id);
+    const eq = Object.keys(AREA).map((a) => [a, D.responsaveis.filter((r) => r.cliente_id === c.id && r.area === a).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean)]).filter(([, ns]) => ns.length);
+    const hist = (DI || []).filter((e) => e.cliente_id === c.id).slice(0, 6);
+    return `<h3>${esc(c.nome)}</h3><p class="sub">${c.socio === 'dimas' ? 'Cliente do Dimas' : 'Cliente do Oscar'}${c.tier ? ' · ' + esc(c.tier) : ''}${c.contato ? ' · ' + esc(c.contato) : ''}</p>
+      <h4>Quem cuida</h4>${eq.length ? eq.map(([a, ns]) => `<div class="it"><span class="tag a-${a}">${AREA[a]}</span> ${esc(ns.join(', '))}</div>`).join('') : '<p class="vazio">Ninguém cadastrado.</p>'}
+      <h4>Tarefas abertas (${ab.length})</h4>${ab.slice(0, 8).map((t) => itemTarefa(t)).join('') || '<p class="vazio">Nada aberto.</p>'}${ab.length > 8 ? `<p class="nota">+ ${ab.length - 8} outras</p>` : ''}
+      <h4>Diário</h4>${hist.map((e) => evento(e, false)).join('') || '<p class="vazio">Sem registros ainda.</p>'}
+      <button class="btn peq" data-vdia="${c.id}" style="margin-top:10px">Ver tudo no diário</button> <button class="btn peq" data-of="${c.id}">Oferta</button>`;
+  }
+  if (n.tipo === 'pessoa') {
+    const p = n.p, ts = D.abertas.filter((t) => t.responsavel_id === p.id).sort((a, b) => atrasada(b) - atrasada(a));
+    const contas = D.responsaveis.filter((r) => r.equipe_id === p.id);
+    const porCli = new Map(); contas.forEach((r) => porCli.set(r.cliente_id, [...(porCli.get(r.cliente_id) || []), AREA[r.area] || r.area]));
+    const primeiro = p.nome.split(/[\s·]+/)[0].toLowerCase();
+    const hist = (DI || []).filter((e) => e.quem && e.quem.toLowerCase().includes(primeiro)).slice(0, 5);
+    return `<h3>${esc(p.nome)}</h3><p class="sub">${esc(p.funcao || '')} · ${porCli.size} conta${porCli.size === 1 ? '' : 's'} · ${ts.length} tarefas abertas${ts.filter(atrasada).length ? ` · <b style="color:var(--verm)">${ts.filter(atrasada).length} atrasadas</b>` : ''}</p>
+      <h4>Clientes</h4>${[...porCli].map(([cid, as]) => `<div class="it">${esc(cli(cid).nome)} <small>· ${esc(as.join(', '))}</small></div>`).join('') || '<p class="vazio">Nenhum cliente fixo.</p>'}
+      <h4>Tarefas abertas</h4>${ts.slice(0, 8).map((t) => itemTarefa(t, false)).join('') || '<p class="vazio">Nada aberto 🎉</p>'}
+      ${hist.length ? `<h4>No diário</h4>${hist.map((e) => evento(e)).join('')}` : ''}`;
+  }
+  const cs = ativosMapa().filter((c) => (c.socio === 'dimas') === (n.id === 's-dimas'));
+  const ab = D.abertas.filter((t) => cs.some((c) => c.id === t.cliente_id));
+  return `<h3>${esc(n.nome)}</h3><p class="sub">Sócio · ${cs.length} clientes · ${ab.length} tarefas abertas</p>
+    <h4>Clientes</h4>${cs.map((c) => { const a = D.abertas.filter((t) => t.cliente_id === c.id); const at = a.filter(atrasada).length; return `<div class="it">${esc(c.nome)} <small>· ${a.length} abertas</small>${at ? ` <span class="tag verm">${at} atras.</span>` : ''}</div>`; }).join('')}`;
+}
+function montarGrafo() {
+  const ats = ativosMapa(), ids = new Set(ats.map((c) => c.id));
+  const nodes = [{ id: 's-oscar', tipo: 'socio', nome: 'Oscar', r: 26 }, { id: 's-dimas', tipo: 'socio', nome: 'Dimas', r: 22 }];
+  const links = [];
+  for (const c of ats) {
+    const ab = D.abertas.filter((t) => t.cliente_id === c.id);
+    nodes.push({ id: c.id, tipo: 'cliente', nome: c.nome, c, r: 8 + Math.sqrt(ab.length) * 3.2, atr: ab.some(atrasada), saude: c.saude });
+    links.push({ source: c.socio === 'dimas' ? 's-dimas' : 's-oscar', target: c.id, k: 'socio' });
+  }
+  const vistos = new Set();
+  for (const r of D.responsaveis) {
+    if (!ids.has(r.cliente_id) || !pes(r.equipe_id)) continue;
+    const k = r.equipe_id + r.cliente_id; if (vistos.has(k)) continue; vistos.add(k);
+    links.push({ source: r.equipe_id, target: r.cliente_id, k: 'equipe' });
+  }
+  const comercial = D.equipe.find((p) => /comercial/i.test(p.nome));
+  if (comercial) {
+    links.push({ source: comercial.id, target: 's-dimas', k: 'socio' });
+    new Set(D.abertas.filter((t) => t.responsavel_id === comercial.id && ids.has(t.cliente_id)).map((t) => t.cliente_id)).forEach((cid) => links.push({ source: comercial.id, target: cid, k: 'equipe' }));
+  }
+  const usados = new Set(links.flatMap((l) => [l.source, l.target]));
+  for (const p of D.equipe) if (usados.has(p.id)) nodes.push({ id: p.id, tipo: 'pessoa', nome: p.nome, p, r: 15, ext: p.id === comercial?.id });
+  return { nodes, links };
+}
+async function desenharMapa() {
+  const el = $('#mapa'); if (!el) return;
+  try { await carregarD3(); } catch (e) { el.insertAdjacentHTML('afterbegin', `<p class="vazio" style="padding:20px">${esc(e.message)}</p>`); return; }
+  if (!$('#mapa')) return;
+  if (simMapa) simMapa.stop();
+  const { nodes, links } = montarGrafo();
+  const W = el.clientWidth, H = el.clientHeight;
+  const svg = d3.select(el).insert('svg', ':first-child').attr('viewBox', [-W / 2, -H / 2, W, H]);
+  const g = svg.append('g');
+  let mexeu = false;
+  const zoom = d3.zoom().scaleExtent([0.25, 3]).on('zoom', (ev) => { g.attr('transform', ev.transform); if (ev.sourceEvent) mexeu = true; });
+  svg.call(zoom);
+  const encaixar = () => {
+    if (mexeu || !nodes.length || !svg.node().isConnected || !W || !H) return;
+    const xs = nodes.map((n) => n.x), ys = nodes.map((n) => n.y);
+    const x0 = Math.min(...xs) - 60, x1 = Math.max(...xs) + 60, y0 = Math.min(...ys) - 40, y1 = Math.max(...ys) + 50;
+    const k = Math.max(0.25, Math.min(W / (x1 - x0), H / (y1 - y0), 1.3));
+    if (![x0, x1, y0, y1, k].every(Number.isFinite)) return;
+    svg.transition().duration(500).call(zoom.transform, d3.zoomIdentity.scale(k).translate(-(x0 + x1) / 2, -(y0 + y1) / 2));
+  };
+  const link = g.append('g').selectAll('line').data(links).join('line')
+    .attr('stroke', (d) => d.k === 'socio' ? '#9fb0c3' : '#00c46a').attr('stroke-opacity', (d) => d.k === 'socio' ? 0.55 : 0.35).attr('stroke-width', (d) => d.k === 'socio' ? 1.6 : 1.2);
+  const no = g.append('g').selectAll('g').data(nodes).join('g').attr('class', 'no');
+  no.append('circle').attr('r', (d) => d.r)
+    .attr('fill', (d) => d.tipo === 'socio' ? '#0d1b2a' : d.tipo === 'pessoa' ? (d.ext ? '#94a3b8' : '#00a85a') : '#fff')
+    .attr('stroke', (d) => d.tipo === 'cliente' ? (d.atr || d.saude === 'vermelho' ? '#d9480f' : d.saude === 'amarelo' ? '#f5b400' : '#0f9d58') : d.tipo === 'socio' ? '#00c46a' : '#fff')
+    .attr('stroke-width', (d) => d.tipo === 'cliente' ? 2.5 : 3);
+  no.filter((d) => d.tipo !== 'cliente').append('text').attr('class', 'ini').attr('text-anchor', 'middle').attr('dy', '0.35em').style('font-size', (d) => d.tipo === 'socio' ? '12px' : '10px').text((d) => d.tipo === 'socio' ? d.nome : iniciais(d.nome));
+  no.append('text').attr('text-anchor', 'middle').attr('dy', (d) => d.r + 13).text((d) => d.tipo === 'socio' ? '' : d.nome.length > 22 ? d.nome.slice(0, 21) + '…' : d.nome);
+  const viz = new Map(nodes.map((n) => [n.id, new Set([n.id])]));
+  links.forEach((l) => { viz.get(l.source).add(l.target); viz.get(l.target).add(l.source); });
+  function destacar(id) {
+    const v = id ? viz.get(id) : null;
+    no.style('opacity', (d) => !v || v.has(d.id) ? 1 : 0.18);
+    link.style('opacity', (d) => !v || d.source.id === id || d.target.id === id ? 1 : 0.06);
+  }
+  no.on('click', (ev, d) => { ev.stopPropagation(); selMapa = d.id; destacar(d.id); $('#ficha').innerHTML = fichaNo(d); });
+  svg.on('click', () => { selMapa = null; destacar(null); $('#ficha').innerHTML = fichaPadrao(); });
+  no.call(d3.drag().on('start', (ev, d) => { if (!ev.active) simMapa.alphaTarget(0.25).restart(); d.fx = d.x; d.fy = d.y; })
+    .on('drag', (ev, d) => { d.fx = ev.x; d.fy = ev.y; }).on('end', (ev, d) => { if (!ev.active) simMapa.alphaTarget(0); d.fx = null; d.fy = null; }));
+  simMapa = d3.forceSimulation(nodes)
+    .force('link', d3.forceLink(links).id((d) => d.id).distance((d) => d.k === 'socio' ? 95 : 120).strength((d) => d.k === 'socio' ? 0.7 : 0.12))
+    .force('charge', d3.forceManyBody().strength((d) => d.tipo === 'socio' ? -900 : d.tipo === 'pessoa' ? -380 : -220))
+    .force('x', d3.forceX((d) => d.id === 's-oscar' ? -W * 0.18 : d.id === 's-dimas' ? W * 0.18 : 0).strength((d) => d.tipo === 'socio' ? 0.3 : 0.04))
+    .force('y', d3.forceY(0).strength(0.06))
+    .force('colisao', d3.forceCollide((d) => d.r + 16))
+    .on('tick', () => {
+      link.attr('x1', (d) => d.source.x).attr('y1', (d) => d.source.y).attr('x2', (d) => d.target.x).attr('y2', (d) => d.target.y);
+      no.attr('transform', (d) => `translate(${d.x},${d.y})`);
+    }).on('end', encaixar);
+  setTimeout(encaixar, 1400);
+  if (selMapa) { const d = nodes.find((n) => n.id === selMapa); if (d) { destacar(d.id); $('#ficha').innerHTML = fichaNo(d); } }
+}
 function render() {
   const c = $('#conteudo');
-  c.innerHTML = aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : renderClientes();
+  if (simMapa && aba !== 'mapa') { simMapa.stop(); simMapa = null; }
+  c.innerHTML = aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : aba === 'diario' ? renderDiario() : aba === 'mapa' ? renderMapa() : renderClientes();
+  if (aba === 'mapa') desenharMapa();
+  const bd = $('#buscaDia');
+  if (bd) { bd.oninput = (e) => { diaBusca = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaDia'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
+  const cd = $('#cliDia'); if (cd) cd.onchange = (e) => { diaCli = e.target.value; render(); };
   document.querySelectorAll('[data-mens]').forEach((i) => { i.onchange = async () => { try { await api('mensalidade', { cliente_id: i.dataset.mens, mensalidade: i.value }); toast('Mensalidade salva'); carregarFinanceiro(); } catch (e) { toast(e.message); } }; });
   document.querySelectorAll('nav button').forEach((b) => b.classList.toggle('on', b.dataset.aba === aba));
-  c.classList.toggle('quadro', aba === 'pessoas');
+  c.classList.toggle('quadro', aba === 'pessoas' || aba === 'mapa');
   document.documentElement.style.setProperty('--hdr', document.querySelector('header').offsetHeight + 'px');
   const kb = $('#kanban');
   if (kb) {
@@ -508,7 +726,9 @@ function abrirEdicao(id) {
 }
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button, tr[data-hist]'); if (!b) return;
-  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'financeiro' && F) carregarFinanceiro(); }
+  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'financeiro' && F) carregarFinanceiro(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
+  else if (b.dataset.dtipo !== undefined) { diaTipo = b.dataset.dtipo; render(); }
+  else if (b.dataset.vdia) { diaCli = b.dataset.vdia; diaTipo = ''; diaBusca = ''; aba = 'diario'; render(); }
   else if (b.dataset.hist) { const d = document.querySelector(`[data-det="${b.dataset.hist}"]`); if (d) d.classList.toggle('hidden'); }
   else if (b.dataset.kb) { const kb = $('#kanban'); if (kb) kb.scrollBy({ left: Number(b.dataset.kb) * 344, behavior: 'smooth' }); }
   else if (b.dataset.pc) { abrirPessoa(b.dataset.pc); }
@@ -601,7 +821,7 @@ function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classLi
 async function entrar() {
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
   await carregar();
-  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]') && aba !== 'financeiro') carregar().catch(() => {}); }, 60000);
+  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa'].includes(aba)) carregar().catch(() => {}); }, 60000);
 }
 $('#fLogin').onsubmit = async (e) => {
   e.preventDefault(); $('#erroLogin').textContent = '';
