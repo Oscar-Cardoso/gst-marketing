@@ -125,6 +125,9 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .hb b{font-size:12.5px}.hb span{font-size:11.5px;color:var(--muted);font-variant-numeric:tabular-nums}
 .hist-leg{display:flex;gap:14px;font-size:12px;color:var(--muted);align-self:center;margin-left:auto}.hist-leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .hist-linha{cursor:pointer}.hist-det>td{background:#f8fafc}
+/* whatsapp */
+.wa{display:flex;align-items:center;gap:7px;background:var(--navy-2);border:1px solid var(--navy-3);color:rgba(255,255,255,.8);border-radius:20px;padding:6px 12px;font-size:12.5px;font-weight:600;cursor:pointer}
+.wa i{width:9px;height:9px;border-radius:50%;background:#64748b}.wa.on i{background:var(--green);box-shadow:0 0 0 3px rgba(0,196,106,.25)}.wa.off i{background:#f87171}.wa.meio i{background:var(--yellow)}
 /* diário */
 .dia-filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px}
 .dia-filtros .busca{margin:0;flex:1 1 220px}
@@ -163,7 +166,7 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .ficha .it small{color:var(--muted)}
 @media (max-width:900px){.mapa-wrap{grid-template-columns:1fr;height:auto}#mapa{height:62vh}.ficha{border-left:0;border-top:1px solid var(--line)}}
 @media (max-width:640px){.dia{grid-template-columns:1fr;gap:8px}.dia-data b{display:inline;font-size:17px;margin-right:6px}}
-@media (max-width:640px){header{padding:10px 14px 0}.t{grid-template-columns:1fr}.t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}.linha{grid-template-columns:1fr}nav button{padding:9px 10px}main{padding:14px}.col{flex-basis:86vw}.kanban{padding:14px}.kb-nav{display:none}}
+@media (max-width:640px){.wa span{display:none}header{padding:10px 14px 0}.t{grid-template-columns:1fr}.t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}.linha{grid-template-columns:1fr}nav button{padding:9px 10px}main{padding:14px}.col{flex-basis:86vw}.kanban{padding:14px}.kb-nav{display:none}}
 </style>
 </head>
 <body>
@@ -184,6 +187,7 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
       <div class="marca"><span class="selo">G</span>GST Marketing <small>Escritório</small></div>
       <span class="atual" id="atual"></span>
       <div class="esp"></div>
+      <button class="wa" id="bWa" title="WhatsApp do escritório"><i></i><span>WhatsApp</span></button>
       <select id="ator" title="Quem está usando"></select>
       <button class="btn pri" id="bOferta">+ Chegou oferta</button>
       <button class="btn" id="bNova">+ Tarefa</button>
@@ -816,11 +820,34 @@ $('#ator').onchange = (e) => lsSet('gst_ator', e.target.value);
 window.addEventListener('resize', () => document.documentElement.style.setProperty('--hdr', document.querySelector('header').offsetHeight + 'px'));
 $('#bSair').onclick = async () => { await api('logout').catch(() => {}); mostrarLogin(); };
 
+// ---------- whatsapp ----------
+let WA = null;
+async function statusWhats() {
+  const b = $('#bWa');
+  try { WA = await api('whatsapp'); } catch (e) { WA = { erro: e.message }; }
+  const est = WA.erro ? 'off' : !WA.configurado ? '' : !WA.conectado ? 'off' : WA.webhook ? 'on' : 'meio';
+  b.className = 'wa ' + est;
+  b.querySelector('span').textContent = WA.erro ? 'WhatsApp: erro' : !WA.configurado ? 'WhatsApp: falta configurar' : !WA.conectado ? 'WhatsApp desconectado' : WA.webhook ? 'WhatsApp conectado' : 'WhatsApp: ativar recebimento';
+}
+$('#bWa').onclick = async () => {
+  if (!WA) return statusWhats();
+  if (WA.erro) return toast(WA.erro);
+  if (!WA.configurado) return toast('Falta na Vercel: ' + WA.faltam.join(' e '));
+  if (!WA.conectado) return toast('O número não está conectado. Leia o QR code na Uazapi (' + (WA.estado || 'desconectado') + ').');
+  if (!WA.webhook) {
+    try { await api('whatsapp_ativar', {}); toast('Recebimento ativado. Mande uma mensagem para o número para testar.'); } catch (e) { toast(e.message); }
+    return statusWhats();
+  }
+  toast('Conectado' + (WA.numero ? ' · ' + WA.numero : '') + (WA.ultima_mensagem ? ' · última mensagem ' + prazoTxt(WA.ultima_mensagem) : ' · nenhuma mensagem recebida ainda'));
+  statusWhats();
+};
+
 // ---------- login ----------
 function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); $('#senha').focus(); }
 async function entrar() {
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
   await carregar();
+  statusWhats();
   clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa'].includes(aba)) carregar().catch(() => {}); }, 60000);
 }
 $('#fLogin').onsubmit = async (e) => {

@@ -281,6 +281,34 @@ async function salvarCustoFixo(b) {
   return {};
 }
 
+// ---------- WhatsApp (Uazapi) ----------
+const segredoWhats = () => (process.env.UAZAPI_TOKEN ? crypto.createHash('sha256').update('gst-whatsapp:' + process.env.UAZAPI_TOKEN).digest('hex').slice(0, 40) : '');
+async function uazapi(caminho, { method = 'GET', body } = {}) {
+  const base = (process.env.UAZAPI_URL || '').replace(/\/+$/, '');
+  if (!base || !process.env.UAZAPI_TOKEN) throw Object.assign(new Error('WhatsApp ainda não configurado na Vercel (UAZAPI_URL e UAZAPI_TOKEN).'), { status: 400 });
+  const r = await fetch(base + caminho, { method, headers: { token: process.env.UAZAPI_TOKEN, 'Content-Type': 'application/json', Accept: 'application/json' }, body: body ? JSON.stringify(body) : undefined });
+  const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch { j = { texto: t.slice(0, 300) }; }
+  if (!r.ok) throw Object.assign(new Error((j && (j.error || j.message)) || 'Uazapi respondeu ' + r.status), { status: 400 });
+  return j;
+}
+async function whatsStatus() {
+  if (!process.env.UAZAPI_URL || !process.env.UAZAPI_TOKEN) return { configurado: false, faltam: ['UAZAPI_URL', 'UAZAPI_TOKEN'].filter((k) => !process.env[k]) };
+  const j = await uazapi('/instance/status');
+  const inst = j.instance || j;
+  const st = j.status || {};
+  const conectado = Boolean(st.connected ?? st.loggedIn ?? (inst.status === 'connected'));
+  let webhook = null;
+  try { const w = await uazapi('/webhook'); const lista = Array.isArray(w) ? w : [w]; webhook = lista.some((x) => x && x.enabled !== false && String(x.url || '').includes('/api/whatsapp')); } catch {}
+  const ultima = await sb('whatsapp_mensagens?select=recebida_em&order=recebida_em.desc&limit=1');
+  return { configurado: true, conectado, estado: inst.status || null, numero: inst.owner || inst.phone || null, nome: inst.profileName || inst.name || null, webhook, ultima_mensagem: ultima[0] ? ultima[0].recebida_em : null };
+}
+async function whatsAtivar(req) {
+  const host = req.headers['x-forwarded-host'] || req.headers.host;
+  const url = 'https://' + host + '/api/whatsapp?s=' + segredoWhats();
+  await uazapi('/webhook', { method: 'POST', body: { enabled: true, url, events: ['messages', 'connection'], excludeMessages: ['wasSentByApi'] } });
+  return { ativado: true };
+}
+
 async function lerCorpo(req) {
   let b = req.body;
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch { b = {}; } }
@@ -314,9 +342,11 @@ module.exports = async (req, res) => {
 
     if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDados()) });
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario()) });
+    if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });
     if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });
     if (req.method !== 'POST') return res.status(405).json({ ok: false });
     const b = await lerCorpo(req);
+    if (acao === 'whatsapp_ativar') return res.json({ ok: true, ...(await whatsAtivar(req)) });
     if (acao === 'oferta') return res.json({ ok: true, ...(await registrarOferta(b)) });
     if (acao === 'tarefa') return res.json({ ok: true, ...(await atualizarTarefa(b)) });
     if (acao === 'nova') return res.json({ ok: true, ...(await criarTarefa(b)) });
