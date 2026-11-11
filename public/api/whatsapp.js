@@ -57,7 +57,8 @@ module.exports = async (req, res) => {
   try {
     const linha = extrair(p);
     if (!linha.chat_id && !linha.texto) return res.json({ ok: true, ignorado: 'vazio' });
-    await sb('whatsapp_mensagens?on_conflict=msg_id', { ...linha, bruto: p }, 'return=minimal,resolution=ignore-duplicates');
+    const { token, BaseUrl, admintoken, ...semSegredo } = p; // nunca guardar o token da instância
+    await sb('whatsapp_mensagens?on_conflict=msg_id', { ...linha, bruto: semSegredo }, 'return=minimal,resolution=ignore-duplicates');
     return res.json({ ok: true });
   } catch (e) {
     return res.status(500).json({ ok: false });
