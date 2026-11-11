@@ -62,6 +62,9 @@ const FERRAMENTAS = [
   { name: 'registrar_oferta', description: 'Registra que chegou oferta de um cliente: cria o encarte para o designer e deixa social e tráfego esperando a aprovação.', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, detalhes: { type: 'string' } }, required: ['cliente'] } },
   { name: 'trocar_responsavel_cliente', description: 'Define quem cuida de uma área de um cliente (design, social_media, trafego, automacao, video, gestao). Substitui quem estava.', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, area: { type: 'string', enum: AREAS }, pessoa: { type: 'string' } }, required: ['cliente', 'area', 'pessoa'] } },
   { name: 'anotar_diario', description: 'Grava um registro no Diário do escritório (decisão, recado, mudança, fato importante).', input_schema: { type: 'object', properties: { resumo: { type: 'string' }, cliente: { type: 'string' }, tipo: { type: 'string', enum: ['decisao', 'nota', 'cliente', 'equipe', 'financeiro'] } }, required: ['resumo'] } },
+  { name: 'consultar_processo', description: 'Base de treinamento da GST: processos, modelos e checklists de cada área (ex.: gestão de Instagram, cronograma de stories, análise de perfil). Sem argumentos lista o que existe; com texto ou area traz o conteúdo completo.', input_schema: { type: 'object', properties: { texto: { type: 'string' }, area: { type: 'string', enum: [...AREAS, 'geral'] } } } },
+  { name: 'mensagens_grupo', description: 'Últimas mensagens recebidas nos grupos de WhatsApp de um cliente (o que o cliente pediu, aprovou ou perguntou).', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, dias: { type: 'number' } }, required: ['cliente'] } },
+  { name: 'financeiro', description: 'Fechamento mensal da GST (ago/26 em diante): receita, parte do Dimas, custos de design/tráfego/social, despesas, resultado e clientes por mês. Use para comparar meses.', input_schema: { type: 'object', properties: { meses: { type: 'number', description: 'quantos meses mais recentes (padrão 3)' } } } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
 ];
 
@@ -156,6 +159,36 @@ async function executar(nome, a, ctx) {
     const r = await sb(q);
     return { registros: r.map((d) => `${d.dia} ${d.tipo}${d.cliente_id ? ' [' + (B.clientes.find((c) => c.id === d.cliente_id) || {}).nome + ']' : ''}: ${d.resumo}${d.quem ? ' (' + d.quem + ')' : ''}`) };
   }
+  if (nome === 'consultar_processo') {
+    const ps = await sb('processos?select=slug,area,titulo,resumo,tipo,conteudo,cliente_id&ativo=eq.true&order=area,titulo');
+    const q = norm(a.texto || '');
+    let achados = ps.filter((x) => (!a.area || x.area === a.area) && (!q || q.split(' ').every((w) => norm(x.titulo + ' ' + x.resumo + ' ' + x.conteudo).includes(w))));
+    if (!a.texto && !a.area) return { processos: ps.map((x) => `${x.area} · ${x.titulo} (${x.tipo}): ${x.resumo || ''}`) };
+    if (!achados.length && q) achados = ps.filter((x) => q.split(' ').some((w) => w.length > 3 && norm(x.titulo + ' ' + x.resumo).includes(w)));
+    return achados.length ? { processos: achados.slice(0, 3).map((x) => ({ titulo: x.titulo, area: x.area, conteudo: x.conteudo })) } : { nada: 'não há processo cadastrado sobre isso', existentes: ps.map((x) => x.titulo) };
+  }
+  if (nome === 'mensagens_grupo') {
+    const c = cli(a.cliente);
+    const desde = new Date(Date.now() - Math.min(Number(a.dias) || 3, 30) * 864e5).toISOString();
+    const ms = await sb(`whatsapp_mensagens?select=recebida_em,nome_chat,nome_remetente,de_mim,texto,tipo&cliente_id=eq.${c.id}&eh_grupo=eq.true&recebida_em=gte.${desde}&order=recebida_em.desc&limit=40`);
+    const vistos = new Set();
+    const lista = ms.filter((m) => { const k = (m.texto || '') + m.nome_remetente; if (vistos.has(k)) return false; vistos.add(k); return true; }).reverse();
+    return lista.length ? { grupo: lista[0].nome_chat, mensagens: lista.map((m) => `${fmt(m.recebida_em)} ${m.de_mim ? 'GST (número do escritório)' : m.nome_remetente || '?'}: ${m.texto || '[' + (m.tipo || 'mídia') + ']'}`) } : { nada: 'nenhuma mensagem desse cliente no período (o número do escritório precisa estar no grupo)' };
+  }
+  if (nome === 'financeiro') {
+    const [f, d] = await Promise.all([sb('fechamentos_mensais?select=mes,cliente_nome,socio,status,receita,custo_design,custo_trafego,custo_social,lucro_oscar,projecao&order=mes.desc'), sb('despesas_mensais?select=mes,descricao,valor')]);
+    const meses = [...new Set(f.map((x) => String(x.mes).slice(0, 7)))].slice(0, Math.min(Number(a.meses) || 3, 6));
+    const n = (v) => Number(v) || 0;
+    return { regra: 'Clientes do Dimas: design sai antes da divisão 50/50; tráfego e social saem só da metade do Oscar. lucro_oscar já aplica a regra.', meses: meses.map((m) => {
+      const ls = f.filter((x) => String(x.mes).startsWith(m)), ds = d.filter((x) => String(x.mes).startsWith(m));
+      const soma = (k) => Math.round(ls.reduce((t, x) => t + n(x[k]), 0));
+      const desp = Math.round(ds.reduce((t, x) => t + n(x.valor), 0));
+      const resultado = soma('lucro_oscar');
+      return { mes: m, projecao: ls.some((x) => x.projecao), clientes: ls.length, clientes_oscar: ls.filter((x) => x.socio !== 'dimas').length, clientes_dimas: ls.filter((x) => x.socio === 'dimas').length,
+        receita_bruta: soma('receita'), custo_design: soma('custo_design'), custo_trafego: soma('custo_trafego'), custo_social: soma('custo_social'), resultado_oscar: resultado, despesas_fixas: desp, resultado_final: resultado - desp,
+        lista: ls.map((x) => `${x.cliente_nome} (${x.socio}${x.status ? ', ' + x.status : ''}): receita ${Math.round(n(x.receita))}, lucro ${Math.round(n(x.lucro_oscar))}`) };
+    }) };
+  }
   throw new Error('ferramenta desconhecida');
 }
 
@@ -167,6 +200,7 @@ Responda sempre em português do Brasil, curto e direto, no estilo WhatsApp: fra
 Use as ferramentas para consultar e mudar o escritório; nunca invente tarefa, número, prazo ou nome. Se a ferramenta der erro (ex.: nome ambíguo), diga o que faltou e pergunte.
 Quando pedirem para fazer algo (criar tarefa, mudar responsável, registrar oferta, anotar), faça direto e confirme em uma linha o que ficou. Só pergunte antes se faltar algo essencial (qual cliente) ou se o pedido for ambíguo.
 Regras: tudo o que não é marketing (precificação, margem, mix, Mapa do Lucro, estoque, curva ABC, fornecedores, financeiro da loja) vai para o responsável "Comercial · Dimas" com área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia. "Amanhã", "sexta" etc. são relativos a hoje.
+Quando perguntarem como fazer algo (ou a Jéssica pedir ajuda), consulte a base de processos e responda em passo a passo, adaptado ao cliente quando houver. Quando perguntarem o que um cliente falou ou pediu, veja as mensagens do grupo.
 Você não manda mensagem para clientes nem para a equipe; só responde aqui. Se pedirem isso, escreva o texto pronto para a pessoa copiar e enviar.
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
@@ -197,8 +231,9 @@ async function responder({ quem, pedido, historico = [] }) {
   if (messages.length && messages[messages.length - 1].role === 'user') messages[messages.length - 1].content += '\n' + pedido;
   else messages.push({ role: 'user', content: pedido });
   const inicio = Date.now();
+  const sys = sistema(quem, B); // fixo durante a conversa (mudar o texto invalida o raciocínio anterior)
   for (let volta = 0; volta < 8; volta++) {
-    const j = await claude({ model: MODELO, max_tokens: 1200, system: sistema(quem, B), tools: FERRAMENTAS, messages });
+    const j = await claude({ model: MODELO, max_tokens: 2000, system: sys, tools: FERRAMENTAS, messages });
     messages.push({ role: 'assistant', content: j.content });
     if (j.stop_reason !== 'tool_use') return j.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n').trim() || 'Feito.';
     const resultados = [];
