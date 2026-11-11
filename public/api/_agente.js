@@ -65,6 +65,7 @@ const FERRAMENTAS = [
   { name: 'consultar_processo', description: 'Base de treinamento da GST: processos, modelos e checklists de cada área (ex.: gestão de Instagram, cronograma de stories, análise de perfil). Sem argumentos lista o que existe; com texto ou area traz o conteúdo completo.', input_schema: { type: 'object', properties: { texto: { type: 'string' }, area: { type: 'string', enum: [...AREAS, 'geral'] } } } },
   { name: 'mensagens_grupo', description: 'Últimas mensagens recebidas nos grupos de WhatsApp de um cliente (o que o cliente pediu, aprovou ou perguntou).', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, dias: { type: 'number' } }, required: ['cliente'] } },
   { name: 'financeiro', description: 'Fechamento mensal da GST (ago/26 em diante): receita, parte do Dimas, custos de design/tráfego/social, despesas, resultado e clientes por mês. Use para comparar meses.', input_schema: { type: 'object', properties: { meses: { type: 'number', description: 'quantos meses mais recentes (padrão 3)' } } } },
+  { name: 'publicar_tarefas_grupo_interno', description: 'Publica no grupo interno da equipe no WhatsApp ("GST, Estratégia e Tráfego") a lista de tarefas abertas, separada por pessoa. Use SÓ quando o Oscar ou a Jéssica pedirem explicitamente para enviar/atualizar as tarefas no grupo interno. Com previa=true só devolve o texto, sem enviar.', input_schema: { type: 'object', properties: { previa: { type: 'boolean' }, pessoas: { type: 'array', items: { type: 'string' }, description: 'opcional: só essas pessoas' } } } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
 ];
 
@@ -160,6 +161,14 @@ async function executar(nome, a, ctx) {
     await sb('diario', { method: 'POST', body: { dia: hojeSP(), cliente_id: c ? c.id : null, tipo: a.tipo || 'nota', resumo: String(a.resumo).slice(0, 2000), quem: ctx.quem.nome, fonte: 'whatsapp' } });
     return { anotado: true };
   }
+  if (nome === 'publicar_tarefas_grupo_interno') {
+    const texto = await montarTarefasEquipe(B, a.pessoas, ctx.quem.nome);
+    if (a.previa) return { previa: texto };
+    const grupo = await grupoInterno();
+    await enviarWhats(grupo.id, texto);
+    await sb('diario', { method: 'POST', body: { dia: hojeSP(), tipo: 'equipe', resumo: 'Fiscal publicou as tarefas abertas por pessoa no grupo interno (' + grupo.nome + ').', quem: ctx.quem.nome, fonte: 'whatsapp' } });
+    return { enviado: true, grupo: grupo.nome, caracteres: texto.length };
+  }
   if (nome === 'buscar_diario') {
     let q = 'diario?select=dia,tipo,resumo,quem,cliente_id&order=dia.desc,created_at.desc&limit=25&dia=gte.' + new Date(Date.now() - 180 * 864e5).toISOString().slice(0, 10);
     if (a.cliente) q += '&cliente_id=eq.' + cli(a.cliente).id;
@@ -210,9 +219,64 @@ Use as ferramentas para consultar e mudar o escritório; nunca invente tarefa, n
 Quando pedirem para fazer algo (criar tarefa, mudar responsável, registrar oferta, anotar), faça direto e confirme em uma linha o que ficou. Só pergunte antes se faltar algo essencial (qual cliente) ou se o pedido for ambíguo.
 Regras: tudo o que não é marketing (precificação, margem, mix, Mapa do Lucro, estoque, curva ABC, fornecedores, financeiro da loja) vai para o responsável "Comercial · Dimas" com área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia. "Amanhã", "sexta" etc. são relativos a hoje.
 Quando perguntarem como fazer algo (ou a Jéssica pedir ajuda), consulte a base de processos e responda em passo a passo, adaptado ao cliente quando houver. Quando perguntarem o que um cliente falou ou pediu, veja as mensagens do grupo.
-Você não manda mensagem para clientes nem para a equipe; só responde aqui. Se pedirem isso, escreva o texto pronto para a pessoa copiar e enviar.
+Você não manda mensagem para clientes nem para pessoas da equipe no privado; só responde aqui. A ÚNICA exceção é publicar as tarefas no grupo interno da equipe com a ferramenta publicar_tarefas_grupo_interno, e só quando o Oscar ou a Jéssica pedirem isso claramente ("manda/atualiza as tarefas no grupo"). Depois de publicar, confirme em uma linha. Se o pedido for ambíguo, mostre a prévia (previa=true) e pergunte se pode enviar. Para outros recados à equipe ou a clientes, escreva o texto pronto para a pessoa copiar e enviar.
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
+}
+
+// ---------- grupo interno ----------
+const NOME_GRUPO_INTERNO = /estrat[ée]gia/i;
+async function uaz(caminho, opt = {}) {
+  const base = (process.env.UAZAPI_URL || '').replace(/\/+$/, '');
+  if (!base || !process.env.UAZAPI_TOKEN) throw new Error('WhatsApp não configurado');
+  const r = await fetch(base + caminho, { method: opt.method || 'GET', headers: { token: process.env.UAZAPI_TOKEN, 'Content-Type': 'application/json', Accept: 'application/json' }, body: opt.body ? JSON.stringify(opt.body) : undefined });
+  const t = await r.text(); let j = null; try { j = JSON.parse(t); } catch { j = t; }
+  if (!r.ok) throw new Error('WhatsApp respondeu ' + r.status);
+  return j;
+}
+async function enviarWhats(numero, texto) { return uaz('/send/text', { method: 'POST', body: { number: numero, text: texto } }); }
+async function grupoInterno() {
+  const salvo = await sb('configuracoes?select=valor&chave=eq.grupo_interno');
+  if (salvo[0] && salvo[0].valor) { try { return JSON.parse(salvo[0].valor); } catch {} }
+  let achado = null;
+  const visto = await sb('whatsapp_mensagens?select=chat_id,nome_chat&eh_grupo=eq.true&order=recebida_em.desc&limit=500');
+  const m = visto.find((x) => x.nome_chat && NOME_GRUPO_INTERNO.test(x.nome_chat) && /gst/i.test(x.nome_chat));
+  if (m) achado = { id: m.chat_id, nome: m.nome_chat };
+  if (!achado) {
+    let lista = [];
+    for (const c of ['/group/list?force=true&noparticipants=true', '/group/list']) { try { const j = await uaz(c); lista = Array.isArray(j) ? j : (j.groups || j.data || []); if (lista.length) break; } catch {} }
+    const g = lista.find((x) => { const n = x.Name || x.name || x.subject || x.Subject || ''; return NOME_GRUPO_INTERNO.test(n) && /gst/i.test(n); });
+    if (g) achado = { id: g.JID || g.jid || g.id || g.chatid, nome: g.Name || g.name || g.subject || g.Subject };
+  }
+  if (!achado || !achado.id) throw new Error('não achei o grupo interno "GST, Estratégia e Tráfego" no WhatsApp do escritório. Confira se o número do Fiscal está no grupo.');
+  await sb('configuracoes?on_conflict=chave', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal', body: { chave: 'grupo_interno', valor: JSON.stringify(achado), updated_at: new Date().toISOString() } });
+  return achado;
+}
+async function montarTarefasEquipe(B, filtro, pedidoPor) {
+  const ts = await sb('tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&status=not.in.(concluida,cancelada,triagem)&responsavel_id=not.is.null&order=prazo.asc.nullslast&limit=500');
+  const fora = new Set(B.equipe.filter((e) => /^oscar$/i.test(e.nome) || /comercial/i.test(e.nome)).map((e) => e.id));
+  let pessoas = B.equipe.filter((e) => !fora.has(e.id));
+  if (filtro && filtro.length) { const qs = filtro.map(norm); pessoas = pessoas.filter((e) => qs.some((q) => norm(e.nome).includes(q) || q.includes(norm(e.nome)))); }
+  const agora = new Date();
+  const dia = (p) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit' }).format(new Date(p));
+  const blocos = [];
+  for (const e of pessoas) {
+    const minhas = ts.filter((t) => t.responsavel_id === e.id);
+    if (!minhas.length) continue;
+    const atr = minhas.filter((t) => t.prazo && new Date(t.prazo) < agora && t.status !== 'aguardando_cliente');
+    const resto = minhas.filter((t) => !atr.includes(t));
+    const linha = (t) => {
+      const c = (B.clientes.find((x) => x.id === t.cliente_id) || {}).nome || '';
+      const estado = t.status === 'aguardando_cliente' ? ' (aguardando cliente)' : t.bloqueio ? ' (travada: ' + t.bloqueio + ')' : t.status === 'em_andamento' ? ' (em andamento)' : '';
+      return `• ${t.titulo}${c ? ' · ' + c : ''} · ${t.prazo ? dia(t.prazo) : 'sem prazo'}${estado}`;
+    };
+    const itens = [...atr.map((t) => '⚠️ ' + linha(t).slice(2)), ...resto.map(linha)];
+    const mostra = itens.slice(0, 15);
+    blocos.push(`*${e.nome}* (${minhas.length}${atr.length ? ', ' + atr.length + ' atrasada' + (atr.length > 1 ? 's' : '') : ''})\n${mostra.join('\n')}${itens.length > 15 ? `\n… e mais ${itens.length - 15} no painel` : ''}`);
+  }
+  const hoje = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: '2-digit' }).format(agora);
+  if (!blocos.length) return `📋 *Tarefas da equipe · ${hoje}*\n\nNenhuma tarefa aberta com responsável agora. 🎉\n\n_Fiscal · GST_`;
+  return `📋 *Tarefas da equipe · ${hoje}*\n_Atualização pedida por ${pedidoPor}. ⚠️ = atrasada._\n\n${blocos.join('\n\n')}\n\nTerminou? Marque como concluída no painel (agenciagst.com.br/escritorio) ou avise aqui no grupo.\n\n_Fiscal · GST_`;
 }
 
 async function claude(body) {
