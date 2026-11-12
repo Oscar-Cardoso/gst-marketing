@@ -398,6 +398,38 @@ html { scroll-padding-top: 90px; }
 .footer, .footer-bottom { background: #120d21; }
 a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offset: 4px; }
 @media(max-width:480px) { .steps-grid { grid-template-columns: 1fr; gap: 12px; } .step:first-child, .step:nth-child(2), .step:nth-child(3), .step:last-child { border-radius: 16px; } .step-line { display: none; } .hero-card { padding: 32px 24px; } .garantia-big { font-size: 80px; } }
+
+/* resultados + quem somos */
+.resultados{background:#1c112f}
+.res-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:24px;align-items:stretch}
+.res-grid>*,.res-case>div{min-width:0}
+.res-via{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:32px}
+.res-via .quem,.res-case .quem{font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--text-dim);font-weight:600}
+.res-via h3{font-size:24px;color:var(--white);margin:8px 0 22px}
+.res-kpis{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+.res-kpi{background:rgba(154,130,238,.10);border-radius:14px;padding:18px}
+.res-kpi strong{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:52px;line-height:1;color:var(--green)}
+.res-kpi span{display:block;font-size:14px;color:var(--text-muted);margin-top:6px;line-height:1.4}
+.res-bars{display:flex;align-items:flex-end;gap:6px;height:150px;margin-top:34px;border-bottom:1px solid var(--border)}
+.res-bars i{flex:1;background:rgba(234,230,247,.16);border-radius:5px 5px 0 0;position:relative;font-style:normal}
+.res-bars i.d{background:var(--green)}
+.res-bars i b{position:absolute;top:-24px;left:50%;transform:translateX(-50%);font-size:12px;color:var(--white);white-space:nowrap}
+.res-eixo{display:flex;justify-content:space-between;font-size:12px;color:var(--text-dim);margin-top:8px}
+.res-cases{display:grid;gap:24px}
+.res-case{background:rgba(255,255,255,.04);border:1px solid var(--border);border-radius:20px;padding:20px;display:grid;grid-template-columns:150px 1fr;gap:20px;align-items:center}
+.res-case img{width:150px;height:150px;object-fit:cover;object-position:top;border-radius:12px;border:1px solid var(--border)}
+.res-case h4{font-size:18px;color:var(--white);margin:6px 0}
+.res-case p{font-size:14.5px;color:var(--text-muted);line-height:1.55}
+.res-nota{font-size:13px;color:var(--text-dim);margin-top:18px}
+.quemsomos-grid{display:grid;grid-template-columns:auto 1fr;gap:48px;align-items:center}
+.quemsomos-foto{width:260px;height:260px;border-radius:50%;object-fit:cover;box-shadow:0 0 0 6px #fff,0 0 0 9px #6447b1}
+.quemsomos-txt p{font-size:17px;color:var(--text-muted);line-height:1.75;margin-bottom:16px;max-width:640px}
+.quemsomos-txt p strong{color:var(--white)}
+.quemsomos-nums{display:flex;flex-wrap:wrap;gap:28px;margin-top:26px}
+.quemsomos-nums div strong{display:block;font-family:'Anton',sans-serif;font-weight:400;font-size:40px;color:#6447b1;line-height:1}
+.quemsomos-nums div span{font-size:13.5px;color:var(--text-muted)}
+@media(max-width:900px){.res-grid{grid-template-columns:minmax(0,1fr)}.quemsomos-grid{grid-template-columns:1fr;gap:28px;justify-items:center;text-align:center}.quemsomos-txt p{margin-left:auto;margin-right:auto}.quemsomos-nums{justify-content:center}}
+@media(max-width:480px){.res-case{grid-template-columns:96px 1fr;gap:14px;padding:16px}.res-case img{width:96px;height:96px}.res-kpi strong{font-size:36px}.res-via{padding:22px}.quemsomos-foto{width:200px;height:200px}}
 @media(prefers-reduced-motion:reduce) { html { scroll-behavior: auto; } .reveal { opacity: 1; transform: none; transition: none; } .nav-logo-dot { animation: none; } }
 </style>
 </head>
@@ -412,6 +444,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
   </a>
   <div class="nav-links">
     <a href="#como-funciona">Como Funciona</a>
+    <a href="#resultados">Resultados</a>
     <a href="#servicos">Serviços</a>
     <a href="#garantia">Meta</a>
     <a href="#agendar">Agendar</a>
@@ -451,6 +484,10 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
         <div>
           <div class="hero-stat-num">R$<span>50 mil</span>+</div>
           <div class="hero-stat-label">Em anúncios gerenciados / mês</div>
+        </div>
+        <div>
+          <div class="hero-stat-num"><span>50</span>+</div>
+          <div class="hero-stat-label">Lojas atendidas hoje</div>
         </div>
         <div>
           <div class="hero-stat-num"><span>+10%</span></div>
@@ -574,6 +611,39 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
   </div>
 </section>
 
+
+<!-- RESULTADOS -->
+<section class="resultados" id="resultados">
+  <div class="container">
+    <div class="eyebrow reveal">Resultados reais</div>
+    <h2 class="section-title reveal">Mais gente no caixa,<br>todo mês.</h2>
+    <p class="section-desc reveal">Números tirados do sistema das lojas que atendemos. É assim que medimos marketing: cupons no caixa e dinheiro que sobra.</p>
+    <div class="res-grid">
+      <div class="res-via reveal">
+        <div class="quem">Via Norte Supermercados</div>
+        <h3>12 meses de trabalho com a GST</h3>
+        <div class="res-kpis">
+          <div class="res-kpi"><strong>+129%</strong><span>clientes no caixa por mês (de 7.769 para 17.790 cupons)</span></div>
+          <div class="res-kpi"><strong>+57%</strong><span>de faturamento mensal no mesmo período</span></div>
+        </div>
+        <div class="res-bars" role="img" aria-label="Cupons por mês no Via Norte, de setembro de 2025 a setembro de 2026, subindo de 7.769 para 17.790"><i style="height:38.8%" class="d"><b>7.769</b></i><i style="height:41.0%"></i><i style="height:41.2%"></i><i style="height:46.3%"></i><i style="height:45.0%"></i><i style="height:52.8%"></i><i style="height:81.8%"></i><i style="height:83.4%"></i><i style="height:92.7%"></i><i style="height:87.9%"></i><i style="height:91.1%"></i><i style="height:90.7%"></i><i style="height:88.9%" class="d"><b>17.790</b></i></div>
+        <div class="res-eixo"><span>set/25</span><span>cupons emitidos por mês</span><span>set/26</span></div>
+      </div>
+      <div class="res-cases">
+        <div class="res-case reveal" style="transition-delay:.1s">
+          <img src="/img/case-santa-clara.jpg" alt="Perfil do Instagram do Supermercado Santa Clara, em Goiânia" loading="lazy" width="150" height="150">
+          <div><div class="quem">Santa Clara · Goiânia</div><h4>Cortou o encarte impresso no 11º mês</h4><p>Gastava de R$ 15 a 20 mil por mês com impresso. Hoje as ofertas são todas digitais e a loja não pensa em voltar.</p></div>
+        </div>
+        <div class="res-case reveal" style="transition-delay:.2s">
+          <img src="/img/case-g2.jpg" alt="Perfil do Instagram do G2 Atacado de Bebidas" loading="lazy" width="150" height="150">
+          <div><div class="quem">G2 Atacado de Bebidas · SP</div><h4>Rede de 6 lojas com o marketing inteiro na GST</h4><p>Ofertas, anúncios, redes sociais e atendimento automático no WhatsApp tocados pela nossa equipe.</p></div>
+        </div>
+      </div>
+    </div>
+    <p class="res-nota reveal">Resultados variam de loja para loja. No diagnóstico, mostramos o que dá para fazer na sua.</p>
+  </div>
+</section>
+
 <!-- PARA QUEM -->
 <section class="paraquem" id="paraquem">
   <div class="container">
@@ -619,6 +689,27 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
           <div class="paraquem-check-item">Auditoria do investimento atual</div>
           <div class="paraquem-check-item">Redistribuição inteligente de verba</div>
           <div class="paraquem-check-item">Pesquisa de rastreio com clientes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- QUEM ESTÁ POR TRÁS -->
+<section class="section-light" id="quem-somos">
+  <div class="container">
+    <div class="quemsomos-grid">
+      <img class="quemsomos-foto reveal" src="/img/oscar-cardoso.jpg" alt="Oscar Cardoso, fundador da GST Marketing" width="260" height="260" loading="lazy">
+      <div class="quemsomos-txt reveal">
+        <div class="eyebrow">Quem está por trás</div>
+        <h2 class="section-title" style="margin-bottom:22px">Quem já esteve<br>do lado de lá do balcão.</h2>
+        <p><strong>Oscar Cardoso</strong>, fundador da GST, foi gerente e comprador de supermercado antes de abrir a agência. Conhece a rotina da loja por dentro: oferta, gôndola, fornecedor, fila no caixa e a pressão do fim do mês.</p>
+        <p>Por isso a GST fala a língua do dono. A conversa não é sobre curtida, é sobre quantos clientes passaram no caixa e quanto custou trazer cada um.</p>
+        <div class="quemsomos-nums">
+          <div><strong>200+</strong><span>empresas atendidas</span></div>
+          <div><strong>50+</strong><span>lojas atendidas hoje</span></div>
+          <div><strong>R$ 50 mil+</strong><span>por mês em anúncios gerenciados</span></div>
         </div>
       </div>
     </div>
