@@ -68,7 +68,7 @@ const FERRAMENTAS = [
   { name: 'financeiro', description: 'Fechamento mensal da GST (ago/26 em diante): receita, parte do Dimas, custos de design/tráfego/social, despesas, resultado e clientes por mês. Use para comparar meses.', input_schema: { type: 'object', properties: { meses: { type: 'number', description: 'quantos meses mais recentes (padrão 3)' } } } },
   { name: 'publicar_tarefas_grupo_interno', description: 'Publica no grupo interno da equipe no WhatsApp ("GST, Estratégia e Tráfego") a lista de tarefas abertas, separada por pessoa. Use SÓ quando o Oscar ou a Jéssica pedirem explicitamente para enviar/atualizar as tarefas no grupo interno. Com previa=true só devolve o texto, sem enviar.', input_schema: { type: 'object', properties: { previa: { type: 'boolean' }, pessoas: { type: 'array', items: { type: 'string' }, description: 'opcional: só essas pessoas' } } } },
   { name: 'modelos_mensagem', description: 'Lista os modelos de mensagem prontos para os grupos dos clientes (ex.: lembrete da lista de ofertas, pasta do Drive para vídeos), com quando usar e o texto.', input_schema: { type: 'object', properties: {} } },
-  { name: 'previa_mensagem_grupos', description: 'Prepara uma mensagem para os grupos de WhatsApp de um ou mais clientes e devolve a PRÉVIA. Não envia nada. Use um modelo (slug de modelos_mensagem) ou texto_livre ditado pelo Oscar/Jéssica. clientes = lista de nomes; todos=true para todos os clientes ativos que têm grupo. Depois mostre a prévia e pergunte se pode enviar.', input_schema: { type: 'object', properties: { modelo: { type: 'string' }, texto_livre: { type: 'string' }, clientes: { type: 'array', items: { type: 'string' } }, todos: { type: 'boolean' } } } },
+  { name: 'previa_mensagem_grupos', description: 'Prepara uma mensagem para os grupos de WhatsApp de um ou mais clientes e devolve a PRÉVIA. Não envia nada. Use um modelo (slug de modelos_mensagem) ou texto_livre ditado pelo Oscar/Jéssica. clientes = lista de nomes; todos=true para todos os clientes ativos que têm grupo; grupo_interno=true para o grupo interno da equipe (comunicados à equipe). Depois mostre a prévia e pergunte se pode enviar.', input_schema: { type: 'object', properties: { modelo: { type: 'string' }, texto_livre: { type: 'string' }, clientes: { type: 'array', items: { type: 'string' } }, todos: { type: 'boolean' }, grupo_interno: { type: 'boolean' } } } },
   { name: 'confirmar_envio_grupos', description: 'Envia a última prévia preparada por previa_mensagem_grupos (de quem está falando, dos últimos 30 min). Use SÓ quando a pessoa responder que pode enviar, numa mensagem DEPOIS de ver a prévia.', input_schema: { type: 'object', properties: {} } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
 ];
@@ -190,6 +190,13 @@ async function executar(nome, a, ctx) {
     let alvo = [];
     if (a.todos) alvo = ativos;
     else for (const n of a.clientes || []) { const r = achar(todosCli, n); if (r.erro) throw new Error(r.erro); alvo.push(r.item); }
+    if (a.grupo_interno) {
+      const g = await grupoInterno();
+      const texto = base.replace(/\{cliente\}/g, 'GST').replace(/\{pasta_drive\}/g, '');
+      const lote = crypto.randomUUID();
+      await sb('whatsapp_envios_cliente', { method: 'POST', body: [{ lote, modelo: mod ? mod.slug : null, cliente_id: null, grupo_id: g.id, grupo_nome: g.nome, texto, pedido_por: ctx.quem.nome, status: 'previa' }] });
+      return { previa_de_um_grupo: texto, grupos: [g.nome], ficaram_fora: [], aviso: 'NADA foi enviado. Mostre a prévia e pergunte se pode enviar.' };
+    }
     if (!alvo.length) throw new Error('diga para quais clientes (ou todos)');
     if (alvo.length > 25) throw new Error('no máximo 25 grupos por envio');
     const lote = crypto.randomUUID();
@@ -284,7 +291,7 @@ Regras: tudo o que não é marketing (precificação, margem, mix, Mapa do Lucro
 Quando perguntarem como fazer algo (ou a Jéssica pedir ajuda), consulte a base de processos e responda em passo a passo, adaptado ao cliente quando houver. Quando perguntarem o que um cliente falou ou pediu, veja as mensagens do grupo.
 Você não manda mensagem para pessoas da equipe no privado; só responde aqui. Exceções:
 1) Publicar as tarefas no grupo interno da equipe com publicar_tarefas_grupo_interno, só quando o Oscar ou a Jéssica pedirem claramente ("manda/atualiza as tarefas no grupo"). Se for ambíguo, mostre a prévia (previa=true) e pergunte.
-2) Mensagem nos grupos dos clientes, só quando o Oscar ou a Jéssica pedirem: SEMPRE em duas etapas. Primeiro previa_mensagem_grupos (modelo pronto ou texto ditado por eles), mostre a prévia e a lista de grupos e pergunte "Posso enviar?". Só chame confirmar_envio_grupos quando a pessoa responder que sim, numa mensagem seguinte. Nunca envie para cliente por conta própria, nunca invente texto para o cliente sem pedido, e não altere o texto do modelo sem pedirem. Para ver os modelos use modelos_mensagem.
+2) Mensagem nos grupos dos clientes, só quando o Oscar ou a Jéssica pedirem: SEMPRE em duas etapas. Primeiro previa_mensagem_grupos (modelo pronto ou texto ditado por eles), mostre a prévia e a lista de grupos e pergunte "Posso enviar?". Só chame confirmar_envio_grupos quando a pessoa responder que sim, numa mensagem seguinte. Nunca envie para cliente por conta própria, nunca invente texto para o cliente sem pedido, e não altere o texto do modelo sem pedirem. Para ver os modelos use modelos_mensagem. Comunicados para a equipe (ex.: modelo acesso_escritorio) usam o mesmo fluxo com grupo_interno=true.
 Depois de enviar, confirme em uma linha. Para outros recados, escreva o texto pronto para a pessoa copiar e enviar.
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
