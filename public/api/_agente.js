@@ -1,5 +1,6 @@
 // Agente do Escritório GST no WhatsApp: responde ao Oscar e à Jéssica na hora.
 // Usa a API da Anthropic (ANTHROPIC_API_KEY na Vercel) e o Supabase do escritório.
+const crypto = require('crypto');
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rybbojxebmmtfhbmnopm.supabase.co';
 const CHAVE = () => process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
 const MODELO = process.env.AGENTE_MODELO || 'claude-sonnet-5-5';
@@ -66,6 +67,9 @@ const FERRAMENTAS = [
   { name: 'mensagens_grupo', description: 'Últimas mensagens recebidas nos grupos de WhatsApp de um cliente (o que o cliente pediu, aprovou ou perguntou).', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, dias: { type: 'number' } }, required: ['cliente'] } },
   { name: 'financeiro', description: 'Fechamento mensal da GST (ago/26 em diante): receita, parte do Dimas, custos de design/tráfego/social, despesas, resultado e clientes por mês. Use para comparar meses.', input_schema: { type: 'object', properties: { meses: { type: 'number', description: 'quantos meses mais recentes (padrão 3)' } } } },
   { name: 'publicar_tarefas_grupo_interno', description: 'Publica no grupo interno da equipe no WhatsApp ("GST, Estratégia e Tráfego") a lista de tarefas abertas, separada por pessoa. Use SÓ quando o Oscar ou a Jéssica pedirem explicitamente para enviar/atualizar as tarefas no grupo interno. Com previa=true só devolve o texto, sem enviar.', input_schema: { type: 'object', properties: { previa: { type: 'boolean' }, pessoas: { type: 'array', items: { type: 'string' }, description: 'opcional: só essas pessoas' } } } },
+  { name: 'modelos_mensagem', description: 'Lista os modelos de mensagem prontos para os grupos dos clientes (ex.: lembrete da lista de ofertas, pasta do Drive para vídeos), com quando usar e o texto.', input_schema: { type: 'object', properties: {} } },
+  { name: 'previa_mensagem_grupos', description: 'Prepara uma mensagem para os grupos de WhatsApp de um ou mais clientes e devolve a PRÉVIA. Não envia nada. Use um modelo (slug de modelos_mensagem) ou texto_livre ditado pelo Oscar/Jéssica. clientes = lista de nomes; todos=true para todos os clientes ativos que têm grupo. Depois mostre a prévia e pergunte se pode enviar.', input_schema: { type: 'object', properties: { modelo: { type: 'string' }, texto_livre: { type: 'string' }, clientes: { type: 'array', items: { type: 'string' } }, todos: { type: 'boolean' } } } },
+  { name: 'confirmar_envio_grupos', description: 'Envia a última prévia preparada por previa_mensagem_grupos (de quem está falando, dos últimos 30 min). Use SÓ quando a pessoa responder que pode enviar, numa mensagem DEPOIS de ver a prévia.', input_schema: { type: 'object', properties: {} } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
 ];
 
@@ -169,6 +173,65 @@ async function executar(nome, a, ctx) {
     await sb('diario', { method: 'POST', body: { dia: hojeSP(), tipo: 'equipe', resumo: 'Fiscal publicou as tarefas abertas por pessoa no grupo interno (' + grupo.nome + ').', quem: ctx.quem.nome, fonte: 'whatsapp' } });
     return { enviado: true, grupo: grupo.nome, caracteres: texto.length };
   }
+  if (nome === 'modelos_mensagem') {
+    const ms = await sb('mensagens_modelo?select=slug,titulo,quando_usar,texto&ativo=eq.true&order=titulo');
+    return { modelos: ms };
+  }
+  if (nome === 'previa_mensagem_grupos') {
+    let base = a.texto_livre ? String(a.texto_livre).trim() : null, mod = null;
+    if (!base) {
+      const ms = await sb('mensagens_modelo?select=slug,titulo,texto&ativo=eq.true');
+      const r = achar(ms, a.modelo || '', 'slug').item || achar(ms, a.modelo || '', 'titulo').item;
+      if (!r) throw new Error('modelo não encontrado. Existentes: ' + ms.map((x) => x.slug + ' (' + x.titulo + ')').join(', '));
+      mod = r; base = r.texto;
+    }
+    const todosCli = await sb('clientes?select=id,nome,status,whatsapp_grupo_id,pasta_drive&order=nome');
+    const ativos = todosCli.filter((c) => !['pausado', 'encerrado', 'interno'].includes(c.status));
+    let alvo = [];
+    if (a.todos) alvo = ativos;
+    else for (const n of a.clientes || []) { const r = achar(todosCli, n); if (r.erro) throw new Error(r.erro); alvo.push(r.item); }
+    if (!alvo.length) throw new Error('diga para quais clientes (ou todos)');
+    if (alvo.length > 25) throw new Error('no máximo 25 grupos por envio');
+    const lote = crypto.randomUUID();
+    const prontos = [], fora = [];
+    for (const c of alvo) {
+      let gid = c.whatsapp_grupo_id, gnome = null;
+      const vistos = await sb(`whatsapp_mensagens?select=chat_id,nome_chat&cliente_id=eq.${c.id}&eh_grupo=eq.true&order=recebida_em.desc&limit=1`);
+      if (!gid && vistos[0]) gid = vistos[0].chat_id;
+      if (vistos[0] && vistos[0].chat_id === gid) gnome = vistos[0].nome_chat;
+      if (!gid) { fora.push(c.nome + ' (o Fiscal não está em nenhum grupo desse cliente)'); continue; }
+      if (base.includes('{pasta_drive}') && !c.pasta_drive) { fora.push(c.nome + ' (sem pasta do Drive cadastrada)'); continue; }
+      const texto = base.replace(/\{cliente\}/g, c.nome).replace(/\{pasta_drive\}/g, c.pasta_drive || '');
+      prontos.push({ lote, modelo: mod ? mod.slug : null, cliente_id: c.id, grupo_id: gid, grupo_nome: gnome, texto, pedido_por: ctx.quem.nome, status: 'previa' });
+    }
+    if (prontos.length) await sb('whatsapp_envios_cliente', { method: 'POST', body: prontos });
+    return { previa_de_um_grupo: prontos[0] ? prontos[0].texto : null, grupos: prontos.map((x) => x.grupo_nome || (todosCli.find((c) => c.id === x.cliente_id) || {}).nome), ficaram_fora: fora, aviso: 'NADA foi enviado. Mostre a prévia e os grupos e pergunte se pode enviar.' };
+  }
+  if (nome === 'confirmar_envio_grupos') {
+    if (!/\b(sim|pode|manda|envia|enviar|ok|confirm|bora|isso|libera|vai)/i.test(ctx.pedido || '')) throw new Error('a pessoa ainda não confirmou o envio; pergunte se pode enviar');
+    const desde = new Date(Date.now() - 30 * 60e3).toISOString();
+    const ult = await sb(`whatsapp_envios_cliente?select=lote,created_at&status=eq.previa&pedido_por=eq.${encodeURIComponent(ctx.quem.nome)}&created_at=gte.${desde}&order=created_at.desc&limit=1`);
+    if (!ult[0]) throw new Error('não há prévia pendente dos últimos 30 minutos; prepare de novo com previa_mensagem_grupos');
+    if (new Date(ult[0].created_at).getTime() >= ctx.inicio) throw new Error('a prévia acabou de ser criada nesta mesma mensagem; mostre a prévia e espere a pessoa confirmar');
+    const itens = await sb(`whatsapp_envios_cliente?select=id,cliente_id,grupo_id,grupo_nome,texto,modelo&lote=eq.${ult[0].lote}&status=eq.previa`);
+    const ok = [], falha = [];
+    for (const [i, m] of itens.entries()) {
+      const pegou = await sb('whatsapp_envios_cliente?id=eq.' + m.id + '&status=eq.previa', { method: 'PATCH', body: { status: 'enviando' }, prefer: 'return=representation' });
+      if (!pegou.length) continue;
+      const nomeC = (B.clientes.find((c) => c.id === m.cliente_id) || {}).nome || m.grupo_nome;
+      try {
+        if (i) await new Promise((r) => setTimeout(r, 1500));
+        await enviarWhats(m.grupo_id, m.texto);
+        await sb('whatsapp_envios_cliente?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', enviado_em: new Date().toISOString() } });
+        await sb('diario', { method: 'POST', body: { dia: hojeSP(), cliente_id: m.cliente_id, tipo: 'cliente', resumo: `Fiscal enviou no grupo ${m.grupo_nome || 'do cliente'}: ${m.modelo ? 'modelo "' + m.modelo + '"' : 'mensagem'} (a pedido de ${ctx.quem.nome}).`, quem: ctx.quem.nome, fonte: 'whatsapp' } });
+        ok.push(nomeC);
+      } catch (e) {
+        await sb('whatsapp_envios_cliente?id=eq.' + m.id, { method: 'PATCH', body: { status: 'erro', erro: String(e.message || e).slice(0, 300) } });
+        falha.push(nomeC);
+      }
+    }
+    return { enviados: ok, falharam: falha };
+  }
   if (nome === 'buscar_diario') {
     let q = 'diario?select=dia,tipo,resumo,quem,cliente_id&order=dia.desc,created_at.desc&limit=25&dia=gte.' + new Date(Date.now() - 180 * 864e5).toISOString().slice(0, 10);
     if (a.cliente) q += '&cliente_id=eq.' + cli(a.cliente).id;
@@ -219,7 +282,10 @@ Use as ferramentas para consultar e mudar o escritório; nunca invente tarefa, n
 Quando pedirem para fazer algo (criar tarefa, mudar responsável, registrar oferta, anotar), faça direto e confirme em uma linha o que ficou. Só pergunte antes se faltar algo essencial (qual cliente) ou se o pedido for ambíguo.
 Regras: tudo o que não é marketing (precificação, margem, mix, Mapa do Lucro, estoque, curva ABC, fornecedores, financeiro da loja) vai para o responsável "Comercial · Dimas" com área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia. "Amanhã", "sexta" etc. são relativos a hoje.
 Quando perguntarem como fazer algo (ou a Jéssica pedir ajuda), consulte a base de processos e responda em passo a passo, adaptado ao cliente quando houver. Quando perguntarem o que um cliente falou ou pediu, veja as mensagens do grupo.
-Você não manda mensagem para clientes nem para pessoas da equipe no privado; só responde aqui. A ÚNICA exceção é publicar as tarefas no grupo interno da equipe com a ferramenta publicar_tarefas_grupo_interno, e só quando o Oscar ou a Jéssica pedirem isso claramente ("manda/atualiza as tarefas no grupo"). Depois de publicar, confirme em uma linha. Se o pedido for ambíguo, mostre a prévia (previa=true) e pergunte se pode enviar. Para outros recados à equipe ou a clientes, escreva o texto pronto para a pessoa copiar e enviar.
+Você não manda mensagem para pessoas da equipe no privado; só responde aqui. Exceções:
+1) Publicar as tarefas no grupo interno da equipe com publicar_tarefas_grupo_interno, só quando o Oscar ou a Jéssica pedirem claramente ("manda/atualiza as tarefas no grupo"). Se for ambíguo, mostre a prévia (previa=true) e pergunte.
+2) Mensagem nos grupos dos clientes, só quando o Oscar ou a Jéssica pedirem: SEMPRE em duas etapas. Primeiro previa_mensagem_grupos (modelo pronto ou texto ditado por eles), mostre a prévia e a lista de grupos e pergunte "Posso enviar?". Só chame confirmar_envio_grupos quando a pessoa responder que sim, numa mensagem seguinte. Nunca envie para cliente por conta própria, nunca invente texto para o cliente sem pedido, e não altere o texto do modelo sem pedirem. Para ver os modelos use modelos_mensagem.
+Depois de enviar, confirme em uma linha. Para outros recados, escreva o texto pronto para a pessoa copiar e enviar.
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
 }
@@ -292,7 +358,7 @@ async function claude(body) {
 async function responder({ quem, pedido, historico = [] }) {
   if (!process.env.ANTHROPIC_API_KEY) return 'O agente ainda não está ligado: falta a ANTHROPIC_API_KEY na Vercel.';
   const B = await base();
-  const ctx = { B, quem, pedido };
+  const ctx = { B, quem, pedido, inicio: Date.now() };
   const messages = [];
   for (const h of historico.slice(-12)) {
     const role = h.de_mim ? 'assistant' : 'user';
