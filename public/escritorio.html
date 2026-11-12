@@ -211,10 +211,13 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 <div id="login" class="hidden">
   <form id="fLogin">
     <div class="marca"><span class="selo">G</span><span class="nome">GST Marketing<small>Escritório virtual</small></span></div>
-    <p>Painel interno da operação.</p>
-    <label>Senha<input type="password" id="senha" autocomplete="current-password" required></label>
+    <p id="lgTexto">Entre com o seu WhatsApp. O Fiscal manda um código de acesso.</p>
+    <div id="lgFone"><label>Seu WhatsApp<input type="tel" id="lgTel" inputmode="tel" autocomplete="tel" placeholder="(12) 98765-4321"></label></div>
+    <div id="lgCod" class="hidden"><label>Código de 6 dígitos<input type="text" id="lgCodigo" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000"></label></div>
+    <div id="lgSenha" class="hidden"><label>Senha<input type="password" id="senha" autocomplete="current-password"></label></div>
     <div class="erro" id="erroLogin"></div>
-    <button class="btn pri" type="submit">Entrar</button>
+    <button class="btn pri" type="submit" id="lgBtn">Receber código</button>
+    <button class="btn fant peq" type="button" id="lgTroca" style="align-self:center">Entrar com senha</button>
   </form>
 </div>
 
@@ -236,7 +239,7 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
     </nav>
     <div class="lado-pe">
       <button class="wa" id="bWa" title="WhatsApp do escritório"><i></i><span>WhatsApp</span></button>
-      <label>Quem está usando<select id="ator"></select></label>
+      <label id="atorBox">Quem está usando<select id="ator"></select></label><p id="euBox" class="hidden" style="margin:0;font-size:13px;color:#cbd5e1"></p>
       <button class="btn fant" id="bSair">Sair</button>
     </div>
   </aside>
@@ -807,7 +810,7 @@ function preencherSelects() {
   $('#oCliente').innerHTML = '<option value="">Escolha…</option>' + comOferta.map((c) => `<option value="${c.id}">${esc(c.nome)}</option>`).join('');
   $('#nCliente').innerHTML = '<option value="">Escolha…</option>' + D.clientes.map((c) => `<option value="${c.id}">${esc(c.nome)}</option>`).join('');
 }
-const atorId = () => $('#ator').value || null;
+const atorId = () => (D.eu && D.eu.id) || $('#ator').value || null;
 
 // ---------- ações ----------
 async function mudarStatus(id, status) {
@@ -945,9 +948,24 @@ $('#bWa').onclick = async () => {
 };
 
 // ---------- login ----------
-function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); $('#senha').focus(); }
+let lgModo = 'fone';
+function modoLogin(m) {
+  lgModo = m; $('#erroLogin').textContent = '';
+  $('#lgFone').classList.toggle('hidden', m === 'senha');
+  $('#lgCod').classList.toggle('hidden', m !== 'codigo');
+  $('#lgSenha').classList.toggle('hidden', m !== 'senha');
+  $('#lgBtn').textContent = m === 'fone' ? 'Receber código' : 'Entrar';
+  $('#lgTroca').textContent = m === 'senha' ? 'Entrar com WhatsApp' : 'Entrar com senha';
+  $('#lgTexto').textContent = m === 'senha' ? 'Acesso com a senha geral (reserva da gestão).' : m === 'codigo' ? 'Mandamos o código no seu WhatsApp. Digite abaixo.' : 'Entre com o seu WhatsApp. O Fiscal manda um código de acesso.';
+  (m === 'senha' ? $('#senha') : m === 'codigo' ? $('#lgCodigo') : $('#lgTel')).focus();
+}
+$('#lgTroca').onclick = () => modoLogin(lgModo === 'senha' ? 'fone' : 'senha');
+function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); modoLogin('fone'); }
 function aplicarPapel() {
   const adm = ADMIN();
+  $('#atorBox').classList.toggle('hidden', !!D.eu);
+  $('#euBox').classList.toggle('hidden', !D.eu);
+  if (D.eu) $('#euBox').textContent = 'Conectado como ' + D.eu.nome;
   document.querySelectorAll('[data-aba="financeiro"], #bWa').forEach((el) => { el.hidden = !adm; el.style.display = adm ? '' : 'none'; });
   if (!adm && aba === 'financeiro') { aba = 'painel'; render(); }
 }
@@ -961,8 +979,20 @@ async function entrar() {
 }
 $('#fLogin').onsubmit = async (e) => {
   e.preventDefault(); $('#erroLogin').textContent = '';
-  try { await api('login', { senha: $('#senha').value }); $('#senha').value = ''; await entrar(); }
-  catch (er) { $('#erroLogin').textContent = er.message; }
+  const btn = $('#lgBtn'); btn.disabled = true;
+  try {
+    if (lgModo === 'fone') {
+      if ($('#lgTel').value.replace(/\D/g, '').length < 10) throw new Error('Digite o número com DDD');
+      const j = await api('codigo', { telefone: $('#lgTel').value });
+      modoLogin('codigo'); if (j.mensagem) $('#lgTexto').textContent = j.mensagem + ' Digite abaixo.';
+    } else if (lgModo === 'codigo') {
+      await api('login', { telefone: $('#lgTel').value, codigo: $('#lgCodigo').value });
+      $('#lgCodigo').value = ''; await entrar();
+    } else {
+      await api('login', { senha: $('#senha').value }); $('#senha').value = ''; await entrar();
+    }
+  } catch (er) { $('#erroLogin').textContent = er.message; }
+  finally { btn.disabled = false; }
 };
 api('dados').then((j) => { Object.assign(D, j); entrar(); }).catch((e) => { if (!/login/i.test(e.message)) { mostrarLogin(); $('#erroLogin').textContent = e.message; } });
 </script>

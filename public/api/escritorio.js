@@ -21,23 +21,25 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function assinar(valor) {
   return crypto.createHmac('sha256', SEGREDO()).update(valor).digest('base64url');
 }
-// papel: "admin" (Oscar e Jéssica, senha ESCRITORIO_SENHA) ou "equipe" (senha ESCRITORIO_SENHA_EQUIPE, sem financeiro)
-function criarToken(papel) {
+// sessão: exp.papel.uid.assinatura — papel "admin" (financeiro liberado) ou "equipe"; uid = pessoa da equipe (vazio no login por senha)
+function criarToken(papel, uid = '') {
   const exp = String(Date.now() + DIAS_SESSAO * 864e5);
   const p = papel === 'equipe' ? 'equipe' : 'admin';
-  return exp + '.' + p + '.' + assinar(exp + '.' + p);
+  const u = UUID.test(uid || '') ? uid : '';
+  return exp + '.' + p + '.' + u + '.' + assinar(exp + '.' + p + '.' + u);
 }
-function papelDoToken(token) {
+function lerToken(token) {
   if (!token || !SEGREDO()) return null;
   const partes = token.split('.');
-  let exp, papel, sig, base;
-  if (partes.length === 2) { [exp, sig] = partes; papel = 'admin'; base = exp; } // sessões antigas = admin
+  let exp, papel = 'admin', uid = '', sig, base;
+  if (partes.length === 2) { [exp, sig] = partes; base = exp; } // sessões antigas = admin
   else if (partes.length === 3) { [exp, papel, sig] = partes; base = exp + '.' + papel; }
+  else if (partes.length === 4) { [exp, papel, uid, sig] = partes; base = exp + '.' + papel + '.' + uid; }
   else return null;
   if (!exp || !sig || Number(exp) < Date.now() || !['admin', 'equipe'].includes(papel)) return null;
   const esperado = assinar(base);
   if (!(sig.length === esperado.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(esperado)))) return null;
-  return papel;
+  return { papel, uid: uid || null };
 }
 function lerCookie(req) {
   const m = (req.headers.cookie || '').match(new RegExp('(?:^|;\\s*)' + COOKIE + '=([^;]+)'));
@@ -325,6 +327,46 @@ async function whatsAtivar(req) {
   return { ativado: true };
 }
 
+// ---------- login pelo WhatsApp ----------
+function chaveFone(v) {
+  let d = String(v || '').replace(/\D/g, '');
+  if (d.length > 11 && d.startsWith('55')) d = d.slice(2);
+  if (d.length < 10) return null;
+  return d.slice(0, 2) + d.slice(-8); // DDD + 8 últimos (ignora o 9 extra)
+}
+const hashCodigo = (c) => crypto.createHmac('sha256', SEGREDO()).update('codigo:' + c).digest('hex');
+async function pessoaPeloFone(fone) {
+  const k = chaveFone(fone); if (!k) return null;
+  const ps = await sb('equipe?select=id,nome,whatsapp,acesso&ativo=eq.true&acesso=neq.nenhum&whatsapp=not.is.null');
+  return ps.find((p) => chaveFone(p.whatsapp) === k) || null;
+}
+async function enviarCodigo(b) {
+  const p = await pessoaPeloFone(b.telefone);
+  if (p) {
+    const desde = new Date(Date.now() - 15 * 60e3).toISOString();
+    const recentes = await sb(`login_codigos?select=id&equipe_id=eq.${p.id}&created_at=gte.${desde}`);
+    if (recentes.length >= 3) throw Object.assign(new Error('Muitos códigos pedidos. Espere alguns minutos e tente de novo.'), { status: 429 });
+    const codigo = String(crypto.randomInt(0, 1e6)).padStart(6, '0');
+    await sb('login_codigos', { method: 'POST', body: { equipe_id: p.id, codigo_hash: hashCodigo(codigo), expira_em: new Date(Date.now() + 10 * 60e3).toISOString() } });
+    await uazapi('/send/text', { method: 'POST', body: { number: String(p.whatsapp).replace(/\D/g, ''), text: `🔐 Seu código de acesso ao Escritório GST: *${codigo}*\n\nVale por 10 minutos. Não passe esse código para ninguém.\n\n_Fiscal · GST_` } });
+  } else {
+    await new Promise((r) => setTimeout(r, 600));
+  }
+  return { mensagem: 'Se o número estiver cadastrado, o código chega no WhatsApp em instantes.' };
+}
+async function conferirCodigo(b) {
+  const p = await pessoaPeloFone(b.telefone);
+  const cod = String(b.codigo || '').replace(/\D/g, '');
+  if (!p || cod.length !== 6) return null;
+  const agora = new Date().toISOString();
+  const cs = await sb(`login_codigos?select=id,codigo_hash,tentativas&equipe_id=eq.${p.id}&usado=eq.false&expira_em=gt.${agora}&order=created_at.desc&limit=1`);
+  const c = cs[0];
+  if (!c || c.tentativas >= 5) return null;
+  const ok = crypto.timingSafeEqual(Buffer.from(c.codigo_hash), Buffer.from(hashCodigo(cod)));
+  await sb('login_codigos?id=eq.' + c.id, { method: 'PATCH', body: ok ? { usado: true } : { tentativas: c.tentativas + 1 } });
+  return ok ? p : null;
+}
+
 async function lerCorpo(req) {
   let b = req.body;
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch { b = {}; } }
@@ -340,14 +382,19 @@ module.exports = async (req, res) => {
       return res.status(503).json({ ok: false, erro: 'Painel ainda não configurado na Vercel (variáveis de ambiente).' });
     }
 
+    if (acao === 'codigo' && req.method === 'POST') return res.json({ ok: true, ...(await enviarCodigo(await lerCorpo(req))) });
     if (acao === 'login' && req.method === 'POST') {
       const b = await lerCorpo(req);
-      const papelNovo = papelDaSenha(b.senha);
+      let papelNovo = null, uid = '';
+      if (b.telefone) {
+        const p = await conferirCodigo(b);
+        if (p) { papelNovo = p.acesso === 'admin' ? 'admin' : 'equipe'; uid = p.id; }
+      } else papelNovo = papelDaSenha(b.senha);
       if (!papelNovo) {
         await new Promise((r) => setTimeout(r, 800));
-        return res.status(401).json({ ok: false, erro: 'Senha incorreta' });
+        return res.status(401).json({ ok: false, erro: b.telefone ? 'Código incorreto ou vencido' : 'Senha incorreta' });
       }
-      res.setHeader('Set-Cookie', `${COOKIE}=${criarToken(papelNovo)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${DIAS_SESSAO * 86400}`);
+      res.setHeader('Set-Cookie', `${COOKIE}=${criarToken(papelNovo, uid)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${DIAS_SESSAO * 86400}`);
       return res.json({ ok: true, papel: papelNovo });
     }
     if (acao === 'logout') {
@@ -355,17 +402,25 @@ module.exports = async (req, res) => {
       return res.json({ ok: true });
     }
 
-    const papel = papelDoToken(lerCookie(req));
-    if (!papel) return res.status(401).json({ ok: false, erro: 'Faça login' });
+    const sess = lerToken(lerCookie(req));
+    if (!sess) return res.status(401).json({ ok: false, erro: 'Faça login' });
+    let papel = sess.papel, eu = null;
+    if (sess.uid) { // confere a cada acesso: pessoa desativada perde o acesso na hora
+      const r = await sb(`equipe?select=id,nome,acesso&id=eq.${sess.uid}&ativo=eq.true&acesso=neq.nenhum`);
+      if (!r[0]) { res.setHeader('Set-Cookie', `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`); return res.status(401).json({ ok: false, erro: 'Acesso encerrado' }); }
+      eu = { id: r[0].id, nome: r[0].nome };
+      papel = r[0].acesso === 'admin' ? 'admin' : 'equipe';
+    }
     if (papel !== 'admin' && SO_ADMIN.has(acao)) return res.status(403).json({ ok: false, erro: 'Sem acesso a essa área' });
 
-    if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, ...(await carregarDados(papel)) });
+    if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, eu, ...(await carregarDados(papel)) });
     if (acao === 'painel' && req.method === 'GET') return res.json({ ok: true, ...(await sb('rpc/gst_painel', { method: 'POST', body: {} })) });
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
     if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });
     if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });
     if (req.method !== 'POST') return res.status(405).json({ ok: false });
     const b = await lerCorpo(req);
+    if (eu) b.ator_id = eu.id; // quem está logado assina a mudança
     if (acao === 'whatsapp_ativar') return res.json({ ok: true, ...(await whatsAtivar(req)) });
     if (acao === 'oferta') return res.json({ ok: true, ...(await registrarOferta(b)) });
     if (acao === 'tarefa') return res.json({ ok: true, ...(await atualizarTarefa(b)) });
