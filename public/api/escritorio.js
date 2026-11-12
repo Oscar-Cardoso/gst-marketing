@@ -360,6 +360,7 @@ module.exports = async (req, res) => {
     if (papel !== 'admin' && SO_ADMIN.has(acao)) return res.status(403).json({ ok: false, erro: 'Sem acesso a essa área' });
 
     if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, ...(await carregarDados(papel)) });
+    if (acao === 'painel' && req.method === 'GET') return res.json({ ok: true, ...(await sb('rpc/gst_painel', { method: 'POST', body: {} })) });
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
     if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });
     if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });
