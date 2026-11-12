@@ -2,7 +2,8 @@
 // Os dados ficam no Supabase e só este servidor acessa (chave secreta).
 // Variáveis de ambiente na Vercel:
 //   SUPABASE_SERVICE_ROLE_KEY  -> chave secreta do Supabase (colocada pela integração Supabase ↔ Vercel)
-//   ESCRITORIO_SENHA           -> senha compartilhada do painel
+//   ESCRITORIO_SENHA           -> senha do Oscar e da Jéssica (acesso total)
+//   ESCRITORIO_SENHA_EQUIPE    -> senha da equipe (opcional; sem financeiro, sócio e cobrança)
 // Opcionais: SUPABASE_URL (padrão abaixo) e ESCRITORIO_SEGREDO (padrão: derivado da chave secreta)
 const crypto = require('crypto');
 
@@ -20,28 +21,40 @@ const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 function assinar(valor) {
   return crypto.createHmac('sha256', SEGREDO()).update(valor).digest('base64url');
 }
-function criarToken() {
+// papel: "admin" (Oscar e Jéssica, senha ESCRITORIO_SENHA) ou "equipe" (senha ESCRITORIO_SENHA_EQUIPE, sem financeiro)
+function criarToken(papel) {
   const exp = String(Date.now() + DIAS_SESSAO * 864e5);
-  return exp + '.' + assinar(exp);
+  const p = papel === 'equipe' ? 'equipe' : 'admin';
+  return exp + '.' + p + '.' + assinar(exp + '.' + p);
 }
-function tokenValido(token) {
-  if (!token || !SEGREDO()) return false;
-  const [exp, sig] = token.split('.');
-  if (!exp || !sig || Number(exp) < Date.now()) return false;
-  const esperado = assinar(exp);
-  return sig.length === esperado.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(esperado));
+function papelDoToken(token) {
+  if (!token || !SEGREDO()) return null;
+  const partes = token.split('.');
+  let exp, papel, sig, base;
+  if (partes.length === 2) { [exp, sig] = partes; papel = 'admin'; base = exp; } // sessões antigas = admin
+  else if (partes.length === 3) { [exp, papel, sig] = partes; base = exp + '.' + papel; }
+  else return null;
+  if (!exp || !sig || Number(exp) < Date.now() || !['admin', 'equipe'].includes(papel)) return null;
+  const esperado = assinar(base);
+  if (!(sig.length === esperado.length && crypto.timingSafeEqual(Buffer.from(sig), Buffer.from(esperado)))) return null;
+  return papel;
 }
 function lerCookie(req) {
   const m = (req.headers.cookie || '').match(new RegExp('(?:^|;\\s*)' + COOKIE + '=([^;]+)'));
   return m ? decodeURIComponent(m[1]) : null;
 }
-function senhaConfere(digitada) {
-  const certa = process.env.ESCRITORIO_SENHA || '';
+function igual(digitada, certa) {
   if (!certa || typeof digitada !== 'string') return false;
   const a = crypto.createHash('sha256').update(digitada).digest();
   const b = crypto.createHash('sha256').update(certa).digest();
   return crypto.timingSafeEqual(a, b);
 }
+function papelDaSenha(digitada) {
+  if (igual(digitada, process.env.ESCRITORIO_SENHA || '')) return 'admin';
+  if (igual(digitada, process.env.ESCRITORIO_SENHA_EQUIPE || '')) return 'equipe';
+  return null;
+}
+const SO_ADMIN = new Set(['financeiro', 'mensalidade', 'custo_pessoa', 'custo_fixo', 'whatsapp', 'whatsapp_ativar']);
 
 // ---------- Supabase (REST) ----------
 async function sb(caminho, { method = 'GET', body, prefer } = {}) {
@@ -70,7 +83,7 @@ function idOuNulo(v) {
 }
 
 // ---------- ações ----------
-async function carregarDados() {
+async function carregarDados(papel) {
   const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10); // dia em Brasília
   const inicioHoje = new Date(hoje + 'T00:00:00-03:00').toISOString();
   const [clientes, equipe, responsaveis, abertas, concluidasHoje] = await Promise.all([
@@ -80,13 +93,16 @@ async function carregarDados() {
     sb('tarefas?select=id,cliente_id,responsavel_id,titulo,descricao,area,status,prazo,prioridade,bloqueio,dependencia_id,oferta_id,pedido_original,created_at,updated_at&status=not.in.(concluida,cancelada)&order=prazo.asc.nullsfirst&limit=1000'),
     sb('tarefas?select=id,cliente_id,responsavel_id,titulo,area,status,concluida_em&status=eq.concluida&concluida_em=gte.' + encodeURIComponent(inicioHoje) + '&order=concluida_em.desc&limit=300'),
   ]);
-  return { clientes, equipe, responsaveis, abertas, concluidasHoje, agora: new Date().toISOString() };
+  // equipe não vê quem é sócio do cliente nem dados de cobrança
+  const cls = papel === 'admin' ? clientes : clientes.map(({ socio, emite_nota, pagamento_anuncios, ...c }) => c);
+  return { clientes: cls, equipe, responsaveis, abertas, concluidasHoje, agora: new Date().toISOString() };
 }
 
-async function carregarDiario() {
+async function carregarDiario(papel) {
   const desde = new Date(Date.now() - 180 * 864e5).toISOString().slice(0, 10);
   const diario = await sb('diario?select=id,dia,cliente_id,tipo,resumo,quem,fonte,referencia,created_at&dia=gte.' + desde + '&order=dia.desc,created_at.desc&limit=1500');
-  return { diario };
+  // equipe não vê registros financeiros nem valores em reais
+  return { diario: papel === 'admin' ? diario : diario.filter((d) => d.tipo !== 'financeiro' && !/R\$\s?\d|\bmensalidade|\bfaturamento|\breceita|\blucro|\bcomiss/i.test(d.resumo || '')) };
 }
 
 async function registrarOferta(b) {
@@ -326,22 +342,25 @@ module.exports = async (req, res) => {
 
     if (acao === 'login' && req.method === 'POST') {
       const b = await lerCorpo(req);
-      if (!senhaConfere(b.senha)) {
+      const papelNovo = papelDaSenha(b.senha);
+      if (!papelNovo) {
         await new Promise((r) => setTimeout(r, 800));
         return res.status(401).json({ ok: false, erro: 'Senha incorreta' });
       }
-      res.setHeader('Set-Cookie', `${COOKIE}=${criarToken()}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${DIAS_SESSAO * 86400}`);
-      return res.json({ ok: true });
+      res.setHeader('Set-Cookie', `${COOKIE}=${criarToken(papelNovo)}; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=${DIAS_SESSAO * 86400}`);
+      return res.json({ ok: true, papel: papelNovo });
     }
     if (acao === 'logout') {
       res.setHeader('Set-Cookie', `${COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`);
       return res.json({ ok: true });
     }
 
-    if (!tokenValido(lerCookie(req))) return res.status(401).json({ ok: false, erro: 'Faça login' });
+    const papel = papelDoToken(lerCookie(req));
+    if (!papel) return res.status(401).json({ ok: false, erro: 'Faça login' });
+    if (papel !== 'admin' && SO_ADMIN.has(acao)) return res.status(403).json({ ok: false, erro: 'Sem acesso a essa área' });
 
-    if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDados()) });
-    if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario()) });
+    if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, ...(await carregarDados(papel)) });
+    if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
     if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });
     if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });
     if (req.method !== 'POST') return res.status(405).json({ ok: false });

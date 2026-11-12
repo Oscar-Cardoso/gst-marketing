@@ -307,7 +307,8 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 <div id="toast" class="hidden"></div>
 
 <script>
-const D = { clientes: [], equipe: [], responsaveis: [], abertas: [], concluidasHoje: [] };
+const D = { clientes: [], equipe: [], responsaveis: [], abertas: [], concluidasHoje: [], papel: 'admin' };
+const ADMIN = () => D.papel === 'admin';
 let aba = 'hoje', editando = null, filtroCli = '';
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -449,16 +450,16 @@ function renderClientes() {
     const ab = D.abertas.filter((t) => t.cliente_id === c.id);
     const atr = ab.filter(atrasada).length;
     const cor = { verde: 'var(--verde)', amarelo: 'var(--amarelo)', vermelho: 'var(--verm)' }[c.saude];
-    const extras = [c.tier ? `<span class="tag ${c.tier === 'Prime' ? 'verde' : ''}">${esc(c.tier)}</span>` : '', c.emite_nota ? '<span class="tag">NF</span>' : '', c.pagamento_anuncios === 'pix_boleto' ? '<span class="tag amar">Pix/boleto</span>' : ''].join(' ');
+    const extras = [c.tier ? `<span class="tag ${c.tier === 'Prime' ? 'verde' : ''}">${esc(c.tier)}</span>` : '', ADMIN() && c.emite_nota ? '<span class="tag">NF</span>' : '', ADMIN() && c.pagamento_anuncios === 'pix_boleto' ? '<span class="tag amar">Pix/boleto</span>' : ''].join(' ');
     return `<tr><td>${cor ? `<span title="Saúde: ${esc(c.saude)}" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${cor};margin-right:6px"></span>` : ''}<b>${esc(c.nome)}</b>${c.contato ? `<div style="color:var(--muted);font-size:12px">${esc(c.contato)}</div>` : ''}${c.status !== 'ativo' ? ` <span class="tag amar">${esc(c.status)}</span>` : ''}<div style="margin-top:3px">${extras}</div></td>
-      <td>${c.socio === 'dimas' ? 'Dimas' : 'Oscar'}</td><td>${esc(c.tipo_servico || '')}</td>
+      ${ADMIN() ? `<td>${c.socio === 'dimas' ? 'Dimas' : 'Oscar'}</td>` : ''}<td>${esc(c.tipo_servico || '')}</td>
       <td>${nomeResp(c.id, 'design')}</td><td>${nomeResp(c.id, 'social_media')}</td><td>${nomeResp(c.id, 'trafego')}</td>
       <td>${ab.length}${atr ? ` <span class="tag verm">${atr} atras.</span>` : ''}</td>
       <td><button class="btn peq" data-of="${c.id}">Oferta</button></td></tr>`;
   }).join('');
   return `<section class="sec"><h2>Clientes <span class="n">${D.clientes.length}</span></h2>
     <input class="busca" id="buscaCli" placeholder="Buscar cliente, serviço ou contato" value="${esc(filtroCli)}">
-    <div class="tab"><table><thead><tr><th>Cliente</th><th>Sócio</th><th>Serviço</th><th>Design</th><th>Social</th><th>Tráfego</th><th>Abertas</th><th></th></tr></thead>
+    <div class="tab"><table><thead><tr><th>Cliente</th>${ADMIN() ? '<th>Sócio</th>' : ''}<th>Serviço</th><th>Design</th><th>Social</th><th>Tráfego</th><th>Abertas</th><th></th></tr></thead>
     <tbody>${rows || '<tr><td colspan="8" class="vazio">Nenhum cliente encontrado.</td></tr>'}</tbody></table></div></section>`;
 }
 // ---------- financeiro ----------
@@ -561,7 +562,7 @@ function renderDiario() {
   for (const e of lista) { if (!porDia.has(e.dia)) porDia.set(e.dia, []); porDia.get(e.dia).push(e); }
   const usados = new Set(DI.map((e) => e.cliente_id).filter(Boolean));
   const clis = D.clientes.filter((c) => usados.has(c.id));
-  const chips = [['', 'Tudo'], ['reuniao', 'Reuniões'], ['decisao', 'Decisões'], ['tarefa_concluida', 'Concluídas'], ['oferta', 'Ofertas'], ['cliente', 'Clientes'], ['equipe', 'Equipe'], ['financeiro', 'Financeiro'], ['nota', 'Notas']]
+  const chips = [['', 'Tudo'], ['reuniao', 'Reuniões'], ['decisao', 'Decisões'], ['tarefa_concluida', 'Concluídas'], ['oferta', 'Ofertas'], ['cliente', 'Clientes'], ['equipe', 'Equipe'], ...(ADMIN() ? [['financeiro', 'Financeiro']] : []), ['nota', 'Notas']]
     .map(([v, t]) => `<button class="chip ${diaTipo === v ? 'on' : ''}" data-dtipo="${v}">${t}</button>`).join('');
   const dias = [...porDia.entries()].map(([dia, evs]) => {
     const n = nomeDia(dia);
@@ -607,7 +608,7 @@ function fichaNo(n) {
     const c = n.c, ab = D.abertas.filter((t) => t.cliente_id === c.id);
     const eq = Object.keys(AREA).map((a) => [a, D.responsaveis.filter((r) => r.cliente_id === c.id && r.area === a).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean)]).filter(([, ns]) => ns.length);
     const hist = (DI || []).filter((e) => e.cliente_id === c.id).slice(0, 6);
-    return `<h3>${esc(c.nome)}</h3><p class="sub">${c.socio === 'dimas' ? 'Cliente do Dimas' : 'Cliente do Oscar'}${c.tier ? ' · ' + esc(c.tier) : ''}${c.contato ? ' · ' + esc(c.contato) : ''}</p>
+    return `<h3>${esc(c.nome)}</h3><p class="sub">${[ADMIN() ? (c.socio === 'dimas' ? 'Cliente do Dimas' : 'Cliente do Oscar') : '', c.tier ? esc(c.tier) : '', c.contato ? esc(c.contato) : ''].filter(Boolean).join(' · ')}</p>
       <h4>Quem cuida</h4>${eq.length ? eq.map(([a, ns]) => `<div class="it"><span class="tag a-${a}">${AREA[a]}</span> ${esc(ns.join(', '))}</div>`).join('') : '<p class="vazio">Ninguém cadastrado.</p>'}
       <h4>Tarefas abertas (${ab.length})</h4>${ab.slice(0, 8).map((t) => itemTarefa(t)).join('') || '<p class="vazio">Nada aberto.</p>'}${ab.length > 8 ? `<p class="nota">+ ${ab.length - 8} outras</p>` : ''}
       <h4>Diário</h4>${hist.map((e) => evento(e, false)).join('') || '<p class="vazio">Sem registros ainda.</p>'}
@@ -626,12 +627,12 @@ function fichaNo(n) {
   }
   const cs = ativosMapa().filter((c) => (c.socio === 'dimas') === (n.id === 's-dimas'));
   const ab = D.abertas.filter((t) => cs.some((c) => c.id === t.cliente_id));
-  return `<h3>${esc(n.nome)}</h3><p class="sub">Sócio · ${cs.length} clientes · ${ab.length} tarefas abertas</p>
+  return `<h3>${esc(n.nome)}</h3><p class="sub">${ADMIN() ? 'Sócio · ' : ''}${cs.length} clientes · ${ab.length} tarefas abertas</p>
     <h4>Clientes</h4>${cs.map((c) => { const a = D.abertas.filter((t) => t.cliente_id === c.id); const at = a.filter(atrasada).length; return `<div class="it">${esc(c.nome)} <small>· ${a.length} abertas</small>${at ? ` <span class="tag verm">${at} atras.</span>` : ''}</div>`; }).join('')}`;
 }
 function montarGrafo() {
   const ats = ativosMapa(), ids = new Set(ats.map((c) => c.id));
-  const nodes = [{ id: 's-oscar', tipo: 'socio', nome: 'Oscar', r: 26 }, { id: 's-dimas', tipo: 'socio', nome: 'Dimas', r: 22 }];
+  const nodes = ADMIN() ? [{ id: 's-oscar', tipo: 'socio', nome: 'Oscar', r: 26 }, { id: 's-dimas', tipo: 'socio', nome: 'Dimas', r: 22 }] : [{ id: 's-oscar', tipo: 'socio', nome: 'GST', r: 26 }];
   const links = [];
   for (const c of ats) {
     const ab = D.abertas.filter((t) => t.cliente_id === c.id);
@@ -646,7 +647,7 @@ function montarGrafo() {
   }
   const comercial = D.equipe.find((p) => /comercial/i.test(p.nome));
   if (comercial) {
-    links.push({ source: comercial.id, target: 's-dimas', k: 'socio' });
+    if (ADMIN()) links.push({ source: comercial.id, target: 's-dimas', k: 'socio' });
     new Set(D.abertas.filter((t) => t.responsavel_id === comercial.id && ids.has(t.cliente_id)).map((t) => t.cliente_id)).forEach((cid) => links.push({ source: comercial.id, target: cid, k: 'equipe' }));
   }
   const usados = new Set(links.flatMap((l) => [l.source, l.target]));
@@ -741,7 +742,7 @@ async function carregar() {
 function opcoesPessoas(sel) { return '<option value="">— sem responsável —</option>' + D.equipe.map((p) => `<option value="${p.id}" ${p.id === sel ? 'selected' : ''}>${esc(p.nome)}</option>`).join(''); }
 function preencherSelects() {
   const ator = $('#ator'), salvo = lsGet('gst_ator');
-  ator.innerHTML = '<option value="">Quem está usando?</option>' + D.equipe.filter((p) => /gest/i.test(p.funcao || '')).map((p) => `<option value="${p.id}" ${p.id === salvo ? 'selected' : ''}>${esc(p.nome)}</option>`).join('');
+  ator.innerHTML = '<option value="">Quem está usando?</option>' + D.equipe.filter((p) => !ADMIN() || /gest/i.test(p.funcao || '')).map((p) => `<option value="${p.id}" ${p.id === salvo ? 'selected' : ''}>${esc(p.nome)}</option>`).join('');
   const comOferta = D.clientes.filter((c) => (c.servicos || []).some((s) => s === 'design' || s === 'social_media') || /oferta|todo dia|completo|indica/i.test(c.tipo_servico || ''));
   $('#oCliente').innerHTML = '<option value="">Escolha…</option>' + comOferta.map((c) => `<option value="${c.id}">${esc(c.nome)}</option>`).join('');
   $('#nCliente').innerHTML = '<option value="">Escolha…</option>' + D.clientes.map((c) => `<option value="${c.id}">${esc(c.nome)}</option>`).join('');
@@ -885,10 +886,16 @@ $('#bWa').onclick = async () => {
 
 // ---------- login ----------
 function mostrarLogin() { $('#app').classList.add('hidden'); $('#login').classList.remove('hidden'); $('#senha').focus(); }
+function aplicarPapel() {
+  const adm = ADMIN();
+  document.querySelectorAll('[data-aba="financeiro"], #bWa').forEach((el) => { el.hidden = !adm; el.style.display = adm ? '' : 'none'; });
+  if (!adm && aba === 'financeiro') { aba = 'hoje'; render(); }
+}
 async function entrar() {
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
   await carregar();
-  statusWhats();
+  aplicarPapel();
+  if (ADMIN()) statusWhats();
   clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa'].includes(aba)) carregar().catch(() => {}); }, 60000);
 }
 $('#fLogin').onsubmit = async (e) => {
