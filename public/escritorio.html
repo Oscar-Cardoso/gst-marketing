@@ -430,7 +430,7 @@ function renderPainel() {
   const AREAN = { design: 'design', social_media: 'social', trafego: 'tráfego', video: 'vídeo', automacao: 'automação', gestao: 'gestão' };
   const pessoas = P.pessoas.map((p) => `<tr><td><b>${esc(p.nome)}</b><div style="color:var(--muted);font-size:12px">${esc(Object.entries(p.areas || {}).map(([a, n]) => n + ' ' + (AREAN[a] || a)).join(' · ') || p.funcao || '')}</div></td>
     <td class="num">${p.carteira}</td><td class="num"><b>${p.concluidas_mes}</b></td><td class="num">${p.no_prazo_pct == null ? '—' : p.no_prazo_pct + '%'}</td>
-    <td class="num">${p.abertas}</td><td class="num">${p.atrasadas ? `<span class="tag verm">${p.atrasadas}</span>` : '0'}</td><td class="num">${p.horas_media == null ? '—' : p.horas_media < 24 ? Math.round(p.horas_media) + ' h' : (p.horas_media / 24).toFixed(1).replace('.', ',') + ' d'}</td></tr>`).join('');
+    <td class="num">${p.abertas}</td><td class="num">${p.atrasadas ? `<span class="tag verm">${p.atrasadas}</span>` : '0'}</td></tr>`).join('');
   const top = P.top_demandas.map((x, i) => `<tr><td>${i + 1}. <b>${esc(x.cliente)}</b></td><td class="num"><b>${x.tarefas_mes}</b></td><td class="num">${x.pelo_grupo}</td><td class="num">${x.msgs_cliente_7d}</td></tr>`).join('');
   const ativosGrupo = P.radar.filter((r) => r.msgs_7d > 0).sort((a, b) => b.msgs_7d - a.msgs_7d).slice(0, 5).map((r) => ({ rot: esc(r.cliente), v: r.msgs_7d }));
   const NIV = { vermelho: 'Sem conversa há 7+ dias', amarelo: 'Esfriando', verde: 'Ativo', sem_dados: 'Ainda sem mensagens do cliente' };
@@ -448,8 +448,8 @@ function renderPainel() {
       ${k('Radar', alerta, 'grupos esfriando ou parados', alerta ? 'alerta' : '')}
     </section>
     <div class="pgrid">
-      <section class="sec larga"><h2>Equipe no mês</h2><p class="nota">Ordenado por tarefas concluídas. Tempo médio = da criação até a conclusão.</p>
-        <div class="tab"><table><thead><tr><th>Pessoa</th><th class="num">Clientes</th><th class="num">Concluídas</th><th class="num">No prazo</th><th class="num">Abertas</th><th class="num">Atrasadas</th><th class="num">Tempo médio</th></tr></thead><tbody>${pessoas}</tbody></table></div></section>
+      <section class="sec larga"><h2>Equipe no mês</h2><p class="nota">Ordenado por tarefas concluídas no mês.</p>
+        <div class="tab"><table><thead><tr><th>Pessoa</th><th class="num">Clientes</th><th class="num">Concluídas</th><th class="num">No prazo</th><th class="num">Abertas</th><th class="num">Atrasadas</th></tr></thead><tbody>${pessoas}</tbody></table></div></section>
       <section class="sec"><h2>Clientes por pessoa</h2><p class="nota">Carteira atual de cada um (clientes ativos).</p>${barrasN(carteira)}</section>
       <section class="sec"><h2>Top 5 que mais demandaram</h2><p class="nota">Tarefas abertas no mês para o cliente. "Pelo grupo" = criadas a partir do WhatsApp. "Msgs 7d" = mensagens do cliente no grupo.</p>
         <div class="tab"><table><thead><tr><th>Cliente</th><th class="num">Tarefas</th><th class="num">Pelo grupo</th><th class="num">Msgs 7d</th></tr></thead><tbody>${top || '<tr><td colspan="4" class="vazio">Sem tarefas no mês.</td></tr>'}</tbody></table></div></section>
