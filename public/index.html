@@ -264,6 +264,7 @@ section { padding: 100px 60px; position: relative; z-index: 1; }
 .servicos-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
 @media(max-width:900px){.servicos-grid{grid-template-columns:repeat(2,1fr);}}
 @media(max-width:600px){.servicos-grid{grid-template-columns:1fr;}}
+@media(min-width:901px){.servicos-grid>.servico-card:last-child:nth-child(3n+1){grid-column:1/-1;display:grid;grid-template-columns:1fr 1fr;column-gap:40px;align-content:start}.servicos-grid>.servico-card:last-child:nth-child(3n+1)>:not(.servico-itens):not(.servico-num){grid-column:1}.servicos-grid>.servico-card:last-child:nth-child(3n+1) .servico-itens{grid-column:2;grid-row:1/span 3;align-self:center;margin:0}}
 .servico-card {
   border-radius: 18px; padding: 32px 28px;
   background: var(--card-bg); border: 1px solid var(--border);
@@ -502,6 +503,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
       <h3>Descubra o que está travando o crescimento da sua loja</h3>
       <p class="hero-card-sub">Preencha abaixo e nossa equipe entra em contato em até 24h para agendar sua reunião estratégica.</p>
       <form id="hero-form" onsubmit="submitForm(event, 'hero-form', 'hero-success')">
+        <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
         <div class="form-row">
           <div class="form-group">
             <label class="form-label">Seu nome</label>
@@ -649,7 +651,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
   <div class="container">
     <div class="eyebrow reveal">Para quem é</div>
     <h2 class="section-title reveal">Trabalhamos com<br>supermercados que querem crescer.</h2>
-    <p class="section-desc reveal">Não somos agência genérica. Somos especialistas em um segmento só — e isso muda tudo.</p>
+    <p class="section-desc reveal">Não somos agência genérica. Somos especialistas em marketing para supermercados — e isso muda tudo.</p>
     <div class="paraquem-grid">
       <div class="paraquem-card reveal">
         <div class="paraquem-card-icon">🏪</div>
@@ -785,6 +787,18 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
       </div>
       <div class="servico-card reveal" style="transition-delay:0.40s">
         <div class="servico-num">6</div>
+        <div class="servico-icon">🎬</div>
+        <h3>Vídeos que Humanizam a Loja</h3>
+        <p>Roteiros prontos para a sua equipe gravar no celular. Você manda os vídeos numa pasta e a gente edita, publica e leva o cliente para o WhatsApp.</p>
+        <ul class="servico-itens">
+          <li>Roteiros de ofertas da semana</li>
+          <li>Destaques: açougue, padaria, hortifruti</li>
+          <li>Vídeo institucional da loja</li>
+          <li>Edição e publicação pela GST</li>
+        </ul>
+      </div>
+      <div class="servico-card reveal" style="transition-delay:0.48s">
+        <div class="servico-num">7</div>
         <div class="servico-icon">🔬</div>
         <h3>Pesquisa & Diagnóstico</h3>
         <p>Pesquisa direta com clientes para mapear canais de comunicação, comportamento de compra e potencial de crescimento.</p>
@@ -870,6 +884,7 @@ a:focus-visible, button:focus-visible { outline: 3px solid #b7a0ec; outline-offs
           <div class="form-box-title">Agendar meu Diagnóstico</div>
           <div class="form-box-sub">Preencha o formulário e nossa equipe entra em contato em até 24h.</div>
           <form id="main-form" onsubmit="submitForm(event, 'main-form', 'main-success')">
+            <input type="text" name="site" tabindex="-1" autocomplete="off" aria-hidden="true" style="position:absolute;left:-9999px;width:1px;height:1px;opacity:0">
             <div class="form-row">
               <div class="form-group">
                 <label class="form-label">Nome completo</label>
@@ -991,6 +1006,24 @@ const UTM_KEYS = ['utm_source','utm_medium','utm_campaign','utm_term','utm_conte
     }
   } catch (_) {}
 })();
+// Indicação de representante: agenciagst.com.br/?indicacao=nome-do-representante
+(function saveIndicacao(){
+  try {
+    const q = new URLSearchParams(location.search);
+    const v = (q.get('indicacao') || q.get('via') || '').trim();
+    if (v) localStorage.setItem('gst_indicacao', v.slice(0, 80));
+  } catch (_) {}
+})();
+function getIndicacao(){
+  try {
+    const v = localStorage.getItem('gst_indicacao') || new URLSearchParams(location.search).get('indicacao') || '';
+    return v.replace(/[-_]+/g, ' ').replace(/\s+/g, ' ').trim().replace(/\b\p{L}/gu, (c) => c.toUpperCase());
+  } catch (_) { return ''; }
+}
+(function mostrarIndicacao(){
+  const n = getIndicacao(); if (!n) return;
+  document.querySelectorAll('.hero-card-tag').forEach((t) => { t.textContent = 'Diagnóstico Gratuito · Indicação de ' + n; });
+})();
 function getUtms(){
   try { return JSON.parse(localStorage.getItem('gst_utms') || '{}'); } catch (_) { return {}; }
 }
@@ -1014,7 +1047,7 @@ function submitForm(e, formId, successId) {
     cidade: val('cidade'), lojas: val('lojas'), faturamento: val('faturamento'), marketing: val('marketing'), desafio: val('desafio'),
     utm_source: utms.utm_source || '', utm_medium: utms.utm_medium || '', utm_campaign: utms.utm_campaign || '',
     utm_term: utms.utm_term || '', utm_content: utms.utm_content || '', fbclid: utms.fbclid || '',
-    pagina: location.href.split('?')[0], event_id: eventId
+    pagina: location.href.split('?')[0], event_id: eventId, indicado_por: getIndicacao(), site: val('site')
   };
 
   // Mensagem pronta para o WhatsApp (botão na tela de sucesso)
@@ -1027,6 +1060,7 @@ function submitForm(e, formId, successId) {
   if (lead.faturamento) linhas.push('Faturamento: ' + lead.faturamento);
   if (lead.marketing) linhas.push('Marketing hoje: ' + lead.marketing);
   if (lead.desafio) linhas.push('Maior desafio: ' + lead.desafio);
+  if (lead.indicado_por) linhas.push('Indicado por: ' + lead.indicado_por);
   linhas.push('', 'Gostaria de agendar o diagnóstico gratuito!');
   const waHref = 'https://wa.me/' + WA_NUMBER + '?text=' + encodeURIComponent(linhas.join('\n'));
 
@@ -1037,6 +1071,9 @@ function submitForm(e, formId, successId) {
     if (wa) wa.href = waHref;
     if (typeof fbq !== 'undefined') fbq('track', 'Lead', {content_name: lead.formulario}, {eventID: eventId});
   };
+
+  // Grava o lead no escritório (aviso do Fiscal + tarefa de retorno em 24h)
+  fetch('/api/lead', { method: 'POST', keepalive: true, headers: {'Content-Type': 'application/json'}, body: JSON.stringify(lead) }).catch(() => {});
 
   // Grava o lead na planilha do Google (Apps Script)
   fetch(LEADS_URL, {
