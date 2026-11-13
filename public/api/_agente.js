@@ -67,6 +67,7 @@ const FERRAMENTAS = [
   { name: 'mensagens_grupo', description: 'Últimas mensagens recebidas nos grupos de WhatsApp de um cliente (o que o cliente pediu, aprovou ou perguntou).', input_schema: { type: 'object', properties: { cliente: { type: 'string' }, dias: { type: 'number' } }, required: ['cliente'] } },
   { name: 'financeiro', description: 'Fechamento mensal da GST (ago/26 em diante): receita, parte do Dimas, custos de design/tráfego/social, despesas, resultado e clientes por mês. Use para comparar meses.', input_schema: { type: 'object', properties: { meses: { type: 'number', description: 'quantos meses mais recentes (padrão 3)' } } } },
   { name: 'publicar_tarefas_grupo_interno', description: 'Publica no grupo interno da equipe no WhatsApp ("GST, Estratégia e Tráfego") a lista de tarefas abertas, separada por pessoa. Use SÓ quando o Oscar ou a Jéssica pedirem explicitamente para enviar/atualizar as tarefas no grupo interno. Com previa=true só devolve o texto, sem enviar.', input_schema: { type: 'object', properties: { previa: { type: 'boolean' }, pessoas: { type: 'array', items: { type: 'string' }, description: 'opcional: só essas pessoas' } } } },
+  { name: 'anuncios', description: 'Números do Meta Ads (Gerenciador de Anúncios) de cada cliente: investimento de hoje, ontem, 7 dias e do mês, campanhas ativas e sem entrega, situação da conta (ACTIVE, DISABLED = bloqueada, UNSETTLED = pagamento pendente). É uma fotografia atualizada 4 vezes ao dia (8h, 12h, 16h, 20h); sempre diga o horário da coleta. Sem cliente = todas as contas.', input_schema: { type: 'object', properties: { cliente: { type: 'string', description: 'nome do cliente (opcional)' } } } },
   { name: 'modelos_mensagem', description: 'Lista os modelos de mensagem prontos para os grupos dos clientes (ex.: lembrete da lista de ofertas, pasta do Drive para vídeos), com quando usar e o texto.', input_schema: { type: 'object', properties: {} } },
   { name: 'previa_mensagem_grupos', description: 'Prepara uma mensagem para os grupos de WhatsApp de um ou mais clientes e devolve a PRÉVIA. Não envia nada. Use um modelo (slug de modelos_mensagem) ou texto_livre ditado pelo Oscar/Jéssica. clientes = lista de nomes; todos=true para todos os clientes ativos que têm grupo; grupo_interno=true para o grupo interno da equipe (comunicados à equipe). Depois mostre a prévia e pergunte se pode enviar.', input_schema: { type: 'object', properties: { modelo: { type: 'string' }, texto_livre: { type: 'string' }, clientes: { type: 'array', items: { type: 'string' } }, todos: { type: 'boolean' }, grupo_interno: { type: 'boolean' } } } },
   { name: 'confirmar_envio_grupos', description: 'Envia a última prévia preparada por previa_mensagem_grupos (de quem está falando, dos últimos 30 min). Use SÓ quando a pessoa responder que pode enviar, numa mensagem DEPOIS de ver a prévia.', input_schema: { type: 'object', properties: {} } },
@@ -172,6 +173,18 @@ async function executar(nome, a, ctx) {
     await enviarWhats(grupo.id, texto);
     await sb('diario', { method: 'POST', body: { dia: hojeSP(), tipo: 'equipe', resumo: 'Fiscal publicou as tarefas abertas por pessoa no grupo interno (' + grupo.nome + ').', quem: ctx.quem.nome, fonte: 'whatsapp' } });
     return { enviado: true, grupo: grupo.nome, caracteres: texto.length };
+  }
+  if (nome === 'anuncios') {
+    let filtro = '';
+    if (a.cliente) {
+      const r = achar(B.clientes, a.cliente);
+      if (r.item) filtro = '&cliente_id=eq.' + r.item.id;
+      else filtro = '&rotulo=ilike.*' + encodeURIComponent(String(a.cliente).replace(/[*,()]/g, '')) + '*';
+    }
+    const rows = await sb('meta_ultimo?select=rotulo,conta_nome,moeda,status_conta,gasto_hoje,gasto_ontem,gasto_7d,gasto_mes,campanhas_ativas,campanhas_sem_entrega,resultados_mes,observacao,coletado_em' + filtro + '&order=gasto_mes.desc.nullslast');
+    if (!rows.length) return { aviso: 'Sem fotografia do Meta para esse filtro ainda.' };
+    const fmt = (d) => new Date(d).toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' });
+    return { coletado_em: fmt(rows.map((r) => r.coletado_em).sort().pop()), contas: rows.map(({ coletado_em, ...r }) => r) };
   }
   if (nome === 'modelos_mensagem') {
     const ms = await sb('mensagens_modelo?select=slug,titulo,quando_usar,texto&ativo=eq.true&order=titulo');
