@@ -42,7 +42,7 @@ function prazoISO(v) {
 
 async function base() {
   const [clientes, equipe] = await Promise.all([
-    sb('clientes?select=id,nome,socio,status,tier,contato&order=nome'),
+    sb('clientes?select=id,nome,socio,status,tier,contato,pasta_drive&order=nome'),
     sb('equipe?select=id,nome,funcao&ativo=eq.true&order=nome'),
   ]);
   return { clientes, equipe };
@@ -71,11 +71,18 @@ const FERRAMENTAS = [
   { name: 'modelos_mensagem', description: 'Lista os modelos de mensagem prontos para os grupos dos clientes (ex.: lembrete da lista de ofertas, pasta do Drive para vídeos), com quando usar e o texto.', input_schema: { type: 'object', properties: {} } },
   { name: 'previa_mensagem_grupos', description: 'Prepara uma mensagem para os grupos de WhatsApp de um ou mais clientes e devolve a PRÉVIA. Não envia nada. Use um modelo (slug de modelos_mensagem) ou texto_livre ditado pelo Oscar/Jéssica. clientes = lista de nomes; todos=true para todos os clientes ativos que têm grupo; grupo_interno=true para o grupo interno da equipe (comunicados à equipe). Depois mostre a prévia e pergunte se pode enviar.', input_schema: { type: 'object', properties: { modelo: { type: 'string' }, texto_livre: { type: 'string' }, clientes: { type: 'array', items: { type: 'string' } }, todos: { type: 'boolean' }, grupo_interno: { type: 'boolean' } } } },
   { name: 'confirmar_envio_grupos', description: 'Envia a última prévia preparada por previa_mensagem_grupos (de quem está falando, dos últimos 30 min). Use SÓ quando a pessoa responder que pode enviar, numa mensagem DEPOIS de ver a prévia.', input_schema: { type: 'object', properties: {} } },
+  { name: 'ofertas', description: 'Quais clientes já mandaram oferta (lista de ofertas registrada no escritório) nos últimos dias e quais ainda não mandaram. Padrão: 7 dias.', input_schema: { type: 'object', properties: { dias: { type: 'number' }, cliente: { type: 'string' } } } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
 ];
 
+const FERRAMENTAS_GRUPO = new Set(['ver_cliente', 'listar_tarefas', 'panorama', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
+const financeiroTexto = (d) => d.tipo === 'financeiro' || /R\$\s?\d|\bmensalidade|\bfaturamento|\breceita|\blucro|\bcomiss/i.test(d.resumo || '');
 async function executar(nome, a, ctx) {
   const B = ctx.B;
+  if (ctx.modo === 'grupo') {
+    if (!FERRAMENTAS_GRUPO.has(nome)) throw new Error('no grupo interno essa ação não é permitida; só o Oscar ou a Jéssica, no privado do Fiscal');
+    if (nome === 'anotar_diario' && a.tipo === 'financeiro') throw new Error('registro financeiro só no privado, pelo Oscar ou pela Jéssica');
+  }
   const cli = (n) => { const r = achar(B.clientes, n); if (r.erro) throw new Error(r.erro); return r.item; };
   const pes = (n) => { const r = achar(B.equipe, n); if (r.erro) throw new Error(r.erro); return r.item; };
   if (nome === 'ver_cliente') {
@@ -85,9 +92,10 @@ async function executar(nome, a, ctx) {
       sb('tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&cliente_id=eq.' + c.id + '&status=not.in.(concluida,cancelada)&order=prazo.asc.nullsfirst&limit=30'),
       sb('diario?select=dia,tipo,resumo,quem&cliente_id=eq.' + c.id + '&order=dia.desc,created_at.desc&limit=8'),
     ]);
-    return { cliente: c.nome, socio: c.socio, status: c.status, plano: c.tier, contato: c.contato,
+    const eq = ctx.modo === 'grupo' && !ctx.admin;
+    return { cliente: c.nome, socio: eq ? undefined : c.socio, status: c.status, plano: c.tier, contato: c.contato, pasta_drive: c.pasta_drive || 'sem pasta cadastrada',
       equipe: resp.map((r) => `${r.area}: ${(B.equipe.find((e) => e.id === r.equipe_id) || {}).nome}`),
-      tarefas_abertas: ab.map((t) => linhaTarefa(t, B)), diario: di.map((d) => `${d.dia} ${d.tipo}: ${d.resumo}`) };
+      tarefas_abertas: ab.map((t) => linhaTarefa(t, B)), diario: di.filter((d) => !eq || !financeiroTexto(d)).map((d) => `${d.dia} ${d.tipo}: ${d.resumo}`) };
   }
   if (nome === 'listar_tarefas' || nome === 'panorama') {
     let q = 'tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&status=not.in.(concluida,cancelada)&order=prazo.asc.nullsfirst&limit=300';
@@ -134,6 +142,10 @@ async function executar(nome, a, ctx) {
     }
     if (achadas.length !== 1) throw new Error('não achei essa tarefa');
     const t = achadas[0], m = { alterado_por: ctx.quem.id };
+    if (ctx.modo === 'grupo' && !ctx.admin) {
+      if (a.responsavel) throw new Error('trocar o responsável de uma tarefa é com o Oscar ou a Jéssica (ou arrastando no escritório)');
+      if (a.prazo && t.responsavel_id !== ctx.quem.id) throw new Error('só dá para mudar o prazo das suas próprias tarefas; peça ao Oscar ou à Jéssica');
+    }
     if (a.status) m.status = a.status;
     if (a.responsavel) m.responsavel_id = pes(a.responsavel).id;
     if (a.prazo) m.prazo = prazoISO(a.prazo);
@@ -252,11 +264,24 @@ async function executar(nome, a, ctx) {
     }
     return { enviados: ok, falharam: falha };
   }
+  if (nome === 'ofertas') {
+    const dias = Math.min(Math.max(Number(a.dias) || 7, 1), 60);
+    const desde = new Date(Date.now() - dias * 864e5).toISOString();
+    let q = 'ofertas?select=cliente_id,recebida_em,created_at,descricao,origem_referencia&created_at=gte.' + desde + '&order=created_at.desc&limit=300';
+    if (a.cliente) q += '&cliente_id=eq.' + cli(a.cliente).id;
+    const os = await sb(q);
+    const ativos = B.clientes.filter((c) => ['ativo', 'implantacao'].includes(c.status));
+    const ultima = {};
+    os.forEach((o) => { if (!ultima[o.cliente_id]) ultima[o.cliente_id] = o; });
+    return { periodo: `últimos ${dias} dias`, mandaram: Object.values(ultima).map((o) => `${(B.clientes.find((c) => c.id === o.cliente_id) || {}).nome} · ${fmt(o.recebida_em || o.created_at)}${o.origem_referencia ? ' · ' + o.origem_referencia : ''}`),
+      ainda_nao: a.cliente ? undefined : ativos.filter((c) => !ultima[c.id]).map((c) => c.nome),
+      obs: 'Só conta oferta registrada no escritório (botão Chegou oferta ou pelo Fiscal). Oferta que chegou no privado de alguém e não foi registrada não aparece.' };
+  }
   if (nome === 'buscar_diario') {
     let q = 'diario?select=dia,tipo,resumo,quem,cliente_id&order=dia.desc,created_at.desc&limit=25&dia=gte.' + new Date(Date.now() - 180 * 864e5).toISOString().slice(0, 10);
     if (a.cliente) q += '&cliente_id=eq.' + cli(a.cliente).id;
     if (a.texto) q += '&resumo=ilike.' + encodeURIComponent('*' + String(a.texto).replace(/[*,()]/g, ' ') + '*');
-    const r = await sb(q);
+    const r = (await sb(q)).filter((d) => !(ctx.modo === 'grupo' && !ctx.admin && financeiroTexto(d)));
     return { registros: r.map((d) => `${d.dia} ${d.tipo}${d.cliente_id ? ' [' + (B.clientes.find((c) => c.id === d.cliente_id) || {}).nome + ']' : ''}: ${d.resumo}${d.quem ? ' (' + d.quem + ')' : ''}`) };
   }
   if (nome === 'consultar_processo') {
@@ -306,6 +331,22 @@ Você não manda mensagem para pessoas da equipe no privado; só responde aqui. 
 1) Publicar as tarefas no grupo interno da equipe com publicar_tarefas_grupo_interno, só quando o Oscar ou a Jéssica pedirem claramente ("manda/atualiza as tarefas no grupo"). Se for ambíguo, mostre a prévia (previa=true) e pergunte.
 2) Mensagem nos grupos dos clientes, só quando o Oscar ou a Jéssica pedirem: SEMPRE em duas etapas. Primeiro previa_mensagem_grupos (modelo pronto ou texto ditado por eles), mostre a prévia e a lista de grupos e pergunte "Posso enviar?". Só chame confirmar_envio_grupos quando a pessoa responder que sim, numa mensagem seguinte. Nunca envie para cliente por conta própria, nunca invente texto para o cliente sem pedido, e não altere o texto do modelo sem pedirem. Para ver os modelos use modelos_mensagem. Comunicados para a equipe (ex.: modelo acesso_escritorio) usam o mesmo fluxo com grupo_interno=true.
 Depois de enviar, confirme em uma linha. Para outros recados, escreva o texto pronto para a pessoa copiar e enviar.
+Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
+Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
+}
+
+function sistemaGrupo(quem, B, admin) {
+  const ativos = B.clientes.filter((c) => !['pausado', 'encerrado'].includes(c.status));
+  return `Você é o *Fiscal*, assistente de operações do Escritório Virtual da GST Marketing (agência de marketing para supermercados). Você está respondendo no grupo interno da equipe no WhatsApp ("GST Estratégia e Tráfego"), porque ${quem.nome} te chamou. Todos do grupo leem sua resposta.
+Agora: ${agoraSP()} (Brasília).
+Responda em português do Brasil, curto, no estilo WhatsApp: comece chamando a pessoa pelo nome, frases curtas, listas com "•", *negrito* com asteriscos simples, sem # nem **. Responda só o que foi perguntado.
+Os códigos [xxxxxxxx] nos resultados são internos: use nas ferramentas, nunca mostre.
+Use as ferramentas; nunca invente tarefa, número, prazo, oferta ou nome. Se faltar algo essencial (qual cliente), pergunte em uma linha.
+O que você pode fazer aqui: responder sobre a operação (tarefas, atrasos, quem cuida de cada cliente, pasta do Drive, ofertas recebidas, anúncios, processos), criar tarefa quando pedirem, concluir ou mudar o status de tarefa quando a pessoa avisar que fez ("feito", "terminei", "enviei"), registrar oferta quando avisarem que um cliente mandou (inclusive no privado de alguém), e anotar no diário.
+Quando alguém avisar que fez algo, ache a tarefa e conclua; confirme em uma linha. Quando avisarem que um cliente mandou a oferta, registre a oferta (isso cria o encarte para o designer) e confirme.
+${admin ? '' : 'Regras para a equipe: não fale de valores, mensalidade, receita, lucro, comissão ou de quem é sócio de cada cliente. Não troque o responsável de tarefas (isso é com o Oscar ou a Jéssica, ou arrastando no escritório) e só mude prazo das tarefas da própria pessoa. '}Você não manda mensagem em grupo de cliente nem no privado de ninguém a partir daqui: se pedirem, diga que isso é com o Oscar ou a Jéssica, no privado do Fiscal.
+Tudo o que não é marketing (precificação, mix, estoque, financeiro da loja) vai para "Comercial · Dimas", área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia.
+Quem está falando: ${quem.nome} (${quem.funcao || 'equipe'}).
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
 }
@@ -375,10 +416,11 @@ async function claude(body) {
 }
 
 // historico: [{de_mim, texto}] em ordem cronológica (sem a mensagem atual)
-async function responder({ quem, pedido, historico = [] }) {
+async function responder({ quem, pedido, historico = [], modo = 'privado', admin = true }) {
   if (!process.env.ANTHROPIC_API_KEY) return 'O agente ainda não está ligado: falta a ANTHROPIC_API_KEY na Vercel.';
   const B = await base();
-  const ctx = { B, quem, pedido, inicio: Date.now() };
+  const ctx = { B, quem, pedido, inicio: Date.now(), modo, admin };
+  const ferramentas = modo === 'grupo' ? FERRAMENTAS.filter((f) => FERRAMENTAS_GRUPO.has(f.name)) : FERRAMENTAS;
   const messages = [];
   for (const h of historico.slice(-12)) {
     const role = h.de_mim ? 'assistant' : 'user';
@@ -390,9 +432,9 @@ async function responder({ quem, pedido, historico = [] }) {
   if (messages.length && messages[messages.length - 1].role === 'user') messages[messages.length - 1].content += '\n' + pedido;
   else messages.push({ role: 'user', content: pedido });
   const inicio = Date.now();
-  const sys = sistema(quem, B); // fixo durante a conversa (mudar o texto invalida o raciocínio anterior)
+  const sys = modo === 'grupo' ? sistemaGrupo(quem, B, admin) : sistema(quem, B); // fixo durante a conversa (mudar o texto invalida o raciocínio anterior)
   for (let volta = 0; volta < 8; volta++) {
-    const j = await claude({ model: MODELO, max_tokens: 2000, system: sys, tools: FERRAMENTAS, messages });
+    const j = await claude({ model: MODELO, max_tokens: 2000, system: sys, tools: ferramentas, messages });
     messages.push({ role: 'assistant', content: j.content });
     if (j.stop_reason !== 'tool_use') return j.content.filter((c) => c.type === 'text').map((c) => c.text).join('\n').trim() || 'Feito.';
     const resultados = [];
@@ -405,6 +447,34 @@ async function responder({ quem, pedido, historico = [] }) {
     if (Date.now() - inicio > 45000) break;
   }
   return 'Demorei demais para fechar essa. Pode repetir de forma mais curta?';
+}
+
+// Ronda das ofertas (todo dia 12h no grupo interno): quem mandou, quem falta, encartes em aberto
+async function montarRondaOfertas(B) {
+  const desde = new Date(Date.now() - 7 * 864e5).toISOString();
+  const [os, resp, encartes] = await Promise.all([
+    sb('ofertas?select=cliente_id,recebida_em,created_at&created_at=gte.' + desde + '&order=created_at.desc&limit=500'),
+    sb('cliente_responsaveis?select=cliente_id,equipe_id&area=eq.design'),
+    sb('tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status&oferta_id=not.is.null&area=eq.design&status=not.in.(concluida,cancelada)&order=prazo.asc.nullslast&limit=100'),
+  ]);
+  const nomeC = (id) => (B.clientes.find((c) => c.id === id) || {}).nome || '';
+  const nomeP = (id) => (B.equipe.find((e) => e.id === id) || {}).nome || 'sem responsável';
+  const dia = (p) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit' }).format(new Date(p));
+  const comEncarte = new Set(resp.map((r) => r.cliente_id));
+  const ativos = B.clientes.filter((c) => ['ativo', 'implantacao'].includes(c.status) && comEncarte.has(c.id));
+  const ultima = {};
+  os.forEach((o) => { if (!ultima[o.cliente_id]) ultima[o.cliente_id] = o.recebida_em || o.created_at; });
+  const mandaram = ativos.filter((c) => ultima[c.id]).map((c) => `• ${c.nome} (${dia(ultima[c.id])})`);
+  const faltam = ativos.filter((c) => !ultima[c.id]).map((c) => c.nome);
+  const agora = new Date();
+  const abertos = encartes.map((t) => `• ${nomeC(t.cliente_id)} · ${nomeP(t.responsavel_id)}${t.prazo ? ' · ' + dia(t.prazo) : ''}${t.prazo && new Date(t.prazo) < agora ? ' ⚠️' : ''}`);
+  const hoje = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: '2-digit' }).format(agora);
+  return [`📦 *Ronda das ofertas · ${hoje}*`, '',
+    `*Ofertas registradas nos últimos 7 dias* (${mandaram.length})`, mandaram.length ? mandaram.join('\n') : 'Nenhuma ainda.', '',
+    `*Ainda sem oferta registrada* (${faltam.length})`, faltam.length ? faltam.join(', ') : 'Todos em dia. 🎉', '',
+    `*Encartes de oferta em aberto* (${abertos.length})`, abertos.length ? abertos.join('\n') : 'Nenhum.', '',
+    'Algum cliente mandou a oferta no privado de vocês? Me avisem aqui marcando o *@Fiscal* (ex.: "@Fiscal o Aly mandou a oferta"), que eu registro e já crio o encarte.',
+    'Terminou um encarte? "@Fiscal encarte do Aly feito" e eu dou baixa.', '', '_Fiscal · GST_'].join('\n');
 }
 
 // ---------- fila de envio (agentes agendados e rotina das 20h) ----------
@@ -423,6 +493,7 @@ async function despacharFila() {
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
       }
       if (m.tipo === 'tarefas_equipe') texto = await montarTarefasEquipe(await base(), null, 'rotina');
+      if (m.tipo === 'ronda_ofertas') texto = await montarRondaOfertas(await base());
       await enviarWhats(numero, String(texto).slice(0, 60000));
       await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', enviado_em: new Date().toISOString() } });
       out.push({ id: m.id, ok: true });
@@ -434,4 +505,4 @@ async function despacharFila() {
   return out;
 }
 
-module.exports = { responder, executar, base, despacharFila };
+module.exports = { responder, executar, base, despacharFila, grupoInterno, uaz, montarRondaOfertas };

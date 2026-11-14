@@ -2,7 +2,7 @@
 // Variáveis na Vercel: UAZAPI_URL, UAZAPI_TOKEN (token da instância) e a chave do Supabase.
 // O endereço do webhook leva um segredo derivado do UAZAPI_TOKEN (?s=...), configurado pelo painel.
 const crypto = require('crypto');
-const { responder, despacharFila } = require('./_agente.js');
+const { responder, despacharFila, grupoInterno, uaz } = require('./_agente.js');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rybbojxebmmtfhbmnopm.supabase.co';
 const CHAVE = () => process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
@@ -55,10 +55,73 @@ async function sbGet(caminho) {
   if (!r.ok) throw new Error('banco ' + r.status);
   return r.json();
 }
-async function enviar(numero, texto) {
+async function enviar(numero, texto, extra = {}) {
   const base = (process.env.UAZAPI_URL || '').replace(/\/+$/, '');
-  const r = await fetch(base + '/send/text', { method: 'POST', headers: { token: process.env.UAZAPI_TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify({ number: numero, text: texto }) });
+  const r = await fetch(base + '/send/text', { method: 'POST', headers: { token: process.env.UAZAPI_TOKEN, 'Content-Type': 'application/json' }, body: JSON.stringify({ number: numero, text: texto, ...extra }) });
   if (!r.ok) throw new Error('envio ' + r.status);
+  const j = await r.json().catch(() => ({}));
+  return j && (j.messageid || j.id || (j.key && j.key.id) || (j.message && (j.message.messageid || j.message.id))) || null;
+}
+
+// ---------- Fiscal no grupo interno: responde quando é chamado ----------
+const chaveFone = (v) => { let d = String(v || '').replace(/\D/g, ''); if (d.length >= 12 && d.startsWith('55')) d = d.slice(2); return d.length >= 10 ? d.slice(0, 2) + d.slice(-8) : ''; };
+const lerConfig = async (chave) => { const r = await sbGet('configuracoes?select=valor&chave=eq.' + chave); try { return r[0] ? JSON.parse(r[0].valor) : null; } catch { return null; } };
+const salvarConfig = (chave, valor) => sb('configuracoes?on_conflict=chave', { chave, valor: JSON.stringify(valor), updated_at: new Date().toISOString() }, 'resolution=merge-duplicates,return=minimal');
+// ids com que o Fiscal aparece numa marcação (@número ou @lid). Aprende pela lista de participantes do grupo.
+async function idsDoFiscal(grupoId, dono) {
+  const cfg = (await lerConfig('fiscal_mencoes')) || { ids: [], tentado: null };
+  const ids = new Set((cfg.ids || []).map(String));
+  if (dono) ids.add(String(dono).replace(/\D/g, ''));
+  const precisa = ![...ids].some((x) => x.length >= 14) && (!cfg.tentado || Date.now() - Date.parse(cfg.tentado) > 6 * 3600e3);
+  if (precisa && dono) {
+    try {
+      const info = await uaz('/group/info', { method: 'POST', body: { groupjid: grupoId, getInviteLink: false } });
+      const parts = (info && (info.Participants || info.participants || (info.group && (info.group.Participants || info.group.participants)))) || [];
+      for (const p of parts) {
+        const t = JSON.stringify(p);
+        if (!t.includes(String(dono).replace(/\D/g, ''))) continue;
+        (t.match(/\d{10,}(?=@lid)/g) || []).forEach((x) => ids.add(x));
+      }
+    } catch {}
+    await salvarConfig('fiscal_mencoes', { ids: [...ids], tentado: new Date().toISOString() });
+  }
+  return [...ids];
+}
+async function chamouOFiscal(msg, bruto, grupoId) {
+  const texto = String(msg.texto || '');
+  if (/^\s*@?fiscal\b/i.test(texto)) return true;
+  const m = (bruto && bruto.message) || {};
+  const ids = await idsDoFiscal(grupoId, m.owner || (bruto && bruto.chat && bruto.chat.owner));
+  if (ids.some((id) => id && texto.includes('@' + id))) return true;
+  const citada = typeof m.quoted === 'string' ? m.quoted : m.quoted && (m.quoted.id || m.quoted.messageid);
+  if (citada) { const r = await sbGet('whatsapp_mensagens?select=id&de_mim=eq.true&msg_id=eq.' + encodeURIComponent(citada) + '&limit=1'); if (r[0]) return true; }
+  return false;
+}
+async function quemDaEquipe(msg) {
+  const equipe = await sbGet('equipe?select=id,nome,funcao,whatsapp,acesso&ativo=eq.true&acesso=neq.nenhum');
+  const k = chaveFone(msg.remetente);
+  let p = k && equipe.find((e) => chaveFone(e.whatsapp) === k);
+  if (!p && msg.nome_remetente) { // sem número (só @lid): pelo nome, se for único
+    const n = String(msg.nome_remetente).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(/\s+/)[0];
+    const c = equipe.filter((e) => e.nome.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase().split(/\s+/)[0] === n);
+    if (c.length === 1) p = c[0];
+  }
+  return p || null;
+}
+async function atenderGrupo(quem, msg) {
+  let resposta;
+  try {
+    const desde = new Date(Date.now() - 3 * 3600e3).toISOString();
+    const hist = await sbGet(`whatsapp_mensagens?select=de_mim,texto,nome_remetente,recebida_em&chat_id=eq.${encodeURIComponent(msg.chat_id)}&recebida_em=gte.${desde}&id=neq.${msg.id}&order=recebida_em.desc&limit=15`);
+    const conversa = hist.reverse().filter((h) => h.texto).map((h) => `${h.de_mim ? 'Fiscal' : h.nome_remetente || '?'}: ${String(h.texto).slice(0, 500)}`).join('\n');
+    const pedido = (conversa ? 'Conversa recente no grupo (contexto):\n' + conversa + '\n\n' : '') + `Mensagem de ${quem.nome} chamando você agora:\n${msg.texto}`;
+    resposta = await responder({ quem, pedido, modo: 'grupo', admin: quem.acesso === 'admin' });
+  } catch (e) {
+    resposta = `${quem.nome.split(' ')[0]}, tive um problema para responder agora. Tenta de novo em instantes.`;
+  }
+  const id = await enviar(msg.chat_id, resposta, msg.msg_id ? { replyid: msg.msg_id } : {}).catch(() => null);
+  await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: true, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', nome_remetente: 'Fiscal', msg_id: id || null, recebida_em: new Date().toISOString() });
+  await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + msg.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ processada: true }) });
 }
 async function atender(quem, msg, numero) {
   let resposta;
@@ -97,6 +160,15 @@ module.exports = async (req, res) => {
       const numero = String(nova.remetente || nova.chat_id || '').replace(/\D/g, '');
       const quem = numero ? await sbGet(`equipe?select=id,nome,whatsapp&comanda_agente=eq.true&whatsapp=eq.${numero}`) : [];
       if (quem[0]) await atender(quem[0], nova, numero);
+    }
+    // grupo interno: a equipe chama o Fiscal marcando @Fiscal, respondendo a ele ou começando com "Fiscal,"
+    if (nova && nova.eh_grupo && !nova.de_mim && nova.texto) {
+      let interno = null;
+      try { interno = await grupoInterno(); } catch {}
+      if (interno && interno.id === nova.chat_id && await chamouOFiscal(nova, semSegredo, interno.id)) {
+        const quem = await quemDaEquipe(nova);
+        if (quem) await atenderGrupo(quem, nova);
+      }
     }
     return res.json({ ok: true });
   } catch (e) {
