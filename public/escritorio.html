@@ -93,6 +93,12 @@ main.quadro{max-width:none;padding:0}
 .col-body{overflow-y:auto;padding:0 10px 12px;display:flex;flex-direction:column;gap:8px}
 .col .t{grid-template-columns:1fr;border-radius:12px}
 .col .t .acoes{grid-column:1;grid-row:auto;justify-content:flex-start}
+.kanban .t{cursor:grab;-webkit-user-select:none;user-select:none;-webkit-touch-callout:none}
+.kanban .t.arrastando{opacity:.35}
+.t-fantasma .acoes{grid-column:1!important;grid-row:auto!important;justify-content:flex-start}
+.t-fantasma{grid-template-columns:1fr!important;position:fixed;z-index:9999;pointer-events:none;width:300px;transform:rotate(2deg);box-shadow:0 18px 40px rgba(13,27,42,.28);cursor:grabbing}
+.col.alvo{outline:3px dashed var(--green);outline-offset:-3px;background:#dcf5e8}
+.kb-dica{font-size:12px;color:var(--muted);padding:0 20px;margin:-6px 0 0}
 .col .vazio{text-align:center;padding:24px 8px;border:2px dashed #cdd6df;border-radius:12px}
 .kb-nav{position:fixed;right:18px;bottom:18px;display:flex;gap:6px;z-index:4}
 .kb-nav button{width:40px;height:40px;border-radius:50%;border:0;background:var(--navy);color:#fff;font-size:18px;cursor:pointer;box-shadow:0 6px 18px rgba(13,27,42,.3)}
@@ -408,7 +414,7 @@ function cartao(t, mostrarPessoa = true) {
   if (t.status === 'em_andamento') tags.push('<span class="tag azul">em andamento</span>');
   if (t.status === 'aguardando_cliente') tags.push('<span class="tag amar">aguardando cliente</span>');
   if (t.prioridade === 'urgente' || t.prioridade === 'alta') tags.push(`<span class="tag verm">${t.prioridade}</span>`);
-  return `<div class="t ${classe}">
+  return `<div class="t ${classe}" data-tid="${t.id}" title="Arraste para a coluna de outra pessoa para passar a tarefa">
     <div class="tit">${esc(t.titulo)}</div>
     <div class="acoes">${botoes(t)}</div>
     <div class="meta"><span>${esc(cli(t.cliente_id).nome)}</span>
@@ -574,7 +580,7 @@ function renderPessoas() {
     return { p, ts, atr, hoje, contas, ok };
   }).sort((a, b) => (b.ts.length > 0) - (a.ts.length > 0) || b.atr - a.atr || b.ts.length - a.ts.length);
   return `<div class="kanban" id="kanban">${blocos.map(({ p, ts, atr, hoje, contas, ok }) => `
-    <section class="col ${/dimas/i.test(p.nome) ? 'ext' : ''}">
+    <section class="col ${/dimas/i.test(p.nome) ? 'ext' : ''}" data-pid="${p.id}">
       <div class="col-head"><div class="av">${esc(iniciais(p.nome))}</div>
         <div><div class="col-nome">${esc(p.nome)} <span class="n">${ts.length}</span></div>
         <div class="col-sub">${esc(p.funcao || '')} · ${contas} conta${contas === 1 ? '' : 's'}</div></div></div>
@@ -583,6 +589,72 @@ function renderPessoas() {
     </section>`).join('')}</div>
     <div class="kb-nav"><button data-kb="-1" aria-label="Voltar colunas">‹</button><button data-kb="1" aria-label="Avançar colunas">›</button></div>`;
 }
+// ---------- arrastar tarefa entre pessoas (aba Por pessoa) ----------
+let arraste = null;
+function iniciarArraste(card, x, y) {
+  const r = card.getBoundingClientRect();
+  const fantasma = card.cloneNode(true); fantasma.classList.add('t-fantasma'); fantasma.style.width = r.width + 'px';
+  document.body.appendChild(fantasma); card.classList.add('arrastando');
+  arraste.ativo = true; arraste.fantasma = fantasma; arraste.dx = x - r.left; arraste.dy = y - r.top;
+  if (navigator.vibrate) try { navigator.vibrate(15); } catch {}
+  moverArraste(x, y);
+}
+function colunaEm(x, y) {
+  const el = document.elementFromPoint(x, y); // o fantasma tem pointer-events:none, não atrapalha
+  return el && el.closest('.col[data-pid]');
+}
+function moverArraste(x, y) {
+  const a = arraste; a.x = x; a.y = y;
+  a.fantasma.style.left = (x - a.dx) + 'px'; a.fantasma.style.top = (y - a.dy) + 'px';
+  const col = colunaEm(x, y);
+  document.querySelectorAll('.col.alvo').forEach((c) => c !== col && c.classList.remove('alvo'));
+  if (col && col.dataset.pid !== a.origem) col.classList.add('alvo');
+  // rolagem automática perto das bordas
+  const kb = $('#kanban'); if (!kb) return;
+  const kr = kb.getBoundingClientRect(), borda = 70;
+  a.rolar = x < kr.left + borda ? -14 : x > kr.right - borda ? 14 : 0;
+  if (a.rolar && !a.timer) a.timer = setInterval(() => { if (!arraste || !arraste.rolar) return; kb.scrollLeft += arraste.rolar; moverArraste(arraste.x, arraste.y); }, 16);
+}
+function encerrarArraste(soltar) {
+  const a = arraste; if (!a) return; arraste = null;
+  clearTimeout(a.segurar); clearInterval(a.timer);
+  if (!a.ativo) return;
+  a.fantasma.remove(); a.card.classList.remove('arrastando');
+  document.querySelectorAll('.col.alvo').forEach((c) => c.classList.remove('alvo'));
+  a.card.addEventListener('click', (e) => { e.stopPropagation(); e.preventDefault(); }, { capture: true, once: true });
+  if (!soltar) return;
+  const col = colunaEm(a.x, a.y);
+  if (col && col.dataset.pid !== a.origem) passarTarefa(a.tid, col.dataset.pid);
+}
+async function passarTarefa(tid, pid) {
+  const t = D.abertas.find((x) => x.id === tid); const p = pes(pid); if (!t || !p) return;
+  const antes = t.responsavel_id;
+  t.responsavel_id = pid; render();
+  try {
+    await api('tarefa', { id: tid, responsavel_id: pid, ator_id: atorId() });
+    toast(`"${t.titulo.slice(0, 40)}${t.titulo.length > 40 ? '…' : ''}" agora é de ${p.nome}`);
+  } catch (e) { t.responsavel_id = antes; render(); toast('Não deu para passar a tarefa: ' + e.message); }
+}
+document.addEventListener('pointerdown', (e) => {
+  if (aba !== 'pessoas' || e.button > 0) return;
+  const card = e.target.closest('.kanban .t[data-tid]');
+  if (!card || e.target.closest('button, a, input, select, textarea')) return;
+  const col = card.closest('.col[data-pid]'); if (!col) return;
+  arraste = { card, tid: card.dataset.tid, origem: col.dataset.pid, x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, toque: e.pointerType !== 'mouse', ativo: false };
+  if (arraste.toque) arraste.segurar = setTimeout(() => { if (arraste && !arraste.ativo) iniciarArraste(card, arraste.x, arraste.y); }, 380);
+});
+document.addEventListener('pointermove', (e) => {
+  const a = arraste; if (!a) return;
+  a.x = e.clientX; a.y = e.clientY;
+  if (a.ativo) { moverArraste(e.clientX, e.clientY); return; }
+  const dist = Math.hypot(e.clientX - a.x0, e.clientY - a.y0);
+  if (a.toque) { if (dist > 10) encerrarArraste(false); } // no celular, mexeu antes de segurar = é rolagem
+  else if (dist > 6) iniciarArraste(a.card, e.clientX, e.clientY);
+});
+document.addEventListener('touchmove', (e) => { if (arraste && arraste.ativo) e.preventDefault(); }, { passive: false });
+document.addEventListener('pointerup', () => encerrarArraste(true));
+document.addEventListener('pointercancel', () => encerrarArraste(false));
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && arraste) encerrarArraste(false); });
 function nomeResp(cid, area) {
   return D.responsaveis.filter((r) => r.cliente_id === cid && r.area === area).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean).join(', ') || '<span style="color:#a3adbb">—</span>';
 }
@@ -1059,7 +1131,7 @@ async function entrar() {
   aplicarPapel();
   carregarPainel();
   if (ADMIN()) statusWhats();
-  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa'].includes(aba)) { carregar().catch(() => {}); if (aba === 'painel') carregarPainel(); } }, 60000);
+  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!arraste && !document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa'].includes(aba)) { carregar().catch(() => {}); if (aba === 'painel') carregarPainel(); } }, 60000);
 }
 $('#fLogin').onsubmit = async (e) => {
   e.preventDefault(); $('#erroLogin').textContent = '';
