@@ -100,6 +100,17 @@ async function carregarDados(papel) {
   return { clientes: cls, equipe, responsaveis, abertas, concluidasHoje, agora: new Date().toISOString() };
 }
 
+async function carregarAnuncios() {
+  // fotografia do Meta Ads gravada 4x por dia pela tarefa agendada; gasto de anúncio é verba do cliente, a equipe pode ver
+  const desde = new Date(Date.now() - 3 * 864e5).toISOString();
+  const [contas, cfg] = await Promise.all([
+    sb('meta_ultimo?select=cliente_id,rotulo,conta_id,conta_nome,moeda,status_conta,gasto_hoje,gasto_ontem,gasto_7d,gasto_mes,campanhas_ativas,campanhas_sem_entrega,observacao,coletado_em&coletado_em=gte.' + encodeURIComponent(desde) + '&order=rotulo'),
+    sb('configuracoes?select=valor&chave=eq.cambio_eur'),
+  ]);
+  let cambio = null; try { cambio = cfg[0] ? JSON.parse(cfg[0].valor) : null; } catch {}
+  return { contas, cambio_eur: cambio };
+}
+
 async function carregarDiario(papel) {
   const desde = new Date(Date.now() - 180 * 864e5).toISOString().slice(0, 10);
   const diario = await sb('diario?select=id,dia,cliente_id,tipo,resumo,quem,fonte,referencia,created_at&dia=gte.' + desde + '&order=dia.desc,created_at.desc&limit=1500');
@@ -415,6 +426,7 @@ module.exports = async (req, res) => {
 
     if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, eu, ...(await carregarDados(papel)) });
     if (acao === 'painel' && req.method === 'GET') return res.json({ ok: true, ...(await sb('rpc/gst_painel', { method: 'POST', body: {} })) });
+    if (acao === 'anuncios' && req.method === 'GET') return res.json({ ok: true, ...(await carregarAnuncios()) });
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
     if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });
     if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });

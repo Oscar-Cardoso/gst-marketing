@@ -160,6 +160,13 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .dia-filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px}
 .dia-filtros .busca{margin:0;flex:1 1 220px}
 .dia-filtros select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);max-width:240px}
+.an-at{display:grid;gap:8px}
+.an-it{display:grid;grid-template-columns:10px 1fr auto;gap:10px;align-items:start;padding:10px 12px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.an-it i{width:10px;height:10px;border-radius:50%;margin-top:5px}.an-it small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
+.an-it .val{font-size:12.5px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
+.an-it a,.an-tb a{color:var(--green-d);font-weight:600;font-size:12.5px;text-decoration:none;white-space:nowrap}
+.an-tb td{vertical-align:top}.an-tb .num{font-variant-numeric:tabular-nums;white-space:nowrap}.an-tb .obs{color:var(--muted);font-size:12px;max-width:260px}
+.an-hora{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 12px}.an-hora b{color:var(--navy)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12.5px;font-weight:500;color:#334155;cursor:pointer}
 .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -232,6 +239,7 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
       <p class="grupo">Clientes</p>
       <button data-aba="clientes"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg>Clientes</button>
       <button data-aba="mapa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="6" cy="6" r="2.5"/><circle cx="18" cy="7" r="2.5"/><circle cx="12" cy="18" r="2.5"/><path d="M8.2 7.2l7.4-.2M7.3 8.2l3.6 7.6M16.8 9.2l-3.7 6.7"/></svg>Mapa</button>
+      <button data-aba="anuncios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v3a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>Anúncios</button>
       <p class="grupo">Registro</p>
       <button data-aba="diario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/><path d="M9 8h6"/></svg>Diário</button>
       <p class="grupo">Gestão</p>
@@ -461,6 +469,79 @@ function renderPainel() {
         ${P.sem_grupo.length ? `<p class="nota" style="margin-top:12px"><b>Fora do radar</b> (o Fiscal não está no grupo): ${P.sem_grupo.map(esc).join(', ')}.</p>` : ''}</section>
       <section class="sec"><h2>Clientes com tarefas atrasadas</h2><p class="nota">Onde o cliente está esperando a gente.</p>${barrasN(atrasos)}</section>
     </div>`;
+}
+// ---------- anúncios (fotografia do Meta Ads, 4x por dia) ----------
+let A = null, anFiltro = null, anBusca = '';
+async function carregarAnuncios() {
+  try { A = await api('anuncios'); } catch (e) { toast(e.message); }
+  if (aba === 'anuncios') render();
+}
+const moeda = (v, m = 'BRL') => v == null ? '—' : Number(v).toLocaleString('pt-BR', { style: 'currency', currency: m === 'EUR' ? 'EUR' : 'BRL', maximumFractionDigits: 0 });
+function gestoresDe(cid) {
+  return D.responsaveis.filter((r) => r.cliente_id === cid && r.area === 'trafego').map((r) => (D.equipe.find((p) => p.id === r.equipe_id) || {}).nome).filter(Boolean);
+}
+function alertaConta(c, horaSnap) {
+  const tarde = horaSnap >= 12, obs = c.observacao || '';
+  if (c.gasto_mes == null) return null; // sem leitura automática: vai na nota
+  if (c.status_conta && c.status_conta !== 'ACTIVE') return { n: 'vermelho', t: 'Conta com problema: ' + c.status_conta.toLowerCase().replace(/_/g, ' ') };
+  if (/sem forma de pagamento|pagamento pendente|unsettled/i.test(obs)) return { n: 'vermelho', t: 'Conta sem forma de pagamento' };
+  if (/limit[e]? de gasto|spending.?limit|parad.s por limit|por limite/i.test(obs)) return { n: 'vermelho', t: 'Bateu o limite de gasto da conta' };
+  if (Number(c.gasto_7d) > 0 && !c.campanhas_ativas && (tarde ? !Number(c.gasto_hoje) : !Number(c.gasto_ontem))) return { n: 'vermelho', t: 'Parou de entregar (gastava nos últimos dias)' };
+  if (!c.campanhas_ativas && c.campanhas_sem_entrega > 0 && Number(c.gasto_mes) > 0) return { n: 'amarelo', t: c.campanhas_sem_entrega + ' campanhas ligadas e nenhuma entregando' };
+  if (tarde && !Number(c.gasto_hoje) && Number(c.gasto_ontem) > 0) return { n: 'amarelo', t: 'Sem gasto hoje' };
+  return null;
+}
+function renderAnuncios() {
+  if (!A) return '<section class="sec"><p class="vazio">Carregando a fotografia dos anúncios…</p></section>';
+  const todas = A.contas.map((c) => ({ ...c, gestores: c.cliente_id ? gestoresDe(c.cliente_id) : [] }));
+  const meus = D.eu ? todas.filter((c) => c.gestores.includes(D.eu.nome)) : [];
+  if (anFiltro === null) anFiltro = meus.length ? 'meu' : 'todos';
+  const nomesG = [...new Set(todas.flatMap((c) => c.gestores))].sort();
+  const f = anBusca.toLowerCase();
+  const lista = todas.filter((c) => anFiltro === 'todos' ? true : anFiltro === 'meu' ? c.gestores.includes(D.eu && D.eu.nome) : anFiltro === '_sem' ? !c.gestores.length : c.gestores.includes(anFiltro))
+    .filter((c) => !f || (c.rotulo + ' ' + (c.conta_nome || '') + ' ' + c.gestores.join(' ')).toLowerCase().includes(f));
+  const ult = todas.reduce((m, c) => (c.coletado_em > m ? c.coletado_em : m), '');
+  const dt = ult ? new Date(ult) : null;
+  const horaSnap = dt ? Number(dt.toLocaleString('pt-BR', { hour: '2-digit', hour12: false, timeZone: 'America/Sao_Paulo' })) : 0;
+  const quando = dt ? (dt.toDateString() === new Date().toDateString() ? 'hoje' : dt.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' })) + ' às ' + dt.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }).replace(':', 'h') : '—';
+  const agoraH = new Date().getHours() + new Date().getMinutes() / 60;
+  const prox = [7.87, 11.87, 15.87, 19.87].find((h) => h > agoraH);
+  const proxTxt = prox ? 'às ' + ['7h52', '11h52', '15h52', '19h52'][[7.87, 11.87, 15.87, 19.87].indexOf(prox)] : 'amanhã às 7h52';
+  const brl = lista.filter((c) => c.moeda !== 'EUR'), eur = lista.filter((c) => c.moeda === 'EUR');
+  const soma = (l, k) => l.reduce((s, c) => s + (Number(c[k]) || 0), 0);
+  const tx = A.cambio_eur && A.cambio_eur.valor;
+  const comAl = lista.map((c) => ({ c, a: alertaConta(c, horaSnap) })).filter((x) => x.a).sort((x, y) => (x.a.n === 'vermelho' ? 0 : 1) - (y.a.n === 'vermelho' ? 0 : 1) || (Number(y.c.gasto_mes) || 0) - (Number(x.c.gasto_mes) || 0));
+  const semLeitura = lista.filter((c) => c.gasto_mes == null);
+  const paradas = lista.filter((c) => c.gasto_mes != null && !Number(c.gasto_mes) && !c.campanhas_ativas && !alertaConta(c, horaSnap));
+  const rodando = lista.filter((c) => c.campanhas_ativas > 0).length;
+  const link = (c) => `<a href="https://adsmanager.facebook.com/adsmanager/manage/campaigns?act=${encodeURIComponent(c.conta_id)}" target="_blank" rel="noopener">Abrir no Meta ↗</a>`;
+  const k = (t, v, s, cls = '') => `<div class="kpi painel ${cls}"><span>${t}</span><b>${v}</b>${s ? `<small>${s}</small>` : ''}</div>`;
+  const chip = (v, t) => `<button class="chip ${anFiltro === v ? 'on' : ''}" data-afil="${esc(v)}">${esc(t)}</button>`;
+  const chips = [meus.length ? chip('meu', 'Minhas contas') : '', chip('todos', 'Todas'), ...nomesG.filter((n) => !(D.eu && n === D.eu.nome)).map((n) => chip(n, n)), todas.some((c) => !c.gestores.length) ? chip('_sem', 'Sem gestor (Impulse)') : ''].join('');
+  const at = comAl.map(({ c, a }) => `<div class="an-it"><i class="nv-${a.n}"></i><div><b>${esc(c.rotulo)}</b><small>${esc(a.t)}${c.gestores.length ? ' · ' + esc(c.gestores.join(', ')) : ''}</small>${c.observacao ? `<small>${esc(c.observacao)}</small>` : ''}</div><div class="val">${moeda(c.gasto_mes, c.moeda)} no mês<br>${link(c)}</div></div>`).join('');
+  const linhas = [...lista].sort((a, b) => (a.moeda === 'EUR') - (b.moeda === 'EUR') || (b.gasto_mes == null ? -1 : Number(b.gasto_mes)) - (a.gasto_mes == null ? -1 : Number(a.gasto_mes))).map((c) => {
+    const sem = c.gasto_mes == null;
+    return `<tr><td><b>${esc(c.rotulo)}</b><div style="color:var(--muted);font-size:12px">${esc(c.gestores.join(', ') || (c.moeda === 'EUR' ? 'Impulse · euro' : 'sem gestor'))}</div></td>
+      <td class="num">${sem ? '—' : moeda(c.gasto_hoje, c.moeda)}</td><td class="num">${sem ? '—' : moeda(c.gasto_ontem, c.moeda)}</td><td class="num">${sem ? '—' : moeda(c.gasto_7d, c.moeda)}</td><td class="num"><b>${sem ? '—' : moeda(c.gasto_mes, c.moeda)}</b></td>
+      <td style="white-space:nowrap">${sem ? '—' : `<b>${c.campanhas_ativas || 0}</b> rodando${c.campanhas_sem_entrega ? ` <span class="tag ${c.campanhas_ativas ? '' : 'amar'}">${c.campanhas_sem_entrega} sem entrega</span>` : ''}`}</td>
+      <td class="obs">${esc(c.observacao || '')}</td><td>${link(c)}</td></tr>`;
+  }).join('');
+  return `<p class="an-hora">📸 Fotografia de <b>${quando}</b> · próxima ${proxTxt}. Os números vêm do Meta 4 vezes por dia, não são em tempo real.</p>
+    <div class="chips" style="margin-bottom:12px">${chips}</div>
+    <section class="kpis pk">
+      ${k('Investido hoje', moeda(soma(brl, 'gasto_hoje')), brl.length + ' contas em real')}
+      ${k('Investido no mês', moeda(soma(brl, 'gasto_mes')), 'últimos 7 dias: ' + moeda(soma(brl, 'gasto_7d')))}
+      ${eur.length ? k('Impulse no mês', moeda(soma(eur, 'gasto_mes'), 'EUR'), tx ? '≈ ' + moeda(soma(eur, 'gasto_mes') * tx) + ' (€ ' + String(tx).replace('.', ',') + ')' : '') : ''}
+      ${k('Contas rodando', rodando + ' de ' + lista.length, 'com campanha entregando agora')}
+      ${k('Precisam de atenção', comAl.length, comAl.filter((x) => x.a.n === 'vermelho').length + ' urgentes', comAl.length ? 'alerta' : '')}
+    </section>
+    <section class="sec"><h2>Precisa de atenção <span class="n">${comAl.length}</span></h2><p class="nota">Vermelho: conta com problema, limite de gasto batido ou campanha que parou de entregar. Amarelo: campanhas ligadas sem entrega ou sem gasto hoje.</p>
+      <div class="an-at">${at || '<p class="vazio">Nada fora do normal nessa fotografia. 👍</p>'}</div>
+      ${paradas.length ? `<p class="nota" style="margin-top:12px"><b>Sem anúncio no mês</b> (pode ser pausa combinada): ${paradas.map((c) => esc(c.rotulo)).join(', ')}.</p>` : ''}
+      ${semLeitura.length ? `<p class="nota" style="margin-top:6px"><b>Sem leitura automática</b> (o Meta ainda não liberou essas contas para consulta): ${semLeitura.map((c) => esc(c.rotulo)).join(', ')}. Conferir direto no Gerenciador.</p>` : ''}</section>
+    <section class="sec"><h2>Todas as contas <span class="n">${lista.length}</span></h2>
+      <input class="busca" id="buscaAn" placeholder="Buscar cliente ou gestor" value="${esc(anBusca)}">
+      <div class="tab"><table class="an-tb"><thead><tr><th>Conta</th><th class="num">Hoje</th><th class="num">Ontem</th><th class="num">7 dias</th><th class="num">Mês</th><th>Campanhas</th><th>Observação</th><th></th></tr></thead><tbody>${linhas || '<tr><td colspan="8" class="vazio">Nenhuma conta nesse filtro.</td></tr>'}</tbody></table></div></section>`;
 }
 function renderHoje() {
   const g = grupos();
@@ -773,14 +854,14 @@ async function desenharMapa() {
 function render() {
   const c = $('#conteudo');
   if (simMapa && aba !== 'mapa') { simMapa.stop(); simMapa = null; }
-  c.innerHTML = aba === 'painel' ? renderPainel() : aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : aba === 'diario' ? renderDiario() : aba === 'mapa' ? renderMapa() : renderClientes();
+  c.innerHTML = aba === 'painel' ? renderPainel() : aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : aba === 'diario' ? renderDiario() : aba === 'mapa' ? renderMapa() : aba === 'anuncios' ? renderAnuncios() : renderClientes();
   if (aba === 'mapa') desenharMapa();
   const bd = $('#buscaDia');
   if (bd) { bd.oninput = (e) => { diaBusca = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaDia'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
   const cd = $('#cliDia'); if (cd) cd.onchange = (e) => { diaCli = e.target.value; render(); };
   document.querySelectorAll('[data-mens]').forEach((i) => { i.onchange = async () => { try { await api('mensalidade', { cliente_id: i.dataset.mens, mensalidade: i.value }); toast('Mensalidade salva'); carregarFinanceiro(); } catch (e) { toast(e.message); } }; });
   document.querySelectorAll('nav button').forEach((b) => b.classList.toggle('on', b.dataset.aba === aba));
-  $('#tituloAba').textContent = { painel: 'Painel', hoje: 'Hoje', pessoas: 'Por pessoa', clientes: 'Clientes', diario: 'Diário', mapa: 'Mapa', financeiro: 'Financeiro' }[aba] || '';
+  $('#tituloAba').textContent = { painel: 'Painel', hoje: 'Hoje', pessoas: 'Por pessoa', clientes: 'Clientes', diario: 'Diário', mapa: 'Mapa', anuncios: 'Anúncios', financeiro: 'Financeiro' }[aba] || '';
   fecharMenu();
   c.classList.toggle('quadro', aba === 'pessoas' || aba === 'mapa');
   document.documentElement.style.setProperty('--hdr', document.querySelector('header.topo').offsetHeight + 'px');
@@ -791,6 +872,8 @@ function render() {
     kb.onwheel = (e) => { if (e.target.closest('.col-body') || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; kb.scrollLeft += e.deltaY; e.preventDefault(); };
   }
   const busca = $('#buscaCli');
+  const ba = $('#buscaAn');
+  if (ba) { ba.oninput = (e) => { anBusca = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaAn'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
   if (busca) { busca.oninput = (e) => { filtroCli = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaCli'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
 }
 
@@ -831,7 +914,8 @@ function abrirEdicao(id) {
 }
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button, tr[data-hist]'); if (!b) return;
-  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'painel') carregarPainel(); if (aba === 'financeiro' && F) carregarFinanceiro(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
+  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'painel') carregarPainel(); if (aba === 'anuncios') carregarAnuncios(); if (aba === 'financeiro' && F) carregarFinanceiro(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
+  else if (b.dataset.afil !== undefined) { anFiltro = b.dataset.afil; render(); }
   else if (b.dataset.dtipo !== undefined) { diaTipo = b.dataset.dtipo; render(); }
   else if (b.dataset.vdia) { diaCli = b.dataset.vdia; diaTipo = ''; diaBusca = ''; aba = 'diario'; render(); }
   else if (b.dataset.hist) { const d = document.querySelector(`[data-det="${b.dataset.hist}"]`); if (d) d.classList.toggle('hidden'); }
