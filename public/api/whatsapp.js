@@ -63,6 +63,34 @@ async function enviar(numero, texto, extra = {}) {
   return j && (j.messageid || j.id || (j.key && j.key.id) || (j.message && (j.message.messageid || j.message.id))) || null;
 }
 
+// ---------- áudio: baixa pela Uazapi e transcreve na OpenAI (chave fica só na Vercel) ----------
+const ehAudio = (msg, bruto) => { const m = (bruto && bruto.message) || {}; return /audio/i.test(String(m.messageType || msg.tipo || '')) || ['ptt', 'audio'].includes(String(m.mediaType || '').toLowerCase()); };
+async function transcrever(msg, bruto) {
+  if (!process.env.OPENAI_API_KEY) throw new Error('falta a OPENAI_API_KEY na Vercel');
+  const m = (bruto && bruto.message) || {};
+  const segundos = Number((m.content && m.content.seconds) || 0);
+  if (segundos > 600) throw new Error('áudio com mais de 10 minutos');
+  const d = await uaz('/message/download', { method: 'POST', body: { id: msg.msg_id, return_base64: true, generate_mp3: true } });
+  let b64 = d && (d.base64Data || d.base64 || d.data || (d.file && d.file.base64));
+  let tipo = (d && (d.mimetype || d.mimeType)) || 'audio/mpeg';
+  let buf;
+  if (b64) buf = Buffer.from(String(b64).replace(/^data:[^,]+,/, ''), 'base64');
+  else if (d && (d.fileURL || d.url)) { const r = await fetch(d.fileURL || d.url); if (!r.ok) throw new Error('não consegui baixar o áudio'); buf = Buffer.from(await r.arrayBuffer()); tipo = r.headers.get('content-type') || tipo; }
+  else throw new Error('a Uazapi não devolveu o áudio');
+  const ext = /mpeg|mp3/.test(tipo) ? 'mp3' : /ogg|opus/.test(tipo) ? 'ogg' : /mp4|m4a/.test(tipo) ? 'm4a' : 'mp3';
+  const form = new FormData();
+  form.append('file', new Blob([buf], { type: tipo }), 'audio.' + ext);
+  form.append('model', process.env.OPENAI_TRANSCRICAO_MODELO || 'whisper-1');
+  form.append('language', 'pt');
+  form.append('prompt', 'Conversa de agência de marketing para supermercados: GST, Fiscal, encarte, oferta, tráfego, Meta Ads, Jéssica, Clara, Daniel, Felipe, Ester, Igor, Gustavo, Sara, Dimas.');
+  const r = await fetch('https://api.openai.com/v1/audio/transcriptions', { method: 'POST', headers: { Authorization: 'Bearer ' + process.env.OPENAI_API_KEY }, body: form });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error('transcrição ' + r.status + (j.error && j.error.message ? ': ' + String(j.error.message).slice(0, 120) : ''));
+  const texto = String(j.text || '').trim();
+  if (!texto) throw new Error('áudio sem fala reconhecível');
+  return texto;
+}
+
 // ---------- Fiscal no grupo interno: responde quando é chamado ----------
 const chaveFone = (v) => { let d = String(v || '').replace(/\D/g, ''); if (d.length >= 12 && d.startsWith('55')) d = d.slice(2); return d.length >= 10 ? d.slice(0, 2) + d.slice(-8) : ''; };
 const lerConfig = async (chave) => { const r = await sbGet('configuracoes?select=valor&chave=eq.' + chave); try { return r[0] ? JSON.parse(r[0].valor) : null; } catch { return null; } };
@@ -123,7 +151,7 @@ async function atenderGrupo(quem, msg) {
   await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: true, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', nome_remetente: 'Fiscal', msg_id: id || null, recebida_em: new Date().toISOString() });
   await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + msg.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ processada: true }) });
 }
-async function atender(quem, msg, numero) {
+async function atender(quem, msg, numero, ouvido) {
   let resposta;
   try {
     const hist = await sbGet(`whatsapp_mensagens?select=de_mim,texto,recebida_em&chat_id=eq.${encodeURIComponent(msg.chat_id)}&recebida_em=gte.${new Date(Date.now() - 6 * 3600e3).toISOString()}&id=neq.${msg.id}&order=recebida_em.desc&limit=12`);
@@ -131,6 +159,7 @@ async function atender(quem, msg, numero) {
   } catch (e) {
     resposta = 'Tive um problema para responder agora (' + String(e.message || e).slice(0, 120) + '). Tenta de novo em instantes.';
   }
+  if (ouvido) resposta = '🎧 Entendi: _' + (ouvido.length > 400 ? ouvido.slice(0, 400) + '…' : ouvido) + '_\n\n' + resposta;
   await enviar(numero, resposta);
   await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: false, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', recebida_em: new Date().toISOString() });
   await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + msg.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ processada: true }) });
@@ -156,10 +185,21 @@ module.exports = async (req, res) => {
     const gravada = await sb('whatsapp_mensagens?on_conflict=msg_id', { ...linha, bruto: semSegredo }, 'return=representation,resolution=ignore-duplicates');
     const nova = Array.isArray(gravada) && gravada[0];
     // ordem para o agente: conversa privada, vinda de alguém autorizado (Oscar / Jéssica)
-    if (nova && !nova.eh_grupo && !nova.de_mim && nova.texto) {
+    if (nova && !nova.eh_grupo && !nova.de_mim && (nova.texto || ehAudio(nova, semSegredo))) {
       const numero = String(nova.remetente || nova.chat_id || '').replace(/\D/g, '');
       const quem = numero ? await sbGet(`equipe?select=id,nome,whatsapp&comanda_agente=eq.true&whatsapp=eq.${numero}`) : [];
-      if (quem[0]) await atender(quem[0], nova, numero);
+      if (quem[0] && ehAudio(nova, semSegredo)) {
+        // por enquanto só os áudios do Oscar (treino); os demais seguem ignorados
+        if (/^oscar$/i.test(quem[0].nome)) {
+          try {
+            const falado = await transcrever(nova, semSegredo);
+            await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + nova.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ texto: '🎧 ' + falado }) });
+            await atender(quem[0], { ...nova, texto: falado }, numero, falado);
+          } catch (e) {
+            await enviar(numero, 'Recebi seu áudio, mas não consegui ouvir (' + String(e.message || e).slice(0, 140) + '). Pode mandar por escrito?');
+          }
+        }
+      } else if (quem[0]) await atender(quem[0], nova, numero);
     }
     // grupo interno: a equipe chama o Fiscal marcando @Fiscal, respondendo a ele ou começando com "Fiscal,"
     if (nova && nova.eh_grupo && !nova.de_mim && nova.texto) {
