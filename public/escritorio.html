@@ -171,7 +171,7 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .an-it i{width:10px;height:10px;border-radius:50%;margin-top:5px}.an-it small{display:block;color:var(--muted);font-size:12px;margin-top:1px}
 .an-it .val{font-size:12.5px;text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}
 .an-it a,.an-tb a{color:var(--green-d);font-weight:600;font-size:12.5px;text-decoration:none;white-space:nowrap}
-.an-tb td{vertical-align:top}.an-tb .num{font-variant-numeric:tabular-nums;white-space:nowrap}.an-tb .obs{color:var(--muted);font-size:12px;max-width:260px}
+.an-tb td{vertical-align:top}.an-tb .num{font-variant-numeric:tabular-nums;white-space:nowrap}.an-tb .obs{color:var(--muted);font-size:12px;max-width:220px}.an-tb td,.an-tb th{padding-left:8px;padding-right:8px}
 .an-hora{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 12px}.an-hora b{color:var(--navy)}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12.5px;font-weight:500;color:#334155;cursor:pointer}
@@ -483,6 +483,7 @@ async function carregarAnuncios() {
   if (aba === 'anuncios') render();
 }
 const moeda = (v, m = 'BRL') => v == null ? '—' : Number(v).toLocaleString('pt-BR', { style: 'currency', currency: m === 'EUR' ? 'EUR' : 'BRL', maximumFractionDigits: 0 });
+const moeda2 = (v, m = 'BRL') => v == null ? '—' : Number(v).toLocaleString('pt-BR', { style: 'currency', currency: m === 'EUR' ? 'EUR' : 'BRL', minimumFractionDigits: 2, maximumFractionDigits: 2 });
 function gestoresDe(cid) {
   return D.responsaveis.filter((r) => r.cliente_id === cid && r.area === 'trafego').map((r) => (D.equipe.find((p) => p.id === r.equipe_id) || {}).nome).filter(Boolean);
 }
@@ -525,11 +526,22 @@ function renderAnuncios() {
   const chip = (v, t) => `<button class="chip ${anFiltro === v ? 'on' : ''}" data-afil="${esc(v)}">${esc(t)}</button>`;
   const chips = [meus.length ? chip('meu', 'Minhas contas') : '', chip('todos', 'Todas'), ...nomesG.filter((n) => !(D.eu && n === D.eu.nome)).map((n) => chip(n, n)), todas.some((c) => !c.gestores.length) ? chip('_sem', 'Sem gestor (Impulse)') : ''].join('');
   const at = comAl.map(({ c, a }) => `<div class="an-it"><i class="nv-${a.n}"></i><div><b>${esc(c.rotulo)}</b><small>${esc(a.t)}${c.gestores.length ? ' · ' + esc(c.gestores.join(', ')) : ''}</small>${c.observacao ? `<small>${esc(c.observacao)}</small>` : ''}</div><div class="val">${moeda(c.gasto_mes, c.moeda)} no mês<br>${link(c)}</div></div>`).join('');
+  const num = (v) => v == null ? '—' : Number(v).toLocaleString('pt-BR');
+  const sub = (t) => `<div style="color:var(--muted);font-size:11.5px;font-weight:400">${t}</div>`;
   const linhas = [...lista].sort((a, b) => (a.moeda === 'EUR') - (b.moeda === 'EUR') || (b.gasto_mes == null ? -1 : Number(b.gasto_mes)) - (a.gasto_mes == null ? -1 : Number(a.gasto_mes))).map((c) => {
-    const sem = c.gasto_mes == null;
-    return `<tr><td><b>${esc(c.rotulo)}</b><div style="color:var(--muted);font-size:12px">${esc(c.gestores.join(', ') || (c.moeda === 'EUR' ? 'Impulse · euro' : 'sem gestor'))}</div></td>
-      <td class="num">${sem ? '—' : moeda(c.gasto_hoje, c.moeda)}</td><td class="num">${sem ? '—' : moeda(c.gasto_ontem, c.moeda)}</td><td class="num">${sem ? '—' : moeda(c.gasto_7d, c.moeda)}</td><td class="num"><b>${sem ? '—' : moeda(c.gasto_mes, c.moeda)}</b></td>
-      <td style="white-space:nowrap">${sem ? '—' : `<b>${c.campanhas_ativas || 0}</b> rodando${c.campanhas_sem_entrega ? ` <span class="tag ${c.campanhas_ativas ? '' : 'amar'}">${c.campanhas_sem_entrega} sem entrega</span>` : ''}`}</td>
+    const sem = c.gasto_mes == null, m = c.moeda, g = Number(c.gasto_mes) || 0;
+    const cpc = c.conversas_mes ? moeda2(g / c.conversas_mes, m) : null;
+    const roas = c.valor_compras_mes && g ? (Number(c.valor_compras_mes) / g).toFixed(1).replace('.', ',') : null;
+    const vendas = c.compras_mes ? `<b>${num(c.compras_mes)}</b> compras${sub(`${moeda(c.valor_compras_mes, m)}${roas ? ' · ROAS ' + roas : ''}`)}` : c.leads_mes ? `<b>${num(c.leads_mes)}</b> cadastros` : '—';
+    return `<tr><td><b>${esc(c.rotulo)}</b><div style="color:var(--muted);font-size:12px">${esc(c.gestores.join(', ') || (m === 'EUR' ? 'Impulse · euro' : 'sem gestor'))}</div>${c.objetivos ? `<div style="font-size:11.5px;color:var(--muted)">${esc(c.objetivos)}</div>` : ''}</td>
+      <td class="num">${sem ? '—' : moeda(c.gasto_hoje, m) + sub('ontem ' + moeda(c.gasto_ontem, m))}</td>
+      <td class="num"><b>${sem ? '—' : moeda(c.gasto_mes, m)}</b>${sem ? '' : sub('7 dias ' + moeda(c.gasto_7d, m))}</td>
+      <td class="num">${num(c.alcance_mes)}${c.impressoes_mes ? sub(num(c.impressoes_mes) + ' impr.') : ''}</td>
+      <td class="num">${c.cpm_mes == null ? '—' : moeda2(c.cpm_mes, m)}</td>
+      <td class="num">${num(c.cliques_link_mes)}${c.ctr_mes != null ? sub('CTR ' + String(Number(c.ctr_mes).toFixed(2)).replace('.', ',') + '%') : ''}</td>
+      <td class="num">${c.conversas_mes ? `<b>${num(c.conversas_mes)}</b>${sub(cpc + ' cada')}` : '—'}</td>
+      <td class="num">${vendas}</td>
+      <td style="white-space:nowrap">${sem ? '—' : `<b>${c.campanhas_ativas || 0}</b> rodando${c.campanhas_sem_entrega ? `<div><span class="tag ${c.campanhas_ativas ? '' : 'amar'}">${c.campanhas_sem_entrega} sem entrega</span></div>` : ''}`}</td>
       <td class="obs">${esc(c.observacao || '')}</td><td>${link(c)}</td></tr>`;
   }).join('');
   return `<p class="an-hora">📸 Fotografia de <b>${quando}</b> · próxima ${proxTxt}. Os números vêm do Meta 4 vezes por dia, não são em tempo real.</p>
@@ -538,6 +550,8 @@ function renderAnuncios() {
       ${k('Investido hoje', moeda(soma(brl, 'gasto_hoje')), brl.length + ' contas em real')}
       ${k('Investido no mês', moeda(soma(brl, 'gasto_mes')), 'últimos 7 dias: ' + moeda(soma(brl, 'gasto_7d')))}
       ${eur.length ? k('Impulse no mês', moeda(soma(eur, 'gasto_mes'), 'EUR'), tx ? '≈ ' + moeda(soma(eur, 'gasto_mes') * tx) + ' (€ ' + String(tx).replace('.', ',') + ')' : '') : ''}
+      ${(() => { const cv = soma(brl, 'conversas_mes'), gc = brl.filter((c) => c.conversas_mes).reduce((t, c) => t + (Number(c.gasto_mes) || 0), 0); return cv ? k('Conversas no mês', cv.toLocaleString('pt-BR'), 'custo médio ' + moeda2(gc / cv) + ' por conversa') : ''; })()}
+      ${(() => { const cp = soma(brl, 'compras_mes'); return cp ? k('Compras no mês', cp.toLocaleString('pt-BR'), moeda(soma(brl, 'valor_compras_mes')) + ' em vendas') : ''; })()}
       ${k('Contas rodando', rodando + ' de ' + lista.length, 'com campanha entregando agora')}
       ${k('Precisam de atenção', comAl.length, comAl.filter((x) => x.a.n === 'vermelho').length + ' urgentes', comAl.length ? 'alerta' : '')}
     </section>
@@ -547,7 +561,7 @@ function renderAnuncios() {
       ${semLeitura.length ? `<p class="nota" style="margin-top:6px"><b>Sem leitura automática</b> (o Meta ainda não liberou essas contas para consulta): ${semLeitura.map((c) => esc(c.rotulo)).join(', ')}. Conferir direto no Gerenciador.</p>` : ''}</section>
     <section class="sec"><h2>Todas as contas <span class="n">${lista.length}</span></h2>
       <input class="busca" id="buscaAn" placeholder="Buscar cliente ou gestor" value="${esc(anBusca)}">
-      <div class="tab"><table class="an-tb"><thead><tr><th>Conta</th><th class="num">Hoje</th><th class="num">Ontem</th><th class="num">7 dias</th><th class="num">Mês</th><th>Campanhas</th><th>Observação</th><th></th></tr></thead><tbody>${linhas || '<tr><td colspan="8" class="vazio">Nenhuma conta nesse filtro.</td></tr>'}</tbody></table></div></section>`;
+      <div class="tab"><table class="an-tb"><thead><tr><th>Conta</th><th class="num">Hoje</th><th class="num">Mês</th><th class="num">Alcance</th><th class="num">CPM</th><th class="num">Cliques</th><th class="num">Conversas</th><th class="num">Vendas</th><th>Campanhas</th><th>Observação</th><th></th></tr></thead><tbody>${linhas || '<tr><td colspan="11" class="vazio">Nenhuma conta nesse filtro.</td></tr>'}</tbody></table></div></section>`;
 }
 function renderHoje() {
   const g = grupos();

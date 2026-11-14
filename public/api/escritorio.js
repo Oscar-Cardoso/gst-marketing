@@ -104,7 +104,7 @@ async function carregarAnuncios() {
   // fotografia do Meta Ads gravada 4x por dia pela tarefa agendada; gasto de anúncio é verba do cliente, a equipe pode ver
   const desde = new Date(Date.now() - 3 * 864e5).toISOString();
   const [contas, cfg] = await Promise.all([
-    sb('meta_ultimo?select=cliente_id,rotulo,conta_id,conta_nome,moeda,status_conta,gasto_hoje,gasto_ontem,gasto_7d,gasto_mes,campanhas_ativas,campanhas_sem_entrega,observacao,coletado_em&coletado_em=gte.' + encodeURIComponent(desde) + '&order=rotulo'),
+    sb('meta_ultimo?select=cliente_id,rotulo,conta_id,conta_nome,moeda,status_conta,gasto_hoje,gasto_ontem,gasto_7d,gasto_mes,campanhas_ativas,campanhas_sem_entrega,observacao,coletado_em,alcance_mes,impressoes_mes,cpm_mes,cliques_link_mes,ctr_mes,conversas_mes,leads_mes,compras_mes,valor_compras_mes,objetivos&coletado_em=gte.' + encodeURIComponent(desde) + '&order=rotulo'),
     sb('configuracoes?select=valor&chave=eq.cambio_eur'),
   ]);
   let cambio = null; try { cambio = cfg[0] ? JSON.parse(cfg[0].valor) : null; } catch {}
