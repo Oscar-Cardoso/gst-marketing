@@ -89,7 +89,7 @@ async function carregarDados(papel) {
   const hoje = new Date(Date.now() - 3 * 3600e3).toISOString().slice(0, 10); // dia em Brasília
   const inicioHoje = new Date(hoje + 'T00:00:00-03:00').toISOString();
   const [clientes, equipe, responsaveis, abertas, concluidasHoje] = await Promise.all([
-    sb('clientes?select=id,nome,socio,tipo_servico,contato,status,servicos,frequencia_oferta,tier,saude,emite_nota,pagamento_anuncios&order=nome'),
+    sb('clientes?select=id,nome,socio,tipo_servico,contato,status,servicos,frequencia_oferta,tier,saude,emite_nota,pagamento_anuncios,pasta_drive&order=nome'),
     sb('equipe?select=id,nome,funcao,ativo&ativo=eq.true&order=nome'),
     sb('cliente_responsaveis?select=cliente_id,equipe_id,area'),
     sb('tarefas?select=id,cliente_id,responsavel_id,titulo,descricao,area,status,prazo,prioridade,bloqueio,dependencia_id,oferta_id,pedido_original,created_at,updated_at&status=not.in.(concluida,cancelada)&order=prazo.asc.nullsfirst&limit=1000'),
@@ -109,6 +109,16 @@ async function carregarAnuncios() {
   ]);
   let cambio = null; try { cambio = cfg[0] ? JSON.parse(cfg[0].valor) : null; } catch {}
   return { contas, cambio_eur: cambio };
+}
+
+async function carregarPastaCliente(id, papel) {
+  if (!/^[0-9a-f-]{36}$/i.test(String(id || ''))) throw Object.assign(new Error('cliente inválido'), { status: 400 });
+  const [processos, diario] = await Promise.all([
+    sb('processos?select=slug,titulo,resumo,conteudo,area,tipo,updated_at&ativo=eq.true&cliente_id=eq.' + id + '&order=titulo'),
+    sb('diario?select=dia,tipo,resumo,quem&cliente_id=eq.' + id + '&order=dia.desc,created_at.desc&limit=15'),
+  ]);
+  const fin = (d) => d.tipo === 'financeiro' || /R\$\s?\d|mensalidade|faturamento|receita|lucro|comiss/i.test(d.resumo || '');
+  return { processos, diario: papel === 'admin' ? diario : diario.filter((d) => !fin(d)) };
 }
 
 async function carregarDiario(papel) {
@@ -426,6 +436,7 @@ module.exports = async (req, res) => {
 
     if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, eu, ...(await carregarDados(papel)) });
     if (acao === 'painel' && req.method === 'GET') return res.json({ ok: true, ...(await sb('rpc/gst_painel', { method: 'POST', body: {} })) });
+    if (acao === 'pasta_cliente' && req.method === 'GET') return res.json({ ok: true, ...(await carregarPastaCliente(req.query.id, papel)) });
     if (acao === 'anuncios' && req.method === 'GET') return res.json({ ok: true, ...(await carregarAnuncios()) });
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
     if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });

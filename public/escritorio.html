@@ -110,6 +110,16 @@ tbody tr:hover td{background:#f8fafc}
 .tab{overflow-x:auto}
 .busca{width:100%;max-width:340px;border:1px solid var(--line);border-radius:10px;padding:8px 12px;margin-bottom:12px;background:var(--bg)}
 dialog{border:0;border-radius:18px;padding:0;width:min(520px,94vw);box-shadow:0 24px 70px rgba(13,27,42,.4)}
+dialog.largo{width:min(980px,96vw);max-height:92vh}
+.pasta{padding:20px 22px;border-top:5px solid var(--green);overflow:auto;max-height:92vh}
+.pasta-topo{display:flex;justify-content:space-between;gap:12px;align-items:flex-start;position:sticky;top:-20px;background:#fff;padding-top:4px;z-index:1}
+.pasta-topo .sub{margin:2px 0 0;color:var(--muted);font-size:13px}
+.pasta h4{margin:18px 0 8px;font-size:14px}
+.pasta .proc{border:1px solid var(--line);border-radius:14px;padding:4px 18px 14px;margin-top:10px}
+.md h1{font-size:18px;margin:14px 0 6px}.md h2{font-size:15px;margin:18px 0 6px;color:var(--navy)}.md h3{font-size:14px;margin:14px 0 4px}
+.md p,.md li{font-size:13.5px;line-height:1.55}.md ul{padding-left:20px;margin:6px 0}
+.md table{width:100%;border-collapse:collapse;margin:8px 0;font-size:13px}.md th{background:var(--bg);text-align:left}.md td,.md th{border:1px solid var(--line);padding:7px 9px}
+.cli-link{background:none;border:0;padding:0;font:inherit;font-weight:700;color:var(--navy);cursor:pointer;text-align:left}.cli-link:hover{text-decoration:underline;color:var(--green-d)}
 dialog::backdrop{background:rgba(13,27,42,.55);backdrop-filter:blur(2px)}
 dialog form{padding:20px;display:flex;flex-direction:column;gap:10px;border-top:5px solid var(--green)}
 dialog h3{margin:0 0 4px;font-size:18px;font-weight:700}
@@ -269,6 +279,11 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
     <main id="conteudo"></main>
   </div>
 </div>
+
+<dialog id="dCliente" class="largo"><div class="pasta">
+  <div class="pasta-topo"><div><h3 id="pcNome"></h3><p class="sub" id="pcSub"></p></div><button class="btn fant" id="pcFechar">Fechar</button></div>
+  <div id="pcCorpo"></div>
+</div></dialog>
 
 <dialog id="dOferta"><form method="dialog" id="fOferta">
   <h3>Chegou oferta</h3>
@@ -563,6 +578,43 @@ function renderAnuncios() {
       <input class="busca" id="buscaAn" placeholder="Buscar cliente ou gestor" value="${esc(anBusca)}">
       <div class="tab"><table class="an-tb"><thead><tr><th>Conta</th><th class="num">Hoje</th><th class="num">Mês</th><th class="num">Alcance</th><th class="num">CPM</th><th class="num">Cliques</th><th class="num">Conversas</th><th class="num">Vendas</th><th>Campanhas</th><th>Observação</th><th></th></tr></thead><tbody>${linhas || '<tr><td colspan="11" class="vazio">Nenhuma conta nesse filtro.</td></tr>'}</tbody></table></div></section>`;
 }
+// ---------- pasta do cliente (fluxo de trabalho, quem cuida, tarefas, diário) ----------
+function md(t) {
+  const inl = (x) => esc(x).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>').replace(/_(.+?)_/g, '<i>$1</i>');
+  const linhas = String(t || '').split('\n'); let h = '', i = 0;
+  while (i < linhas.length) {
+    const l = linhas[i];
+    if (/^\s*\|/.test(l)) {
+      const bloco = []; while (i < linhas.length && /^\s*\|/.test(linhas[i])) bloco.push(linhas[i++]);
+      const cel = (r) => r.trim().replace(/^\||\|$/g, '').split('|').map((c) => c.trim());
+      const corpo = bloco.filter((r, k) => !(k === 1 && /^[\s|:-]+$/.test(r)));
+      h += '<div class="tab"><table><thead><tr>' + cel(corpo[0]).map((c) => `<th>${inl(c)}</th>`).join('') + '</tr></thead><tbody>' + corpo.slice(1).map((r) => '<tr>' + cel(r).map((c) => `<td>${inl(c)}</td>`).join('') + '</tr>').join('') + '</tbody></table></div>';
+      continue;
+    }
+    if (/^\s*[-*] /.test(l)) { h += '<ul>'; while (i < linhas.length && /^\s*[-*] /.test(linhas[i])) h += `<li>${inl(linhas[i++].replace(/^\s*[-*] /, ''))}</li>`; h += '</ul>'; continue; }
+    const m = l.match(/^(#{1,3}) (.*)/);
+    if (m) h += `<h${m[1].length}>${inl(m[2])}</h${m[1].length}>`; else if (l.trim()) h += `<p>${inl(l)}</p>`;
+    i++;
+  }
+  return h;
+}
+async function abrirPasta(id) {
+  const c = cli(id); if (!c.id) return;
+  $('#pcNome').textContent = c.nome;
+  $('#pcSub').textContent = [c.tier, c.contato, c.frequencia_oferta && c.frequencia_oferta !== 'a confirmar' ? 'Ofertas: ' + c.frequencia_oferta : ''].filter(Boolean).join(' · ');
+  const eq = Object.keys(AREA).map((a) => [a, D.responsaveis.filter((r) => r.cliente_id === id && r.area === a).map((r) => (pes(r.equipe_id) || {}).nome).filter(Boolean)]).filter(([, ns]) => ns.length);
+  const ab = D.abertas.filter((t) => t.cliente_id === id);
+  const topo = `<h4>Quem cuida</h4>${eq.map(([a, ns]) => `<span class="tag a-${a}">${AREA[a]}</span> ${esc(ns.join(', '))}`).join(' &nbsp; ') || '<span class="vazio">Ninguém cadastrado.</span>'}
+    ${c.pasta_drive ? `<p style="margin:10px 0 0"><a href="${esc(c.pasta_drive)}" target="_blank" rel="noopener">📁 Pasta de materiais no Drive ↗</a></p>` : ''}`;
+  $('#pcCorpo').innerHTML = topo + '<p class="vazio">Carregando a pasta…</p>';
+  $('#dCliente').showModal();
+  let P = { processos: [], diario: [] };
+  try { P = await api('pasta_cliente&id=' + encodeURIComponent(id)); } catch (e) { toast(e.message); }
+  const procs = P.processos.length ? P.processos.map((p) => `<div class="proc md">${md(p.conteudo)}<p class="nota" style="margin-top:10px">Atualizado em ${new Date(p.updated_at || Date.now()).toLocaleDateString('pt-BR')}</p></div>`).join('') : '<p class="vazio">Ainda não há fluxo de trabalho escrito para este cliente.</p>';
+  $('#pcCorpo').innerHTML = topo + `<h4>Fluxo de trabalho</h4>${procs}
+    <h4>Tarefas abertas (${ab.length})</h4>${ab.slice(0, 12).map((t) => itemTarefa(t)).join('') || '<p class="vazio">Nada aberto.</p>'}
+    <h4>Últimos registros</h4>${P.diario.map((e) => `<div class="it">${esc(e.resumo)}<br><small>${esc(e.dia.split('-').reverse().join('/'))}${e.quem ? ' · ' + esc(e.quem) : ''}</small></div>`).join('') || '<p class="vazio">Sem registros.</p>'}`;
+}
 function renderHoje() {
   const g = grupos();
   const k = (rot, n, alvo, alerta) => `<button class="kpi ${alerta && n ? 'alerta' : ''} ${n ? '' : 'zero'}" data-ir="${alvo}"><span>${rot}</span><b>${n}</b></button>`;
@@ -681,7 +733,7 @@ function renderClientes() {
     const atr = ab.filter(atrasada).length;
     const cor = { verde: 'var(--verde)', amarelo: 'var(--amarelo)', vermelho: 'var(--verm)' }[c.saude];
     const extras = [c.tier ? `<span class="tag ${c.tier === 'Prime' ? 'verde' : ''}">${esc(c.tier)}</span>` : '', ADMIN() && c.emite_nota ? '<span class="tag">NF</span>' : '', ADMIN() && c.pagamento_anuncios === 'pix_boleto' ? '<span class="tag amar">Pix/boleto</span>' : ''].join(' ');
-    return `<tr><td>${cor ? `<span title="Saúde: ${esc(c.saude)}" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${cor};margin-right:6px"></span>` : ''}<b>${esc(c.nome)}</b>${c.contato ? `<div style="color:var(--muted);font-size:12px">${esc(c.contato)}</div>` : ''}${c.status !== 'ativo' ? ` <span class="tag amar">${esc(c.status)}</span>` : ''}<div style="margin-top:3px">${extras}</div></td>
+    return `<tr><td>${cor ? `<span title="Saúde: ${esc(c.saude)}" style="display:inline-block;width:9px;height:9px;border-radius:50%;background:${cor};margin-right:6px"></span>` : ''}<button class="cli-link" data-pasta="${c.id}">${esc(c.nome)}</button>${c.contato ? `<div style="color:var(--muted);font-size:12px">${esc(c.contato)}</div>` : ''}${c.status !== 'ativo' ? ` <span class="tag amar">${esc(c.status)}</span>` : ''}<div style="margin-top:3px">${extras}</div></td>
       ${ADMIN() ? `<td>${c.socio === 'dimas' ? 'Dimas' : 'Oscar'}</td>` : ''}<td>${esc(c.tipo_servico || '')}</td>
       <td>${nomeResp(c.id, 'design')}</td><td>${nomeResp(c.id, 'social_media')}</td><td>${nomeResp(c.id, 'trafego')}</td>
       <td>${ab.length}${atr ? ` <span class="tag verm">${atr} atras.</span>` : ''}</td>
@@ -842,7 +894,7 @@ function fichaNo(n) {
       <h4>Quem cuida</h4>${eq.length ? eq.map(([a, ns]) => `<div class="it"><span class="tag a-${a}">${AREA[a]}</span> ${esc(ns.join(', '))}</div>`).join('') : '<p class="vazio">Ninguém cadastrado.</p>'}
       <h4>Tarefas abertas (${ab.length})</h4>${ab.slice(0, 8).map((t) => itemTarefa(t)).join('') || '<p class="vazio">Nada aberto.</p>'}${ab.length > 8 ? `<p class="nota">+ ${ab.length - 8} outras</p>` : ''}
       <h4>Diário</h4>${hist.map((e) => evento(e, false)).join('') || '<p class="vazio">Sem registros ainda.</p>'}
-      <button class="btn peq" data-vdia="${c.id}" style="margin-top:10px">Ver tudo no diário</button> <button class="btn peq" data-of="${c.id}">Oferta</button>`;
+      <button class="btn peq" data-pasta="${c.id}" style="margin-top:10px">Abrir pasta</button> <button class="btn peq" data-vdia="${c.id}" style="margin-top:10px">Ver tudo no diário</button> <button class="btn peq" data-of="${c.id}">Oferta</button>`;
   }
   if (n.tipo === 'pessoa') {
     const p = n.p, ts = D.abertas.filter((t) => t.responsavel_id === p.id).sort((a, b) => atrasada(b) - atrasada(a));
@@ -1001,6 +1053,8 @@ function abrirEdicao(id) {
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button, tr[data-hist]'); if (!b) return;
   if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'painel') carregarPainel(); if (aba === 'anuncios') carregarAnuncios(); if (aba === 'financeiro' && F) carregarFinanceiro(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
+  else if (b.dataset.pasta) abrirPasta(b.dataset.pasta);
+  else if (b.id === 'pcFechar') $('#dCliente').close();
   else if (b.dataset.afil !== undefined) { anFiltro = b.dataset.afil; render(); }
   else if (b.dataset.dtipo !== undefined) { diaTipo = b.dataset.dtipo; render(); }
   else if (b.dataset.vdia) { diaCli = b.dataset.vdia; diaTipo = ''; diaBusca = ''; aba = 'diario'; render(); }
