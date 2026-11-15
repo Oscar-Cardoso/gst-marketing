@@ -97,6 +97,9 @@ async function carregarDados(papel) {
   ]);
   // equipe não vê quem é sócio do cliente nem dados de cobrança
   const cls = papel === 'admin' ? clientes : clientes.map(({ socio, emite_nota, pagamento_anuncios, ...c }) => c);
+  const fotos = await sb('equipe_fotos?select=equipe_id,atualizado_em&dados=not.is.null').catch(() => []);
+  const fv = Object.fromEntries(fotos.map((f) => [f.equipe_id, Date.parse(f.atualizado_em)]));
+  equipe.forEach((e) => { if (fv[e.id]) e.foto_v = fv[e.id]; });
   return { clientes: cls, equipe, responsaveis, abertas, concluidasHoje, agora: new Date().toISOString() };
 }
 
@@ -388,6 +391,67 @@ async function conferirCodigo(b) {
   return ok ? p : null;
 }
 
+// ---------- fotos da equipe: pega a foto do perfil do WhatsApp (ou a pessoa sobe a sua) ----------
+async function fotoDoWhatsapp(p, forcar = false) {
+  if (!p || !p.whatsapp) return false;
+  const ja = (await sb(`equipe_fotos?select=fonte,atualizado_em,tentado_em&equipe_id=eq.${p.id}`))[0];
+  if (ja && ja.fonte === 'upload' && !forcar) return false; // foto escolhida pela pessoa vale mais
+  const recente = (d) => d && Date.now() - Date.parse(d) < 7 * 864e5;
+  if (!forcar && ja && (recente(ja.atualizado_em) || recente(ja.tentado_em))) return false;
+  const numero = String(p.whatsapp).replace(/\D/g, '');
+  let url = null;
+  for (const tentativa of [() => uazapi('/chat/details', { method: 'POST', body: { number: numero, preview: false } }), () => uazapi('/chat/GetNameAndImageURL', { method: 'POST', body: { number: numero, preview: false } })]) {
+    try {
+      const j = await tentativa();
+      url = j && (j.image || j.imageUrl || j.imgUrl || j.profilePicUrl || j.imagePreview || (j.chat && (j.chat.image || j.chat.imagePreview)));
+      if (url) break;
+    } catch {}
+  }
+  const marcar = (corpo) => sb('equipe_fotos?on_conflict=equipe_id', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal', body: { equipe_id: p.id, ...corpo } });
+  if (!url || !/^https:\/\//.test(url)) { await marcar({ tentado_em: new Date().toISOString(), fonte: (ja && ja.fonte) || 'whatsapp' }); return false; }
+  const r = await fetch(url);
+  const mime = (r.headers.get('content-type') || 'image/jpeg').split(';')[0];
+  if (!r.ok || !/^image\//.test(mime)) { await marcar({ tentado_em: new Date().toISOString(), fonte: (ja && ja.fonte) || 'whatsapp' }); return false; }
+  const buf = Buffer.from(await r.arrayBuffer());
+  if (buf.length > 1.5e6) return false;
+  await marcar({ mime, dados: buf.toString('base64'), fonte: 'whatsapp', atualizado_em: new Date().toISOString(), tentado_em: new Date().toISOString() });
+  return true;
+}
+const comPrazo = (prom, ms) => Promise.race([prom, new Promise((r) => setTimeout(() => r(null), ms))]);
+async function fotosNoLogin(p) {
+  // a própria foto sempre; se for admin, aproveita e busca de quem ainda não tem
+  const tarefas = [fotoDoWhatsapp(p).catch(() => false)];
+  if (p.acesso === 'admin') {
+    const todos = await sb('equipe?select=id,nome,whatsapp,acesso&ativo=eq.true&whatsapp=not.is.null');
+    const tem = new Set((await sb('equipe_fotos?select=equipe_id&dados=not.is.null')).map((f) => f.equipe_id));
+    todos.filter((x) => x.id !== p.id && !tem.has(x.id)).slice(0, 12).forEach((x) => tarefas.push(fotoDoWhatsapp(x).catch(() => false)));
+  }
+  await comPrazo(Promise.allSettled(tarefas), 7000);
+}
+async function servirFoto(id, res) {
+  if (!/^[0-9a-f-]{36}$/i.test(String(id || ''))) return res.status(404).end();
+  const f = (await sb(`equipe_fotos?select=mime,dados&equipe_id=eq.${id}&dados=not.is.null`))[0];
+  if (!f) return res.status(404).end();
+  res.setHeader('Content-Type', f.mime || 'image/jpeg');
+  res.setHeader('Cache-Control', 'private, max-age=604800');
+  return res.status(200).send(Buffer.from(f.dados, 'base64'));
+}
+async function subirFoto(b, eu, papel) {
+  const alvo = papel === 'admin' && b.equipe_id ? String(b.equipe_id) : eu && eu.id;
+  if (!alvo) throw Object.assign(new Error('Entre com o seu WhatsApp para trocar a sua foto.'), { status: 400 });
+  if (b.whatsapp) { // voltar para a foto do WhatsApp
+    const p = (await sb(`equipe?select=id,nome,whatsapp&id=eq.${alvo}`))[0];
+    const ok = await fotoDoWhatsapp(p, true);
+    if (!ok) throw Object.assign(new Error('Não consegui pegar a foto do WhatsApp (pode estar visível só para contatos).'), { status: 400 });
+    return { ok: true };
+  }
+  const m = String(b.dados || '').match(/^data:(image\/(?:jpeg|png|webp));base64,([A-Za-z0-9+/=]+)$/);
+  if (!m) throw Object.assign(new Error('Imagem inválida'), { status: 400 });
+  if (m[2].length > 700000) throw Object.assign(new Error('Imagem grande demais'), { status: 400 });
+  await sb('equipe_fotos?on_conflict=equipe_id', { method: 'POST', prefer: 'resolution=merge-duplicates,return=minimal', body: { equipe_id: alvo, mime: m[1], dados: m[2], fonte: 'upload', atualizado_em: new Date().toISOString() } });
+  return { ok: true };
+}
+
 async function lerCorpo(req) {
   let b = req.body;
   if (typeof b === 'string') { try { b = JSON.parse(b); } catch { b = {}; } }
@@ -409,7 +473,7 @@ module.exports = async (req, res) => {
       let papelNovo = null, uid = '';
       if (b.telefone) {
         const p = await conferirCodigo(b);
-        if (p) { papelNovo = p.acesso === 'admin' ? 'admin' : 'equipe'; uid = p.id; }
+        if (p) { papelNovo = p.acesso === 'admin' ? 'admin' : 'equipe'; uid = p.id; await fotosNoLogin(p).catch(() => {}); }
       } else papelNovo = papelDaSenha(b.senha);
       if (!papelNovo) {
         await new Promise((r) => setTimeout(r, 800));
@@ -436,6 +500,8 @@ module.exports = async (req, res) => {
 
     if (acao === 'dados' && req.method === 'GET') return res.json({ ok: true, papel, eu, ...(await carregarDados(papel)) });
     if (acao === 'painel' && req.method === 'GET') return res.json({ ok: true, ...(await sb('rpc/gst_painel', { method: 'POST', body: {} })) });
+    if (acao === 'foto' && req.method === 'GET') return servirFoto(req.query.id, res);
+    if (acao === 'foto' && req.method === 'POST') return res.json(await subirFoto(await lerCorpo(req), eu, papel));
     if (acao === 'pasta_cliente' && req.method === 'GET') return res.json({ ok: true, ...(await carregarPastaCliente(req.query.id, papel)) });
     if (acao === 'anuncios' && req.method === 'GET') return res.json({ ok: true, ...(await carregarAnuncios()) });
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
