@@ -91,6 +91,23 @@ async function transcrever(msg, bruto) {
   return texto;
 }
 
+// ---------- designer avisa no grupo do cliente "ofertas aprovadas ✅" → encarte concluído no escritório ----------
+const AVISO_APROVADO = /\b(ofertas?|l[aâ]minas?|encartes?|artes?|tabloides?)\s+(aprovad|finalizad)|\b(aprovad|finalizad)[ao]s?\b\s*✅/i;
+async function designerAprovou(msg) {
+  if (!msg.cliente_id || !AVISO_APROVADO.test(msg.texto || '') || /\?/.test(msg.texto || '')) return;
+  const equipe = await sbGet('equipe?select=id,nome,funcao,whatsapp&ativo=eq.true');
+  const k = chaveFone(msg.remetente);
+  const quem = k && equipe.find((e) => chaveFone(e.whatsapp) === k);
+  if (!quem) return;
+  const resp = await sbGet(`cliente_responsaveis?select=equipe_id&cliente_id=eq.${msg.cliente_id}&area=eq.design`);
+  if (!resp.some((r) => r.equipe_id === quem.id) && !/design/i.test(quem.funcao || '')) return;
+  const ts = await sbGet(`tarefas?select=id,titulo,responsavel_id,oferta_id,prazo&cliente_id=eq.${msg.cliente_id}&area=eq.design&status=in.(a_fazer,em_andamento,aguardando_cliente,em_conferencia)&order=prazo.asc.nullslast&limit=20`);
+  const alvo = ts.find((t) => t.oferta_id && t.responsavel_id === quem.id) || ts.find((t) => t.oferta_id) || ts.find((t) => /encarte|l[aâ]mina|oferta|tabloide/i.test(t.titulo));
+  if (!alvo) return;
+  await fetch(SUPABASE_URL + '/rest/v1/tarefas?id=eq.' + alvo.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ status: 'concluida', alterado_por: quem.id }) });
+  await sb('diario', { dia: new Date().toLocaleDateString('en-CA', { timeZone: 'America/Sao_Paulo' }), cliente_id: msg.cliente_id, tipo: 'nota', resumo: `Fiscal concluiu "${alvo.titulo}" porque ${quem.nome} avisou no grupo do cliente: "${String(msg.texto).slice(0, 80)}".`, quem: 'Fiscal', fonte: 'whatsapp' });
+}
+
 // ---------- Fiscal no grupo interno: responde quando é chamado ----------
 const chaveFone = (v) => { let d = String(v || '').replace(/\D/g, ''); if (d.length >= 12 && d.startsWith('55')) d = d.slice(2); return d.length >= 10 ? d.slice(0, 2) + d.slice(-8) : ''; };
 const lerConfig = async (chave) => { const r = await sbGet('configuracoes?select=valor&chave=eq.' + chave); try { return r[0] ? JSON.parse(r[0].valor) : null; } catch { return null; } };
@@ -201,6 +218,7 @@ module.exports = async (req, res) => {
         }
       } else if (quem[0]) await atender(quem[0], nova, numero);
     }
+    if (nova && nova.eh_grupo && !nova.de_mim && nova.texto && nova.cliente_id) { try { await designerAprovou(nova); } catch (e) {} }
     // grupo interno: a equipe chama o Fiscal marcando @Fiscal, respondendo a ele ou começando com "Fiscal,"
     if (nova && nova.eh_grupo && !nova.de_mim && nova.texto) {
       let interno = null;
