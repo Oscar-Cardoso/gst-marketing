@@ -481,9 +481,11 @@ async function responder({ quem, pedido, historico = [], modo = 'privado', admin
 }
 
 // Ronda das ofertas (todo dia 12h no grupo interno): quem mandou, quem falta, encartes em aberto
-async function montarRondaOfertas(B) {
+// pessoaId: versão do privado de cada responsável (só os clientes dela); sem pessoaId: visão geral
+async function montarRondaOfertas(B, pessoaId) {
   const desde = new Date(Date.now() - 7 * 864e5).toISOString();
-  const [os, resp, encartes] = await Promise.all([
+  const minhas = pessoaId ? new Set((await sb('cliente_responsaveis?select=cliente_id&equipe_id=eq.' + pessoaId)).map((r) => r.cliente_id)) : null;
+  const [os, resp, encartesTodos] = await Promise.all([
     sb('ofertas?select=cliente_id,recebida_em,created_at&created_at=gte.' + desde + '&order=created_at.desc&limit=500'),
     sb('cliente_responsaveis?select=cliente_id,equipe_id&area=eq.design'),
     sb('tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status&oferta_id=not.is.null&area=eq.design&status=not.in.(concluida,cancelada)&order=prazo.asc.nullslast&limit=100'),
@@ -492,7 +494,9 @@ async function montarRondaOfertas(B) {
   const nomeP = (id) => (B.equipe.find((e) => e.id === id) || {}).nome || 'sem responsável';
   const dia = (p) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit' }).format(new Date(p));
   const comEncarte = new Set(resp.map((r) => r.cliente_id));
-  const ativos = B.clientes.filter((c) => ['ativo', 'implantacao'].includes(c.status) && comEncarte.has(c.id));
+  const ativos = B.clientes.filter((c) => ['ativo', 'implantacao'].includes(c.status) && comEncarte.has(c.id) && (!minhas || minhas.has(c.id)));
+  const encartes = encartesTodos.filter((t) => !minhas || minhas.has(t.cliente_id));
+  if (minhas && !ativos.length && !encartes.length) return null; // nada desta pessoa: não manda
   const ultima = {};
   os.forEach((o) => { if (!ultima[o.cliente_id]) ultima[o.cliente_id] = o.recebida_em || o.created_at; });
   const mandaram = ativos.filter((c) => ultima[c.id]).map((c) => `• ${c.nome} (${dia(ultima[c.id])})`);
@@ -500,6 +504,12 @@ async function montarRondaOfertas(B) {
   const agora = new Date();
   const abertos = encartes.map((t) => `• ${nomeC(t.cliente_id)} · ${nomeP(t.responsavel_id)}${t.prazo ? ' · ' + dia(t.prazo) : ''}${t.prazo && new Date(t.prazo) < agora ? ' ⚠️' : ''}`);
   const hoje = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: '2-digit' }).format(agora);
+  const quem = pessoaId ? ((B.equipe.find((e) => e.id === pessoaId) || {}).nome || '').split(' ')[0] : '';
+  if (pessoaId) return [`📦 *Ronda das ofertas · ${hoje}*`, `${quem}, aqui estão só os seus clientes.`, '',
+    `*Oferta registrada nos últimos 7 dias* (${mandaram.length})`, mandaram.length ? mandaram.join('\n') : 'Nenhuma ainda.', '',
+    `*Ainda sem oferta registrada* (${faltam.length})`, faltam.length ? faltam.join(', ') : 'Todos em dia. 🎉', '',
+    `*Encartes de oferta em aberto* (${abertos.length})`, abertos.length ? abertos.join('\n') : 'Nenhum.', '',
+    'O cliente mandou a oferta no seu privado? Marque o *@Fiscal* no grupo do cliente (ex.: "@Fiscal chegou a oferta") que eu registro e crio o encarte. Terminou um encarte? Marque como concluído no escritório ou avise o Fiscal no grupo.', '', '_Fiscal · GST_'].join('\n');
   return [`📦 *Ronda das ofertas · ${hoje}*`, '',
     `*Ofertas registradas nos últimos 7 dias* (${mandaram.length})`, mandaram.length ? mandaram.join('\n') : 'Nenhuma ainda.', '',
     `*Ainda sem oferta registrada* (${faltam.length})`, faltam.length ? faltam.join(', ') : 'Todos em dia. 🎉', '',
@@ -528,7 +538,10 @@ async function despacharFila() {
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
       }
       if (m.tipo === 'tarefas_equipe') texto = await montarTarefasEquipe(await base(), null, 'rotina');
-      if (m.tipo === 'ronda_ofertas') texto = await montarRondaOfertas(await base());
+      if (m.tipo === 'ronda_ofertas') {
+        texto = await montarRondaOfertas(await base(), m.destino === 'equipe' ? m.equipe_id : null);
+        if (!texto) { await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', erro: 'sem clientes desta pessoa: não enviado', enviado_em: new Date().toISOString() } }); out.push({ id: m.id, ok: true }); continue; }
+      }
       await enviarWhats(numero, String(texto).slice(0, 60000));
       await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', enviado_em: new Date().toISOString() } });
       out.push({ id: m.id, ok: true });
