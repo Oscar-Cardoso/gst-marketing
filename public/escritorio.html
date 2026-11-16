@@ -56,6 +56,7 @@ nav button:focus-visible,.btn:focus-visible,.menu:focus-visible{outline:2px soli
 .btn:disabled{opacity:.5;cursor:default}
 main{width:100%;max-width:1240px;margin:0 auto;padding:22px 24px 40px;display:flex;flex-direction:column;gap:16px}
 main.quadro{max-width:none;padding:0}
+main.quadro .t-busca{padding:12px 16px 0}main.quadro>.vazio{padding:0 16px}
 .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
 .kpi{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:12px 14px;cursor:pointer;text-align:left;box-shadow:var(--sombra);position:relative;overflow:hidden;transition:transform .12s}
 .kpi:hover{transform:translateY(-2px)}
@@ -176,6 +177,7 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .wa{display:flex;align-items:center;gap:8px;background:var(--navy-2);border:1px solid var(--navy-3);color:rgba(255,255,255,.8);border-radius:10px;padding:8px 12px;font-size:12.5px;font-weight:500;cursor:pointer}
 .wa i{width:9px;height:9px;border-radius:50%;background:#64748b}.wa.on i{background:var(--green);box-shadow:0 0 0 3px rgba(0,196,106,.25)}.wa.off i{background:#f87171}.wa.meio i{background:var(--yellow)}
 /* diário */
+.t-busca{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:4px}.t-busca .busca{flex:1 1 260px;max-width:420px}.t-busca .lnk{background:none;border:0;color:var(--green);cursor:pointer;padding:0;font:inherit;text-decoration:underline}
 .dia-filtros{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:4px}
 .dia-filtros .busca{margin:0;flex:1 1 220px}
 .dia-filtros select{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--bg);max-width:240px}
@@ -357,7 +359,15 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 <script>
 const D = { clientes: [], equipe: [], responsaveis: [], abertas: [], concluidasHoje: [], papel: 'admin' };
 const ADMIN = () => D.papel === 'admin';
-let aba = 'painel', editando = null, filtroCli = '';
+let aba = 'painel', editando = null, filtroCli = '', tBusca = '';
+const semAc = (v) => String(v || '').normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+// busca das abas Hoje e Por pessoa: todas as palavras precisam aparecer (título, cliente, responsável ou descrição)
+function casaBusca(t) {
+  const q = semAc(tBusca).trim(); if (!q) return true;
+  const alvo = semAc([t.titulo, t.descricao, (cli(t.cliente_id) || {}).nome, (pes(t.responsavel_id) || {}).nome, t.bloqueio].join(' '));
+  return q.split(/\s+/).every((w) => alvo.includes(w));
+}
+const campoBusca = (n) => `<div class="t-busca"><input class="busca" id="buscaT" type="search" placeholder="Buscar tarefa por cliente, pessoa ou palavra (ex.: Viva Verde)" value="${esc(tBusca)}">${tBusca.trim() ? `<span class="nota">${n} tarefa${n === 1 ? '' : 's'} aberta${n === 1 ? '' : 's'} encontrada${n === 1 ? '' : 's'}</span><button class="lnk" data-limpabusca>limpar</button>` : ''}</div>`;
 let P = null;
 const $ = (s) => document.querySelector(s);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -400,7 +410,7 @@ function atrasada(t) { return t.prazo && new Date(t.prazo) < new Date() && !['co
 function ehHoje(t) { return t.prazo && diaSP(new Date(t.prazo)) === diaSP(new Date()); }
 function grupos() {
   const g = { atrasadas: [], triagem: [], hoje: [], aguardando: [], travadas: [], proximas: [] };
-  for (const t of D.abertas) {
+  for (const t of D.abertas.filter(casaBusca)) {
     if (t.status === 'triagem' || !t.responsavel_id) g.triagem.push(t);
     else if (t.status === 'aguardando_cliente') g.aguardando.push(t);
     else if (t.bloqueio) g.travadas.push(t);
@@ -634,14 +644,15 @@ document.addEventListener('change', async (e) => {
 });
 function renderHoje() {
   const g = grupos();
+  const conc = D.concluidasHoje.filter(casaBusca);
   const k = (rot, n, alvo, alerta) => `<button class="kpi ${alerta && n ? 'alerta' : ''} ${n ? '' : 'zero'}" data-ir="${alvo}"><span>${rot}</span><b>${n}</b></button>`;
-  return `<div class="kpis">
+  return `${campoBusca(D.abertas.filter(casaBusca).length)}<div class="kpis">
       ${k('Atrasadas', g.atrasadas.length, 's-atr', true)}
       ${k('Sem responsável / triagem', g.triagem.length, 's-tri', true)}
       ${k('Para hoje', g.hoje.length, 's-hoje')}
       ${k('Aguardando cliente', g.aguardando.length, 's-agu')}
       ${k('Travadas', g.travadas.length, 's-trv')}
-      ${k('Concluídas hoje', D.concluidasHoje.length, 's-ok')}
+      ${k('Concluídas hoje', conc.length, 's-ok')}
     </div>
     ${secao('Atrasadas', 'Prazo já passou e ainda não foi concluída.', g.atrasadas, 'Nada atrasado.', true, 's-atr')}
     ${secao('Triagem', 'Falta responsável ou prazo. Organize para entrar no fluxo.', g.triagem, 'Tudo organizado.', true, 's-tri')}
@@ -649,8 +660,8 @@ function renderHoje() {
     ${secao('Aguardando cliente', 'Encartes enviados esperando aprovação. Quando o cliente aprovar, social e tráfego são liberados.', g.aguardando, 'Nada esperando cliente.', true, 's-agu')}
     ${secao('Travadas', 'Esperando outra tarefa terminar.', g.travadas, 'Nada travado.', true, 's-trv')}
     ${secao('Próximos dias', null, g.proximas, 'Nada agendado para os próximos dias.')}
-    <section class="sec" id="s-ok"><h2>Concluídas hoje <span class="n">${D.concluidasHoje.length}</span></h2>
-      <div class="lista">${D.concluidasHoje.length ? D.concluidasHoje.map((t) => `<div class="meta" style="font-size:13px">✓ ${esc(t.titulo)} · <span style="color:var(--muted)">${esc((pes(t.responsavel_id) || {}).nome || '')} · ${fmtHora.format(new Date(t.concluida_em))}</span></div>`).join('') : '<div class="vazio">Nenhuma ainda.</div>'}</div></section>`;
+    <section class="sec" id="s-ok"><h2>Concluídas hoje <span class="n">${conc.length}</span></h2>
+      <div class="lista">${conc.length ? conc.map((t) => `<div class="meta" style="font-size:13px">✓ ${esc(t.titulo)} · <span style="color:var(--muted)">${esc((pes(t.responsavel_id) || {}).nome || '')} · ${fmtHora.format(new Date(t.concluida_em))}</span></div>`).join('') : '<div class="vazio">Nenhuma ainda.</div>'}</div></section>`;
 }
 function avatar(p, cls = '') {
   const ini = esc(iniciais(p && p.nome));
@@ -659,14 +670,15 @@ function avatar(p, cls = '') {
 function iniciais(n) { return String(n || '?').replace(/[·]/g, ' ').split(/\s+/).filter(Boolean).slice(0, 2).map((x) => x[0]).join('').toUpperCase(); }
 function renderPessoas() {
   const blocos = D.equipe.map((p) => {
-    const ts = D.abertas.filter((t) => t.responsavel_id === p.id)
+    const ts = D.abertas.filter((t) => t.responsavel_id === p.id && casaBusca(t))
       .sort((a, b) => (atrasada(b) - atrasada(a)) || ((a.prazo ? new Date(a.prazo) : 9e15) - (b.prazo ? new Date(b.prazo) : 9e15)));
     const atr = ts.filter(atrasada).length, hoje = ts.filter(ehHoje).length;
     const contas = new Set(D.responsaveis.filter((r) => r.equipe_id === p.id).map((r) => r.cliente_id)).size;
     const ok = D.concluidasHoje.filter((t) => t.responsavel_id === p.id).length;
     return { p, ts, atr, hoje, contas, ok };
-  }).sort((a, b) => (b.ts.length > 0) - (a.ts.length > 0) || b.atr - a.atr || b.ts.length - a.ts.length);
-  return `<div class="kanban" id="kanban">${blocos.map(({ p, ts, atr, hoje, contas, ok }) => `
+  }).filter((b) => !tBusca.trim() || b.ts.length).sort((a, b) => (b.ts.length > 0) - (a.ts.length > 0) || b.atr - a.atr || b.ts.length - a.ts.length);
+  const achadas = blocos.reduce((n, b) => n + b.ts.length, 0);
+  return `${campoBusca(achadas)}${tBusca.trim() && !blocos.length ? '<p class="vazio">Nenhuma tarefa aberta com essa busca.</p>' : ''}<div class="kanban" id="kanban">${blocos.map(({ p, ts, atr, hoje, contas, ok }) => `
     <section class="col ${/dimas/i.test(p.nome) ? 'ext' : ''}" data-pid="${p.id}">
       <div class="col-head">${avatar(p)}
         <div><div class="col-nome">${esc(p.nome)} <span class="n">${ts.length}</span></div>
@@ -1030,6 +1042,9 @@ function render() {
     kb.onscroll = () => { try { sessionStorage.setItem('gst_kb_x', kb.scrollLeft); } catch {} };
     kb.onwheel = (e) => { if (e.target.closest('.col-body') || Math.abs(e.deltaX) > Math.abs(e.deltaY)) return; kb.scrollLeft += e.deltaY; e.preventDefault(); };
   }
+  const bt = $('#buscaT');
+  if (bt) { bt.oninput = (e) => { tBusca = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaT'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
+  const limpa = document.querySelector('[data-limpabusca]'); if (limpa) limpa.onclick = () => { tBusca = ''; render(); };
   const busca = $('#buscaCli');
   const ba = $('#buscaAn');
   if (ba) { ba.oninput = (e) => { anBusca = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaAn'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
