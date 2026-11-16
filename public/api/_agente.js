@@ -510,7 +510,7 @@ async function montarRondaOfertas(B) {
 
 // ---------- fila de envio (agentes agendados e rotina das 20h) ----------
 async function despacharFila() {
-  const pend = await sb('whatsapp_fila?select=id,destino,tipo,texto&status=eq.pendente&created_at=gte.' + new Date(Date.now() - 864e5).toISOString() + '&order=created_at&limit=10');
+  const pend = await sb('whatsapp_fila?select=id,destino,equipe_id,tipo,texto&status=eq.pendente&created_at=gte.' + new Date(Date.now() - 864e5).toISOString() + '&order=created_at&limit=10');
   const out = [];
   for (const m of pend) {
     const pegou = await sb('whatsapp_fila?id=eq.' + m.id + '&status=eq.pendente', { method: 'PATCH', body: { status: 'enviando' }, prefer: 'return=representation' });
@@ -518,7 +518,11 @@ async function despacharFila() {
     try {
       let numero, texto = m.texto;
       if (m.destino === 'grupo_interno') numero = (await grupoInterno()).id;
-      else {
+      else if (m.destino === 'equipe') { // privado de alguém da equipe (só por ordem do Oscar/Jéssica)
+        const p = await sb('equipe?select=whatsapp&ativo=eq.true&id=eq.' + encodeURIComponent(m.equipe_id || ''));
+        numero = p[0] && p[0].whatsapp;
+        if (!numero) throw new Error('sem WhatsApp cadastrado para essa pessoa');
+      } else {
         const p = await sb('equipe?select=whatsapp&comanda_agente=eq.true&nome=eq.' + encodeURIComponent(m.destino === 'oscar' ? 'Oscar' : 'Jéssica'));
         numero = p[0] && p[0].whatsapp;
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
