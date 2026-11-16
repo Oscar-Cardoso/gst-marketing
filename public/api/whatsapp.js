@@ -166,7 +166,7 @@ async function atenderGrupo(quem, msg, bruto, clienteId) {
     if (qid) { try { const r = await sbGet('whatsapp_mensagens?select=texto,nome_remetente,de_mim&msg_id=eq.' + encodeURIComponent(qid) + '&limit=1'); if (r[0] && r[0].texto) citada = `${r[0].de_mim ? 'Fiscal' : r[0].nome_remetente || '?'}: ${String(r[0].texto).slice(0, 1500)}`; } catch {} }
     const pedido = (conversa ? 'Conversa recente no grupo (contexto):\n' + conversa + '\n\n' : '') + (citada ? 'Mensagem que ele citou/respondeu:\n' + citada + '\n\n' : '') + `Mensagem de ${quem.nome} chamando você agora:\n${msg.texto}`;
     resposta = clienteId
-      ? await responder({ quem, pedido, modo: 'cliente', admin: true, cliente: clienteId })
+      ? await responder({ quem, pedido, modo: 'cliente', admin: quem.acesso === 'admin', cliente: clienteId })
       : await responder({ quem, pedido, modo: 'grupo', admin: quem.acesso === 'admin' });
   } catch (e) {
     resposta = `${quem.nome.split(' ')[0]}, tive um problema para responder agora. Tenta de novo em instantes.`;
@@ -234,10 +234,11 @@ module.exports = async (req, res) => {
         const quem = await quemDaEquipe(nova);
         if (quem) await atenderGrupo(quem, nova, semSegredo);
       } else if (nova.cliente_id && (!interno || interno.id !== nova.chat_id) && await chamouOFiscal(nova, semSegredo, nova.chat_id)) {
-        // grupo de cliente: por enquanto só o Oscar chama o Fiscal (o cliente lê a resposta)
+        // grupo de cliente: qualquer pessoa da equipe chama o Fiscal (o cliente lê a resposta).
+        // Oscar e Jéssica (admin): tarefas, feedback e histórico. Equipe: só registrar/ajustar tarefas.
         const quem = await quemDaEquipe(nova);
-        // exige o número do Oscar (não vale só o nome: alguém do cliente pode se chamar Oscar)
-        if (quem && /^oscar\b/i.test(quem.nome) && quem.acesso === 'admin' && chaveFone(nova.remetente) && chaveFone(nova.remetente) === chaveFone(quem.whatsapp)) await atenderGrupo(quem, nova, semSegredo, nova.cliente_id);
+        // exige o número cadastrado (não vale só o nome: alguém do cliente pode ter o mesmo nome)
+        if (quem && chaveFone(nova.remetente) && chaveFone(nova.remetente) === chaveFone(quem.whatsapp)) await atenderGrupo(quem, nova, semSegredo, nova.cliente_id);
       }
     }
     return res.json({ ok: true });
