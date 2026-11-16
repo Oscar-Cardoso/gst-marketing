@@ -153,14 +153,21 @@ async function quemDaEquipe(msg) {
   }
   return p || null;
 }
-async function atenderGrupo(quem, msg) {
+async function atenderGrupo(quem, msg, bruto, clienteId) {
   let resposta;
   try {
     const desde = new Date(Date.now() - 3 * 3600e3).toISOString();
     const hist = await sbGet(`whatsapp_mensagens?select=de_mim,texto,nome_remetente,recebida_em&chat_id=eq.${encodeURIComponent(msg.chat_id)}&recebida_em=gte.${desde}&id=neq.${msg.id}&order=recebida_em.desc&limit=15`);
     const conversa = hist.reverse().filter((h) => h.texto).map((h) => `${h.de_mim ? 'Fiscal' : h.nome_remetente || '?'}: ${String(h.texto).slice(0, 500)}`).join('\n');
-    const pedido = (conversa ? 'Conversa recente no grupo (contexto):\n' + conversa + '\n\n' : '') + `Mensagem de ${quem.nome} chamando você agora:\n${msg.texto}`;
-    resposta = await responder({ quem, pedido, modo: 'grupo', admin: quem.acesso === 'admin' });
+    // mensagem citada (o Oscar responde à fala do cliente marcando o Fiscal)
+    let citada = '';
+    const m = (bruto && bruto.message) || {};
+    const qid = typeof m.quoted === 'string' ? m.quoted : m.quoted && (m.quoted.id || m.quoted.messageid);
+    if (qid) { try { const r = await sbGet('whatsapp_mensagens?select=texto,nome_remetente,de_mim&msg_id=eq.' + encodeURIComponent(qid) + '&limit=1'); if (r[0] && r[0].texto) citada = `${r[0].de_mim ? 'Fiscal' : r[0].nome_remetente || '?'}: ${String(r[0].texto).slice(0, 1500)}`; } catch {} }
+    const pedido = (conversa ? 'Conversa recente no grupo (contexto):\n' + conversa + '\n\n' : '') + (citada ? 'Mensagem que ele citou/respondeu:\n' + citada + '\n\n' : '') + `Mensagem de ${quem.nome} chamando você agora:\n${msg.texto}`;
+    resposta = clienteId
+      ? await responder({ quem, pedido, modo: 'cliente', admin: true, cliente: clienteId })
+      : await responder({ quem, pedido, modo: 'grupo', admin: quem.acesso === 'admin' });
   } catch (e) {
     resposta = `${quem.nome.split(' ')[0]}, tive um problema para responder agora. Tenta de novo em instantes.`;
   }
@@ -225,7 +232,12 @@ module.exports = async (req, res) => {
       try { interno = await grupoInterno(); } catch {}
       if (interno && interno.id === nova.chat_id && await chamouOFiscal(nova, semSegredo, interno.id)) {
         const quem = await quemDaEquipe(nova);
-        if (quem) await atenderGrupo(quem, nova);
+        if (quem) await atenderGrupo(quem, nova, semSegredo);
+      } else if (nova.cliente_id && (!interno || interno.id !== nova.chat_id) && await chamouOFiscal(nova, semSegredo, nova.chat_id)) {
+        // grupo de cliente: por enquanto só o Oscar chama o Fiscal (o cliente lê a resposta)
+        const quem = await quemDaEquipe(nova);
+        // exige o número do Oscar (não vale só o nome: alguém do cliente pode se chamar Oscar)
+        if (quem && /^oscar\b/i.test(quem.nome) && quem.acesso === 'admin' && chaveFone(nova.remetente) && chaveFone(nova.remetente) === chaveFone(quem.whatsapp)) await atenderGrupo(quem, nova, semSegredo, nova.cliente_id);
       }
     }
     return res.json({ ok: true });

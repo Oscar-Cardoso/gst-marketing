@@ -76,12 +76,20 @@ const FERRAMENTAS = [
 ];
 
 const FERRAMENTAS_GRUPO = new Set(['ver_cliente', 'listar_tarefas', 'panorama', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
+// No grupo de um cliente (só o Oscar chama): tudo travado no cliente daquele grupo
+const FERRAMENTAS_CLIENTE = new Set(['ver_cliente', 'listar_tarefas', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
+const publico = (ctx) => ctx.modo === 'cliente' || (ctx.modo === 'grupo' && !ctx.admin); // resposta lida por equipe ou cliente: sem números da agência
 const financeiroTexto = (d) => d.tipo === 'financeiro' || /R\$\s?\d|\bmensalidade|\bfaturamento|\breceita|\blucro|\bcomiss/i.test(d.resumo || '');
 async function executar(nome, a, ctx) {
   const B = ctx.B;
   if (ctx.modo === 'grupo') {
     if (!FERRAMENTAS_GRUPO.has(nome)) throw new Error('no grupo interno essa ação não é permitida; só o Oscar ou a Jéssica, no privado do Fiscal');
     if (nome === 'anotar_diario' && a.tipo === 'financeiro') throw new Error('registro financeiro só no privado, pelo Oscar ou pela Jéssica');
+  }
+  if (ctx.modo === 'cliente') {
+    if (!FERRAMENTAS_CLIENTE.has(nome)) throw new Error('no grupo do cliente essa ação não é permitida; peça no privado do Fiscal');
+    if (nome === 'anotar_diario' && a.tipo === 'financeiro') throw new Error('registro financeiro só no privado');
+    if (nome !== 'consultar_processo') a = { ...a, cliente: ctx.cliente.nome }; // sempre o cliente deste grupo
   }
   const cli = (n) => { const r = achar(B.clientes, n); if (r.erro) throw new Error(r.erro); return r.item; };
   const pes = (n) => { const r = achar(B.equipe, n); if (r.erro) throw new Error(r.erro); return r.item; };
@@ -92,7 +100,7 @@ async function executar(nome, a, ctx) {
       sb('tarefas?select=id,titulo,responsavel_id,cliente_id,prazo,status,bloqueio&cliente_id=eq.' + c.id + '&status=not.in.(concluida,cancelada)&order=prazo.asc.nullsfirst&limit=30'),
       sb('diario?select=dia,tipo,resumo,quem&cliente_id=eq.' + c.id + '&order=dia.desc,created_at.desc&limit=8'),
     ]);
-    const eq = ctx.modo === 'grupo' && !ctx.admin;
+    const eq = publico(ctx);
     return { cliente: c.nome, socio: eq ? undefined : c.socio, status: c.status, plano: c.tier, contato: c.contato, pasta_drive: c.pasta_drive || 'sem pasta cadastrada',
       equipe: resp.map((r) => `${r.area}: ${(B.equipe.find((e) => e.id === r.equipe_id) || {}).nome}`),
       tarefas_abertas: ab.map((t) => linhaTarefa(t, B)), diario: di.filter((d) => !eq || !financeiroTexto(d)).map((d) => `${d.dia} ${d.tipo}: ${d.resumo}`) };
@@ -281,11 +289,11 @@ async function executar(nome, a, ctx) {
     let q = 'diario?select=dia,tipo,resumo,quem,cliente_id&order=dia.desc,created_at.desc&limit=25&dia=gte.' + new Date(Date.now() - 180 * 864e5).toISOString().slice(0, 10);
     if (a.cliente) q += '&cliente_id=eq.' + cli(a.cliente).id;
     if (a.texto) q += '&resumo=ilike.' + encodeURIComponent('*' + String(a.texto).replace(/[*,()]/g, ' ') + '*');
-    const r = (await sb(q)).filter((d) => !(ctx.modo === 'grupo' && !ctx.admin && financeiroTexto(d)));
+    const r = (await sb(q)).filter((d) => !(publico(ctx) && financeiroTexto(d)));
     return { registros: r.map((d) => `${d.dia} ${d.tipo}${d.cliente_id ? ' [' + (B.clientes.find((c) => c.id === d.cliente_id) || {}).nome + ']' : ''}: ${d.resumo}${d.quem ? ' (' + d.quem + ')' : ''}`) };
   }
   if (nome === 'consultar_processo') {
-    const ps = await sb('processos?select=slug,area,titulo,resumo,tipo,conteudo,cliente_id&ativo=eq.true&order=area,titulo');
+    const ps = (await sb('processos?select=slug,area,titulo,resumo,tipo,conteudo,cliente_id&ativo=eq.true&order=area,titulo')).filter((x) => ctx.modo !== 'cliente' || !x.cliente_id || x.cliente_id === ctx.cliente.id);
     const q = norm(a.texto || '');
     let achados = ps.filter((x) => (!a.area || x.area === a.area) && (!q || q.split(' ').every((w) => norm(x.titulo + ' ' + x.resumo + ' ' + x.conteudo).includes(w))));
     if (!a.texto && !a.area) return { processos: ps.map((x) => `${x.area} · ${x.titulo} (${x.tipo}): ${x.resumo || ''}`) };
@@ -348,6 +356,25 @@ ${admin ? '' : 'Regras para a equipe: não fale de valores, mensalidade, receita
 Tudo o que não é marketing (precificação, mix, estoque, financeiro da loja) vai para "Comercial · Dimas", área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia.
 Quem está falando: ${quem.nome} (${quem.funcao || 'equipe'}).
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
+Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
+}
+
+function sistemaCliente(quem, B, c) {
+  return `Você é o *Fiscal*, assistente de operações da GST Marketing (agência de marketing para supermercados). Você está no grupo de WhatsApp do cliente *${c.nome}*, e o ${quem.nome} te chamou. O CLIENTE LÊ TUDO o que você escreve aqui.
+Agora: ${agoraSP()} (Brasília).
+Responda em português do Brasil, curto, no estilo WhatsApp: comece chamando ${quem.nome.split(' ')[0]} pelo nome, frases curtas, listas com "•", *negrito* com asteriscos simples, sem # nem **. Tom profissional e positivo, como alguém da agência falando na frente do cliente.
+Os códigos [xxxxxxxx] nos resultados são internos: use nas ferramentas, nunca mostre.
+Tudo aqui é só sobre o ${c.nome}: as ferramentas já ficam travadas neste cliente. Nunca fale de outros clientes.
+O que o ${quem.nome} costuma pedir:
+1) *Colocar algo na esteira de tarefas* ("Fiscal, coloca isso na esteira", "registra para a Clara"). Use criar_tarefa. O pedido geralmente se refere ao que o cliente acabou de falar no grupo (veja a conversa e a mensagem citada). Escreva um título claro do que precisa ser entregue e, na descrição, o que o cliente pediu com as palavras dele.
+   • Responsável: quem o ${quem.nome} apontar. Se não apontar, decida pela área: arte, encarte, lâmina, post visual = design; publicação, stories, legenda, Instagram, Google = social_media; anúncio, campanha, verba, impulsionar = trafego; vídeo = video; automação de WhatsApp = automacao. Use a pessoa que cuida dessa área neste cliente (ver_cliente mostra a equipe). Assunto comercial/financeiro da loja (preço, margem, estoque) = "Comercial · Dimas", área comercial.
+   • Prazo: o que for dito. Se não disser, próximo dia útil às 18h. Diga o prazo na confirmação.
+   • Se o pedido for "chegou a oferta/lista", use registrar_oferta.
+   Confirme em 1 a 3 linhas: o que foi registrado, para quem e o prazo.
+2) *Feedback / indicadores* ("como está o início do mês", "indicadores das campanhas"). Use anuncios (sempre diga o horário da coleta), ofertas, listar_tarefas e buscar_diario. Monte um resumo curto: investimento do mês e de ontem, alcance, cliques, conversas (e custo por conversa = gasto_mes/conversas_mes), compras se houver, campanhas no ar, ofertas do período e entregas feitas. Uma ou duas leituras do que os números mostram, sem inventar meta nem comparação que você não tem.
+3) Perguntas sobre o histórico do cliente: buscar_diario, mensagens_grupo, ver_cliente.
+NUNCA escreva aqui: mensalidade, valor do contrato, cobrança, nota fiscal, pagamento à agência, quanto a GST paga à equipe, lucro, sócio, comissão, problemas internos da equipe ou atrasos atribuídos a alguém da GST. O investimento em anúncios do próprio cliente pode.
+Se o pedido não for claro, pergunte em uma linha. Use as ferramentas; nunca invente tarefa, número, prazo ou nome.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
 }
 
@@ -416,11 +443,13 @@ async function claude(body) {
 }
 
 // historico: [{de_mim, texto}] em ordem cronológica (sem a mensagem atual)
-async function responder({ quem, pedido, historico = [], modo = 'privado', admin = true }) {
+async function responder({ quem, pedido, historico = [], modo = 'privado', admin = true, cliente = null }) {
   if (!process.env.ANTHROPIC_API_KEY) return 'O agente ainda não está ligado: falta a ANTHROPIC_API_KEY na Vercel.';
   const B = await base();
-  const ctx = { B, quem, pedido, inicio: Date.now(), modo, admin };
-  const ferramentas = modo === 'grupo' ? FERRAMENTAS.filter((f) => FERRAMENTAS_GRUPO.has(f.name)) : FERRAMENTAS;
+  let c = null;
+  if (modo === 'cliente') { c = B.clientes.find((x) => x.id === cliente); if (!c) return 'Não achei este grupo no cadastro de clientes do escritório.'; }
+  const ctx = { B, quem, pedido, inicio: Date.now(), modo, admin, cliente: c };
+  const ferramentas = modo === 'grupo' ? FERRAMENTAS.filter((f) => FERRAMENTAS_GRUPO.has(f.name)) : modo === 'cliente' ? FERRAMENTAS.filter((f) => FERRAMENTAS_CLIENTE.has(f.name)) : FERRAMENTAS;
   const messages = [];
   for (const h of historico.slice(-12)) {
     const role = h.de_mim ? 'assistant' : 'user';
@@ -432,7 +461,7 @@ async function responder({ quem, pedido, historico = [], modo = 'privado', admin
   if (messages.length && messages[messages.length - 1].role === 'user') messages[messages.length - 1].content += '\n' + pedido;
   else messages.push({ role: 'user', content: pedido });
   const inicio = Date.now();
-  const sys = modo === 'grupo' ? sistemaGrupo(quem, B, admin) : sistema(quem, B); // fixo durante a conversa (mudar o texto invalida o raciocínio anterior)
+  const sys = modo === 'grupo' ? sistemaGrupo(quem, B, admin) : modo === 'cliente' ? sistemaCliente(quem, B, c) : sistema(quem, B); // fixo durante a conversa (mudar o texto invalida o raciocínio anterior)
   for (let volta = 0; volta < 8; volta++) {
     const j = await claude({ model: MODELO, max_tokens: 2000, system: sys, tools: ferramentas, messages });
     messages.push({ role: 'assistant', content: j.content });
