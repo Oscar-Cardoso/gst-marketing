@@ -550,7 +550,7 @@ async function montarComercial(B, pessoaId) {
   return [`💼 *Comercial · ${hoje}*`, `${nome}, suas ${ts.length} tarefas abertas${atr ? `, ${atr} atrasada${atr > 1 ? 's' : ''}` : ''}${tri ? ` e ${tri} sem prazo (triagem)` : ''}.`, '',
     `*🔴 O cliente precisa nos enviar (${cliente.length})*`, cliente.length ? bloco(cliente) : 'Nada pendente com os clientes.', '',
     `*🟢 Está na nossa mão (${nossa.length})*`, nossa.length ? bloco(nossa) : 'Nada parado do nosso lado. 🎉', '',
-    'Cobre no grupo de cada cliente o que está no bloco vermelho. Terminou algo? Marque como concluído no escritório (agenciagst.com.br/escritorio) ou avise o *@Fiscal* no grupo do cliente.', '', '_Fiscal · GST_'].join('\n');
+    'Cobre no grupo de cada cliente o que está no bloco vermelho. Resolveu algo ou o cliente enviou? Avise no grupo ou fale com o Oscar, que ele atualiza.', '', '_Fiscal · GST_'].join('\n');
 }
 
 // ---------- fila de envio (agentes agendados e rotina das 20h) ----------
