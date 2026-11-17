@@ -42,10 +42,16 @@ function prazoISO(v) {
 
 async function base() {
   const [clientes, equipe] = await Promise.all([
-    sb('clientes?select=id,nome,socio,status,tier,contato,pasta_drive&order=nome'),
+    sb('clientes?select=id,nome,socio,status,tier,contato,pasta_drive,tipo_servico&order=nome'),
     sb('equipe?select=id,nome,funcao&ativo=eq.true&order=nome'),
   ]);
   return { clientes, equipe };
+}
+// Quem recebe a demanda comercial/financeira da loja: Lanna nos clientes do Venda Todo Dia; os demais, Comercial · Dimas
+function regraComercial(B) {
+  const vtd = B.clientes.filter((c) => /venda todo dia/i.test(c.tipo_servico || '') && !['pausado', 'encerrado'].includes(c.status)).map((c) => c.nome);
+  const lanna = B.equipe.some((e) => /^lanna\b/i.test(e.nome));
+  return lanna ? `Demanda comercial/financeira da loja (precificação, margem, mix, Mapa do Lucro, estoque, curva ABC, fornecedores, fluxo de caixa, relatórios do sistema) é área comercial: nos clientes do Venda Todo Dia (${vtd.join(', ')}) o responsável é "Lanna" (especialista comercial); nos demais, "Comercial · Dimas".` : 'Demanda comercial/financeira da loja vai para "Comercial · Dimas", área comercial.';
 }
 function linhaTarefa(t, B) {
   const p = B.equipe.find((e) => e.id === t.responsavel_id);
@@ -334,7 +340,7 @@ Responda sempre em português do Brasil, curto e direto, no estilo WhatsApp: fra
 Os códigos entre colchetes [xxxxxxxx] nos resultados são internos: use nas ferramentas, mas NUNCA mostre na resposta; cite a tarefa pelo título.
 Use as ferramentas para consultar e mudar o escritório; nunca invente tarefa, número, prazo ou nome. Se a ferramenta der erro (ex.: nome ambíguo), diga o que faltou e pergunte.
 Quando pedirem para fazer algo (criar tarefa, mudar responsável, registrar oferta, anotar), faça direto e confirme em uma linha o que ficou. Só pergunte antes se faltar algo essencial (qual cliente) ou se o pedido for ambíguo.
-Regras: tudo o que não é marketing (precificação, margem, mix, Mapa do Lucro, estoque, curva ABC, fornecedores, financeiro da loja) vai para o responsável "Comercial · Dimas" com área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia. "Amanhã", "sexta" etc. são relativos a hoje.
+Regras: ${regraComercial(B)} Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia. "Amanhã", "sexta" etc. são relativos a hoje.
 Quando perguntarem como fazer algo (ou a Jéssica pedir ajuda), consulte a base de processos e responda em passo a passo, adaptado ao cliente quando houver. Quando perguntarem o que um cliente falou ou pediu, veja as mensagens do grupo.
 Você não manda mensagem para pessoas da equipe no privado; só responde aqui. Exceções:
 1) Publicar as tarefas no grupo interno da equipe com publicar_tarefas_grupo_interno, só quando o Oscar ou a Jéssica pedirem claramente ("manda/atualiza as tarefas no grupo"). Se for ambíguo, mostre a prévia (previa=true) e pergunte.
@@ -354,7 +360,7 @@ Use as ferramentas; nunca invente tarefa, número, prazo, oferta ou nome. Se fal
 O que você pode fazer aqui: responder sobre a operação (tarefas, atrasos, quem cuida de cada cliente, pasta do Drive, ofertas recebidas, anúncios, processos), criar tarefa quando pedirem, concluir ou mudar o status de tarefa quando a pessoa avisar que fez ("feito", "terminei", "enviei"), registrar oferta quando avisarem que um cliente mandou (inclusive no privado de alguém), e anotar no diário.
 Quando alguém avisar que fez algo, ache a tarefa e conclua; confirme em uma linha. Quando avisarem que um cliente mandou a oferta, registre a oferta (isso cria o encarte para o designer) e confirme.
 ${admin ? '' : 'Regras para a equipe: não fale de valores, mensalidade, receita, lucro, comissão ou de quem é sócio de cada cliente. Não troque o responsável de tarefas (isso é com o Oscar ou a Jéssica, ou arrastando no escritório) e só mude prazo das tarefas da própria pessoa. '}Você não manda mensagem em grupo de cliente nem no privado de ninguém a partir daqui: se pedirem, diga que isso é com o Oscar ou a Jéssica, no privado do Fiscal.
-Tudo o que não é marketing (precificação, mix, estoque, financeiro da loja) vai para "Comercial · Dimas", área comercial. Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia.
+${regraComercial(B)} Sem responsável ou prazo a tarefa fica em triagem. Prazo sem hora = 18h do dia.
 Quem está falando: ${quem.nome} (${quem.funcao || 'equipe'}).
 Clientes ativos: ${ativos.map((c) => c.nome).join(', ')}.
 Equipe: ${B.equipe.map((e) => `${e.nome} (${e.funcao || ''})`).join(', ')}.`;
@@ -368,7 +374,7 @@ Os códigos [xxxxxxxx] nos resultados são internos: use nas ferramentas, nunca 
 Tudo aqui é só sobre o ${c.nome}: as ferramentas já ficam travadas neste cliente. Nunca fale de outros clientes.
 O que o ${quem.nome} costuma pedir:
 1) *Colocar algo na esteira de tarefas* ("Fiscal, coloca isso na esteira", "registra para a Clara"). Use criar_tarefa. O pedido geralmente se refere ao que o cliente acabou de falar no grupo (veja a conversa e a mensagem citada). Escreva um título claro do que precisa ser entregue e, na descrição, o que o cliente pediu com as palavras dele.
-   • Responsável: quem o ${quem.nome} apontar. Se não apontar, decida pela área: arte, encarte, lâmina, post visual = design; publicação, stories, legenda, Instagram, Google = social_media; anúncio, campanha, verba, impulsionar = trafego; vídeo = video; automação de WhatsApp = automacao. Use a pessoa que cuida dessa área neste cliente (ver_cliente mostra a equipe). Assunto comercial/financeiro da loja (preço, margem, estoque) = "Comercial · Dimas", área comercial.
+   • Responsável: quem o ${quem.nome} apontar. Se não apontar, decida pela área: arte, encarte, lâmina, post visual = design; publicação, stories, legenda, Instagram, Google = social_media; anúncio, campanha, verba, impulsionar = trafego; vídeo = video; automação de WhatsApp = automacao. Use a pessoa que cuida dessa área neste cliente (ver_cliente mostra a equipe). ${regraComercial(B)}
    • Prazo: o que for dito. Se não disser, próximo dia útil às 18h. Diga o prazo na confirmação.
    • Se o pedido for "chegou a oferta/lista", use registrar_oferta.
    Confirme em 1 a 3 linhas: o que foi registrado, para quem e o prazo.
@@ -518,6 +524,35 @@ async function montarRondaOfertas(B, pessoaId) {
     'Terminou um encarte? "@Fiscal encarte do Aly feito" e eu dou baixa.', '', '_Fiscal · GST_'].join('\n');
 }
 
+// Relatório diário do comercial (19h, no privado da Lanna): por cliente, o que depende do cliente e o que está na nossa mão
+async function montarComercial(B, pessoaId) {
+  const ts = await sb('tarefas?select=id,titulo,cliente_id,prazo,status,bloqueio&area=eq.comercial&responsavel_id=eq.' + pessoaId + '&status=not.in.(concluida,cancelada)&order=prazo.asc.nullslast&limit=200');
+  const nome = ((B.equipe.find((e) => e.id === pessoaId) || {}).nome || '').split(' ')[0];
+  const hoje = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'long', day: '2-digit', month: '2-digit' }).format(new Date());
+  if (!ts.length) return `💼 *Comercial · ${hoje}*\n\n${nome}, nenhuma tarefa comercial aberta agora. 🎉\n\n_Fiscal · GST_`;
+  const agora = new Date(), diaSP = (d) => new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(d);
+  const quando = (t) => {
+    if (!t.prazo) return t.status === 'triagem' ? 'sem prazo' : '';
+    const d = new Date(t.prazo), dm = new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit' }).format(d);
+    if (d < agora) return '⚠️ ' + dm;
+    if (diaSP(d) === diaSP(agora)) return 'hoje ' + new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', hour: '2-digit', minute: '2-digit' }).format(d);
+    return dm;
+  };
+  const linha = (t) => `• ${t.titulo.replace(/^Loja:\s*/i, '')}${quando(t) ? ': ' + quando(t) : ''}${t.bloqueio ? ', *travada* (' + t.bloqueio + ')' : ''}`;
+  const bloco = (lista) => {
+    const por = {};
+    lista.forEach((t) => { const c = (B.clientes.find((x) => x.id === t.cliente_id) || {}).nome || 'Sem cliente'; (por[c] = por[c] || []).push(t); });
+    return Object.keys(por).sort((a, b) => por[b].length - por[a].length || a.localeCompare(b)).map((c) => `*${c} (${por[c].length})*\n${por[c].map(linha).join('\n')}`).join('\n\n');
+  };
+  const cliente = ts.filter((t) => t.status === 'aguardando_cliente');
+  const nossa = ts.filter((t) => t.status !== 'aguardando_cliente');
+  const atr = ts.filter((t) => t.prazo && new Date(t.prazo) < agora).length, tri = ts.filter((t) => t.status === 'triagem').length;
+  return [`💼 *Comercial · ${hoje}*`, `${nome}, suas ${ts.length} tarefas abertas${atr ? `, ${atr} atrasada${atr > 1 ? 's' : ''}` : ''}${tri ? ` e ${tri} sem prazo (triagem)` : ''}.`, '',
+    `*🔴 O cliente precisa nos enviar (${cliente.length})*`, cliente.length ? bloco(cliente) : 'Nada pendente com os clientes.', '',
+    `*🟢 Está na nossa mão (${nossa.length})*`, nossa.length ? bloco(nossa) : 'Nada parado do nosso lado. 🎉', '',
+    'Cobre no grupo de cada cliente o que está no bloco vermelho. Terminou algo? Marque como concluído no escritório (agenciagst.com.br/escritorio) ou avise o *@Fiscal* no grupo do cliente.', '', '_Fiscal · GST_'].join('\n');
+}
+
 // ---------- fila de envio (agentes agendados e rotina das 20h) ----------
 async function despacharFila() {
   const pend = await sb('whatsapp_fila?select=id,destino,equipe_id,tipo,texto&status=eq.pendente&created_at=gte.' + new Date(Date.now() - 864e5).toISOString() + '&order=created_at&limit=10');
@@ -538,6 +573,7 @@ async function despacharFila() {
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
       }
       if (m.tipo === 'tarefas_equipe') texto = await montarTarefasEquipe(await base(), null, 'rotina');
+      if (m.tipo === 'comercial') texto = await montarComercial(await base(), m.equipe_id);
       if (m.tipo === 'ronda_ofertas') {
         texto = await montarRondaOfertas(await base(), m.destino === 'equipe' ? m.equipe_id : null);
         if (!texto) { await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', erro: 'sem clientes desta pessoa: não enviado', enviado_em: new Date().toISOString() } }); out.push({ id: m.id, ok: true }); continue; }
