@@ -1,5 +1,7 @@
 # GST Marketing — Site + Dashboard Admin
 
+> Escritório Virtual, Fiscal e rotinas: veja [docs/SISTEMA.md](docs/SISTEMA.md).
+
 Site institucional, central de propostas e dashboard admin privado para gerenciamento de leads, propostas e playbooks.
 
 ## Instalação
@@ -20,7 +22,7 @@ O servidor roda em `http://localhost:3000`
 
 ## Admin
 
-Senha: `T@ubate6`
+Senha: definida pelo Oscar (não registrar aqui).
 
 ### Funcionalidades do Admin
 
