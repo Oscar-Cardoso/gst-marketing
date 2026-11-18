@@ -79,6 +79,9 @@ const FERRAMENTAS = [
   { name: 'confirmar_envio_grupos', description: 'Envia a última prévia preparada por previa_mensagem_grupos (de quem está falando, dos últimos 30 min). Use SÓ quando a pessoa responder que pode enviar, numa mensagem DEPOIS de ver a prévia.', input_schema: { type: 'object', properties: {} } },
   { name: 'ofertas', description: 'Quais clientes já mandaram oferta (lista de ofertas registrada no escritório) nos últimos dias e quais ainda não mandaram. Padrão: 7 dias.', input_schema: { type: 'object', properties: { dias: { type: 'number' }, cliente: { type: 'string' } } } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
+  { name: 'leads', description: 'Leads da campanha (donos de supermercado que chamaram no WhatsApp pelo anúncio): ficha, status e reunião marcada. Filtro opcional por status ou texto (nome, mercado, cidade, telefone).', input_schema: { type: 'object', properties: { status: { type: 'string' }, texto: { type: 'string' } } } },
+  { name: 'lead_atualizar', description: 'Muda um lead: status "com_oscar" (o assistente para de responder e o Oscar assume), "qualificando" (devolve ao assistente), "sem_interesse", "fora_do_perfil"; ou desmarca a reunião (desmarcar=true). Identifique pelo telefone ou nome.', input_schema: { type: 'object', properties: { lead: { type: 'string' }, status: { type: 'string', enum: ['com_oscar', 'qualificando', 'qualificado', 'sem_interesse', 'fora_do_perfil'] }, desmarcar: { type: 'boolean' } }, required: ['lead'] } },
+  { name: 'mensagem_lead', description: 'Envia uma mensagem no WhatsApp de UM lead (ex.: link do Meet). Primeiro chame com confirmado=false e mostre o texto; só envie (confirmado=true) depois que a pessoa disser que pode.', input_schema: { type: 'object', properties: { lead: { type: 'string' }, texto: { type: 'string' }, confirmado: { type: 'boolean' } }, required: ['lead', 'texto'] } },
 ];
 
 const FERRAMENTAS_GRUPO = new Set(['ver_cliente', 'listar_tarefas', 'panorama', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
@@ -278,6 +281,31 @@ async function executar(nome, a, ctx) {
       }
     }
     return { enviados: ok, falharam: falha };
+  }
+  if (nome === 'leads' || nome === 'lead_atualizar' || nome === 'mensagem_lead') {
+    if (ctx.modo !== 'privado' || !ctx.admin) throw new Error('leads só no privado do Oscar ou da Jéssica');
+    const todos = await sb('prospects?select=*&order=created_at.desc&limit=300');
+    const dig = (v) => String(v || '').replace(/\D/g, '');
+    const achaLead = (q) => { const d = dig(q); const n = norm(q); const r = todos.filter((l) => (d.length >= 8 && dig(l.telefone).endsWith(d.slice(-8))) || (n && norm([l.nome, l.mercado].join(' ')).includes(n))); if (r.length === 1) return r[0]; throw new Error(r.length ? 'mais de um lead com isso: ' + r.map((l) => l.nome || l.telefone).join(', ') : 'lead não encontrado'); };
+    const hora = (d) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', weekday: 'short', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(d));
+    const linha = (l) => `${l.nome || 'sem nome'} · ${l.mercado || '?'} · ${l.cidade || '?'} · ${l.status}${l.reuniao_em ? ' · reunião ' + hora(l.reuniao_em) : ''}${l.faturamento ? ' · ' + l.faturamento : ''}${l.lojas ? ' · ' + l.lojas + ' loja(s)' : ''}${l.dor ? ' · desafio: ' + l.dor : ''} · wa.me/${dig(l.telefone)}`;
+    if (nome === 'leads') {
+      const q = norm(a.texto || '');
+      const f = todos.filter((l) => (!a.status || l.status === a.status) && (!q || norm([l.nome, l.mercado, l.cidade, l.telefone].join(' ')).includes(q)));
+      return f.length ? `${f.length} lead(s):\n` + f.slice(0, 40).map(linha).join('\n') : 'nenhum lead';
+    }
+    const l = achaLead(a.lead);
+    if (nome === 'lead_atualizar') {
+      const body = { updated_at: new Date().toISOString() };
+      if (a.status) body.status = a.status;
+      if (a.desmarcar) { body.reuniao_em = null; if (!a.status) body.status = 'qualificado'; }
+      await sb('prospects?id=eq.' + l.id, { method: 'PATCH', body });
+      return 'ok: ' + linha({ ...l, ...body });
+    }
+    if (!a.confirmado) return `PRÉVIA para ${l.nome || l.telefone}:\n${a.texto}\n(peça confirmação antes de enviar)`;
+    await enviarWhats(dig(l.telefone), String(a.texto).slice(0, 4000));
+    await sb('whatsapp_mensagens', { method: 'POST', body: { chat_id: l.chat_id || dig(l.telefone) + '@s.whatsapp.net', eh_grupo: false, de_mim: true, tipo: 'resposta_agente', texto: String(a.texto).slice(0, 4000), remetente: 'agente', recebida_em: new Date().toISOString() }, prefer: 'return=minimal' });
+    return 'enviado para ' + (l.nome || l.telefone);
   }
   if (nome === 'ofertas') {
     const dias = Math.min(Math.max(Number(a.dias) || 7, 1), 60);
@@ -573,6 +601,7 @@ async function despacharFila() {
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
       }
       if (m.tipo === 'tarefas_equipe') texto = await montarTarefasEquipe(await base(), null, 'rotina');
+      if (m.tipo === 'leads_dia') texto = await require('./_leads.js').montarLeadsDia();
       if (m.tipo === 'comercial') texto = await montarComercial(await base(), m.equipe_id);
       if (m.tipo === 'ronda_ofertas') {
         texto = await montarRondaOfertas(await base(), m.destino === 'equipe' ? m.equipe_id : null);

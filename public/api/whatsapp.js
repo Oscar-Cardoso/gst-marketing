@@ -3,6 +3,7 @@
 // O endereço do webhook leva um segredo derivado do UAZAPI_TOKEN (?s=...), configurado pelo painel.
 const crypto = require('crypto');
 const { responder, despacharFila, grupoInterno, uaz } = require('./_agente.js');
+const { atenderLead } = require('./_leads.js');
 
 const SUPABASE_URL = process.env.SUPABASE_URL || 'https://rybbojxebmmtfhbmnopm.supabase.co';
 const CHAVE = () => process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_SECRET_KEY || '';
@@ -175,6 +176,22 @@ async function atenderGrupo(quem, msg, bruto, clienteId) {
   await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: true, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', nome_remetente: 'Fiscal', msg_id: id || null, recebida_em: new Date().toISOString() });
   await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + msg.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ processada: true }) });
 }
+async function atenderProspect(msg, numero, bruto) {
+  let texto = msg.texto;
+  if (!texto && ehAudio(msg, bruto)) {
+    const ja = await sbGet('prospects?select=id&telefone=eq.' + numero + '&limit=1');
+    if (!ja.length) return; // áudio de quem ainda não é lead: ignora
+    try { texto = await transcrever(msg, bruto); } catch (e) { texto = null; }
+    if (!texto) { await enviar(numero, 'Não consegui ouvir seu áudio aqui. Pode me mandar por escrito? 🙏'); return; }
+  }
+  if (!texto) return;
+  const hist = await sbGet(`whatsapp_mensagens?select=de_mim,texto,recebida_em&chat_id=eq.${encodeURIComponent(msg.chat_id)}&recebida_em=gte.${new Date(Date.now() - 7 * 864e5).toISOString()}&id=neq.${msg.id}&order=recebida_em.desc&limit=30`);
+  const resposta = await atenderLead({ numero, chatId: msg.chat_id, texto, nomeWhats: msg.nome_remetente, historico: hist.reverse() });
+  if (!resposta) return;
+  await enviar(numero, resposta);
+  await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: false, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', recebida_em: new Date().toISOString() });
+  await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + msg.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ processada: true }) });
+}
 async function atender(quem, msg, numero, ouvido) {
   let resposta;
   try {
@@ -224,6 +241,10 @@ module.exports = async (req, res) => {
           }
         }
       } else if (quem[0]) await atender(quem[0], nova, numero);
+      else if (numero && !(await sbGet('equipe?select=id&whatsapp=eq.' + numero)).length) {
+        // não é da equipe: pode ser lead da campanha (só responde quem chegou pelo anúncio ou já é lead)
+        try { await atenderProspect(nova, numero, semSegredo); } catch (e) {}
+      }
     }
     if (nova && nova.eh_grupo && !nova.de_mim && nova.texto && nova.cliente_id) { try { await designerAprovou(nova); } catch (e) {} }
     // grupo interno: a equipe chama o Fiscal marcando @Fiscal, respondendo a ele ou começando com "Fiscal,"
