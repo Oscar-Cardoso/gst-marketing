@@ -79,6 +79,7 @@ const FERRAMENTAS = [
   { name: 'confirmar_envio_grupos', description: 'Envia a última prévia preparada por previa_mensagem_grupos (de quem está falando, dos últimos 30 min). Use SÓ quando a pessoa responder que pode enviar, numa mensagem DEPOIS de ver a prévia.', input_schema: { type: 'object', properties: {} } },
   { name: 'ofertas', description: 'Quais clientes já mandaram oferta (lista de ofertas registrada no escritório) nos últimos dias e quais ainda não mandaram. Padrão: 7 dias.', input_schema: { type: 'object', properties: { dias: { type: 'number' }, cliente: { type: 'string' } } } },
   { name: 'buscar_diario', description: 'Procura no Diário do escritório por palavra e/ou cliente (últimos 180 dias).', input_schema: { type: 'object', properties: { texto: { type: 'string' }, cliente: { type: 'string' } } } },
+  { name: 'relatorio_anuncios', description: 'Relatório pronto para mandar ao CLIENTE com tudo o que já rodou nas contas de anúncio dele desde o início (investimento, alcance, impressões, cliques, conversas, custo por conversa e cada campanha). Devolve o texto final no formato WhatsApp: entregue como veio, sem resumir.', input_schema: { type: 'object', properties: { cliente: { type: 'string' } }, required: ['cliente'] } },
   { name: 'leads', description: 'Leads da campanha (donos de supermercado que chamaram no WhatsApp pelo anúncio): ficha, status e reunião marcada. Filtro opcional por status ou texto (nome, mercado, cidade, telefone).', input_schema: { type: 'object', properties: { status: { type: 'string' }, texto: { type: 'string' } } } },
   { name: 'lead_atualizar', description: 'Muda um lead: status "com_oscar" (o assistente para de responder e o Oscar assume), "qualificando" (devolve ao assistente), "sem_interesse", "fora_do_perfil"; ou desmarca a reunião (desmarcar=true). Identifique pelo telefone ou nome.', input_schema: { type: 'object', properties: { lead: { type: 'string' }, status: { type: 'string', enum: ['com_oscar', 'qualificando', 'qualificado', 'sem_interesse', 'fora_do_perfil'] }, desmarcar: { type: 'boolean' } }, required: ['lead'] } },
   { name: 'mensagem_lead', description: 'Envia uma mensagem no WhatsApp de UM lead (ex.: link do Meet). Primeiro chame com confirmado=false e mostre o texto; só envie (confirmado=true) depois que a pessoa disser que pode.', input_schema: { type: 'object', properties: { lead: { type: 'string' }, texto: { type: 'string' }, confirmado: { type: 'boolean' } }, required: ['lead', 'texto'] } },
@@ -86,7 +87,7 @@ const FERRAMENTAS = [
 
 const FERRAMENTAS_GRUPO = new Set(['ver_cliente', 'listar_tarefas', 'panorama', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
 // No grupo de um cliente (só o Oscar chama): tudo travado no cliente daquele grupo
-const FERRAMENTAS_CLIENTE = new Set(['ver_cliente', 'listar_tarefas', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
+const FERRAMENTAS_CLIENTE = new Set(['relatorio_anuncios', 'ver_cliente', 'listar_tarefas', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'anotar_diario', 'consultar_processo', 'mensagens_grupo', 'anuncios', 'ofertas', 'buscar_diario']);
 const FERRAMENTAS_CLIENTE_EQUIPE = new Set(['ver_cliente', 'listar_tarefas', 'criar_tarefa', 'atualizar_tarefa', 'registrar_oferta', 'consultar_processo']); // equipe no grupo do cliente: só registrar e ajustar tarefas
 const publico = (ctx) => ctx.modo === 'cliente' || (ctx.modo === 'grupo' && !ctx.admin); // resposta lida por equipe ou cliente: sem números da agência
 const financeiroTexto = (d) => d.tipo === 'financeiro' || /R\$\s?\d|\bmensalidade|\bfaturamento|\breceita|\blucro|\bcomiss/i.test(d.resumo || '');
@@ -281,6 +282,10 @@ async function executar(nome, a, ctx) {
       }
     }
     return { enviados: ok, falharam: falha };
+  }
+  if (nome === 'relatorio_anuncios') {
+    if (!ctx.admin) throw new Error('relatório de anúncios só para o Oscar ou a Jéssica');
+    return await montarRelatorioAnuncios(cli(a.cliente));
   }
   if (nome === 'leads' || nome === 'lead_atualizar' || nome === 'mensagem_lead') {
     if (ctx.modo !== 'privado' || !ctx.admin) throw new Error('leads só no privado do Oscar ou da Jéssica');
@@ -581,6 +586,45 @@ async function montarComercial(B, pessoaId) {
     'Cobre no grupo de cada cliente o que está no bloco vermelho. Resolveu algo ou o cliente enviou? Avise no grupo ou fale com o Oscar, que ele atualiza.', '', '_Fiscal · GST_'].join('\n');
 }
 
+// Relatório de anúncios para o cliente: tudo o que já rodou (tabela meta_campanhas, abastecida pela fotografia)
+async function montarRelatorioAnuncios(c) {
+  const rs = await sb('meta_campanhas?select=*&cliente_id=eq.' + c.id + '&order=inicio.asc.nullslast');
+  if (!rs.length) return `Ainda não tenho o histórico de campanhas do ${c.nome}. Ele entra na próxima fotografia dos anúncios.`;
+  const total = rs.filter((r) => r.campanha_id === '__conta__');
+  const camps = rs.filter((r) => r.campanha_id !== '__conta__' && Number(r.gasto) > 0);
+  const soma = (k, l) => l.reduce((n, r) => n + (Number(r[k]) || 0), 0);
+  const base = total.length ? total : camps; // totais da conta (alcance não se soma entre campanhas)
+  const moeda = (v) => 'R$ ' + Number(v || 0).toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const num = (v) => Number(v || 0).toLocaleString('pt-BR');
+  const dia = (d) => new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', year: 'numeric' }).format(new Date(d));
+  const gasto = soma('gasto', base), alcance = soma('alcance', base), imp = soma('impressoes', base), cliques = soma('cliques_link', base), conv = soma('conversas', base), compras = soma('compras', base), valor = soma('valor_compras', base);
+  const inicio = rs.map((r) => r.inicio).filter(Boolean).sort()[0];
+  const atual = rs.map((r) => r.atualizado_em).sort().slice(-1)[0];
+  const obj = { alcance: 'Alcance', 'mensagens/engajamento': 'Conversas no WhatsApp / engajamento', 'tráfego': 'Cliques no link', vendas: 'Vendas', cadastros: 'Cadastros' };
+  const nomeBonito = (n) => String(n || 'Campanha').replace(/\]\s*-?\s*\[/g, ' · ').replace(/[\[\]]/g, '').replace(/^\d{4}\s·\s/, '').replace(/^GST\s·\s/i, '').trim();
+  const pl = (n, um, varios) => `${num(n)} ${Number(n) === 1 ? um : varios}`;
+  const linhas = camps.sort((x, y) => Number(y.gasto) - Number(x.gasto)).map((r) => {
+    const partes = [`${moeda(r.gasto)} investidos`, `${num(r.alcance)} pessoas alcançadas`];
+    if (Number(r.cliques_link)) partes.push(pl(r.cliques_link, 'clique', 'cliques'));
+    if (Number(r.conversas)) partes.push(`${pl(r.conversas, 'conversa', 'conversas')} (${moeda(r.gasto / r.conversas)} cada)`);
+    return `• *${nomeBonito(r.nome)}*${r.objetivo ? ' (' + (obj[r.objetivo] || r.objetivo) + ')' : ''}${r.status === 'ACTIVE' ? ' · no ar' : ''}\n  ${partes.join(' · ')}`;
+  });
+  const destaque = camps.filter((r) => Number(r.conversas) > 0).sort((x, y) => (x.gasto / x.conversas) - (y.gasto / y.conversas))[0];
+  return [`📊 *Relatório de anúncios · ${c.nome}*`, `_Meta Ads (Facebook e Instagram) · ${inicio ? dia(inicio) : ''} até ${dia(atual)}_`, '',
+    '*Resultado geral*',
+    `• Investimento: *${moeda(gasto)}*`,
+    `• Pessoas alcançadas: *${num(alcance)}*`,
+    `• Vezes que os anúncios apareceram: ${num(imp)}`,
+    imp ? `• Custo para aparecer mil vezes: ${moeda(gasto / imp * 1000)}` : null,
+    cliques ? `• Cliques no link: ${num(cliques)}` : null,
+    total.length && Number(total[0].ctr) ? `• Taxa de cliques: ${Number(total[0].ctr).toLocaleString('pt-BR', { maximumFractionDigits: 2 })}%` : null,
+    conv ? `• Conversas iniciadas no WhatsApp: *${num(conv)}* (${moeda(gasto / conv)} por conversa)` : null,
+    compras ? `• Compras: ${num(compras)}${valor ? ' · ' + moeda(valor) + ' em vendas' : ''}` : null,
+    '', `*Campanhas* (${camps.length})`, linhas.join('\n'),
+    destaque ? `\n*Destaque:* a campanha ${nomeBonito(destaque.nome)} trouxe ${num(destaque.conversas)} conversa${destaque.conversas > 1 ? 's' : ''} a ${moeda(destaque.gasto / destaque.conversas)} cada.` : null,
+    '', `_Dados do Meta atualizados em ${new Intl.DateTimeFormat('pt-BR', { timeZone: 'America/Sao_Paulo', day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit' }).format(new Date(atual))}._`, '_GST Marketing_'].filter((x) => x != null).join('\n');
+}
+
 // ---------- fila de envio (agentes agendados e rotina das 20h) ----------
 async function despacharFila() {
   const pend = await sb('whatsapp_fila?select=id,destino,equipe_id,tipo,texto&status=eq.pendente&created_at=gte.' + new Date(Date.now() - 864e5).toISOString() + '&order=created_at&limit=10');
@@ -601,6 +645,7 @@ async function despacharFila() {
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);
       }
       if (m.tipo === 'tarefas_equipe') texto = await montarTarefasEquipe(await base(), null, 'rotina');
+      if (m.tipo === 'relatorio_anuncios') { const B = await base(); const c = B.clientes.find((x) => x.id === m.texto); texto = c ? await montarRelatorioAnuncios(c) : 'cliente não encontrado'; }
       if (m.tipo === 'leads_dia') texto = await require('./_leads.js').montarLeadsDia();
       if (m.tipo === 'comercial') texto = await montarComercial(await base(), m.equipe_id);
       if (m.tipo === 'ronda_ofertas') {
