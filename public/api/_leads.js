@@ -130,16 +130,12 @@ async function executar(nome, a, lead) {
   throw new Error('ferramenta desconhecida');
 }
 
-async function claude(body) {
-  const r = await fetch('https://api.anthropic.com/v1/messages', { method: 'POST', headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' }, body: JSON.stringify(body) });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error('Anthropic ' + r.status);
-  return j;
-}
+const { chamarModelo, temModelo } = require('./_llm.js');
+const claude = (body) => chamarModelo(body);
 
 // Devolve o texto a enviar ao lead, ou null quando o assistente não deve responder.
 async function atenderLead({ numero, chatId, texto, nomeWhats, historico = [] }) {
-  if (!process.env.ANTHROPIC_API_KEY) return null;
+  if (!temModelo()) return null;
   const o = (await config('oferta_black_friday')) || {};
   let lead = await acharLead(numero);
   if (!lead) {

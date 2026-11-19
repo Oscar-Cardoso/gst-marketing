@@ -24,7 +24,7 @@ Este repositório é **público**. Aqui não vão senhas, chaves, tokens nem dad
 
 ## Variáveis de ambiente (Vercel) — só os nomes
 
-`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (ou `SUPABASE_SECRET_KEY`), `UAZAPI_URL`, `UAZAPI_TOKEN`, `ANTHROPIC_API_KEY`, `AGENTE_MODELO` (opcional), `OPENAI_API_KEY` e `OPENAI_TRANSCRICAO_MODELO` (transcrição de áudio), `ESCRITORIO_SEGREDO`, `ESCRITORIO_SENHA`, `ESCRITORIO_SENHA_EQUIPE`, `META_PIXEL_ID`, `META_CAPI_TOKEN`, `META_TEST_EVENT_CODE`.
+`SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY` (ou `SUPABASE_SECRET_KEY`), `UAZAPI_URL`, `UAZAPI_TOKEN`, `ANTHROPIC_API_KEY`, `AGENTE_MODELO` (opcional), `OPENAI_API_KEY` (transcrição de áudio e reserva do Fiscal), `OPENAI_TRANSCRICAO_MODELO` (opcional), `OPENAI_AGENTE_MODELO` (opcional, padrão `gpt-4.1`), `ESCRITORIO_SEGREDO`, `ESCRITORIO_SENHA`, `ESCRITORIO_SENHA_EQUIPE`, `META_PIXEL_ID`, `META_CAPI_TOKEN`, `META_TEST_EVENT_CODE`.
 
 Os valores ficam só na Vercel. Nunca no código, no chat ou em documento.
 
@@ -68,4 +68,4 @@ As instruções completas de cada uma estão na tabela `rotinas_agendadas` do Su
 1. Dê acesso a este repositório, ao projeto do Supabase e à Vercel (as chaves já estão lá).
 2. Peça para ler este arquivo e a tabela `rotinas_agendadas`.
 3. Recrie as rotinas que rodam no Claude na nova ferramenta (ou num servidor com agendador), usando as instruções salvas.
-4. O Fiscal no WhatsApp continua funcionando sozinho enquanto a chave da Anthropic na Vercel tiver crédito. Para trocar de modelo, troque a função `claude()` em `public/api/_agente.js` e a variável da chave.
+4. O Fiscal no WhatsApp continua funcionando sozinho. Ele usa a Anthropic (Claude) e, se ela falhar (sem crédito, fora do ar), passa sozinho para a OpenAI (GPT) com a mesma conversa e as mesmas ferramentas (`public/api/_llm.js`). Mantenha crédito nas duas contas. Para trocar de modelo, use as variáveis `AGENTE_MODELO` e `OPENAI_AGENTE_MODELO`.

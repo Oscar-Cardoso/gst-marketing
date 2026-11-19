@@ -474,18 +474,12 @@ async function montarTarefasEquipe(B, filtro, pedidoPor) {
   return `📋 *Tarefas da equipe · ${hoje}*\n_${pedidoPor === 'rotina' ? 'Atualização automática das 20h' : 'Atualização pedida por ' + pedidoPor}. ⚠️ = atrasada._\n\n${blocos.join('\n\n')}\n\nTerminou? Marque como concluída no painel (agenciagst.com.br/escritorio) ou avise aqui no grupo.\n\n_Fiscal · GST_`;
 }
 
-async function claude(body) {
-  const r = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST', headers: { 'x-api-key': process.env.ANTHROPIC_API_KEY, 'anthropic-version': '2023-06-01', 'content-type': 'application/json' }, body: JSON.stringify(body),
-  });
-  const j = await r.json().catch(() => ({}));
-  if (!r.ok) throw new Error('Anthropic ' + r.status + ': ' + ((j.error && j.error.message) || ''));
-  return j;
-}
+const { chamarModelo, temModelo } = require('./_llm.js');
+const claude = (body) => chamarModelo(body);
 
 // historico: [{de_mim, texto}] em ordem cronológica (sem a mensagem atual)
 async function responder({ quem, pedido, historico = [], modo = 'privado', admin = true, cliente = null }) {
-  if (!process.env.ANTHROPIC_API_KEY) return 'O agente ainda não está ligado: falta a ANTHROPIC_API_KEY na Vercel.';
+  if (!temModelo()) return 'O agente ainda não está ligado: falta a ANTHROPIC_API_KEY (ou a OPENAI_API_KEY) na Vercel.';
   const B = await base();
   let c = null;
   if (modo === 'cliente') { c = B.clientes.find((x) => x.id === cliente); if (!c) return 'Não achei este grupo no cadastro de clientes do escritório.'; }
