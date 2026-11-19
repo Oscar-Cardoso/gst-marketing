@@ -200,7 +200,7 @@ async function atender(quem, msg, numero, ouvido) {
   } catch (e) {
     resposta = 'Tive um problema para responder agora (' + String(e.message || e).slice(0, 120) + '). Tenta de novo em instantes.';
   }
-  if (ouvido) resposta = '🎧 Entendi: _' + (ouvido.length > 400 ? ouvido.slice(0, 400) + '…' : ouvido) + '_\n\n' + resposta;
+  if (ouvido) resposta = '🎧 _' + (ouvido.length > 140 ? ouvido.slice(0, 140) + '…' : ouvido) + '_\n\n' + resposta;
   await enviar(numero, resposta);
   await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: false, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', recebida_em: new Date().toISOString() });
   await fetch(SUPABASE_URL + '/rest/v1/whatsapp_mensagens?id=eq.' + msg.id, { method: 'PATCH', headers: cab('return=minimal'), body: JSON.stringify({ processada: true }) });
