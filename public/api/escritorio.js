@@ -56,7 +56,7 @@ function papelDaSenha(digitada) {
   if (igual(digitada, process.env.ESCRITORIO_SENHA_EQUIPE || '')) return 'equipe';
   return null;
 }
-const SO_ADMIN = new Set(['financeiro', 'mensalidade', 'custo_pessoa', 'custo_fixo', 'whatsapp', 'whatsapp_ativar']);
+const SO_ADMIN = new Set(['financeiro', 'mensalidade', 'custo_pessoa', 'custo_fixo', 'whatsapp', 'whatsapp_ativar', 'crm', 'crm_salvar']);
 
 // ---------- Supabase (REST) ----------
 async function sb(caminho, { method = 'GET', body, prefer } = {}) {
@@ -192,6 +192,29 @@ async function criarTarefa(b) {
 // Regra da sociedade: nos clientes do Dimas, o design sai antes da divisão 50/50;
 // tráfego e social saem só da metade da GST (Oscar).
 const n2 = (v) => Math.round((Number(v) || 0) * 100) / 100;
+// ---------- CRM (só admin): contatos das reuniões + leads da campanha ----------
+const CRM_ESTAGIOS = ['cliente', 'mentorado_vtd', 'enviar_proposta', 'proposta_enviada', 'aguardando_retorno', 'diagnostico', 'parceiro', 'perdido'];
+const CRM_CAMPOS = ['nome', 'empresa', 'telefone', 'cidade', 'origem', 'estagio', 'cliente_id', 'responsavel', 'proxima_acao', 'prazo', 'observacoes', 'investigar', 'link_reuniao'];
+async function carregarCrm() {
+  const [contatos, leads] = await Promise.all([
+    sb('crm_contatos?select=*&order=ultima_reuniao.desc.nullslast&limit=1000'),
+    sb('prospects?select=id,nome,mercado,cidade,lojas,faturamento,status,reuniao_em,resumo,telefone,created_at&order=created_at.desc&limit=300').catch(() => []),
+  ]);
+  return { contatos, leads };
+}
+async function salvarCrm(b) {
+  const dados = {};
+  for (const k of CRM_CAMPOS) if (k in b) dados[k] = b[k] === '' ? null : b[k];
+  if (dados.estagio && !CRM_ESTAGIOS.includes(dados.estagio)) throw Object.assign(new Error('Estágio inválido'), { status: 400 });
+  if (b.id) {
+    const r = await sb(`crm_contatos?id=eq.${encodeURIComponent(b.id)}`, { method: 'PATCH', body: dados, prefer: 'return=representation' });
+    return { contato: r[0] };
+  }
+  if (!dados.nome) throw Object.assign(new Error('Informe o nome'), { status: 400 });
+  const r = await sb('crm_contatos', { method: 'POST', body: { origem: 'manual', estagio: 'diagnostico', ...dados }, prefer: 'return=representation' });
+  return { contato: r[0] };
+}
+
 async function carregarFinanceiro() {
   const [clientes, equipe, responsaveis, fixos] = await Promise.all([
     sb('clientes?select=id,nome,socio,tier,mensalidade,custo_design,custo_trafego,custo_social&status=not.in.(pausado,encerrado,interno)&order=nome'),
@@ -507,6 +530,7 @@ module.exports = async (req, res) => {
     if (acao === 'diario' && req.method === 'GET') return res.json({ ok: true, ...(await carregarDiario(papel)) });
     if (acao === 'whatsapp' && req.method === 'GET') return res.json({ ok: true, ...(await whatsStatus()) });
     if (acao === 'financeiro' && req.method === 'GET') return res.json({ ok: true, ...(await carregarFinanceiro()) });
+    if (acao === 'crm' && req.method === 'GET') return res.json({ ok: true, ...(await carregarCrm()) });
     if (req.method !== 'POST') return res.status(405).json({ ok: false });
     const b = await lerCorpo(req);
     if (eu) b.ator_id = eu.id; // quem está logado assina a mudança
@@ -517,6 +541,7 @@ module.exports = async (req, res) => {
     if (acao === 'mensalidade') return res.json({ ok: true, ...(await salvarMensalidade(b)) });
     if (acao === 'custo_pessoa') return res.json({ ok: true, ...(await salvarCustoPessoa(b)) });
     if (acao === 'custo_fixo') return res.json({ ok: true, ...(await salvarCustoFixo(b)) });
+    if (acao === 'crm_salvar') return res.json({ ok: true, ...(await salvarCrm(b)) });
     return res.status(404).json({ ok: false, erro: 'Ação desconhecida' });
   } catch (e) {
     return res.status(e.status || 500).json({ ok: false, erro: e.message || 'Erro' });

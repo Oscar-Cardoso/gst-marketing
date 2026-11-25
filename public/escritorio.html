@@ -188,6 +188,17 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .an-it a,.an-tb a{color:var(--green-d);font-weight:600;font-size:12.5px;text-decoration:none;white-space:nowrap}
 .an-tb td{vertical-align:top}.an-tb .num{font-variant-numeric:tabular-nums;white-space:nowrap}.an-tb .obs{color:var(--muted);font-size:12px;max-width:220px}.an-tb td,.an-tb th{padding-left:8px;padding-right:8px}
 .an-hora{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted);margin:0 0 12px}.an-hora b{color:var(--navy)}
+.crm-k{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin-bottom:14px}
+.crm-k button{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:10px 12px;text-align:left;cursor:pointer;font:inherit}
+.crm-k button.on{border-color:var(--navy);box-shadow:inset 0 0 0 1px var(--navy)}
+.crm-k b{display:block;font-size:22px;line-height:1.1}.crm-k span{font-size:12.5px;color:var(--muted)}
+.crm-k .quente b{color:#b45309}
+.est{display:inline-block;border-radius:20px;padding:2px 9px;font-size:12px;font-weight:600;white-space:nowrap}
+.est.cliente{background:#e7f8ef;color:#0f7a43}.est.mentorado_vtd{background:#eef2ff;color:#3741a8}.est.enviar_proposta{background:#fff1e0;color:#b45309}
+.est.proposta_enviada{background:#fff7d6;color:#8a6100}.est.aguardando_retorno{background:#fef3c7;color:#92400e}.est.diagnostico{background:#f1f5f9;color:#475569}
+.est.parceiro{background:#f3e8ff;color:#6b21a8}.est.perdido{background:#fde8e8;color:#a61b1b}
+label.chk{display:flex;flex-direction:row;gap:8px;align-items:center;margin:0;font-weight:500}label.chk input{width:auto;margin:0}
+.crm-t td{vertical-align:top}.crm-t .sub2{color:var(--muted);font-size:12px}.crm-t .acao{font-size:13px}.crm-t tr.inv td:first-child{box-shadow:inset 3px 0 0 #f59e0b}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
 .chip{border:1px solid var(--line);background:#fff;border-radius:20px;padding:4px 11px;font-size:12.5px;font-weight:500;color:#334155;cursor:pointer}
 .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
@@ -266,6 +277,8 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
       <button data-aba="anuncios"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11v3a1 1 0 0 0 1 1h3l6 4V6L7 10H4a1 1 0 0 0-1 1z"/><path d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12"/></svg>Anúncios</button>
       <p class="grupo">Registro</p>
       <button data-aba="diario"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/><path d="M5 17a3 3 0 0 1 3-3h11"/><path d="M9 8h6"/></svg>Diário</button>
+      <p class="grupo" id="grpCom">Comercial</p>
+      <button data-aba="crm"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg>CRM</button>
       <p class="grupo">Gestão</p>
       <button data-aba="financeiro"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/></svg>Financeiro</button>
     </nav>
@@ -292,6 +305,20 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
   <div class="pasta-topo"><div><h3 id="pcNome"></h3><p class="sub" id="pcSub"></p></div><button class="btn fant" id="pcFechar">Fechar</button></div>
   <div id="pcCorpo"></div>
 </div></dialog>
+
+<dialog id="dCrm"><form id="fCrm">
+  <h3 id="crmTit">Contato</h3>
+  <label>Nome<input id="crmNome" required></label>
+  <label>Loja / empresa<input id="crmEmp"></label>
+  <label>Telefone<input id="crmTel" placeholder="+55 ..."></label>
+  <label>Estágio<select id="crmEst"></select></label>
+  <label>Cliente no escritório<select id="crmCli"></select></label>
+  <label>Próximo passo<textarea id="crmAcao" rows="2" placeholder="Ex.: enviar proposta de tráfego + design"></textarea></label>
+  <label>Prazo<input type="date" id="crmPrazo"></label>
+  <label>Observações<textarea id="crmObs" rows="3"></textarea></label>
+  <label class="chk"><input type="checkbox" id="crmInvEd"> Ainda precisa conferir</label>
+  <div class="rodape"><button type="button" class="btn fant" id="crmCancel">Cancelar</button><button class="btn pri">Salvar</button></div>
+</form></dialog>
 
 <dialog id="dOferta"><form method="dialog" id="fOferta">
   <h3>Chegou oferta</h3>
@@ -780,6 +807,76 @@ function renderClientes() {
     <div class="tab"><table><thead><tr><th>Cliente</th>${ADMIN() ? '<th>Sócio</th>' : ''}<th>Serviço</th><th>Design</th><th>Social</th><th>Tráfego</th><th>Abertas</th><th></th></tr></thead>
     <tbody>${rows || '<tr><td colspan="8" class="vazio">Nenhum cliente encontrado.</td></tr>'}</tbody></table></div></section>`;
 }
+// ---------- CRM ----------
+let CRM = null, crmFiltro = 'acao', crmBusca = '', crmInv = false, crmEdit = null;
+const ESTAGIO = { enviar_proposta: 'Enviar proposta', proposta_enviada: 'Proposta enviada', aguardando_retorno: 'Aguardando retorno', diagnostico: 'Reunião feita', mentorado_vtd: 'Mentorado VTD', cliente: 'Cliente', parceiro: 'Parceiro', perdido: 'Perdido' };
+const ORDEM_EST = ['enviar_proposta', 'proposta_enviada', 'aguardando_retorno', 'diagnostico', 'mentorado_vtd', 'cliente', 'parceiro', 'perdido'];
+const ORIGEM = { venda_todo_dia: 'Diagnóstico Venda Todo Dia', reuniao: 'Reunião GST', parceria: 'Parceria', manual: 'Cadastro manual', black_friday: 'Black Friday' };
+async function carregarCrm() {
+  try { CRM = await api('crm'); } catch (e) { toast(e.message); CRM = CRM || { contatos: [], leads: [] }; }
+  if (aba === 'crm') render();
+}
+const fmtData = (d) => d ? new Date(d + 'T12:00:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: '2-digit' }) : '—';
+function renderCrm() {
+  if (!CRM) { carregarCrm(); return '<section class="sec"><p class="vazio">Carregando contatos…</p></section>'; }
+  const L = CRM.contatos;
+  const conta = (f) => L.filter(f).length;
+  const acao = (c) => ['enviar_proposta', 'proposta_enviada', 'aguardando_retorno'].includes(c.estagio);
+  const cards = [['acao', 'Precisa de ação', conta(acao), 'quente'], ['diagnostico', 'Reunião feita', conta((c) => c.estagio === 'diagnostico')], ['mentorado_vtd', 'Mentorados VTD', conta((c) => c.estagio === 'mentorado_vtd')], ['cliente', 'Clientes', conta((c) => c.estagio === 'cliente')], ['parceiro', 'Parceiros', conta((c) => c.estagio === 'parceiro')], ['leads', 'Leads da Black', (CRM.leads || []).length], ['tudo', 'Todos', L.length]]
+    .map(([k, t, n, cls]) => `<button class="${cls || ''} ${crmFiltro === k ? 'on' : ''}" data-crmf="${k}"><b>${n}</b><span>${t}</span></button>`).join('');
+  if (crmFiltro === 'leads') return `<section class="sec"><h2>CRM</h2><div class="crm-k">${cards}</div>${renderLeads()}</section>`;
+  const f = crmBusca.toLowerCase();
+  const lista = L.filter((c) => (crmFiltro === 'tudo' || (crmFiltro === 'acao' ? acao(c) : c.estagio === crmFiltro))
+    && (!crmInv || c.investigar)
+    && (!f || [c.nome, c.empresa, c.telefone, c.cidade, c.proxima_acao, c.observacoes].join(' ').toLowerCase().includes(f)))
+    .sort((a, b) => ORDEM_EST.indexOf(a.estagio) - ORDEM_EST.indexOf(b.estagio) || String(b.ultima_reuniao || '').localeCompare(String(a.ultima_reuniao || '')));
+  const rows = lista.map((c) => {
+    const clienteNome = c.cliente_id ? (D.clientes.find((x) => x.id === c.cliente_id) || {}).nome : '';
+    return `<tr class="${c.investigar ? 'inv' : ''}"><td><b>${esc(c.nome)}</b>${c.empresa || clienteNome ? `<div class="sub2">${esc(clienteNome || c.empresa)}</div>` : ''}${c.telefone ? `<div class="sub2">${esc(c.telefone)}</div>` : ''}</td>
+      <td><span class="est ${esc(c.estagio)}">${ESTAGIO[c.estagio] || esc(c.estagio)}</span><div class="sub2">${ORIGEM[c.origem] || esc(c.origem || '')}</div></td>
+      <td class="acao">${c.proxima_acao ? esc(c.proxima_acao) : '<span class="sub2">—</span>'}${c.prazo ? `<div class="sub2">até ${fmtData(c.prazo)}</div>` : ''}${c.observacoes ? `<div class="sub2">${esc(c.observacoes)}</div>` : ''}</td>
+      <td>${fmtData(c.ultima_reuniao)}<div class="sub2">${c.qtd_reunioes || 0} reuni${c.qtd_reunioes === 1 ? 'ão' : 'ões'}${c.link_reuniao ? ` · <a href="${esc(c.link_reuniao)}" target="_blank" rel="noopener">abrir</a>` : ''}</div></td>
+      <td><button class="btn peq fant" data-crm="${c.id}">Editar</button></td></tr>`;
+  }).join('');
+  return `<section class="sec"><h2>CRM <span class="n">${lista.length}</span></h2>
+    <p class="nota">Pessoas com quem o Oscar fez reunião (Tactiq, de out/2025 em diante), separadas pelo próximo passo. A faixa laranja marca quem ainda precisa ser conferido.</p>
+    <div class="crm-k">${cards}</div>
+    <div class="t-busca"><input class="busca" id="buscaCrm" placeholder="Buscar nome, loja, telefone ou ação" value="${esc(crmBusca)}">
+      <label class="chk"><input type="checkbox" id="crmInv" ${crmInv ? 'checked' : ''}> Só a conferir</label>
+      <button class="btn peq" data-crm="novo">+ Contato</button></div>
+    <div class="tab"><table class="crm-t"><thead><tr><th>Contato</th><th>Estágio</th><th>Próximo passo</th><th>Última reunião</th><th></th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="5" class="vazio">Nada encontrado com esse filtro.</td></tr>'}</tbody></table></div></section>`;
+}
+function renderLeads() {
+  const ls = CRM.leads || [];
+  const rows = ls.map((l) => `<tr><td><b>${esc(l.nome || 'Sem nome')}</b><div class="sub2">${esc(l.telefone || '')}</div></td><td>${esc(l.mercado || '—')}<div class="sub2">${esc([l.cidade, l.lojas ? l.lojas + ' loja' + (l.lojas > 1 ? 's' : '') : '', l.faturamento].filter(Boolean).join(' · '))}</div></td>
+    <td><span class="tag">${esc(l.status || 'novo')}</span>${l.reuniao_em ? `<div class="sub2">Reunião ${new Date(l.reuniao_em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' })}</div>` : ''}</td>
+    <td class="acao">${esc(l.resumo || '')}</td><td>${fmtData(String(l.created_at || '').slice(0, 10))}</td></tr>`).join('');
+  return `<p class="nota">Quem chamou o Fiscal pelo anúncio da Black Friday. O Fiscal qualifica, marca a reunião e avisa o Oscar.</p>
+    <div class="tab"><table class="crm-t"><thead><tr><th>Lead</th><th>Mercado</th><th>Status</th><th>Resumo</th><th>Chegou</th></tr></thead>
+    <tbody>${rows || '<tr><td colspan="5" class="vazio">Nenhum lead da campanha ainda.</td></tr>'}</tbody></table></div>`;
+}
+function abrirCrm(id) {
+  crmEdit = id === 'novo' ? null : CRM.contatos.find((c) => c.id === id);
+  const c = crmEdit || {};
+  $('#crmTit').textContent = crmEdit ? c.nome : 'Novo contato';
+  $('#crmNome').value = c.nome || ''; $('#crmEmp').value = c.empresa || ''; $('#crmTel').value = c.telefone || '';
+  $('#crmEst').innerHTML = ORDEM_EST.map((k) => `<option value="${k}" ${k === (c.estagio || 'diagnostico') ? 'selected' : ''}>${ESTAGIO[k]}</option>`).join('');
+  $('#crmCli').innerHTML = '<option value="">—</option>' + D.clientes.map((x) => `<option value="${x.id}" ${x.id === c.cliente_id ? 'selected' : ''}>${esc(x.nome)}</option>`).join('');
+  $('#crmAcao').value = c.proxima_acao || ''; $('#crmPrazo').value = c.prazo || ''; $('#crmObs').value = c.observacoes || ''; $('#crmInvEd').checked = !!c.investigar;
+  $('#dCrm').showModal();
+}
+async function salvarCrmForm(e) {
+  e.preventDefault();
+  const body = { nome: $('#crmNome').value.trim(), empresa: $('#crmEmp').value.trim(), telefone: $('#crmTel').value.trim(), estagio: $('#crmEst').value, cliente_id: $('#crmCli').value,
+    proxima_acao: $('#crmAcao').value.trim(), prazo: $('#crmPrazo').value, observacoes: $('#crmObs').value.trim(), investigar: $('#crmInvEd').checked };
+  if (crmEdit) body.id = crmEdit.id;
+  try {
+    const r = await api('crm_salvar', body);
+    if (crmEdit) Object.assign(crmEdit, r.contato); else CRM.contatos.unshift(r.contato);
+    $('#dCrm').close(); toast('Contato salvo'); render();
+  } catch (err) { toast(err.message); }
+}
 // ---------- financeiro ----------
 let F = null, pessoaEdit = null;
 const brl = new Intl.NumberFormat('pt-BR', { style: 'currency', currency: 'BRL', maximumFractionDigits: 0 });
@@ -1028,14 +1125,14 @@ async function desenharMapa() {
 function render() {
   const c = $('#conteudo');
   if (simMapa && aba !== 'mapa') { simMapa.stop(); simMapa = null; }
-  c.innerHTML = aba === 'painel' ? renderPainel() : aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : aba === 'diario' ? renderDiario() : aba === 'mapa' ? renderMapa() : aba === 'anuncios' ? renderAnuncios() : renderClientes();
+  c.innerHTML = aba === 'painel' ? renderPainel() : aba === 'hoje' ? renderHoje() : aba === 'pessoas' ? renderPessoas() : aba === 'financeiro' ? renderFinanceiro() : aba === 'crm' ? renderCrm() : aba === 'diario' ? renderDiario() : aba === 'mapa' ? renderMapa() : aba === 'anuncios' ? renderAnuncios() : renderClientes();
   if (aba === 'mapa') desenharMapa();
   const bd = $('#buscaDia');
   if (bd) { bd.oninput = (e) => { diaBusca = e.target.value; const pos = e.target.selectionStart; render(); const nb = $('#buscaDia'); nb.focus(); nb.setSelectionRange(pos, pos); }; }
   const cd = $('#cliDia'); if (cd) cd.onchange = (e) => { diaCli = e.target.value; render(); };
   document.querySelectorAll('[data-mens]').forEach((i) => { i.onchange = async () => { try { await api('mensalidade', { cliente_id: i.dataset.mens, mensalidade: i.value }); toast('Mensalidade salva'); carregarFinanceiro(); } catch (e) { toast(e.message); } }; });
   document.querySelectorAll('nav button').forEach((b) => b.classList.toggle('on', b.dataset.aba === aba));
-  $('#tituloAba').textContent = { painel: 'Painel', hoje: 'Hoje', pessoas: 'Por pessoa', clientes: 'Clientes', diario: 'Diário', mapa: 'Mapa', anuncios: 'Anúncios', financeiro: 'Financeiro' }[aba] || '';
+  $('#tituloAba').textContent = { painel: 'Painel', hoje: 'Hoje', pessoas: 'Por pessoa', clientes: 'Clientes', diario: 'Diário', mapa: 'Mapa', anuncios: 'Anúncios', financeiro: 'Financeiro', crm: 'CRM' }[aba] || '';
   fecharMenu();
   c.classList.toggle('quadro', aba === 'pessoas' || aba === 'mapa');
   document.documentElement.style.setProperty('--hdr', document.querySelector('header.topo').offsetHeight + 'px');
@@ -1091,7 +1188,7 @@ function abrirEdicao(id) {
 }
 document.addEventListener('click', (e) => {
   const b = e.target.closest('button, tr[data-hist]'); if (!b) return;
-  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'painel') carregarPainel(); if (aba === 'anuncios') carregarAnuncios(); if (aba === 'financeiro' && F) carregarFinanceiro(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
+  if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'painel') carregarPainel(); if (aba === 'anuncios') carregarAnuncios(); if (aba === 'financeiro' && F) carregarFinanceiro(); if (aba === 'crm' && CRM) carregarCrm(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
   else if (b.id === 'bFoto') $('#fotoArq').click();
   else if (b.dataset.pasta) abrirPasta(b.dataset.pasta);
   else if (b.id === 'pcFechar') $('#dCliente').close();
@@ -1101,6 +1198,9 @@ document.addEventListener('click', (e) => {
   else if (b.dataset.hist) { const d = document.querySelector(`[data-det="${b.dataset.hist}"]`); if (d) d.classList.toggle('hidden'); }
   else if (b.dataset.kb) { const kb = $('#kanban'); if (kb) kb.scrollBy({ left: Number(b.dataset.kb) * 344, behavior: 'smooth' }); }
   else if (b.dataset.pc) { abrirPessoa(b.dataset.pc); }
+  else if (b.dataset.crmf) { crmFiltro = b.dataset.crmf; render(); }
+  else if (b.dataset.crm) abrirCrm(b.dataset.crm);
+  else if (b.id === 'crmCancel') $('#dCrm').close();
   else if (b.dataset.fx) { if (confirmarRemocao(b)) api('custo_fixo', { id: b.dataset.fx, remover: true }).then(() => { toast('Removido'); carregarFinanceiro(); }).catch((er) => toast(er.message)); }
   else if (b.id === 'bFixo') { $('#fFixo').reset(); $('#dFixo').showModal(); }
   else if (b.dataset.ir) { const s = document.getElementById(b.dataset.ir); if (s) s.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
@@ -1230,8 +1330,8 @@ function aplicarPapel() {
   $('#atorBox').classList.toggle('hidden', !!D.eu);
   $('#euBox').classList.toggle('hidden', !D.eu);
   if (D.eu) { const me = D.equipe.find((e) => e.id === D.eu.id) || D.eu; $('#euBox').innerHTML = `<div class="eu-linha">${avatar(me)}<div>Conectado como <b style="color:#fff">${esc(D.eu.nome)}</b><br><button class="troca-foto" id="bFoto">Trocar minha foto</button></div></div>`; }
-  document.querySelectorAll('[data-aba="financeiro"], #bWa').forEach((el) => { el.hidden = !adm; el.style.display = adm ? '' : 'none'; });
-  if (!adm && aba === 'financeiro') { aba = 'painel'; render(); }
+  document.querySelectorAll('[data-aba="financeiro"], [data-aba="crm"], #grpCom, #bWa').forEach((el) => { el.hidden = !adm; el.style.display = adm ? '' : 'none'; });
+  if (!adm && (aba === 'financeiro' || aba === 'crm')) { aba = 'painel'; render(); }
 }
 async function entrar() {
   $('#login').classList.add('hidden'); $('#app').classList.remove('hidden');
@@ -1239,7 +1339,7 @@ async function entrar() {
   aplicarPapel();
   carregarPainel();
   if (ADMIN()) statusWhats();
-  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!arraste && !document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa'].includes(aba)) { carregar().catch(() => {}); if (aba === 'painel') carregarPainel(); } }, 60000);
+  clearInterval(entrar.i); entrar.i = setInterval(() => { if (!arraste && !document.hidden && !document.querySelector('dialog[open]') && !['financeiro', 'diario', 'mapa', 'crm'].includes(aba)) { carregar().catch(() => {}); if (aba === 'painel') carregarPainel(); } }, 60000);
 }
 $('#fLogin').onsubmit = async (e) => {
   e.preventDefault(); $('#erroLogin').textContent = '';
@@ -1259,6 +1359,9 @@ $('#fLogin').onsubmit = async (e) => {
   finally { btn.disabled = false; }
 };
 api('dados').then((j) => { Object.assign(D, j); entrar(); }).catch((e) => { if (!/login/i.test(e.message)) { mostrarLogin(); $('#erroLogin').textContent = e.message; } });
+$('#fCrm').addEventListener('submit', salvarCrmForm);
+document.addEventListener('input', (e) => { if (e.target.id === 'buscaCrm') { crmBusca = e.target.value; const pos = e.target.selectionStart; render(); const el = $('#buscaCrm'); if (el) { el.focus(); el.setSelectionRange(pos, pos); } } });
+document.addEventListener('change', (e) => { if (e.target.id === 'crmInv') { crmInv = e.target.checked; render(); } });
 </script>
 </body>
 </html>
