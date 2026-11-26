@@ -651,12 +651,24 @@ async function despacharFila() {
     if (!pegou.length) continue;
     try {
       let numero, texto = m.texto;
+      if (m.destino === 'lead') { // follow-up de lead da campanha: o número vem da ficha do lead, nunca de fora
+        const L = require('./_leads.js');
+        const f = m.tipo === 'followup_lead' ? await L.prepararFollowup(m.texto) : null;
+        if (!f) { await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', erro: 'não enviado: o lead respondeu ou saiu do follow-up', enviado_em: new Date().toISOString() } }); out.push({ id: m.id, ok: true }); continue; }
+        const j = await enviarWhats(f.telefone, f.texto);
+        const id = j && (j.messageid || j.id || (j.key && j.key.id) || (j.message && (j.message.messageid || j.message.id)));
+        await L.registrarFollowup(f, id);
+        await sb('whatsapp_fila?id=eq.' + m.id, { method: 'PATCH', body: { status: 'enviado', enviado_em: new Date().toISOString() } });
+        out.push({ id: m.id, ok: true });
+        continue;
+      }
       if (m.destino === 'grupo_interno') numero = (await grupoInterno()).id;
       else if (m.destino === 'equipe') { // privado de alguém da equipe (só por ordem do Oscar/Jéssica)
         const p = await sb('equipe?select=whatsapp&ativo=eq.true&id=eq.' + encodeURIComponent(m.equipe_id || ''));
         numero = p[0] && p[0].whatsapp;
         if (!numero) throw new Error('sem WhatsApp cadastrado para essa pessoa');
       } else {
+        if (!['oscar', 'jessica'].includes(m.destino)) throw new Error('destino desconhecido: ' + m.destino);
         const p = await sb('equipe?select=whatsapp&comanda_agente=eq.true&nome=eq.' + encodeURIComponent(m.destino === 'oscar' ? 'Oscar' : 'Jéssica'));
         numero = p[0] && p[0].whatsapp;
         if (!numero) throw new Error('sem WhatsApp cadastrado para ' + m.destino);

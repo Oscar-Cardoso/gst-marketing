@@ -61,6 +61,10 @@ Se perguntarem, diga que é um assistente com inteligência artificial da GST, e
 SOBRE A GST: agência de marketing para supermercados. Mais de 200 empresas atendidas, mais de 50 operações ativas, mais de R$ 50 mil por mês em anúncios gerenciados. Faz tráfego pago (Meta Ads), artes de oferta e encartes digitais, social media, Google Meu Negócio, automação de WhatsApp e treinamento de humanização das redes da loja.
 A OFERTA (válida até ${o.ate ? new Date(o.ate + 'T12:00:00-03:00').toLocaleDateString('pt-BR') : '06/12'}, ${o.vagas || 10} vagas): quem fechar com a GST nesse prazo ganha de bônus a implementação gratuita de um agente de atendimento com inteligência artificial no WhatsApp do supermercado (responde clientes, tira dúvidas, manda as ofertas e encaminha para a equipe da loja). Nunca fale preço, valor de plano ou desconto: os planos são apresentados pelo Oscar na reunião, depois de entender a loja. Se insistirem, diga que depende do tamanho da operação e que o Oscar mostra na conversa. Não prometa resultado nem prazo de resultado.
 
+PRIMEIRA RESPOSTA (quando a conversa só tem o texto pronto do anúncio, como "Olá! Posso ter mais informações sobre isso?"): no máximo 2 frases curtas. Cumprimente, diga que é o assistente da GST, marketing para supermercados, e faça UMA pergunta fácil, por exemplo se a pessoa é dona ou trabalha no mercado. Não explique a oferta inteira nem liste bônus na primeira resposta.
+O nome da ficha pode ter vindo do perfil do WhatsApp e não foi dito pela pessoa: não diga que anotou o nome dela e não o confirme como certo; pergunte o nome quando fizer sentido.
+Se a conversa tiver mensagens de acompanhamento (follow-up) nossas sem resposta e a pessoa voltar, continue de onde parou, sem se desculpar pelas mensagens.
+
 SEU OBJETIVO: entender a loja em poucas mensagens e marcar uma conversa online de 30 minutos com o Oscar.
 Descubra, uma ou duas perguntas por vez, sem parecer formulário: nome da pessoa; nome do supermercado; cidade/UF; quantas lojas; faturamento mensal aproximado (ofereça faixas: até R$ 200 mil, R$ 200 a 400 mil, R$ 400 mil a 1 milhão, acima de R$ 1 milhão); se é dono/sócio ou outro cargo; quem cuida do marketing hoje; se usa encarte impresso; o maior desafio hoje (vendas, movimento, redes paradas, anúncios sem resultado, falta de gente).
 Grave cada informação com salvar_dados assim que souber (status 'qualificando' enquanto coleta).
@@ -146,6 +150,7 @@ async function atenderLead({ numero, chatId, texto, nomeWhats, historico = [], d
     await avisarOscar(`🆕 *Novo lead · Black Friday*\n${nomeWhats ? nomeWhats + ' · ' : ''}${wa(numero)}\nO assistente já está qualificando. Te aviso quando marcar a reunião.\n\n_Fiscal · GST_`);
   }
   if (lead.status === 'com_oscar') return null;
+  if (lead.status === 'perdido') { try { await sb('prospects?id=eq.' + lead.id, { method: 'PATCH', body: { status: 'qualificando', updated_at: new Date().toISOString() } }); lead.status = 'qualificando'; await avisarOscar(`🔁 *Lead voltou a responder* · Black Friday\n${lead.nome || ''} ${wa(lead.telefone)}\nO assistente retomou a conversa.\n\n_Fiscal · GST_`); } catch {} }
   const hoje = new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date());
   const ultimo = lead.ultima_resposta_bot ? new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Sao_Paulo' }).format(new Date(lead.ultima_resposta_bot)) : '';
   const contagem = ultimo === hoje ? lead.respostas_bot : 0;
@@ -178,6 +183,37 @@ async function atenderLead({ numero, chatId, texto, nomeWhats, historico = [], d
   return resposta || null;
 }
 
+// Follow-up: até 3 mensagens para o lead que parou de responder (a rotina gst_followup_leads põe na fila).
+function primeiroNome(n) {
+  const t = String(n || '').trim();
+  if (!t || /[@\d]/.test(t)) return '';
+  const p = t.split(/\s+/)[0];
+  return /^[A-Za-zÀ-ÿ'-]{2,20}$/.test(p) ? p.charAt(0).toUpperCase() + p.slice(1).toLowerCase() : '';
+}
+function textoFollowup(n, lead, o) {
+  const nome = primeiroNome(lead.nome);
+  const ate = o && o.ate ? new Date(o.ate + 'T12:00:00-03:00').toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit' }) : '06/12';
+  if (n === 1) return `${nome ? nome + ', c' : 'C'}onseguiu ver minha mensagem? Se preferir, me responde só com o nome do mercado e a cidade que eu já te explico 👍`;
+  if (n === 2) return `Oi${nome ? ', ' + nome : ''}! Um supermercado que a gente atende aumentou 129% os cupons por mês em um ano com o nosso trabalho de marketing. Quer ver como ficaria na sua loja?`;
+  return `${nome ? nome + ', a' : 'A'} condição da Black da GST vai até ${ate} e as vagas estão acabando. Ainda faz sentido pra você? Se sim, me responde aqui que eu te passo os horários do Oscar.`;
+}
+// Confere na hora do envio se o lead ainda está sem responder; devolve { telefone, chat_id, texto, n } ou null.
+async function prepararFollowup(prospectId) {
+  const o = (await config('oferta_black_friday')) || {};
+  if (!o.ativa) return null;
+  const [lead] = await sb('prospects?select=*&id=eq.' + encodeURIComponent(prospectId));
+  if (!lead || !['novo', 'qualificando', 'qualificado'].includes(lead.status) || lead.reuniao_em || (lead.followups || 0) >= 3) return null;
+  const ms = await sb('whatsapp_mensagens?select=de_mim,recebida_em&chat_id=eq.' + encodeURIComponent(lead.chat_id) + '&order=recebida_em.desc&limit=1');
+  if (!ms[0] || !ms[0].de_mim) return null; // a última mensagem é do lead: o assistente responde, não é follow-up
+  const n = (lead.followups || 0) + 1;
+  return { id: lead.id, telefone: lead.telefone, chat_id: lead.chat_id, n, texto: textoFollowup(n, lead, o) };
+}
+async function registrarFollowup(f, msgId) {
+  await sb('whatsapp_mensagens' + (msgId ? '?on_conflict=msg_id' : ''), { method: 'POST', prefer: 'return=minimal,resolution=ignore-duplicates',
+    body: { msg_id: msgId ? String(msgId).split(':').pop() : null, chat_id: f.chat_id, eh_grupo: false, de_mim: true, tipo: 'followup_lead', texto: f.texto, remetente: 'agente', nome_remetente: 'Fiscal', processada: true, recebida_em: new Date().toISOString() } });
+  await sb('prospects?id=eq.' + f.id, { method: 'PATCH', body: { followups: f.n, ultimo_followup: new Date().toISOString(), updated_at: new Date().toISOString() } });
+}
+
 // O Oscar respondeu à mão pelo WhatsApp do Fiscal: o assistente sai da conversa.
 async function oscarAssumiu(numero) {
   try { await sb('prospects?telefone=eq.' + encodeURIComponent(numero) + '&status=neq.com_oscar', { method: 'PATCH', body: { status: 'com_oscar', updated_at: new Date().toISOString() } }); } catch {}
@@ -191,15 +227,17 @@ async function montarLeadsDia() {
     sb('prospects?select=status&campanha=eq.black_friday_2026'),
     sb('prospects?select=*&reuniao_em=gte.' + new Date().toISOString() + '&order=reuniao_em'),
   ]);
+  const seguindo = await sb('prospects?select=nome,mercado,followups&followups=gt.0&status=in.(novo,qualificando,qualificado)&order=ultimo_followup.desc');
   const cont = (s) => todos.filter((x) => x.status === s).length;
-  const rot = { novo: 'novo', qualificando: 'em conversa', qualificado: 'qualificado, sem horário', agendado: 'reunião marcada', fora_do_perfil: 'fora do perfil', sem_interesse: 'sem interesse', com_oscar: 'com você' };
+  const rot = { novo: 'novo', qualificando: 'em conversa', qualificado: 'qualificado, sem horário', agendado: 'reunião marcada', fora_do_perfil: 'fora do perfil', sem_interesse: 'sem interesse', com_oscar: 'com você', perdido: 'perdido (sem resposta)' };
   const linhas = hoje.map((l) => `• ${l.nome || 'Sem nome'}${l.mercado ? ' · ' + l.mercado : ''}${l.cidade ? ' (' + l.cidade + ')' : ''}: ${rot[l.status] || l.status}${l.faturamento ? ' · ' + l.faturamento : ''}\n  ${wa(l.telefone)}`);
   const dia = fmtSP(Date.now(), { weekday: 'long', day: '2-digit', month: '2-digit' });
   return [`📊 *Leads Black Friday · ${dia}*`, '',
     `*Hoje:* ${hoje.length} lead${hoje.length === 1 ? '' : 's'} novo${hoje.length === 1 ? '' : 's'}`, linhas.length ? linhas.join('\n') : 'Nenhum lead novo hoje.', '',
     `*Reuniões marcadas* (${proximas.length})`, proximas.length ? proximas.map((l) => `• ${quando(l.reuniao_em)}: ${l.nome || '?'}${l.mercado ? ' · ' + l.mercado : ''}`).join('\n') : 'Nenhuma.', '',
-    `*Campanha toda:* ${todos.length} leads · ${cont('agendado')} com reunião · ${cont('qualificado')} qualificados sem horário · ${cont('qualificando') + cont('novo')} em conversa · ${cont('com_oscar')} com você · ${cont('fora_do_perfil') + cont('sem_interesse')} descartados`,
+    `*Em follow-up* (${seguindo.length})`, seguindo.length ? seguindo.map((l) => `• ${l.nome || 'Sem nome'}${l.mercado ? ' · ' + l.mercado : ''}: ${l.followups}/3 mensagens sem resposta`).join('\n') : 'Ninguém.', '',
+    `*Campanha toda:* ${todos.length} leads · ${cont('agendado')} com reunião · ${cont('qualificado')} qualificados sem horário · ${cont('qualificando') + cont('novo')} em conversa · ${cont('com_oscar')} com você · ${cont('fora_do_perfil') + cont('sem_interesse')} descartados · ${cont('perdido')} perdidos sem resposta`,
     '', '_Fiscal · GST_'].join('\n');
 }
 
-module.exports = { atenderLead, oscarAssumiu, montarLeadsDia, ehNovoLead };
+module.exports = { atenderLead, oscarAssumiu, montarLeadsDia, ehNovoLead, prepararFollowup, registrarFollowup, textoFollowup };

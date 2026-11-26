@@ -198,7 +198,7 @@ const CRM_CAMPOS = ['nome', 'empresa', 'telefone', 'cidade', 'origem', 'estagio'
 async function carregarCrm() {
   const [contatos, leads] = await Promise.all([
     sb('crm_contatos?select=*&order=ultima_reuniao.desc.nullslast&limit=1000'),
-    sb('prospects?select=id,nome,mercado,cidade,lojas,faturamento,status,reuniao_em,resumo,telefone,created_at&order=created_at.desc&limit=300').catch(() => []),
+    sb('prospects?select=id,nome,mercado,cidade,lojas,faturamento,status,reuniao_em,resumo,telefone,created_at,followups&order=created_at.desc&limit=300').catch(() => []),
   ]);
   return { contatos, leads };
 }
