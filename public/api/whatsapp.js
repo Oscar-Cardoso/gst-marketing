@@ -186,7 +186,12 @@ async function atenderProspect(msg, numero, bruto) {
   }
   if (!texto) return;
   const hist = await sbGet(`whatsapp_mensagens?select=de_mim,texto,recebida_em&chat_id=eq.${encodeURIComponent(msg.chat_id)}&recebida_em=gte.${new Date(Date.now() - 7 * 864e5).toISOString()}&id=neq.${msg.id}&order=recebida_em.desc&limit=30`);
-  const resposta = await atenderLead({ numero, chatId: msg.chat_id, texto, nomeWhats: msg.nome_remetente, historico: hist.reverse() });
+  // mensagem vinda de anúncio de clique para WhatsApp: o texto pronto da Meta ("Olá! Posso ter mais informações sobre isso?") não traz o gatilho
+  const m = (bruto && bruto.message) || {};
+  const ctx = (m.content && m.content.contextInfo) || m.contextInfo || {};
+  const ad = ctx.externalAdReply || {};
+  const deAnuncio = !!(ad.ctwaClid || ad.sourceID || ctx.ctwaPayload);
+  const resposta = await atenderLead({ numero, chatId: msg.chat_id, texto, nomeWhats: msg.nome_remetente, historico: hist.reverse(), deAnuncio });
   if (!resposta) return;
   await enviar(numero, resposta);
   await sb('whatsapp_mensagens', { chat_id: msg.chat_id, eh_grupo: false, de_mim: true, tipo: 'resposta_agente', texto: resposta, remetente: 'agente', recebida_em: new Date().toISOString() });

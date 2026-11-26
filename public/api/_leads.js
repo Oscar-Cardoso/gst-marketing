@@ -134,12 +134,13 @@ const { chamarModelo, temModelo } = require('./_llm.js');
 const claude = (body) => chamarModelo(body);
 
 // Devolve o texto a enviar ao lead, ou null quando o assistente não deve responder.
-async function atenderLead({ numero, chatId, texto, nomeWhats, historico = [] }) {
+async function atenderLead({ numero, chatId, texto, nomeWhats, historico = [], deAnuncio = false }) {
   if (!temModelo()) return null;
   const o = (await config('oferta_black_friday')) || {};
   let lead = await acharLead(numero);
   if (!lead) {
-    if (!o.ativa || !(await ehNovoLead(texto))) return null;
+    // lead novo: clicou num anúncio de clique para WhatsApp (a Meta manda o contexto do anúncio) ou mandou o texto-gatilho
+    if (!o.ativa || !(deAnuncio || (await ehNovoLead(texto)))) return null;
     [lead] = await sb('prospects?on_conflict=telefone', { method: 'POST', body: { telefone: numero, chat_id: chatId, nome: nomeWhats ? String(nomeWhats).slice(0, 80) : null }, prefer: 'return=representation,resolution=ignore-duplicates' });
     if (!lead) lead = await acharLead(numero);
     await avisarOscar(`🆕 *Novo lead · Black Friday*\n${nomeWhats ? nomeWhats + ' · ' : ''}${wa(numero)}\nO assistente já está qualificando. Te aviso quando marcar a reunião.\n\n_Fiscal · GST_`);
