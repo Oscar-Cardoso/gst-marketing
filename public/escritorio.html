@@ -197,6 +197,23 @@ label input:focus,label select:focus,label textarea:focus,.busca:focus,.mens:foc
 .est.cliente{background:#e7f8ef;color:#0f7a43}.est.mentorado_vtd{background:#eef2ff;color:#3741a8}.est.enviar_proposta{background:#fff1e0;color:#b45309}
 .est.proposta_enviada{background:#fff7d6;color:#8a6100}.est.aguardando_retorno{background:#fef3c7;color:#92400e}.est.diagnostico{background:#f1f5f9;color:#475569}
 .est.parceiro{background:#f3e8ff;color:#6b21a8}.est.perdido{background:#fde8e8;color:#a61b1b}
+.crm-vista{display:inline-flex;border:1px solid var(--line);border-radius:10px;overflow:hidden;margin-left:auto}
+.crm-vista button{border:0;background:var(--card);padding:6px 12px;font:inherit;font-size:13px;cursor:pointer;color:var(--muted)}
+.crm-vista button.on{background:var(--navy);color:#fff}
+.kb{display:flex;gap:12px;overflow-x:auto;padding-bottom:10px;align-items:flex-start}
+.kb-col{flex:0 0 250px;background:#f4f6f9;border-radius:12px;padding:10px;display:flex;flex-direction:column;max-height:72vh}
+.kb-col h3{font-size:13px;margin:0 0 8px;display:flex;justify-content:space-between;align-items:center;gap:6px}
+.kb-col h3 span{font-weight:500;color:var(--muted);font-size:12px}
+.kb-col .kb-l{overflow-y:auto;display:flex;flex-direction:column;gap:8px;min-height:60px;border-radius:8px;padding:2px}
+.kb-col.over .kb-l{outline:2px dashed var(--navy);outline-offset:-2px;background:#eaf0fb}
+.kb-c{background:var(--card);border:1px solid var(--line);border-radius:10px;padding:9px 10px;cursor:grab;font-size:13px;line-height:1.35}
+.kb-c.inv{box-shadow:inset 3px 0 0 #f59e0b}
+.kb-c.lead{cursor:default}
+.kb-c b{display:block;font-size:13.5px}
+.kb-c .sub2{font-size:12px}
+.kb-c .px{margin-top:5px;color:#334155}
+.kb-c.arr{opacity:.45}
+.kb-mais{font-size:12px;color:var(--muted);text-align:center;padding:4px;cursor:pointer;border:0;background:none;font:inherit}
 label.chk{display:flex;flex-direction:row;gap:8px;align-items:center;margin:0;font-weight:500}label.chk input{width:auto;margin:0}
 .crm-t td{vertical-align:top}.crm-t .sub2{color:var(--muted);font-size:12px}.crm-t .acao{font-size:13px}.crm-t tr.inv td:first-child{box-shadow:inset 3px 0 0 #f59e0b}
 .chips{display:flex;gap:6px;flex-wrap:wrap;margin:8px 0 2px}
@@ -808,7 +825,10 @@ function renderClientes() {
     <tbody>${rows || '<tr><td colspan="8" class="vazio">Nenhum cliente encontrado.</td></tr>'}</tbody></table></div></section>`;
 }
 // ---------- CRM ----------
-let CRM = null, crmFiltro = 'acao', crmBusca = '', crmInv = false, crmEdit = null;
+let CRM = null, crmFiltro = 'acao', crmBusca = '', crmInv = false, crmEdit = null, crmVista = 'funil', kbArr = null;
+try { crmVista = localStorage.getItem('crmVista') || 'funil'; } catch (e) {}
+const FUNIL = ['diagnostico', 'enviar_proposta', 'proposta_enviada', 'aguardando_retorno', 'cliente', 'perdido'];
+const KB_LIM = 40; let kbAbertas = {};
 const ESTAGIO = { enviar_proposta: 'Enviar proposta', proposta_enviada: 'Proposta enviada', aguardando_retorno: 'Aguardando retorno', diagnostico: 'Reunião feita', mentorado_vtd: 'Mentorado VTD', cliente: 'Cliente', parceiro: 'Parceiro', perdido: 'Perdido' };
 const ORDEM_EST = ['enviar_proposta', 'proposta_enviada', 'aguardando_retorno', 'diagnostico', 'mentorado_vtd', 'cliente', 'parceiro', 'perdido'];
 const ORIGEM = { venda_todo_dia: 'Diagnóstico Venda Todo Dia', reuniao: 'Reunião GST', parceria: 'Parceria', manual: 'Cadastro manual', black_friday: 'Black Friday' };
@@ -824,7 +844,9 @@ function renderCrm() {
   const acao = (c) => ['enviar_proposta', 'proposta_enviada', 'aguardando_retorno'].includes(c.estagio);
   const cards = [['acao', 'Precisa de ação', conta(acao), 'quente'], ['diagnostico', 'Reunião feita', conta((c) => c.estagio === 'diagnostico')], ['mentorado_vtd', 'Mentorados VTD', conta((c) => c.estagio === 'mentorado_vtd')], ['cliente', 'Clientes', conta((c) => c.estagio === 'cliente')], ['parceiro', 'Parceiros', conta((c) => c.estagio === 'parceiro')], ['leads', 'Leads da Black', (CRM.leads || []).length], ['tudo', 'Todos', L.length]]
     .map(([k, t, n, cls]) => `<button class="${cls || ''} ${crmFiltro === k ? 'on' : ''}" data-crmf="${k}"><b>${n}</b><span>${t}</span></button>`).join('');
-  if (crmFiltro === 'leads') return `<section class="sec"><h2>CRM</h2><div class="crm-k">${cards}</div>${renderLeads()}</section>`;
+  const vista = `<div class="crm-vista"><button data-crmv="funil" class="${crmVista === 'funil' ? 'on' : ''}">Funil</button><button data-crmv="lista" class="${crmVista === 'lista' ? 'on' : ''}">Lista</button></div>`;
+  if (crmVista === 'funil') return renderFunil(vista);
+  if (crmFiltro === 'leads') return `<section class="sec"><h2>CRM ${vista}</h2><div class="crm-k">${cards}</div>${renderLeads()}</section>`;
   const f = crmBusca.toLowerCase();
   const lista = L.filter((c) => (crmFiltro === 'tudo' || (crmFiltro === 'acao' ? acao(c) : c.estagio === crmFiltro))
     && (!crmInv || c.investigar)
@@ -838,7 +860,7 @@ function renderCrm() {
       <td>${fmtData(c.ultima_reuniao)}<div class="sub2">${c.qtd_reunioes || 0} reuni${c.qtd_reunioes === 1 ? 'ão' : 'ões'}${c.link_reuniao ? ` · <a href="${esc(c.link_reuniao)}" target="_blank" rel="noopener">abrir</a>` : ''}</div></td>
       <td><button class="btn peq fant" data-crm="${c.id}">Editar</button></td></tr>`;
   }).join('');
-  return `<section class="sec"><h2>CRM <span class="n">${lista.length}</span></h2>
+  return `<section class="sec"><h2 style="display:flex;align-items:center;gap:8px">CRM <span class="n">${lista.length}</span>${vista}</h2>
     <p class="nota">Pessoas com quem o Oscar fez reunião (Tactiq, de out/2025 em diante), separadas pelo próximo passo. A faixa laranja marca quem ainda precisa ser conferido.</p>
     <div class="crm-k">${cards}</div>
     <div class="t-busca"><input class="busca" id="buscaCrm" placeholder="Buscar nome, loja, telefone ou ação" value="${esc(crmBusca)}">
@@ -847,6 +869,41 @@ function renderCrm() {
     <div class="tab"><table class="crm-t"><thead><tr><th>Contato</th><th>Estágio</th><th>Próximo passo</th><th>Última reunião</th><th></th></tr></thead>
     <tbody>${rows || '<tr><td colspan="5" class="vazio">Nada encontrado com esse filtro.</td></tr>'}</tbody></table></div></section>`;
 }
+const crmBate = (c) => { const f = crmBusca.toLowerCase(); return (!crmInv || c.investigar) && (!f || [c.nome, c.empresa, c.telefone, c.cidade, c.proxima_acao, c.observacoes].join(' ').toLowerCase().includes(f)); };
+function cardKb(c) {
+  const cli = c.cliente_id ? (D.clientes.find((x) => x.id === c.cliente_id) || {}).nome : '';
+  return `<div class="kb-c ${c.investigar ? 'inv' : ''}" draggable="true" data-kbc="${c.id}" data-crm="${c.id}"><b>${esc(c.nome)}</b>${cli || c.empresa ? `<div class="sub2">${esc(cli || c.empresa)}</div>` : ''}
+    ${c.proxima_acao ? `<div class="px">${esc(c.proxima_acao)}</div>` : ''}${c.prazo ? `<div class="sub2">até ${fmtData(c.prazo)}</div>` : ''}
+    <div class="sub2">${c.ultima_reuniao ? 'Reunião ' + fmtData(c.ultima_reuniao) : (ORIGEM[c.origem] || '')}</div></div>`;
+}
+function renderFunil(vista) {
+  const L = CRM.contatos.filter(crmBate);
+  const f = crmBusca.toLowerCase();
+  const leads = (CRM.leads || []).filter((l) => !f || [l.nome, l.mercado, l.telefone, l.cidade].join(' ').toLowerCase().includes(f));
+  const colLeads = `<div class="kb-col"><h3>Leads da Black <span>${leads.length}</span></h3><div class="kb-l">${leads.map((l) => `<div class="kb-c lead"><b>${esc(l.nome || 'Sem nome')}</b><div class="sub2">${esc([l.mercado, l.cidade].filter(Boolean).join(' · ') || l.telefone || '')}</div><div class="px">${esc(l.status || 'novo')}${l.reuniao_em ? ' · reunião ' + new Date(l.reuniao_em).toLocaleString('pt-BR', { day: '2-digit', month: '2-digit', hour: '2-digit', minute: '2-digit', timeZone: 'America/Sao_Paulo' }) : ''}</div></div>`).join('') || '<p class="sub2">Nenhum lead ainda.</p>'}</div></div>`;
+  const cols = FUNIL.map((k) => {
+    const itens = L.filter((c) => c.estagio === k).sort((a, b) => String(a.prazo || '9999').localeCompare(String(b.prazo || '9999')) || String(b.ultima_reuniao || '').localeCompare(String(a.ultima_reuniao || '')));
+    const mostra = kbAbertas[k] ? itens : itens.slice(0, KB_LIM);
+    return `<div class="kb-col" data-kbcol="${k}"><h3><span class="est ${k}">${ESTAGIO[k]}</span><span>${itens.length}</span></h3><div class="kb-l">${mostra.map(cardKb).join('')}${itens.length > mostra.length ? `<button class="kb-mais" data-kbmais="${k}">+ ${itens.length - mostra.length} contatos</button>` : ''}</div></div>`;
+  }).join('');
+  const fora = CRM.contatos.filter((c) => !FUNIL.includes(c.estagio)).length;
+  return `<section class="sec"><h2 style="display:flex;align-items:center;gap:8px">CRM · Funil <span class="n">${L.length}</span>${vista}</h2>
+    <p class="nota">Arraste o cartão para mudar o estágio; clique para editar. Mentorados VTD e parceiros (${fora}) ficam fora do funil e aparecem na Lista.</p>
+    <div class="t-busca"><input class="busca" id="buscaCrm" placeholder="Buscar nome, loja, telefone ou ação" value="${esc(crmBusca)}">
+      <label class="chk"><input type="checkbox" id="crmInv" ${crmInv ? 'checked' : ''}> Só a conferir</label>
+      <button class="btn peq" data-crm="novo">+ Contato</button></div>
+    <div class="kb">${colLeads}${cols}</div></section>`;
+}
+async function moverKb(id, estagio) {
+  const c = CRM.contatos.find((x) => x.id === id); if (!c || c.estagio === estagio) return;
+  const antes = c.estagio; c.estagio = estagio; render();
+  try { await api('crm_salvar', { id, estagio }); toast(`${c.nome} → ${ESTAGIO[estagio]}`); }
+  catch (e) { c.estagio = antes; render(); toast(e.message); }
+}
+document.addEventListener('dragstart', (e) => { const el = e.target.closest && e.target.closest('[data-kbc]'); if (!el) return; kbArr = el.dataset.kbc; el.classList.add('arr'); e.dataTransfer.effectAllowed = 'move'; try { e.dataTransfer.setData('text/plain', kbArr); } catch (x) {} });
+document.addEventListener('dragend', (e) => { const el = e.target.closest && e.target.closest('[data-kbc]'); if (el) el.classList.remove('arr'); document.querySelectorAll('.kb-col.over').forEach((x) => x.classList.remove('over')); });
+document.addEventListener('dragover', (e) => { const col = e.target.closest && e.target.closest('[data-kbcol]'); if (!col || !kbArr) return; e.preventDefault(); document.querySelectorAll('.kb-col.over').forEach((x) => x !== col && x.classList.remove('over')); col.classList.add('over'); });
+document.addEventListener('drop', (e) => { const col = e.target.closest && e.target.closest('[data-kbcol]'); if (!col || !kbArr) return; e.preventDefault(); col.classList.remove('over'); const id = kbArr; kbArr = null; moverKb(id, col.dataset.kbcol); });
 function renderLeads() {
   const ls = CRM.leads || [];
   const rows = ls.map((l) => `<tr><td><b>${esc(l.nome || 'Sem nome')}</b><div class="sub2">${esc(l.telefone || '')}</div></td><td>${esc(l.mercado || '—')}<div class="sub2">${esc([l.cidade, l.lojas ? l.lojas + ' loja' + (l.lojas > 1 ? 's' : '') : '', l.faturamento].filter(Boolean).join(' · '))}</div></td>
@@ -1187,7 +1244,7 @@ function abrirEdicao(id) {
   $('#dEdit').showModal();
 }
 document.addEventListener('click', (e) => {
-  const b = e.target.closest('button, tr[data-hist]'); if (!b) return;
+  const b = e.target.closest('button, tr[data-hist], .kb-c[data-crm]'); if (!b) return;
   if (b.dataset.aba) { aba = b.dataset.aba; render(); if (aba === 'painel') carregarPainel(); if (aba === 'anuncios') carregarAnuncios(); if (aba === 'financeiro' && F) carregarFinanceiro(); if (aba === 'crm' && CRM) carregarCrm(); if ((aba === 'diario' || aba === 'mapa') && DI) carregarDiario(); }
   else if (b.id === 'bFoto') $('#fotoArq').click();
   else if (b.dataset.pasta) abrirPasta(b.dataset.pasta);
@@ -1199,6 +1256,8 @@ document.addEventListener('click', (e) => {
   else if (b.dataset.kb) { const kb = $('#kanban'); if (kb) kb.scrollBy({ left: Number(b.dataset.kb) * 344, behavior: 'smooth' }); }
   else if (b.dataset.pc) { abrirPessoa(b.dataset.pc); }
   else if (b.dataset.crmf) { crmFiltro = b.dataset.crmf; render(); }
+  else if (b.dataset.crmv) { crmVista = b.dataset.crmv; try { localStorage.setItem('crmVista', crmVista); } catch (x) {} render(); }
+  else if (b.dataset.kbmais) { kbAbertas[b.dataset.kbmais] = true; render(); }
   else if (b.dataset.crm) abrirCrm(b.dataset.crm);
   else if (b.id === 'crmCancel') $('#dCrm').close();
   else if (b.dataset.fx) { if (confirmarRemocao(b)) api('custo_fixo', { id: b.dataset.fx, remover: true }).then(() => { toast('Removido'); carregarFinanceiro(); }).catch((er) => toast(er.message)); }
