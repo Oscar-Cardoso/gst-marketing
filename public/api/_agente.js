@@ -439,7 +439,20 @@ async function uaz(caminho, opt = {}) {
   if (!r.ok) throw new Error('WhatsApp respondeu ' + r.status);
   return j;
 }
-async function enviarWhats(numero, texto) { return uaz('/send/text', { method: 'POST', body: { number: numero, text: texto } }); }
+async function enviarWhats(numero, texto) {
+  const j = await uaz('/send/text', { method: 'POST', body: { number: numero, text: texto } });
+  // mensagem em grupo: guarda com o id para que "responder" a ela no WhatsApp conte como chamar o Fiscal
+  if (String(numero).endsWith('@g.us')) {
+    const id = j && (j.messageid || j.id || (j.key && j.key.id) || (j.message && (j.message.messageid || j.message.id)));
+    if (id) {
+      try {
+        await sb('whatsapp_mensagens?on_conflict=msg_id', { method: 'POST', prefer: 'return=minimal,resolution=ignore-duplicates',
+          body: { msg_id: String(id).split(':').pop(), chat_id: numero, eh_grupo: true, de_mim: true, tipo: 'envio_agente', texto: String(texto).slice(0, 60000), remetente: 'agente', nome_remetente: 'Fiscal', processada: true, recebida_em: new Date().toISOString() } });
+      } catch (e) {}
+    }
+  }
+  return j;
+}
 async function grupoInterno() {
   const salvo = await sb('configuracoes?select=valor&chave=eq.grupo_interno');
   if (salvo[0] && salvo[0].valor) { try { return JSON.parse(salvo[0].valor); } catch {} }
